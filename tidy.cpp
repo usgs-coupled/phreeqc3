@@ -982,7 +982,8 @@ tidy_gas_phase(void)
 #ifdef NPP
 					if (!isnan(gas_phase_ptr->Get_gas_comps()[j].Get_p_read()))
 #else
-					if (gas_phase_ptr->Get_gas_comps()[j].Get_p_read() != NAN)
+					//if (gas_phase_ptr->Get_gas_comps()[j].Get_p_read() != NAN)
+					if (!std::isnan(gas_phase_ptr->Get_gas_comps()[j].Get_p_read()))
 #endif
 					{
 						P += gas_phase_ptr->Get_gas_comps()[j].Get_p_read();
@@ -1015,7 +1016,8 @@ tidy_gas_phase(void)
 #ifdef NPP
 						if (!isnan(gas_phase_ptr->Get_gas_comps()[j].Get_p_read()))
 #else
-						if (gas_phase_ptr->Get_gas_comps()[j].Get_p_read() != NAN)
+						//if (gas_phase_ptr->Get_gas_comps()[j].Get_p_read() != NAN)
+						if (!std::isnan(gas_phase_ptr->Get_gas_comps()[j].Get_p_read()))
 #endif
 						{
 							P += gas_phase_ptr->Get_gas_comps()[j].Get_p_read();
@@ -1690,7 +1692,8 @@ tidy_ss_assemblage(void)
 #ifdef NPP
 				if (isnan(comp_ptr->Get_moles()))
 #else
-				if (comp_ptr->Get_moles() == NAN)
+				//if (comp_ptr->Get_moles() == NAN)
+				if (std::isnan(comp_ptr->Get_moles()))
 #endif
 				{
 					input_error++;
@@ -3021,7 +3024,8 @@ tidy_isotopes(void)
 #ifdef NPP
 				if (!isnan(master[k]->isotope_ratio_uncertainty))
 #else
-				if (master[k]->isotope_ratio_uncertainty != NAN)
+				//if (master[k]->isotope_ratio_uncertainty != NAN)
+				if (!std::isnan(master[k]->isotope_ratio_uncertainty))
 #endif
 				{
 					temp_iso.Set_ratio_uncertainty_defined(true);

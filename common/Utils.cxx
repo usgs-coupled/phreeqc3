@@ -10,7 +10,8 @@
 #include "Utils.h"
 #include "Parser.h"
 #include "float.h"
-#include "math.h"
+//#include <math.h>
+#include <cmath>
 
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG

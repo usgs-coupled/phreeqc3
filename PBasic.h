@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <limits.h>
 #include <ctype.h>
-#include <math.h>
+//#include <math.h>
+#include <cmath>
 #include <setjmp.h>
 #include "phrqtype.h"
 #include "PHRQ_base.h"

@@ -798,6 +798,7 @@ build_tally_table(void)
  */
 	int j, k, l, p, save_print_use;
 	size_t n;
+	//int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
 	class phase *phase_ptr;
 	char token[MAX_LENGTH];
 	const char* cptr;
@@ -870,6 +871,7 @@ build_tally_table(void)
 /*
  *   Count pure phases
  */
+	//count_tt_pure_phase = 0;
 	if (Rxn_pp_assemblage_map.size() > 0)
 	{
 		/* 
@@ -902,6 +904,7 @@ build_tally_table(void)
 				/*
 				 * Add to table
 				 */
+				//count_tt_pure_phase++;
 				n = count_tally_table_columns;
 				extend_tally_table();
 				tally_table[n].name = phase_ptr->name;
@@ -928,6 +931,7 @@ build_tally_table(void)
 /*
  *   Add solid-solution pure phases
  */
+	//count_tt_ss_phase = 0;
 	if (Rxn_ss_assemblage_map.size() > 0)
 	{
 		/* 
@@ -960,6 +964,7 @@ build_tally_table(void)
 					/*
 					 * Add to table
 					 */
+					//count_tt_ss_phase++;
 					n = count_tally_table_columns;
 					extend_tally_table();
 					tally_table[n].name = phase_ptr->name;
@@ -977,6 +982,7 @@ build_tally_table(void)
 /*
  *   Add kinetic reactants
  */
+	//count_tt_kinetics = 0;
 	if (Rxn_kinetics_map.size() > 0)
 	{
 		std::map<int, cxxKinetics>::iterator it;
@@ -1000,6 +1006,7 @@ build_tally_table(void)
 				/*
 				 * Add to table
 				 */
+				//count_tt_kinetics++;
 				n = count_tally_table_columns;
 				extend_tally_table();
 				tally_table[n].name = string_hsave(kinetics_comp_ptr->Get_rate_name().c_str());

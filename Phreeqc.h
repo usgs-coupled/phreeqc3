@@ -283,12 +283,12 @@ public:
 	int sum_diffuse_layer(cxxSurfaceCharge* surface_charge_ptr1);
 	int calc_all_donnan(void);
 	int calc_init_donnan(void);
+	LDBLE calc_psi_avg(cxxSurfaceCharge * charge_ptr, LDBLE surf_chrg_eq, LDBLE nDbl, std::vector<LDBLE> &zcorr);
 	LDBLE g_function(LDBLE x_value);
 	LDBLE midpnt(LDBLE x1, LDBLE x2, int n);
 	void polint(LDBLE* xa, LDBLE* ya, int n, LDBLE xv, LDBLE* yv,
 		LDBLE* dy);
 	LDBLE qromb_midpnt(cxxSurfaceCharge* charge_ptr, LDBLE x1, LDBLE x2);
-	LDBLE calc_psi_avg(cxxSurfaceCharge* charge_ptr, LDBLE surf_chrg_eq);
 
 	// inverse.cpp -------------------------------
 	int inverse_models(void);
@@ -1851,7 +1851,7 @@ isfinite handling
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)
 #elif defined(HAVE_ISNAN)
-#  define PHR_ISFINITE(x) ( ((x) == 0.0) || ((!isnan(x)) && ((x) != (2.0 * (x)))) )
+#  define PHR_ISFINITE(x) ( ((x) == 0.0) || ((!std::isnan(x)) && ((x) != (2.0 * (x)))) )
 #else
 #  define PHR_ISFINITE(x) ( ((x) == 0.0) || (((x) == (x)) && ((x) != (2.0 * (x)))) )
 #endif

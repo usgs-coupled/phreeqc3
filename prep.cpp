@@ -1980,6 +1980,7 @@ get_list_master_ptrs(const char* cptr, class master *master_ptr)
  *   Output: space is allocated and a list of master species pointers is
  *           returned.
  */
+	//int j, l, count_list;
 	int j, l;
 	char token[MAX_LENGTH];
 	std::vector<class master*> master_ptr_list;
@@ -1987,6 +1988,7 @@ get_list_master_ptrs(const char* cptr, class master *master_ptr)
 /*
  *   Make list of master species pointers
  */
+	//count_list = 0;
 	//master_ptr_list = unknown_alloc_master();
 	master_ptr0 = master_ptr;
 	if (master_ptr0 == master_ptr->s->primary)
@@ -2146,6 +2148,7 @@ mb_for_species_aq(int n)
  *                             by coef, usually moles.
  *        mb_unknowns.coef - coefficient of s[n] in equation or relation
  */
+	//int i, j;
 	int i;
 	class master *master_ptr;
 	class unknown *unknown_ptr;
@@ -2222,6 +2225,7 @@ mb_for_species_aq(int n)
  */
 	if (use.Get_surface_ptr() != NULL && s[n]->type < H2O && dl_type_x != cxxSurface::NO_DL)
 	{
+		//j = 0;
 		for (i = 0; i < count_unknowns; i++)
 		{
 			if (x[i]->type == SURFACE_CB)
@@ -2233,6 +2237,7 @@ mb_for_species_aq(int n)
 
 				store_mb_unknowns(unknown_ptr, s_diff_layer[n][charge_ptr->Get_name()].Get_g_moles_address(),
 								  s[n]->z, s_diff_layer[n][charge_ptr->Get_name()].Get_dg_g_moles_address());
+				//j++;
 			}
 		}
 	}

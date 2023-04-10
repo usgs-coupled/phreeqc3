@@ -187,21 +187,60 @@ diff_c(const char *species_name)
 /* ---------------------------------------------------------------------- */
 {
 	class species *s_ptr;
-	LDBLE g;
+	LDBLE ka, l_z, Dw, ff, sqrt_mu;
+	sqrt_mu = sqrt(mu_x);
 
 	s_ptr = s_search(species_name);
-	if (s_ptr != NULL /*&& s_ptr->in != FALSE && s_ptr->type < EMINUS*/)
+	//LDBLE g;
+	//if (s_ptr != NULL /*&& s_ptr->in != FALSE && s_ptr->type < EMINUS*/)
+	//{
+	//	g = s_ptr->dw;
+	//	if (s_ptr->dw_t)
+	//			g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
+	//	g *= viscos_0_25 / viscos * tk_x / 298.15;
+	//}
+	//else
+	//{
+	//	g = 0;
+	//}
+	//return (g);
+	if (s_ptr == NULL)
+		return(0);
+	if ((Dw = s_ptr->dw) == 0)
 	{
-		g = s_ptr->dw;
-		if (s_ptr->dw_t)
-				g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
-		g *= viscos_0_25 / viscos * tk_x / 298.15;
+		if (correct_Dw)
+			Dw = default_Dw;
+		else
+			return(0);
+	}
+	if ((l_z = fabs(s_ptr->z)) == 0)
+	{
+		//l_z = 1; // only a 1st approximation for correct_Dw in electrical field
 	}
 	else
 	{
-		g = 0;
+		if (s_ptr->dw_a2)
+			ka = DH_B * s_ptr->dw_a2 * sqrt_mu / (1 + pow(mu_x, 0.75));
+		else
+			ka = DH_B * 4.73 * sqrt_mu / (1 + pow(mu_x, 0.75));
+		if (s_ptr->dw_a)
+		{
+			ff = exp(-s_ptr->dw_a * DH_A * l_z * sqrt_mu / (1 + ka));
+			//if (print_viscosity && s_ptr->dw_a_visc)
+			//	ff *= pow((viscos_0 / viscos), s_ptr->dw_a_visc);
+		}
+		else
+		{
+			ff = exp(-1.6 * DH_A * l_z * sqrt_mu / (1 + ka));
+		}
+		Dw *= ff;
 	}
-	return (g);
+
+	if (tk_x != 298.15 && s_ptr->dw_t)
+		Dw *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
+
+	s_ptr->dw_corr = Dw;
+	return (Dw * viscos_0_25 / viscos_0);
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -209,22 +248,58 @@ setdiff_c(const char *species_name, double d)
 /* ---------------------------------------------------------------------- */
 {
 	class species *s_ptr;
-	LDBLE g;
+	LDBLE ka, l_z, Dw, ff, sqrt_mu;
+	sqrt_mu = sqrt(mu_x);
 
 	s_ptr = s_search(species_name);
-	if (s_ptr != NULL)
+
+	//LDBLE g;
+	//s_ptr = s_search(species_name);
+	//if (s_ptr != NULL)
+	//{
+
+	//	s_ptr->dw = d;
+	//	g = s_ptr->dw;
+	//	if (s_ptr->dw_t)
+	//			g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
+	//	g *= viscos_0_25 / viscos * tk_x / 298.15;;
+	//}
+	//else
+	//{
+	//	g = 0;
+	//}
+	//return (g);
+	if (s_ptr == NULL)
+		return(0);
+	Dw = s_ptr->dw = d;
+	if ((l_z = fabs(s_ptr->z)) == 0)
 	{
-		s_ptr->dw = d;
-		g = s_ptr->dw;
-		if (s_ptr->dw_t)
-				g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
-		g *= viscos_0_25 / viscos * tk_x / 298.15;;
+		//l_z = 1; // only a 1st approximation for correct_Dw in electrical field
 	}
 	else
 	{
-		g = 0;
+		if (s_ptr->dw_a2)
+			ka = DH_B * s_ptr->dw_a2 * sqrt_mu / (1 + pow(mu_x, 0.75));
+		else
+			ka = DH_B * 4.73 * sqrt_mu / (1 + pow(mu_x, 0.75));
+		if (s_ptr->dw_a)
+		{
+			ff = exp(-s_ptr->dw_a * DH_A * l_z * sqrt_mu / (1 + ka));
+			//if (print_viscosity && s_ptr->dw_a_visc)
+			//	ff *= pow((viscos_0 / viscos), s_ptr->dw_a_visc);
+		}
+		else
+		{
+			ff = exp(-1.6 * DH_A * l_z * sqrt_mu / (1 + ka));
+		}
+		Dw *= ff;
 	}
-	return (g);
+
+	if (tk_x != 298.15 && s_ptr->dw_t)
+			Dw *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
+
+	s_ptr->dw_corr = Dw;
+	return (Dw * viscos_0_25 / viscos_0);
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -314,19 +389,18 @@ calc_SC(void)
 
 	SC = 0;
 	//LDBLE ta1, ta2, ta3, ta4;
-	for (i = 0; i < (int)this->s_x.size(); i++)
-	{
-		// ** for optimizing, get numbers from -analyt for H+ = H+...
-		//if (!strcmp(s_x[i]->name, "H+"))
-		//{
-		//	ta1 = s_x[i]->logk[2];
-		//	ta2 = s_x[i]->logk[3];
-		//	ta3 = s_x[i]->logk[4];
-		//	ta4 = s_x[i]->logk[5];
-		//	break;
-		//}
-		//
-	}
+	//for (i = 0; i < (int)this->s_x.size(); i++)
+	//{
+	//	// ** for optimizing, get numbers from -analyt for H+ = H+...
+	//	if (!strcmp(s_x[i]->name, "H+"))
+	//	{
+	//		ta1 = s_x[i]->logk[2] * 1e15;
+	//		ta2 = s_x[i]->logk[3] * 1e15;
+	//		ta3 = s_x[i]->logk[4] * 1e15;
+	//		ta4 = s_x[i]->logk[5] * 1e15;
+	//		break;
+	//	}
+	//}
 	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
@@ -338,43 +412,51 @@ calc_SC(void)
 			else
 				continue;
 		}
+		if (s_x[i]->lm < min_dif_LM)
+			continue;
 		if ((l_z = fabs(s_x[i]->z)) == 0)
-			l_z = 1; // only a 1st approximation for correct_Dw in electrical field
-		if (s_x[i]->dw_t)
-			Dw *= exp(s_x[i]->dw_t / tk_x - s_x[i]->dw_t / 298.15); // the viscosity multiplier is done in SC
-		if (s_x[i]->dw_a2)
-			ka = DH_B * s_x[i]->dw_a2 * sqrt_mu / (1 + pow(mu_x, 0.75));
+		{
+			//l_z = 1; // only a 1st approximation for correct_Dw in electrical field
+		}
 		else
 		{
-			ka = DH_B * 4.73 * sqrt_mu / (1 + pow(mu_x , 0.75));
-			//ka = DH_B * ta1 * sqrt_mu / (1 + pow(mu_x, ta2));
-			//ka = DH_B * ta1 * sqrt_mu / (1 + mu_x / ta2);
-		}
-		if (s_x[i]->dw_a)
-		{
-			ff = exp(-s_x[i]->dw_a * DH_A * l_z * sqrt_mu / (1 + ka));
-			if (print_viscosity)
+			if (s_x[i]->dw_a2)
+				ka = DH_B * s_x[i]->dw_a2 * sqrt_mu / (1 + pow(mu_x, 0.75));
+			else
 			{
-				ff *= pow((viscos_0 / viscos), s_x[i]->dw_a_visc);
+				ka = DH_B * 4.73 * sqrt_mu / (1 + pow(mu_x, 0.75));
+				//ka = DH_B * ta1 * sqrt_mu / (1 + pow(mu_x, ta2));
+				//ka = DH_B * ta1 * sqrt_mu / (1 + mu_x / ta2);
 			}
+			if (s_x[i]->dw_a)
+			{
+				ff = exp(-s_x[i]->dw_a * DH_A * l_z * sqrt_mu / (1 + ka));
+				//if (print_viscosity && s_x[i]->dw_a_visc)
+				//	ff *= pow((viscos_0 / viscos), s_x[i]->dw_a_visc);
+			}
+			else
+			{
+				ff = exp(-1.6 * DH_A * l_z * sqrt_mu / (1 + ka));
+				//ff = exp(-ta3 * DH_A * l_z * sqrt_mu / (1 + ka));
+			}
+			Dw *= ff;
 		}
-		else
+		if (tk_x != 298.15)
 		{
-			ff = exp(-1.6 * DH_A * l_z * sqrt_mu / (1 + ka));
-			//ff = exp(-ta3 * DH_A * l_z * sqrt_mu / (1 + ka));
+			if (s_x[i]->dw_t)
+				Dw *= exp(s_x[i]->dw_t / tk_x - s_x[i]->dw_t / 298.15);
+			//else
+			//{
+			//	Dw *= exp(ta1 / tk_x - ta1 / 298.15);
+			//}
 		}
-		Dw *= ff;
 		s_x[i]->dw_corr = Dw;
 
-		if (s_x[i]->z == 0)
-			continue;
 		s_x[i]->dw_t_SC = s_x[i]->moles / mass_water_aq_x * l_z * l_z * Dw;
 		SC += s_x[i]->dw_t_SC;
 	}
 	SC *= 1e7 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298150.0);
-	/* correct for temperature dependency...
-	SC_T = SC_298 * (Dw_T / T) * (298 / Dw_298) and
-	Dw_T = Dw_298 * (T / 298) * (viscos_298 / viscos_T) give:
+	/* correct for viscosity dependency...
 	SC_T = SC_298 * (viscos_298 / viscos_T)
 	*/
 	SC *= viscos_0_25 / viscos_0;
@@ -1520,7 +1602,8 @@ get_calculate_value(const char *name)
 #ifdef NPP
 	if (isnan(rate_moles))
 #else
-	if (rate_moles == NAN)
+	//if (rate_moles == NAN)
+	if(std::isnan(rate_moles))
 #endif
 	{
 		error_string = sformatf( "Calculated value not SAVEed for %s.",
@@ -1721,22 +1804,22 @@ pressure(void)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-pr_phi(const char* phase_name)
+pr_phi(const char *phase_name)
 /* ---------------------------------------------------------------------- */
 {
 	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (gas_phase_ptr != NULL)
 	{
-		int l;
+	int l;
 		class phase* phase_ptr = phase_bsearch(phase_name, &l, FALSE);
-		if (phase_ptr == NULL)
-		{
-			error_string = sformatf("Gas %s, not found.", phase_name);
-			warning_msg(error_string);
-			return (1e-99);
-		}
+	if (phase_ptr == NULL)
+	{
+		error_string = sformatf( "Gas %s, not found.", phase_name);
+		warning_msg(error_string);
+		return (1e-99);
+	}
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
-		{
+	{
 			const cxxGasComp* gas_comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 			int j;
 			class phase* phase_ptr_gas = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
@@ -1744,8 +1827,8 @@ pr_phi(const char* phase_name)
 			{
 				if (gas_phase_ptr->Get_pr_in())
 				{
-					return phase_ptr->pr_phi;
-				}
+		return phase_ptr->pr_phi;
+	}
 				else
 				{
 					return gas_comp_ptr->Get_phi();
@@ -1753,7 +1836,7 @@ pr_phi(const char* phase_name)
 			}
 		}
 	}
-	return(1.0);
+	return (1.0);
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
