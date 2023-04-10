@@ -1888,16 +1888,17 @@ fill_spec(int l_cell_no, int ref_cell)
 	if (por_il < interlayer_Dpor_lim)
 		por_il = viscos_il_f = 0.0;
 	/*
-	* correct diffusion coefficient for temperature and viscosity, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
+	* correct diffusion coefficient for temperature and viscosity, D_T = D_298 * viscos_298 / viscos
 	*   modify viscosity effect: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15), SC data from Robinson and Stokes, 1959
 	*/
 	viscos = viscos_0;
 	/*
 	* put temperature factor in por_factor which corrects for porous medium...
 	*/
-	viscos_f *= tk_x * viscos_0_25 / (298.15 * viscos);
-	viscos_il_f *= tk_x * viscos_0_25 / (298.15 * viscos);
-	sol_D[l_cell_no].viscos_f = tk_x * viscos_0_25 / (298.15 * viscos);
+	dum = viscos_0_25 / viscos;
+	viscos_f *= dum;
+	viscos_il_f *= dum;
+	sol_D[l_cell_no].viscos_f = dum;
 
 	count_spec = count_exch_spec = 0;
 	/*
@@ -1908,6 +1909,8 @@ fill_spec(int l_cell_no, int ref_cell)
 		qsort(&species_list[0], species_list.size(),
 			sizeof(class species_list), sort_species_name);
 	}
+	if (correct_Dw)
+		calc_SC();
 
 	for (i = 0; i < (int)species_list.size(); i++)
 	{
@@ -2097,7 +2100,7 @@ fill_spec(int l_cell_no, int ref_cell)
 			}
 			if (correct_Dw)
 			{
-				calc_SC(); // note that neutral species are corrected as if z = 1, but is viscosity-dependent
+				//calc_SC(); // removed that neutral species are corrected as if z = 1, but is viscosity-dependent
 				sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw_corr * viscos_f;
 			}
 			if (l_cell_no <= count_cells + 1 && sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) > diffc_max)
@@ -2962,20 +2965,20 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			if (!strcmp(ct[icell].m_s[cp].name, "H"))
 			{
 				dummy = ct[icell].m_s[cp].tot1;
-				if (dV_dcell || (icell > 0 && icell <= ilast))
+				if (dV_dcell || fix_current || (icell > 0 && icell <= ilast))
 					sptr1->Set_total_h(sptr1->Get_total_h() - dummy);
-				if (dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
+				if (dV_dcell || fix_current || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
 					sptr2->Set_total_h(sptr2->Get_total_h() + dummy);
 				if (sptr_stag)
 				{
 					dummy = ct[icell].m_s[cp].tot_stag;
-					if (dV_dcell || (icell > 0 && icell <= ilast))
+					if (dV_dcell || fix_current || (icell > 0 && icell <= ilast))
 						sptr1->Set_total_h(sptr1->Get_total_h() - dummy);
 					if (icell == c)
 					{
 						// mix the boundary solution with the stagnant column end-cell
 						dummy += ct[icell + 1].m_s[cp].tot_stag;
-						if (dV_dcell)
+						if (dV_dcell || fix_current)
 							sptr2->Set_total_h(sptr2->Get_total_h() - ct[icell + 1].m_s[cp].tot_stag);
 					}
 					sptr_stag->Set_total_h(sptr_stag->Get_total_h() + dummy);
@@ -2985,19 +2988,19 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			if (!strcmp(ct[icell].m_s[cp].name, "O"))
 			{
 				dummy = ct[icell].m_s[cp].tot1;
-				if (dV_dcell || (icell > 0 && icell <= ilast))
+				if (dV_dcell || fix_current || (icell > 0 && icell <= ilast))
 					sptr1->Set_total_o(sptr1->Get_total_o() - dummy);
-				if (dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
+				if (dV_dcell || fix_current || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
 					sptr2->Set_total_o(sptr2->Get_total_o() + dummy);
 				if (sptr_stag)
 				{
 					dummy = ct[icell].m_s[cp].tot_stag;
-					if (dV_dcell || (icell > 0 && icell <= ilast))
+					if (dV_dcell || fix_current || (icell > 0 && icell <= ilast))
 						sptr1->Set_total_o(sptr1->Get_total_o() - dummy);
 					if (icell == c)
 					{
 						dummy += ct[icell + 1].m_s[cp].tot_stag;
-						if (dV_dcell)
+						if (dV_dcell || fix_current)
 							sptr2->Set_total_o(sptr2->Get_total_o() - ct[icell + 1].m_s[cp].tot_stag);
 					}
 					sptr_stag->Set_total_o(sptr_stag->Get_total_o() + dummy);
@@ -3018,7 +3021,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			
 			// check for negative moles, add moles from other redox states and the donnan layer when necessary and available...
 			if (dum1 - ct[icell].m_s[cp].tot1 - ct[icell].m_s[cp].tot_stag < min_mol &&
-			(dV_dcell || (icell > 0 && icell <= ilast)))
+			(dV_dcell || fix_current || (icell > 0 && icell <= ilast)))
 			{
 				dum1 = moles_from_redox_states(sptr1, ct[icell].m_s[cp].name);
 				if (ct[icell].dl_s > 1e-8)
@@ -3039,7 +3042,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			if (icell == c && sptr_stag && ct[c1].m_s[cp].tot_stag)
 				dum = ct[c1].m_s[cp].tot_stag;
 			if (dum2 + ct[icell].m_s[cp].tot2 - dum < min_mol &&
-			(dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2)))
+			(dV_dcell || fix_current || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2)))
 			{
 				dum2 = moles_from_redox_states(sptr2, ct[icell].m_s[cp].name);
 				if (ct[icell + 1].dl_s > 1e-8)
@@ -3057,7 +3060,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			if (fabs(ct[icell].m_s[cp].tot2) < fabs(ct[icell].m_s[cp].tot1))
 				ct[icell].m_s[cp].tot1 = ct[icell].m_s[cp].tot2;
 			
-			if (dV_dcell || (icell > 0 && icell <= ilast))
+			if (dV_dcell || fix_current || (icell > 0 && icell <= ilast))
 			{
 				dum = ct[icell].m_s[cp].tot1;
 				if (stagnant)
@@ -3078,10 +3081,10 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				//ct[icell].J_ij_sum -= dum * ct[icell].m_s[cp].charge;
 			}
 			
-			if (dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
+			if (dV_dcell || fix_current || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
 			{
 				dum = ct[icell].m_s[cp].tot1;
-				if (stagnant && icell == c && dV_dcell)
+				if (stagnant && icell == c && (dV_dcell || fix_current))
 					dum -= ct[c1].m_s[cp].tot_stag;
 				dum2 += dum;
 				sptr2->Get_totals()[ct[icell].m_s[cp].name] = (dum2 > 0 ? dum2 : min_mol);
@@ -3134,7 +3137,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			}
 			
 			// reduce oscillations in the column-boundary cells, but not for H and O, and current_A is not adjusted...
-			if (dV_dcell && icell == il1 - incr && dV_dcell * ct[0].m_s[cp].charge < 0 && strcmp(ct[0].m_s[cp].name, "H") && strcmp(ct[0].m_s[cp].name, "O") && c > 3 && mixrun > 1)
+			if ((dV_dcell/* || fix_current*/) && icell == il1 - incr && dV_dcell * ct[0].m_s[cp].charge < 0 && strcmp(ct[0].m_s[cp].name, "H") && strcmp(ct[0].m_s[cp].name, "O") && c > 3 && mixrun > 1)
 			{
 				dummy = Utilities::Rxn_find(Rxn_solution_map, 0)->Get_totals()[ct[0].m_s[cp].name] / ct[0].kgw * (1 - ct[0].dl_s);
 				if (dummy > 1e-6)
@@ -4828,10 +4831,10 @@ Step (from cell 1 to count_cells + 1):
 	cxxSurface *surface_ptr1, *surface_ptr2;
 	LDBLE viscos_f;
 	/*
-	* temperature and viscosity correction for MCD coefficient, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
+	* temperature and viscosity correction for MCD coefficient, D_T = D_298 * viscos_298 / viscos
 	*/
 	viscos_f = viscos_0;
-	viscos_f = tk_x * viscos_0_25 / (298.15 * viscos_f);
+	viscos_f = viscos_0_25 / viscos_f;
 
 	//n1 = 0;
 	//n2 = n1 + 1;
@@ -5502,7 +5505,7 @@ diff_stag_surf(int mobile_cell)
 	* temperature and viscosity correction for MCD coefficient, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
 	*/
 	viscos_f = viscos_0;
-	viscos_f = tk_x * viscos_0_25 / (298.15 * viscos_f);
+	viscos_f = viscos_0_25 / viscos_f;
 
 	cxxSurface surface_n1, surface_n2;
 	cxxSurface *surface_n1_ptr = &surface_n1;
@@ -5991,8 +5994,7 @@ viscosity(void)
 			}
 			// find B * m and D * m * mu^d3
 			Bc += (s_x[i]->Jones_Dole[0] +
-				s_x[i]->Jones_Dole[1] * exp(-s_x[i]->Jones_Dole[2] * tc)) *
-				t1;
+				s_x[i]->Jones_Dole[1] * exp(-s_x[i]->Jones_Dole[2] * tc)) * t1;
 			// define f_I from the exponent of the D * m^d3 term...
 			if (s_x[i]->Jones_Dole[5] >= 1)
 				t2 = mu_x / 3 / s_x[i]->Jones_Dole[5];
@@ -6074,8 +6076,8 @@ viscosity(void)
 		viscos += (viscos_0 * (Bc + Dc));
 	if (viscos < 0)
 	{
-		viscos = 0;
-		warning_msg("viscosity < 0, reset to 0.");
+		viscos = viscos_0;
+		warning_msg("viscosity < 0, reset to viscosity of pure water");
 	}
 	return viscos;
 

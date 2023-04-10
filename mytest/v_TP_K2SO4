@@ -1,0 +1,89 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                v_TP_K2SO4_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+# Abdulagatov & Azizov, 2005, IJT 26, 593
+SOLUTION 1
+pH 7 charge
+SAVE solution 1
+#PRINT; -reset false
+END
+
+
+
+USE solution 1	
+REACTION 1; K2SO4 0.0658	
+REACTION_TEMPERATURE 
+	 25.00, 40.40, 50.10, 75.30, 103.50, 125.40, 150.70, 174.20, 198.90, 	
+USER_GRAPH 
+  -headings 0.066.M
+  -chart_title "K2SO4, Abdulagatov, 25 - 200 oC, 1 - 291 atm"
+  -axis_titles "temperature / oC" "viscosity / (mPa s) "
+  -connect_simulations false
+  -axis_scale x_axis 0 225
+10 DATA 	 0.9023, 0.6613, 0.5586, 0.3869, 0.2805, 0.2289, 0.1881, 0.1613, 0.1403,
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Red
+62 plot_xy tc, s, symbol = None 	
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+USE solution 1	
+REACTION 1; K2SO4 0.2055	
+REACTION_TEMPERATURE 
+	 25.00, 38.50, 50.00, 75.80, 92.30, 123.50, 152.30, 175.20, 	
+USER_GRAPH; -headings 0.206.M	   
+10 DATA 	 0.9297, 0.7122, 0.5837, 0.4020, 0.3303, 0.2435, 0.1946, 0.1679,
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Green
+62 plot_xy tc, s, symbol = None 	
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+USE solution 1	
+REACTION 1; K2SO4 0.3050	
+REACTION_TEMPERATURE 
+	 25.00, 39.40, 50.00, 75.10, 92.80, 124.10, 150.40, 175.40, 	
+USER_GRAPH; -headings 0.305.M
+10 DATA 	 0.9618, 0.7194, 0.5991, 0.4182, 0.3396, 0.2503, 0.2040, 0.1735, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Blue
+62 plot_xy tc, s, symbol = None 	
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+USE solution 1	
+REACTION 1; K2SO4 0.4070	
+REACTION_TEMPERATURE 
+	 25.00, 39.10, 50.20, 75.00, 99.40, 123.20, 148.90, 173.70, 197.60, 
+USER_GRAPH; -headings 0.407.M
+10 DATA 	 0.9823, 0.7414, 0.6130, 0.4316, 0.3265, 0.2605, 0.2131, 0.1811, 0.1586, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Orange 
+62 plot_xy tc, s, symbol = None 	
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+80 if step_no = 9 then print 's.d. for K2SO4 :    ', (get(1) / (get(2) - 1))^0.5 * 100, '% (', trim(str$(get(2))), ' samples), 25 - 200 oC, Abdul, dif < ', str_f$(dmax, 0, 2) + '. ' + str_f$(get(9), 0, 0) + ' outliers.'	        
+END	

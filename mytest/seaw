@@ -1,0 +1,49 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                seaw_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+#PRINT; -reset false
+SOLUTION 1  Seawater
+ pH      8.3
+ Na      485
+ K        10.6
+ Mg       55.1
+ Ca       10.7
+ Cl      566
+ S        30.6
+
+REACTION_TEMPERATURE
+0 5 10 15 20 25 30 35 40 45 50
+USER_GRAPH
+-chart_title "Density and viscosity of seawater and pure water"
+-axis_titles "temperature / °C" "density / (kg/L)" "viscosity / (mPa s)"
+-axis_scale x_axis 0 50
+-axis_scale y_axis 0.98 1.03
+-axis_scale sy_axis 0.5 2
+-connect_simulations false
+-plot_tsv_file seaw.dat
+
+10 graph_x tc
+20 graph_y rho
+30 graph_sy viscos
+50 SA = tot("Na") * gfw("Na") + tot("K") * gfw("K") + tot("Mg") * gfw("Mg") + tot("Ca") * gfw("Ca") + tot("Cl") * gfw("Cl") + tot("S") * gfw("SO4")
+60 SA = SA / (SA + 1e3)
+70 if step_no = 1 then print 'Absolute Salinity', SA * 1e3
+80 if sim_no = 1 then print 'Specific Conductivity', sc, 'uS/cm at', tc, 'ºC'
+90 if tc < 5 then end
+100 DATA 1.0718, 1.0735, 1.0753, 1.0771, 1.0789, 1.0860, 1.0842, 1.0825, 1.0807, 1.0878
+110 dim vr(10) : restore 100 : for i = 1 to 10 : read vr(i) : next i
+120 plot_xy tc, vr(tc / 5 ) * viscos_0, symbol = XCross , symbol_size = 8, color = Green , line_width = 0, y_axis = 2
+
+
+
+END
+
+SOLUTION; USE reaction_temperature 1
+END

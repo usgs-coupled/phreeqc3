@@ -1,0 +1,116 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 HNaK_Cl_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+# Ruby and Kawai, 1926, JACS 48,1119
+PRINT; -reset false
+SOLUTION_SPREAD
+-units mol/kgw
+Number	K	Na	Cl	pH
+1	0	0	0.1	7 charge
+2	0.1	0	0.1	7 charge
+3	0	0.1	0.1	7 charge
+4	0	0	0.2	7 charge
+5	0.2	0	0.2	7 charge
+6	0	0.2	0.2	7 charge
+7	0	0.12	0.2	7 charge
+8	0	0.08	0.2	7 charge
+9	0	0	0.5	7 charge
+10	0.1	0	0.5	7 charge
+11	0.2	0	0.5	7 charge
+12	0.3	0	0.5	7 charge
+13	0.4	0	0.5	7 charge
+14	0.5	0	0.5	7 charge
+15	0.3	0.2	0.5	7 charge
+16	0.2	0.3	0.5	7 charge
+17	0	0.5	0.5	7 charge
+18	0	0.3	0.5	7 charge
+19	0	0.2	0.5	7 charge
+20	0.167	0.166	0.5	7 charge
+21	0	0	1	7 charge
+22	0.2	0	1	7 charge
+23	0.4	0	1	7 charge
+24	0.6	0	1	7 charge
+25	0.8	0	1	7 charge
+26	1	0	1	7 charge
+27	0.8	0.2	1	7 charge
+28	0.6	0.4	1	7 charge
+29	0.4	0.6	1	7 charge
+30	0.2	0.8	1	7 charge
+31	0	1	1	7 charge
+32	0	0.8	1	7 charge
+33	0	0.6	1	7 charge
+34	0	0.4	1	7 charge
+35	0	0.2	1	7 charge
+36	0.2007	0.2009	1	7 charge
+37	0.199	0.3987	1	7 charge
+38	0.3973	0.2014	1	7 charge
+39	0.592	0.2029	1	7 charge
+40	0.3996	0.4004	1	7 charge
+41	0.1988	0.5968	1	7 charge
+42	0	0	2	7 charge
+43	0.4	0	2	7 charge
+44	0.8	0	2	7 charge
+45	1.2	0	2	7 charge
+46	1.6	0	2	7 charge
+47	2	0	2	7 charge
+48	1.6	0.4	2	7 charge
+49	1.2	0.8	2	7 charge
+50	0.8	1.2	2	7 charge
+51	0.4	1.6	2	7 charge
+52	0	2	2	7 charge
+53	0	1.6	2	7 charge
+54	0	1.2	2	7 charge
+55	0	0.8	2	7 charge
+56	0	0.4	2	7 charge
+57	0	0	3	7 charge
+58	3	0	3	7 charge
+59	0	3	3	7 charge
+60	0	0	4	7 charge
+61	0.8	0	4	7 charge
+62	1.6	0	4	7 charge
+63	2.4	0	4	7 charge
+64	3.2	0	4	7 charge
+65	4	0	4	7 charge
+66	3.2	0.8	4	7 charge
+67	2.4	1.6	4	7 charge
+68	1.6	2.4	4	7 charge
+69	0.8	3.2	4	7 charge
+70	0	4	4	7 charge
+71	0	3.2	4	7 charge
+72	0	2.4	4	7 charge
+73	0	1.6	4	7 charge
+74	0	0.8	4	7 charge
+75	0.7888	0.7662	3.9999	7 charge
+76	0.7915	1.5244	3.9999	7 charge
+77	1.4879	1.6423	4	7 charge
+78	0.7636	2.3708	4	7 charge
+79	2.2355	0.8818	4	7 charge
+80	1.4833	0.8057	4	7 charge
+
+USER_GRAPH 1
+-headings K < 1M K < 1M, H > 1M K > 1M K & H > 1M
+-chart_title "viscosity of mixed H-Na-KCl solutions"
+-axis_titles "viscosity / (mPa·s)" calculated
+-axis_scale x_axis 0.88 1.4
+-axis_scale y_axis 0.88 1.4
+-initial_solutions true
+# viscosities
+10 DATA 0.8961, 0.8903, 0.8985, 0.9022, 0.8897, 0.9064, 0.9047, 0.9039, 0.9182, 0.9123, 0.9062, 0.9000, 0.8943, 0.8885, 0.9050, 0.9135, 0.9306, 0.9250, 0.9228, 0.9115, 0.9449, 0.9330, 0.9212, 0.9097, 0.8991, 0.8887, 0.9048, 0.9213, 0.9378, 0.9555, 0.9733, 0.9667, 0.9609, 0.9555, 0.9502, 0.9379, 0.9428, 0.9267, 0.9163, 0.9319, 0.9494, 0.9977, 0.9765, 0.9554, 0.9350, 0.9154, 0.8968, 0.9284, 0.9622, 0.9976, 1.0352, 1.0738, 1.0564, 1.0399, 1.0243, 1.0102, 1.0487, 0.9144, 1.1973, 1.1016, 1.0741, 1.0425, 1.0093, 0.9749, 0.9407, 1.0065, 1.0785, 1.1590, 1.2487, 1.3471, 1.2891, 1.2351, 1.1863, 1.1422, 1.1105, 1.1495, 1.1271, 1.2017, 1.0488, 1.0854
+20 erase vs : dim vs(100) : restore 10 : for i = 1 to cell_no : read vs(i) : next i
+30 if mol("K+") < 1 and mol("H+") < 1  then plot_xy vs(cell_no ), viscos , line_width = 0 color = Red else plot_xy 0,0
+31 if mol("K+") < 1 and mol("H+") > 1  then plot_xy vs(cell_no ), viscos , line_width = 0 color = Orange  else plot_xy 0,0
+32 if mol("K+") >= 1 and mol("H+") < 1 then plot_xy vs(cell_no ), viscos , line_width = 0 color = Green else plot_xy 0,0
+34 if mol("K+") >= 1 and mol("H+") > 1 then plot_xy vs(cell_no ), viscos , line_width = 0 color = Blue else plot_xy 0,0
+36 d = viscos - vs(cell_no) : if abs(d) > 1e-2 then print cell_no, viscos, vs(cell_no), d
+40 if cell_no > 2 then end 
+50 if cell_no = 1 then xy = 0.88 else xy = 1.4
+60 plot_xy xy, xy, symbol = None, color = Black 
+-end 
+END

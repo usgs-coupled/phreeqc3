@@ -1,4 +1,4 @@
-# Arcanite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
+# Arcanite solubility f(T), from Pabalan & Pitzer, 1987, fig. 6
 DATABASE ../database/pitzer.dat
 SELECTED_OUTPUT 101
     -file                 K2SO4_101.sel
@@ -8,7 +8,6 @@ USER_PUNCH 101
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
     -end
-INCLUDE$ Pabalan.dat
 
 SOLUTION 1
 EQUILIBRIUM_PHASES 1
@@ -18,7 +17,8 @@ REACTION_TEMPERATURE 1
 
 USER_GRAPH 1
 -chart_title "Arcanite solubility"
--axis_titles "mol K2SO4 / kgw" "temperature / oC"
+-axis_titles "mol K2SO4 / kgw" "Temperature / ºC"
+-axis_scale x_axis 0 2
 # -plot_csv_file K2SO4.csv
 10 data 0.403, 0.493, 0.536, 0.590, 0.633, 0.680, 0.773, 0.863, 0.946, 1.032, 1.108, 1.187, 1.248, 1.373, 1.495, 1.703, 1.761, 1.802
 20 dim c(30)

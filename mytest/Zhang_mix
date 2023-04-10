@@ -1,0 +1,91 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                Zhang_mix_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+#PRINT; -reset false
+SOLUTION 1
+INCREMENTAL_REACTIONS true
+REACTION 1
+CaCl2 1
+10*1e-3 9*1e-2 9*0.1 11*0.7
+USER_GRAPH 1
+-axis_titles "K+  +  Ca+2 / (mol/kgw)" "viscosity / (mPa·s)"
+-axis_scale x_axis 0 5
+-axis_scale y_axis 0.8 5
+-plot_tsv_file Zhang_CaCl.dat
+-connect_simulations false
+10 graph_x tot("K") + tot("Ca")
+30 graph_y viscos 
+USER_GRAPH 2
+-axis_titles "Na+  +  Ca+2 / (mol/kgw)" "viscosity / (mPa·s)"
+-axis_scale x_axis 0 6.3
+-axis_scale y_axis 0.8 9
+-plot_tsv_file Zhang_CaCl.dat
+-plot_tsv_file Zhang_NaCaCl.dat
+-connect_simulations false
+10 graph_x tot("Na") + tot("Ca")
+30 graph_y viscos 
+END
+
+USER_GRAPH 2; -active false
+USE solution 1
+REACTION 1
+K0.1Ca0.299Cl0.7 1
+10*1e-3 9*1e-2 9*0.1 11*1
+USER_GRAPH 1
+-plot_tsv_file Zhang_KCaCl.dat
+END
+
+USE solution 1
+REACTION 1
+K0.2Ca0.2Cl0.6 1
+10*1e-3 9*1e-2 9*0.1 10*1
+END
+
+USE solution 1
+REACTION 1
+K0.301Ca0.1Cl0.502 1
+10*1e-3 9*1e-2 9*0.1 10*1
+END
+
+USE solution 1
+REACTION 1
+KCl 0.5
+10*1e-3 9*1e-2 9*0.1 10*0.88
+END
+
+USER_GRAPH 1; -detach
+
+SOLUTION 1
+INCREMENTAL_REACTIONS true
+REACTION 1
+Na0.1Ca0.3Cl0.7 1
+10*1e-3 9*1e-2 9*0.1 11*1
+USER_GRAPH 2
+-active true
+END
+
+USE solution 1
+REACTION 1
+Na0.2Ca0.2Cl0.6 1
+10*1e-3 9*1e-2 9*0.1 10*1
+END
+
+USE solution 1
+REACTION 1
+Na0.302Ca0.1Cl0.502 1
+10*1e-3 9*1e-2 9*0.1 10*1.1
+END
+
+USE solution 1
+REACTION 1
+Na0.5Cl0.5 1
+10*1e-3 9*1e-2 9*0.1 10*1.1
+END
+

@@ -1,0 +1,71 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 NaK_ClSO4_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+# Yang et al., 2010, IECR 49, 7671
+#PRINT; -reset false
+
+SOLUTION_SPREAD
+-units mol/kgw
+Number	Na	K	Cl	S(6)	pH	# viscos
+1	0.0684	0.0908	0.0685	0.0454	7 charge	# 0.9036
+2	0.0795	0.0795	0.0686	0.0452	7 charge	# 0.9055
+3	0.0928	0.0668	0.0673	0.0462	7 charge	# 0.9071
+4	0.0652	0.1084	0.0436	0.0650	7 charge	# 0.9081
+5	0.1079	0.0650	0.0437	0.0645	7 charge	# 0.9120
+6	0.0933	0.0928	0.0208	0.0827	7 charge	# 0.9152
+7	0.1340	0.1780	0.1349	0.0886	7 charge	# 0.9155
+8	0.1564	0.1552	0.1348	0.0884	7 charge	# 0.9200
+9	0.1786	0.1327	0.1344	0.0884	7 charge	# 0.9245
+10	0.1292	0.2135	0.0868	0.1279	7 charge	# 0.9246
+11	0.1985	0.2635	0.2003	0.1308	7 charge	# 0.9286
+12	0.2314	0.2295	0.2002	0.1304	7 charge	# 0.9328
+13	0.2138	0.1281	0.0865	0.1277	7 charge	# 0.9334
+14	0.2642	0.1957	0.1999	0.1300	7 charge	# 0.9361
+15	0.1858	0.1848	0.0418	0.1644	7 charge	# 0.9380
+16	0.1925	0.3170	0.1298	0.1898	7 charge	# 0.9398
+17	0.2618	0.3471	0.2651	0.1719	7 charge	# 0.9426
+18	0.3054	0.3021	0.2647	0.1714	7 charge	# 0.9463
+19	0.3483	0.2576	0.2644	0.1707	7 charge	# 0.9496
+20	0.3184	0.1906	0.1296	0.1897	7 charge	# 0.9535
+21	0.2553	0.4187	0.1729	0.2506	7 charge	# 0.9581
+22	0.3237	0.4289	0.3298	0.2114	7 charge	# 0.9589
+23	0.3776	0.3728	0.3292	0.2106	7 charge	# 0.9599
+24	0.2783	0.2760	0.0630	0.2457	7 charge	# 0.9626
+25	0.4315	0.3172	0.3281	0.2103	7 charge	# 0.9685
+26	0.3846	0.5100	0.3932	0.2507	7 charge	# 0.9698
+27	0.4487	0.4433	0.3922	0.2499	7 charge	# 0.9781
+28	0.3173	0.5193	0.2156	0.3105	7 charge	# 0.9788
+29	0.4223	0.2525	0.1728	0.2510	7 charge	# 0.9789
+30	0.5127	0.3761	0.3916	0.2486	7 charge	# 0.9829
+31	0.3712	0.3664	0.0844	0.3266	7 charge	# 0.9889
+32	0.3778	0.6183	0.2597	0.3682	7 charge	# 0.9932
+33	0.5253	0.3130	0.2159	0.3112	7 charge	# 0.9976
+34	0.4634	0.4564	0.1058	0.4070	7 charge	# 1.0080
+35	0.6256	0.3740	0.2594	0.3701	7 charge	# 1.0208
+36	0.5548	0.5462	0.1272	0.4869	7 charge	# 1.0396
+
+USER_GRAPH
+-chart_title "Viscosity of mixed NaK_ClSO4 solutions"
+-initial_solutions true
+-axis_titles 'viscosity / (mPa·s)' 'calculated'
+-axis_scale x_axis 0.9 1.045
+-axis_scale y_axis 0.9 1.045
+10 DATA 0.9036, 0.9055, 0.9071, 0.9081, 0.9120, 0.9152, 0.9155, 0.9200, 0.9245, 0.9246, 0.9286, 0.9328, 0.9334, 0.9361, 0.9380, 0.9398, 0.9426, 0.9463, 0.9496, 0.9535, 0.9581, 0.9589, 0.9599, 0.9626, 0.9685, 0.9698, 0.9781, 0.9788, 0.9789, 0.9829, 0.9889, 0.9932, 0.9976, 1.0080, 1.0208, 1.0396
+20 restore 10 : erase v : dim v(50) : for i = 1 to cell_no : read v(i) : next i
+30 plot_xy  v(cell_no), viscos, line_width = 0
+40 if cell_no = 1 then xy = 0.903 else xy = 1.04
+42 if cell_no < 3 then plot_xy xy, xy, symbol = None , color = Black 
+50 dif = viscos - v(cell_no) 
+51 if cell_no = 1 then print "calculated - measured viscosity / (mPa s)"
+52 print dif
+54 put(get(1) + abs(dif), 1)
+60 if cell_no < 36 then end 
+70 print 'standard deviation', get(1) / 36 * 100, '%'
+END

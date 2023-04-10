@@ -1,11 +1,34 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
+	April 3, 2023
+  	-----------------
+	The viscosity of multi-species solutions is calculated with a (modified) 
+	Jones-Dole equation:
+	
+    viscos / viscos_0 = 1 + A Sum(0.5 z_i m_i) + fan (B_i m_i + D_i m_i n_i)
+
+    Parameters SOLUTION_SPECIES definitions are for calculating the B and D terms:
+    -viscosity 9.35e-2 -8.31e-2 2.487e-2 4.49e-4 2.01e-2 1.570    0
+               b0      b1       b2       d1      d2      d3       tan
+			   
+    z_i is absolute charge number, m_i is molality of i
+    B_i = b0 + b1 exp(-b2 * tc)
+    fan = (2 - tan V_i / V_Cl-), corrects for the volume of anions
+    D_i = d1 + exp(-d2 tc)
+    n_i = ((1 + fI)^d3 + ((z_i^2 + z_i) / 2 · m_i)d^3 / (2 + fI), fI is an ionic strength term.
+    For details, consult 
+    Appelo and Parkhurst in prep., for details see subroutine viscosity in transport.cpp
+
+  	-----------------
 	February 28, 2023
   	-----------------
 	PhreeqcRM: 	Revised names for PhreeqcRM test case source and output 
-	files (Tests subdirectory of distribution). Added tests SimpleAdvect_cpp  
-    and SimpleAdvect_f90, which produce the same results as Advect_cpp
-    and Advect_f90, but with a minimal set of PhreeqcRM method calls. 	
+	files (Tests subdirectory of distribution). Added tests SimpleAdvect_cpp,  
+    SimpleAdvect_c and SimpleAdvect_f90. All transport results are the same for
+	Advect_cpp, Advect_c, and Advect_f90, SimpleAdvect_cpp,  
+    SimpleAdvect_c and SimpleAdvect_f90; however, the SimpleAdvect cases use
+    a minimal set of method calls, whereas the other cases demonstrate most
+    of the features of PhreeqcRM. 	
 
   	-----------------
 	February 26, 2023
@@ -36,14 +59,19 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
 	February 26, 2023
   	-----------------
-	PhreeqcRM: Added a rudimentary BMI (Basic Model Interface) for C++. 
-	The interface adds minimal capabilities to the other methods of 
-	PhreeqcRM. The only new capabilities are (1) the capability to
+	PhreeqcRM: Added a BMI (Basic Model Interface) for C++. 
+	The interface is a repackaging of the available methods of 
+	PhreeqcRM. All PhreeqcRM methods are available, in addition
+	to the BMI methods.
+	
+	New capabilities include (1) the capability to
 	retrieve units for the variables for BMI_GetValues and BMI_SetValues,
-	and (2) the capability to use YAML (YAML ain't Markup Language)
+	(2) the capability to use YAML (YAML ain't Markup Language)
 	to initialize a PhreeqcRM instance with the method BMI_Initialize
-	(which is equivalent to the method InitializeYAML).	The YAML 
-	capability would be especially useful if a GUI (Graphical User Interface)
+	(which is equivalent to the method InitializeYAML), and (3) the availability
+	of pointers that always point to current variable values. 
+	
+	The YAML capability would be especially useful if a GUI (Graphical User Interface)
 	is used to set up model initial conditions. The GUI could write a YAML file
 	that contains directives for PhreeqcRM methods that need to be run and 
 	the corresonding data needed to initialize a PhreeqcRM instance--for example, 
@@ -54,7 +82,8 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	the YAML file with BMI_Initialize to execute the specified PhreeqcRM methods 
 	to apply the data specified in the YAML file. 
 	
-	The following is represents complete sequential, noniterative transport calculation:
+	The following is represents the way BMI methods would be used to implement
+	a sequential, noniterative transport calculation:
 	
 	    PhreeqcRM phreeqc_rm(nxyz, nthreads);
         phreeqc_rm.BMI_Initialize("myfile.yaml");
@@ -75,7 +104,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
             phreeqc_rm.BMI_GetValue("Concentrations", c.data());
         }
 		
-	The complete set of BMI methods is as follows:
+	The set of BMI methods is as follows:
 	
 	std::string BMI_GetComponentName()
 		Returns "PhreeqcRM".
@@ -109,7 +138,11 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 		Returns "seconds".
 		
 	void BMI_GetValue(std::string name, void* dest)
-		Returns a value or vector of values for the variable identified by name.
+		Returns a value or vector of values for the variable identified by name
+		
+	void BMI_GetValuePtr(std::string name, void* dest)
+		Returns a pointer to current values of a variable. This method
+		is available for selected variables.
 		
 	int BMI_GetVarItemsize(std::string name)
 		Returns the number of bytes needed for one element of the variable
