@@ -25,7 +25,7 @@
  * The types for realtype and integertype below have been set to          *
  * double and long int, respectively. A user should modify these          *
  * type declarations as he/she sees fit. For example, if a user           *
- * wants the work with type float because double precision                *
+ * wants the work with type float because real(kind=8)                *
  * floating point arithmetic is too expensive on the user's               *
  * machine, then the definition below should be changed to:               *
  *                                                                        *

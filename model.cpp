@@ -2543,7 +2543,6 @@ int Phreeqc::
 calc_gas_pressures(void)
 /* ---------------------------------------------------------------------- */
 {
-	int n_g = 0;
 	LDBLE lp, V_m = 0;
 	class rxn_token *rxn_ptr;
 	std::vector<class phase *> phase_ptrs;
@@ -2576,7 +2575,6 @@ calc_gas_pressures(void)
 			phase_ptrs.push_back(phase_ptr);
 			if (!PR && phase_ptr->t_c > 0 && phase_ptr->p_c > 0)
 				PR = true;
-			n_g++;
 		}
 		if (iterations > 2 && gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
 		{
@@ -3778,7 +3776,6 @@ residuals(void)
 	int converge;
 
 	LDBLE l_toler;
-	LDBLE sum_residual;
 	LDBLE sinh_constant;
 	LDBLE sum, sum1;
 	class master *master_ptr, *master_ptr1, *master_ptr2;
@@ -3786,7 +3783,6 @@ residuals(void)
 	int print_fail;
 	std::vector<LDBLE> cd_psi;
 	print_fail = FALSE;
-	sum_residual = 0.0;
 	sigmaddl = 0;
 	sum = 0;
 /*
@@ -4530,7 +4526,6 @@ residuals(void)
  *   Store residuals in array
  */
 		my_array[((size_t)i + 1) * (count_unknowns + 1) - 1] = residual[i];
-		sum_residual += fabs(residual[i]);
 	}
 /*
  *   Return
