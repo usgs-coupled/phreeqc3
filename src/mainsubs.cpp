@@ -540,6 +540,8 @@ initial_exchangers(int print)
 			viscosity();
 			species_list_sort();
 			print_exchange();
+			if (pr.user_print)
+				print_user_print();
 			xexchange_save(n_user);
 			punch_all();
 			/* free_model_allocs(); */
@@ -671,7 +673,9 @@ initial_gas_phases(int print)
 			}
 
 			print_gas_phase();
- 			if (PR /*&& use.Get_gas_phase_ptr()->total_p > 1.0*/)
+			if (pr.user_print)
+				print_user_print();
+			if (PR /*&& use.Get_gas_phase_ptr()->total_p > 1.0*/)
  				warning_msg("While initializing gas phase composition by equilibrating:\n"
 				"         Found definitions of gas` critical temperature and pressure.\n"
 				"         Going to use Peng-Robinson in subsequent calculations.\n");
@@ -745,7 +749,8 @@ initial_surfaces(int print)
 			set_and_run_wrapper(-1, FALSE, FALSE, -1, 0.0);
 			species_list_sort();
 			print_surface();
-			/*print_all(); */
+			if (pr.user_print)
+				print_user_print();
 			punch_all();
 			xsurface_save(n_user);
 			/* free_model_allocs(); */
@@ -1257,6 +1262,7 @@ xsolution_save(int n_user)
 	temp_solution.Set_ah2o(ah2o_x);
 	//temp_solution.Set_density(density_x);
 	temp_solution.Set_density(calc_dens());
+	temp_solution.Set_viscosity(this->viscos);
 	temp_solution.Set_total_h(total_h_x);
 	temp_solution.Set_total_o(total_o_x);
 	temp_solution.Set_cb(cb_x);	/* cb_x does not include surface charge sfter sum_species */

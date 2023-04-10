@@ -1141,6 +1141,7 @@ copy_token_tab(std::string& token, const char **cptr)
  *      EOL,
  *      UNKNOWN.
  */
+	//int i, return_value;
 	int return_value;
 	char c;
 /*
@@ -1180,6 +1181,7 @@ copy_token_tab(std::string& token, const char **cptr)
 /*
  *   Begin copying to token
  */
+	//i = 0;
 	for (;;)
 	{
 		c = **cptr;
@@ -1196,6 +1198,7 @@ copy_token_tab(std::string& token, const char **cptr)
 		{
 			token.push_back(c);
 			(*cptr)++;
+			//i++;
 		}
 	}
 	return (return_value);

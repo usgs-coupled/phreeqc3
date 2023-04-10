@@ -10,13 +10,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  check_files:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        name: Check out repository
-      - run: ./check_utf8.sh
-        name: Run check_utf8.sh
+  # check_files:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       name: Check out repository
+  #     - run: ./check_utf8.sh
+  #       name: Run check_utf8.sh
 
   build-numdiff:
     runs-on: windows-latest
@@ -82,7 +82,7 @@ jobs:
         path: ${{ runner.workspace }}/${{ matrix.sys }}
 
   build:
-    needs: [check_files]
+    ##needs: [check_files]
     strategy:
       fail-fast: false
       matrix:

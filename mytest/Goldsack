@@ -1,0 +1,83 @@
+DATABASE ../database/Amm.dat
+SELECTED_OUTPUT 101
+    -file                 Goldsack_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+#PRINT; -reset false
+
+SOLUTION_SPREAD
+-units mol/kgw
+number	Na	K	Amm	Cl	Br	S(6)	pH
+1 	0.5	0.5		1			7 charge
+2 	1.0	1.0		2			7 charge
+3 	1.5	1.5		3			7 charge
+4 	2.0	2.0		4			7 charge
+5 	2.5	2.5		5			7 charge
+6 	0.5	2.5		3			7 charge
+7 	0.5	0.5		0.5	0.5		7 charge
+8 	1.0	1.0		1.0	1.0		7 charge
+9 	1.5	1.5		1.5	1.5		7 charge
+10	2.0	2.0		2.0	2.0		7 charge
+11	2.5	0.5		2.5	0.5		7 charge
+12	0.5	2.5		0.5	2.5		7 charge
+13	1  		1			1	7 charge
+14	1		2			1.5	7 charge
+15	1.5		3			2.25	7 charge
+16	2.0		4			3	7 charge
+17	1		5			3	7 charge
+18	1		4			2.5 	7 charge
+19		1	1			1	7 charge
+20		1.5	1.5			1.5	7 charge
+21		2	2			2	7 charge
+22		1	1.5			1.25	7 charge
+23		1.5	1			1.25	7 charge
+24		1	2			1.5	7 charge
+25	0.5	0.50	1	0.5	0.50	0.5	7 charge
+26	1.0	1.00	2	1.0	1.00	1.0	7 charge
+27	1.5	1.50	3	1.5	1.50	1.5	7 charge
+28	1.0	0.75	1	1.0	0.75	0.5	7 charge
+29	0.5	1.00	1	0.5	1.00	0.5	7 charge
+30	0.5	1.00	3	0.5	1.00	1.5	7 charge
+USER_GRAPH 1
+-headings NaKCl KBr-NaCl (NH4-Na)2SO4 (NH4)2SO4-KCl (NH4)2SO4-NaCl-KBr
+-axis_titles "viscosity / (mPa·s)" calculated
+-axis_scale x_axis 0.8 2.2
+-axis_scale y_axis 0.8 2.2
+-initial_solutions true
+# viscosities
+10 DATA 0.9268, 0.9795, 1.0472, 1.1289, 1.2001, 0.9849, 0.9146, 0.9510, 1.0070, 1.0924, 1.1394, 0.9039, 1.2204, 1.3293, 1.6333, 2.0111, 1.7838, 1.6206, 0.9841, 1.0339, 1.0808, 1.0344, 0.9817, 1.0874,  1.0242, 1.1821, 1.3851, 1.0708, 1.0134, 1.2479
+20 erase vs : dim vs(50) : restore 10 : for i = 1 to cell_no : read vs(i) : next i
+30 if cell_no < 7                    then plot_xy vs(cell_no ), viscos , line_width = 0 else plot_xy vs(0), vs(0)
+31 if cell_no >= 7 and cell_no < 13  then plot_xy vs(cell_no ), viscos , line_width = 0, color = Green else plot_xy vs(0), vs(0) 
+32 if cell_no >= 13 and cell_no < 19 then plot_xy vs(cell_no ), viscos , line_width = 0, color = Blue else plot_xy vs(0), vs(0) 
+33 if cell_no >= 19 and cell_no < 25 then plot_xy vs(cell_no ), viscos , line_width = 0, color = Orange else plot_xy vs(0), vs(0) 
+34 if cell_no >= 25 and cell_no < 31 then plot_xy vs(cell_no ), viscos , line_width = 0, color = Aqua else plot_xy vs(0), vs(0) 
+36 print cell_no , 'SI_Arcanite ', SI("Arcanite")
+40 if cell_no > 2 then end 
+50 if cell_no = 1 then xy = 0.89 else xy = 2.02
+60 plot_xy xy, xy, symbol = None, color = Black 
+-end 
+USER_GRAPH 2
+-headings NaKCl KBr-NaCl (NH4-Na)2SO4 (NH4)2SO4-KCl (NH4)2SO4-NaCl-KBr
+-axis_titles "density / (kg/L)" calculated
+-axis_scale x_axis 1.0 1.25
+-axis_scale y_axis 1.0 1.25
+-initial_solutions true
+# densities
+10 DATA 1.0419, 1.0774, 1.1125, 1.1450, 1.1761, 1.1177, 1.0574, 1.1125, 1.1637, 1.2113, 1.1255, 1.1902, 1.0885, 1.1157, 1.1594, 1.2046, 1.1821, 1.1624, 1.0537, 1.0783, 1.1010, 1.0692, 1.0636, 1.0829,  1.0753, 1.1385, 1.1943, 1.1018, 1.0976, 1.1489
+20 erase vs : dim vs(50) : restore 10 : for i = 1 to cell_no : read vs(i) : next i
+30 if cell_no < 7                    then plot_xy vs(cell_no ), rho , line_width = 0 else plot_xy vs(0), vs(0)
+31 if cell_no >= 7 and cell_no < 13  then plot_xy vs(cell_no ), rho , line_width = 0, color = Green else plot_xy vs(0), vs(0) 
+32 if cell_no >= 13 and cell_no < 19 then plot_xy vs(cell_no ), rho , line_width = 0, color = Blue else plot_xy vs(0), vs(0) 
+33 if cell_no >= 19 and cell_no < 25 then plot_xy vs(cell_no ), rho , line_width = 0, color = Orange else plot_xy vs(0), vs(0) 
+34 if cell_no >= 25 and cell_no < 31 then plot_xy vs(cell_no ), rho , line_width = 0, color = Aqua else plot_xy vs(0), vs(0) 
+# 32 print cell_no , -la("H+")
+# 36 plot_xy vs(cell_no ), -la("H+"), y_axis = 2 
+40 if cell_no > 2 then end 
+50 if cell_no = 1 then xy = 1.03 else xy = 1.22
+60 plot_xy xy, xy, symbol = None, color = Black 

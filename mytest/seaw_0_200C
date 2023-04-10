@@ -1,0 +1,46 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                seaw_0_200C_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+SOLUTION 1
+ pH 8.22
+ Na 485; K 10.6;         Mg 55.1;  Ca 10.7
+ Cl 566; Alkalinity 2.4; S(6) 29.3
+REACTION_TEMPERATURE 1
+0 200 in 11
+USER_GRAPH 1
+-chart_title "Density and viscosity of seawater"
+-axis_titles "temperature / °C" "density / (kg/L)" "viscosity / (mPa s)"
+-headings rho viscosity
+-axis_scale x_axis 0 200
+# -axis_scale y_axis 0.98 1.03
+# -axis_scale sy_axis 0.55 2.1 0.3
+-connect_simulations false
+10 plot_xy tc, rho
+20 plot_xy tc, viscos, y_axis = 2 
+END
+
+SOLUTION 1
+ pH 8.22
+ Na 485; K 10.6;         Mg 55.1;  Ca 10.7
+ Cl 566; Alkalinity 2.4; S(6) 29.3
+REACTION 1
+H2O -1 ; 50 in 11
+USER_GRAPH 1; -detach
+USER_GRAPH 2
+-chart_title "Density and viscosity of evaporating seawater at 25 °C"
+-axis_titles "% evaporated" "density / (kg/L)" "viscosity / (mPa s)"
+-headings rho viscosity
+-axis_scale x_axis 0 100
+# -axis_scale y_axis 0.98 1.03
+# -axis_scale sy_axis 0.55 2.1 0.3
+-connect_simulations true
+-initial_solutions true
+10 plot_xy (1 - tot("water")) * 100, rho
+20 plot_xy (1 - tot("water")) * 100, viscos, y_axis = 2 

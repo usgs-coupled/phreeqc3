@@ -6283,7 +6283,7 @@ read_surface(void)
 	 *   ERROR   if error occurred reading data
 	 *
 	 */
-	int n_user;
+	int n_user, i1;
 	LDBLE conc;
 	const char* cptr, *cptr1;
 	std::string token, token1, name;
@@ -6306,9 +6306,10 @@ read_surface(void)
 		"ccm",                  /* 13 */
         "equilibrium",          /* 14 */
 		"site_units",           /* 15 */
-		"ddl"                   /* 16 */
+		"ddl",                  /* 16 */
+		"donnan_factors"        /* 17 */
 	};
-	int count_opt_list = 17;
+	int count_opt_list = 18;
 	/*
 	 * kin_surf is for Surfaces, related to kinetically reacting minerals
 	 *    they are defined if "sites" is followed by mineral name:
@@ -6413,7 +6414,7 @@ read_surface(void)
 							if (thickness != 0)
 							{
 								error_msg
-									("You must enter EITHER thickness OR Debye lengths (1/k),\n	   and relative DDL viscosity, DDL limit.\nCorrect is (for example): -donnan 1e-8 viscosity 0.5\n or (default values):     -donnan debye_lengths 1 viscosity 1 limit 0.8",
+									("You must enter EITHER thickness OR Debye lengths (1/k),\n	   and relative DDL viscosity, DDL limit.\nCorrect is (for example): -donnan 1e-8 viscosity 0.5 limit 0.9 correct_GC true\n or (default values):     -donnan debye_lengths 1 viscosity 1 limit 0.8 correct_GC false",
 									CONTINUE);
 								error_msg(line_save, CONTINUE);
 								input_error++;
@@ -6430,6 +6431,23 @@ read_surface(void)
 							{
 								error_msg
 									("Expected number of Debye lengths (1/k).",
+									CONTINUE);
+								error_msg(line_save, CONTINUE);
+								input_error++;
+								break;
+							}
+						}
+						else if (token[0] == 'C' || token[0] == 'c')
+						{
+							copy_token(token1, &next_char);
+							if (token1[0] == 'T' || token1[0] == 't' || token1[0] == 'F' || token1[0] == 'f')
+							{
+								temp_surface.Set_correct_GC(get_true_false(token1.c_str(), TRUE) == TRUE);
+								continue;
+							} else
+							{
+								error_msg
+									("Expected True or False for correct_GC (which brings co-ion concentrations closer to their integrated double layer value).",
 									CONTINUE);
 								error_msg(line_save, CONTINUE);
 								input_error++;
@@ -6569,6 +6587,31 @@ read_surface(void)
 			break;
 		case 16:				/* ddl */
 			temp_surface.Set_type(cxxSurface::DDL);
+			break;
+		case 17:			/* Donnan_factors */
+			temp_surface.Donnan_factors.clear();
+			i1 = 0;
+			for (;;)
+			{
+				int i = copy_token(token, &next_char);
+				if (i == DIGIT && i1 < 8)
+				{
+					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
+					temp_surface.Donnan_factors.push_back(dummy);
+					i1++;
+					continue;
+				}
+				else if (i != EMPTY || i1 > 8)
+				{
+					error_msg
+					("Expected at most 8 numbers for the Donnan_factors for co- and counter-ions,\n 	z *= cgc[0] * (mu_x**(cgc[1] * nDbl**cgc[2] * (abs(surf_chrg_eq / A_surf / 1e-6)**cgc[3] * mu_x**(cgc[4])",
+						CONTINUE);
+					error_msg(line_save, CONTINUE);
+					input_error++;
+					break;
+				}
+				break;
+			}
 			break;
 		case OPTION_DEFAULT:
 			/*
