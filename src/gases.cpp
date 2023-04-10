@@ -624,7 +624,6 @@ int Phreeqc::
 calc_fixed_volume_gas_pressures(void)
 /* ---------------------------------------------------------------------- */
 {
-	int n_g = 0;
 	LDBLE lp;
 	class rxn_token *rxn_ptr;
 	class phase *phase_ptr;
@@ -645,7 +644,6 @@ calc_fixed_volume_gas_pressures(void)
 		{
 			if (!PR && phase_ptr->t_c > 0 && phase_ptr->p_c > 0)
 				PR = true;
-			n_g++;
 		}
 		gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gas_unknowns[i]->moles);
 	}

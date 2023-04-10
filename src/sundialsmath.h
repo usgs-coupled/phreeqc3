@@ -13,10 +13,10 @@
  * listed here work with the type realtype as defined in                  *
  * sundialstypes.h.                                                       *
  * To do single precision floating point arithmetic, set the type         *
- * realtype to be float. To do double precision arithmetic, set           *
+ * realtype to be float. To do real(kind=8) arithmetic, set           *
  * the type realtype to be double. The default implementations            *
  * for RPowerR and RSqrt call standard math library functions             *
- * which do double precision arithmetic. If this is unacceptable          *
+ * which do real(kind=8) arithmetic. If this is unacceptable          *
  * when realtype is float, then the user should re-implement              *
  * these two routines by calling single precision routines                *
  * available on his/her machine.                                          *
