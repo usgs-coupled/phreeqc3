@@ -3589,7 +3589,7 @@ check_isotopes(class inverse *inv_ptr)
 			//if (j < inv_ptr->i_u[i].uncertainties.size()
 			//	&& inv_ptr->i_u[i].uncertainties[j] != NAN)
 			if (j < inv_ptr->i_u[i].uncertainties.size()
-				&& !isnan(inv_ptr->i_u[i].uncertainties[j]))
+				&& !std::isnan(inv_ptr->i_u[i].uncertainties[j]))
 #endif
 			{
 				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[j]);
@@ -3603,7 +3603,7 @@ check_isotopes(class inverse *inv_ptr)
 			//else if (inv_ptr->i_u[i].uncertainties.size() > 0
 			//	&& inv_ptr->i_u[i].uncertainties[(size_t)inv_ptr->i_u[i].uncertainties.size() - 1] != NAN)
 			else if (inv_ptr->i_u[i].uncertainties.size() > 0
-				&& !isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
+				&& !std::isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
 #endif
 			{
 				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]);
@@ -3614,7 +3614,7 @@ check_isotopes(class inverse *inv_ptr)
 			else if (!isnan(kit->second.Get_ratio_uncertainty()))
 #else
 			//else if (kit->second.Get_ratio_uncertainty() != NAN)
-			else if (!isnan(kit->second.Get_ratio_uncertainty()))
+			else if (!std::isnan(kit->second.Get_ratio_uncertainty()))
 #endif
 			{
 				kit->second.Set_x_ratio_uncertainty(
@@ -3647,7 +3647,7 @@ check_isotopes(class inverse *inv_ptr)
 			if (isnan(kit->second.Get_x_ratio_uncertainty()))
 #else
 			//if (kit->second.Get_x_ratio_uncertainty() == NAN)
-			if (isnan(kit->second.Get_x_ratio_uncertainty()))
+			if (std::isnan(kit->second.Get_x_ratio_uncertainty()))
 #endif
 			{
 				error_string = sformatf(

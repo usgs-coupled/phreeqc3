@@ -1603,7 +1603,7 @@ get_calculate_value(const char *name)
 	if (isnan(rate_moles))
 #else
 	//if (rate_moles == NAN)
-	if(isnan(rate_moles))
+	if(std::isnan(rate_moles))
 #endif
 	{
 		error_string = sformatf( "Calculated value not SAVEed for %s.",

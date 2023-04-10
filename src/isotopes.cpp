@@ -904,7 +904,7 @@ punch_calculate_values(void)
 			if (isnan(rate_moles))
 #else
 			//if (rate_moles == NAN)
-			if (isnan(rate_moles))
+			if (std::isnan(rate_moles))
 #endif
 			{
 				error_string = sformatf( "Calculated value not SAVEed for %s.",
@@ -1138,7 +1138,7 @@ calculate_values(void)
 				if (isnan(rate_moles))
 #else
 				//if (rate_moles == NAN)
-				if (isnan(rate_moles))
+				if (std::isnan(rate_moles))
 #endif
 				{
 					error_string = sformatf( "Calculated value not SAVEed for %s.",
@@ -1206,7 +1206,7 @@ calculate_values(void)
 				if (isnan(rate_moles))
 #else
 				//if (rate_moles == NAN)
-				if (isnan(rate_moles))
+				if (std::isnan(rate_moles))
 #endif
 				{
 					error_string = sformatf( "Calculated value not SAVEed for %s.",

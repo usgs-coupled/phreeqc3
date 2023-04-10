@@ -71,7 +71,7 @@ cxxSolutionIsotope::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	if (!isnan(this->ratio_uncertainty))
 #else
 	//if (this->ratio_uncertainty != NAN)
-	if (!isnan(this->ratio_uncertainty))
+	if (!std::isnan(this->ratio_uncertainty))
 #endif
 	{
 		s_oss << indent1;

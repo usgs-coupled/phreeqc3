@@ -1851,7 +1851,7 @@ isfinite handling
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)
 #elif defined(HAVE_ISNAN)
-#  define PHR_ISFINITE(x) ( ((x) == 0.0) || ((!isnan(x)) && ((x) != (2.0 * (x)))) )
+#  define PHR_ISFINITE(x) ( ((x) == 0.0) || ((!std::isnan(x)) && ((x) != (2.0 * (x)))) )
 #else
 #  define PHR_ISFINITE(x) ( ((x) == 0.0) || (((x) == (x)) && ((x) != (2.0 * (x)))) )
 #endif
