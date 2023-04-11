@@ -3582,40 +3582,21 @@ check_isotopes(class inverse *inv_ptr)
 
 			i = ii;
 			/* use inverse-defined uncertainties first */
-#ifdef NPP
-			if (j < inv_ptr->i_u[i].uncertainties.size()
-				&& !isnan(inv_ptr->i_u[i].uncertainties[j]))
-#else
-			//if (j < inv_ptr->i_u[i].uncertainties.size()
-			//	&& inv_ptr->i_u[i].uncertainties[j] != NAN)
 			if (j < inv_ptr->i_u[i].uncertainties.size()
 				&& !std::isnan(inv_ptr->i_u[i].uncertainties[j]))
-#endif
 			{
 				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[j]);
 
 				/* use solution-defined uncertainties second */
 			}
-#ifdef NPP
-			else if (inv_ptr->i_u[i].uncertainties.size() > 0
-				&& !isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
-#else
-			//else if (inv_ptr->i_u[i].uncertainties.size() > 0
-			//	&& inv_ptr->i_u[i].uncertainties[(size_t)inv_ptr->i_u[i].uncertainties.size() - 1] != NAN)
 			else if (inv_ptr->i_u[i].uncertainties.size() > 0
 				&& !std::isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
-#endif
 			{
 				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]);
 
 				/* use solution-defined uncertainties second */
 			}
-#ifdef NPP
-			else if (!isnan(kit->second.Get_ratio_uncertainty()))
-#else
-			//else if (kit->second.Get_ratio_uncertainty() != NAN)
 			else if (!std::isnan(kit->second.Get_ratio_uncertainty()))
-#endif
 			{
 				kit->second.Set_x_ratio_uncertainty(
 					kit->second.Get_ratio_uncertainty());
@@ -3643,12 +3624,7 @@ check_isotopes(class inverse *inv_ptr)
 					}
 				}
 			}
-#ifdef NPP
-			if (isnan(kit->second.Get_x_ratio_uncertainty()))
-#else
-			//if (kit->second.Get_x_ratio_uncertainty() == NAN)
 			if (std::isnan(kit->second.Get_x_ratio_uncertainty()))
-#endif
 			{
 				error_string = sformatf(
 						"In solution %d, isotope ratio uncertainty is needed for element: %g%s.",

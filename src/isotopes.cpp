@@ -900,12 +900,7 @@ punch_calculate_values(void)
 					calculate_value_ptr->name);
 				error_msg(error_string, STOP);
 			}
-#ifdef NPP
-			if (isnan(rate_moles))
-#else
-			//if (rate_moles == NAN)
 			if (std::isnan(rate_moles))
-#endif
 			{
 				error_string = sformatf( "Calculated value not SAVEed for %s.",
 					calculate_value_ptr->name);
@@ -1134,12 +1129,7 @@ calculate_values(void)
 						calculate_value_ptr->name);
 					error_msg(error_string, STOP);
 				}
-#ifdef NPP
-				if (isnan(rate_moles))
-#else
-				//if (rate_moles == NAN)
 				if (std::isnan(rate_moles))
-#endif
 				{
 					error_string = sformatf( "Calculated value not SAVEed for %s.",
 						calculate_value_ptr->name);
@@ -1202,12 +1192,7 @@ calculate_values(void)
 						calculate_value_ptr->name);
 					error_msg(error_string, STOP);
 				}
-#ifdef NPP
-				if (isnan(rate_moles))
-#else
-				//if (rate_moles == NAN)
 				if (std::isnan(rate_moles))
-#endif
 				{
 					error_string = sformatf( "Calculated value not SAVEed for %s.",
 						calculate_value_ptr->name);
