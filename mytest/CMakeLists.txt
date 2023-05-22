@@ -185,6 +185,7 @@ set(TESTS
   harm_mean
   Hebach
   high_mu
+  HighTPwaterGas
   HNaK_Cl
   homo
   i2
