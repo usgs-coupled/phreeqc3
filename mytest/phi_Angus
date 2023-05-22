@@ -21,10 +21,10 @@ USER_PUNCH
  30 next i
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
 PRINT; -reset false; -echo_input true
 USER_GRAPH
- -chart_title "Compare phi's from Angus and Peng-Robinson"
+ -chart_title "Compare phi's from Angus and Peng-Robinson, 27 - 97 °C"
  -plot_csv_file angus.dat
  -initial_solutions true
  -axis_titles "Pressure / bar" "CO2 fugacity coefficient"
@@ -38,7 +38,7 @@ END
 
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file phi_Angus_56.sel
+SELECTED_OUTPUT; -active true; file phi_Angus_56.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 621 step 20
@@ -47,17 +47,17 @@ USER_PUNCH
  30 next i
  -end
 USER_GRAPH
-  -active false
+  -active false; -connect_simulations false
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
 USER_GRAPH
- -active true
+ -active true; -connect_simulations true
 INCLUDE$ phi_Angus_56.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file phi_Angus_76.sel
+SELECTED_OUTPUT; -active true; file phi_Angus_76.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 621 step 20
@@ -66,17 +66,17 @@ USER_PUNCH
  30 next i
  -end
 USER_GRAPH
-  -active false
+  -active false; -connect_simulations false
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
 USER_GRAPH
-  -active true
+  -active true; -connect_simulations true
 INCLUDE$ phi_Angus_76.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file phi_Angus_96.sel
+SELECTED_OUTPUT; -active true; file phi_Angus_96.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 621 step 20
@@ -85,11 +85,11 @@ USER_PUNCH
  30 next i
  -end
 USER_GRAPH
-  -active false
+  -active false; -connect_simulations false
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
 USER_GRAPH
-  -active true
+  -active true; -connect_simulations true
 INCLUDE$ phi_Angus_96.sel
 END

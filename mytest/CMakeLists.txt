@@ -38,6 +38,8 @@ set(TESTS
   CalPortDiff
   Carnallite
   cc_1barCO2
+  cc_Ellis
+  cc_Malin
   cc_P
   cc_P0
   cc_P2
@@ -138,6 +140,7 @@ set(TESTS
   ExchangeGamma
   ExchMixRelatedKin
   ExchMixRelatedMin
+  f_viscos
   Fe+2
   feb
   febmp

@@ -1,0 +1,31 @@
+# DATABASE c:\phreeqc\database\pitzer.dat
+# DATABASE c:\phreeqc\database\phreeqc_old.dat
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 cc_Malin_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT; -reset false; -warnings 0
+SOLUTION 1
+pH 7 charge
+Na 3e3; Cl 3e3
+-temp 200
+-pressure 580
+EQUILIBRIUM_PHASES 1
+Calcite
+REACTION
+CO2 1; 0 10*0.07
+INCREMENTAL_REACTIONS true
+USER_GRAPH 1
+-chart_title "calcite solubility at 200ºC, 580 atm in 3 M NaCl"
+-axis_titles "CO2 / (mol/kgw)" "Ca / (mmol/kgw)" "CO2 pressure / atm"
+-plot_tsv_file cc_Malin.dat
+10 graph_x mol("CO2")
+20 graph_y tot("Ca") * 1e3
+# 30 graph_sy sr("CO2(g)")
+# 30 graph_sy gamma("HCO3-")
+END

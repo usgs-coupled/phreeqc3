@@ -110,7 +110,7 @@ Mtg = Mtg # CH4
 	-dw   1.85e-9
 	-Vm   9.01  -1.11  0  -1.85  -1.50 # Hnedkovsky et al., 1996, JCT 28, 125
 Ntg = Ntg # N2
-	-dw	 1.96e-9
+	-dw   1.96e-9  -90 # Cadogan et al. 2014, JCED 59, 519
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
 H2Sg = H2Sg # H2S
 	-dw	 2.1e-9
@@ -132,7 +132,7 @@ CO3-2 + 2 H+ = CO2 + H2O
 	log_k	   16.6767
 	delta_h	 -5.738  kcal
 	-analytic    464.1965    0.09344813  -26986.16	-165.75951   2248628.9
-	-dw	 1.92e-9
+	-dw	 1.92e-9  -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
 	-Vm   7.29  0.92  2.07  -1.23  -1.60 # McBride et al. 2015, JCED 60, 171
 SO4-2 + H+ = HSO4-
 	log_k	   1.979
@@ -148,6 +148,7 @@ H2Sg = HSg- + H+
 	-Vm 5.0119   4.9799   3.4765   -2.9849 1.4410 # supcrt
 2H2Sg = (H2Sg)2 # activity correction for H2S solubility at high P, T
         -analytical   10.227  -0.01384  -2200
+	-dw	 2.1e-9
 	-Vm   36.41  -71.95  0  0  2.58
 B(OH)3 + H2O = B(OH)4- + H+
 	log_k	   -9.239

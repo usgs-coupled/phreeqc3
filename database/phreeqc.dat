@@ -126,9 +126,9 @@ Cl- = Cl-
 	-viscosity   0  0  0  0  0  0  1 # the reference solute
 CO3-2 = CO3-2
 	-gamma	5.4	0
-        -dw	0.955e-9  27.4  13.7  94.1
-	-Vm  8.61  -10.26  -19.54  -0.150  4.63  0  3.32  0  -3.56e-2  0.770
-	-viscosity  0  0.289  3.70e-2  5e-5  -3.03e-2  2.013  -2.04
+        -dw	0.955e-9  28.9  14.3  98.1
+	-Vm  8.69  -10.2  -20.31  -0.131  4.65  0  3.75  0  -4.04e-2  0.678
+	-viscosity  0  0.301  4.12e-2  1.44e-3  1.41e-2  1.364  -2.00
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
 	-dw	1.07e-9  187  2.64  22.6
@@ -143,7 +143,7 @@ NO3- = NO3-
 #	-gamma	2.5	0
 #	-dw	1.98e-9  312  0.95  4.53
 #	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
-#	-viscosity  7.25e-2  -0.142  1.97e-2  8.44e-3  3.92e-2  0.945
+#	-viscosity  9.9e-2  -0.159  1.36e-2  6.51e-3  3.21e-2  0.972
 H3BO3 = H3BO3
 	-dw	1.1e-9
 	-Vm 7.0643  8.8547  3.5844  -3.1451 -.2000  # supcrt
@@ -190,7 +190,7 @@ Mtg = Mtg # CH4
 	-dw   1.85e-9
 	-Vm   9.01  -1.11  0  -1.85  -1.50 # Hnedkovsky et al., 1996, JCT 28, 125
 Ntg = Ntg # N2
-	-dw	 1.96e-9
+	-dw	 1.96e-9  -90 # Cadogan et al. 2014, JCED 59, 519
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
 H2Sg = H2Sg # H2S
 	-dw	 2.1e-9
@@ -222,18 +222,20 @@ CO3-2 + H+ = HCO3-
 	-delta_h -3.561	kcal
 	-analytic  107.8871  0.03252849  -5151.79  -38.92561  563713.9
 	-gamma	5.4      0
-	-dw	1.18e-9  -163  0.808  -3.18
-	-Vm  9.14  -1.64  -12.00  0  1.63  0  0  132  0  0.667
-	-viscosity  0  0.670  1.03e-2  0  0  0  1.082
+	-dw	1.18e-9  -182  0.351  -4.94
+	-Vm  9.03  -7.03e-2  -13.38  0  2.05  0  0  128  0  0.8242
+	-viscosity  0  0.117  -2.91e-2  0  0  0  0.896
 CO3-2 + 2 H+ = CO2 + H2O
 	-log_k	16.681
 	-delta_h -5.738	kcal
 	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
-	-dw	 1.92e-9
+	-dw	 1.92e-9  -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
 	-Vm   7.29  0.92  2.07  -1.23  -1.60 # McBride et al. 2015, JCED 60, 171
+	-gamma 0 0.066 # Rumpf et al. 1994, J. Sol. Chem. 23, 431
 2CO2 = (CO2)2 # activity correction for CO2 solubility at high P, T
 	-log_k -1.8
 	-analytical_expression  8.68  -0.0103  -2190
+	-dw	 1.92e-9  -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
 	-Vm   14.58  1.84  4.14  -2.46  -3.20
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	-log_k	41.071
@@ -265,6 +267,7 @@ HS- + H+ = H2S
         -Vm  1.39  28.3  0  -7.22  -0.59 # Hnedkovsky et al., 1996, JCT 28, 125
 2H2S = (H2S)2 # activity correction for H2S solubility at high P, T
 	-analytical_expression   10.227  -0.01384  -2200
+	-dw	 2.1e-9
 	-Vm   36.41  -71.95  0  0  2.58
 H2Sg = HSg- + H+
 	-log_k	-6.994
@@ -275,6 +278,7 @@ H2Sg = HSg- + H+
 	-Vm  5.0119  4.9799  3.4765  -2.9849  1.4410 # supcrt
 2H2Sg = (H2Sg)2 # activity correction for H2S solubility at high P, T
 	-analytical_expression   10.227  -0.01384  -2200
+	-dw	 2.1e-9
 	-Vm   36.41  -71.95  0  0  2.58
 NO3- + 2 H+ + 2 e- = NO2- + H2O
 	-log_k	28.570
@@ -285,7 +289,7 @@ NO3- + 2 H+ + 2 e- = NO2- + H2O
 2 NO3- + 12 H+ + 10 e- = N2 + 6 H2O
 	-log_k	207.08
 	-delta_h -312.130	kcal
-	-dw	 1.96e-9
+	-dw	 1.96e-9  -90 # Cadogan et al. 2014, JCED 59, 519	
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
 #AmmH+ = Amm + H+
 NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
@@ -294,7 +298,7 @@ NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
 	-gamma	2.5	0
 	-dw	1.98e-9  312  0.95  4.53
 	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
-	-viscosity  7.25e-2  -0.142  1.97e-2  8.44e-3  3.92e-2  0.945
+	-viscosity  9.9e-2  -0.159  1.36e-2  6.51e-3  3.21e-2  0.972
 
 NH4+ = NH3 + H+
 	-log_k	-9.252
@@ -302,6 +306,7 @@ NH4+ = NH3 + H+
 	-analytic  0.6322  -0.001225  -2835.76
 	-dw	 2.28e-9
 	-Vm   6.69  2.8  3.58  -2.88  1.43
+	-viscosity  0.08  0  0  7.82e-3  -0.134  -0.986
 #NO3- + 10 H+ + 8 e- = AmmH+ + 3 H2O
 #	-log_k	119.077
 #	-delta_h -187.055	kcal
@@ -309,12 +314,11 @@ NH4+ = NH3 + H+
 #	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
 #AmmH+ + SO4-2 = AmmHSO4-
 NH4+ + SO4-2 = NH4SO4-
-        -log_k  1.1
-        -delta_h  -0.47 kcal
-        -gamma  0  0
-        -Vm   13.69  0  -33.54  0  0  0  11.99  0  -0.134  1
-        -dw 7.46e-10
-        -viscosity  -0.109  0.242  1.218e-3  -3.14e-2  8.9e-3  1.631  0.255
+        -log_k  1.11;  -delta_h  13.2 kcal
+        -gamma  5  -0.163
+        -Vm  13.56  0  -31.15  0  0  0  11.20  0  -0.1287  1
+        -dw  1.1e-9  400  1.85  200
+        -viscosity  0.262  0  0  9.49e-2  3.81e-2  0.438  0.507
 H3BO3 = H2BO3- + H+
 	-log_k	-9.24
 	-delta_h 3.224	kcal
@@ -442,18 +446,19 @@ Mg+2 + F- = MgF+
 	-Vm  .6494  -6.1958  8.1852  -2.5229  .9706 4.5 # supcrt
 Na+ + OH- = NaOH
 	-log_k	-10 # remove this complex
-# Na+ + CO3-2 = NaCO3- # the HCO3- and CO3-2 cmplxs are not necessary for the SC
+# Na+ + CO3-2 = NaCO3- # the CO3-2 cmplx is not necessary for the SC
 	# -log_k	1.27
 	# -delta_h 8.91 kcal
 	# -dw  1.2e-9  -400  1e-10  1e-10
 	# -Vm  3.812  0.196  20.0  -9.60  3.02  1e-5  2.65  0  2.54e-2  1
 	# -viscosity  0.104  -1.65  0.169  8.66e-2  2.60e-2  1.76  -0.90
-# Na+ + HCO3- = NaHCO3
-	# -log_k  0.14
-	# -delta_h  -6.71 kcal
-	# -dw 6.73e-10  -400  1e-10  1e-10
-	# -Vm   6.22
-	# -viscosity  -0.026  0  0  -0.182  0  3
+Na+ + HCO3- = NaHCO3
+	-log_k  -0.18; -delta_h  27 kJ
+        -analytical_expression  0.1  -6.111e-3  -1600  2.794 # optimized with data in Appelo, 2015, Appl. Geochem. 55, 62–71.
+        -gamma  0  0.23
+	-dw  6.73e-10  -400  1e-10  1e-10
+	-Vm  9  -6
+	-viscosity  0  0  0  0.1  3e-2
 Na+ + SO4-2 = NaSO4-
         -log_k   0.6; -delta_h -14.4 kJ
         -analytical_expression  -7.99  1.637e-2  0  0  3.29e5 # mirabilite/thenardite solubilities, 0 - 200 oC

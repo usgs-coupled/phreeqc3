@@ -337,6 +337,7 @@ public:
 		toktotmol,
 		toktotmoles,
 		toktrim,
+		tokf_visc,
 		tokviscos,
 		tokviscos_0,
 		tokvm,

@@ -1,6 +1,155 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 
   	-----------------
+	May 22, 2023
+  	-----------------
+	PHREEQC: (See https://hydrochemistry.eu/ph3/release.html for html version of changes.)
+	Added Basic function f_visc("H+") that returns the fractional contribution of a species to 
+	viscosity of the solution when parameters are defined for the species with -viscosity. 
+	Actually, it gives the contribution of the species to the B and D terms in the Jones-Dole 
+	eqution, assuming that the A term is small. The fractional contribution can be negative, for 
+	example f_visc("K+") is usually smaller than zero.
+
+	Bug-fix: When -Vm parameters of SOLUTION_SPECIES were read after -viscosity parameters, the 
+	first viscosity parameter was set to 0.
+
+	Defined -analytical_expression and -gamma for Na2SO4, K2SO4 and MgSO4 and Mg(SO4)22- species in 
+	PHREEQC.dat, fitting the activities from pitzer.dat from 0 - 200 °C, and the solubilities of 
+	mirabilite/thenardite (Na2SO4), arcanite (K2SO4), and epsomite, hexahydrite, kieserite (MgSO4 
+	and new species Mg(SO4)22-). The parameters for calculating the apparent volume (-Vm) and the 
+	diffusion coefficients (-Dw) of the species were adapted using measured data of density and 
+	conductance (SC).
+
+	Removed the NaCO3- species in PHREEQC.dat since they are not necessary for the calculation of 
+	the specific conductance (SC) and their origin is unknown. Defined parameters in the 
+	-analytical_expression, -gamma, -dw, -Vm and -viscosity for the NaHCO3 species in PHREEQC.dat, 
+	using the data in Appelo, 2015, Appl. Geochem. 55, 62-71. (These data were used for defining 
+	interaction parameters in pitzer.dat.) The parameters for the apparent volume (-Vm), the 
+	diffusion coefficient (-Dw) and the viscosity of CO32- and HCO3- were adapted using measured 
+	data of density, conductance and viscosity of binary solutions.
+
+	The viscosity of the solution at P, T is now calculated and printed in the output file, and can 
+	be retrieved in Basic programs with the function viscos (in previous versions, viscos returned 
+	the viscosity of pure water at P, T).
+
+	The calculation uses a modified Jones-Dole equation which sums the contributions of individual 
+	solutes:
+
+		eta / eta0 = 1 + A sqrt(0.5 sum(zi*mi)) + sum fan (Bi*mi + Di*mi*ni),
+		
+	where eta is the viscosity of the solution (mPa s), eta0 is viscosity of pure water at the 
+	temperature and pressure of the solution, mi is the molality of species i, made dimensionless 
+	by dividing by 1 molal, and zi is the absolute charge number. A is derived from Debye-Hückel 
+	theory, and fan, B, D and n are coefficients that incorporate volume, ionic strength and 
+	temperature effects. The coefficients are:
+
+		B = b0 + b1 exp(-b2 tC)
+		
+	where b0, b1, and b2 are coefficients, and tC is the temperature in ºC. The temperature is 
+	limited to 200°C.
+
+		fan = (2 - tan * Van / VCl-)
+		
+	for anions, with tan a coefficient and Van the P, T and I dependent, apparent volume of the 
+	anion relative to the one of Cl-, which is used as reference species. For cations, fan = 1 
+	and tan need not be defined.
+
+		D = d1 exp(-d2 tC)
+	where d1 and d2 are coefficients.
+
+		n = ((1 + fI)^d3 + ((zi^2 + zi) / 2 * mi)^d3 / (2 + fI)
+		
+	where fI averages ionic strength effects and d3 is a parameter.
+	The coefficients are fitted on measured viscosities of binary solutions and entered 
+	with item -viscosity under keyword SOLUTION_SPECIES, for example for H+:
+
+		  SOLUTION_SPECIES
+		  H+ = H+
+		  -viscosity 9.35e-2 -8.31e-2 2.487e-2 4.49e-4 2.01e-2 1.570    0
+		  #           b0       b1       b2      d1       d2      d3     tan
+		  
+	When the solute concentrations are seawater-like or higher, the viscosity is different 
+	from pure water (see figure at). To obtain a valid model for natural waters with phreeqc.dat, 
+	the complexes of SO42- with the major cations were redefined, as noted above.
+	The A parameter in the Jones-Dole equation needs temperature dependent diffusion coefficients of the species, and therefore the parameters for calculating the I and T dependency of the diffusion coefficients (-dw parameters of SOLUTION_SPECIES) were refitted for SO42- and CO32- species.
+	Example files are in c:\phreeqc\viscosity. 	
+
+	Implicit calculations with option -fix_current will now account for changing concentrations in 
+	the boundary solutions of the column.
+
+	Activated the print of statements defined in USER_PRINT when the initial EXCHANGE, SURFACE and 
+	GAS_PHASE are calculated.
+
+	Changed the dw_t parameter for CO3-2 to 30 (was 0) and for HCO3- to -150 (was 0) to better fit 
+	McCleskey's data
+
+	Bug fix: removed the factor (TK / 298.15) from the calculation of the temperature dependence of 
+	the diffusion coefficient. For an example, see the calculation of Dw(TK) of H+ in the next 
+	paragraph.
+
+	Bug fixes in printing/punching of diffusion coefficients with diff_c and setdiff_c: the numbers 
+	are now corrected for I and T effects when the appropriate factors are defined in keyword 
+	SOLUTION_SPECIES, item -dw. For example:
+
+	H+ = H+
+		-gamma 9.0 0
+		-dw 9.31e-9 1000 0.46 1e-10 # The dw parameters are defined in Appelo, 2017, CCR 101, 102-113.
+
+	It will set Dw(TK) = 9.31e-9 * exp(1000 / TK - 1000 / 298.15) * viscos_0_25 / viscos_0_tc
+	and Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |zi| * I 0.5 / (1 + DH_B * I 0.5 * 1e-10 / (1 + I 0.75))),
+
+	where viscos_0_25 is the viscosity of pure water at 25 °C, viscos_0_tc is the viscosity of pure 
+	water at the temperature of the solution. DH_A and DH_B are Debye-Hückel parameters, 
+	retrievable with PHREEQC Basic.
+
+
+	The temperature correction is always applied in multicomponent, diffusive transport and for 
+	calculating the viscosity.
+
+	The ionic strength correction is for electromigration calculations (Appelo, 2017, CCR 101, 102). The correction is applied when the option is set true in TRANSPORT, item -multi_D:
+		-multi_d true 1e-9 0.3 0.05 1.0 true # multicomponent diffusion
+		
+	# true/false, default tracer diffusion coefficient (Dw = 1e-9 m2/s) in water at 25 °C (used in 
+	case -dw is not defined for a species), porosity (por = 0.3), limiting porosity (0.05) below 
+	which diffusion stops, exponent n (1.0) used in calculating the porewater diffusion coefficient 
+	Dp = Dw * por^n, true/false: correct Dw for ionic strength (false by default). 
+
+  	-----------------
+	May 19, 2023
+  	-----------------
+	PhreeqcRM:
+	Renamed GetDensity and related functions to GetDensityCalculated.
+	Renamed SetDensity and related functions to SetDensityUser.
+	
+	Density is used to convert user-model concentrations to module solution definitions only if the
+	units of the user-model concentrations are specified to be parts per million. The density specified by 
+	SetDensityUser is used by SetConcentrations to convert from per kg of solution to 
+	per L of solution. For GetConcentrations, two options are available to convert from module solutions 
+	to user-model concentrations, depending on the value used for the method SetUseSolutionDensityVolume: 
+	(1) the module-calculated density is used to convert from the calculated volume of solution
+	to the mass (kg) of solution, or (2) the user-specified value of density is used to make the conversion.
+	Again, density is only used if the user-model concentration units are ppm.
+	
+	The change in method names is intended to emphasize the difference between the user-specified densities
+	and the module-calculated densities. 
+	
+	Renamed GetSaturation and related functions to GetSaturationCalculated.
+	Renamed SetSaturation and related functions to SetSaturationUser.
+	
+	The values specified by SetSaturation are used to convert user-model concentrations to module solution definitions.
+	For SetConcentrations, the volume of solution is calculated to be the user-specified saturation * porosity * 
+	representative volume. For GetConcentrations, two options are available to determine the solution volume, depending 
+	on the value specified for SetUseSolutionDensityVolume: (1) the solution volume is calculated by the reaction module 
+	and used to convert to user-model concentrations, or (2) the solution volume is again calculated by 
+	user-specified saturation * porosity * representative volume, and those values are used to convert to user-model
+	concentrations. In either case, the values returned by GetSaturationCalculated are the calculated solution volume divided
+	by (porosity * representative volume).
+		
+	The change in method names is intended to emphasize the difference between the user-specified saturations and 
+	and the module-calculated saturations.
+	
+	
+  	-----------------
 	April 16, 2023
   	-----------------
 	PhreeqcRM: Added new methods to simplify getting and setting component and 

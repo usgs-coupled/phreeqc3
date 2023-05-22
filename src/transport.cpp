@@ -5963,10 +5963,10 @@ viscosity(void)
 	We use the harmonic mean of the Dw's, and the arithmetic mean of the z's,
 	both weighted by the equivalent concentration.
 	*/
-	LDBLE D1, D2, z1, z2, m_plus, m_min, eq_plus, eq_min, eq_dw_plus, eq_dw_min, t1, t2, ta;
+	LDBLE D1, D2, z1, z2, m_plus, m_min, eq_plus, eq_min, eq_dw_plus, eq_dw_min, t1, t2, t3, fan = 1;
 	LDBLE A, psi, Bc = 0, Dc = 0, Dw = 0.0, l_z, f_z, lm, V_an, m_an, V_Cl, tc;
 
-	m_plus = m_min = eq_plus = eq_min = eq_dw_plus = eq_dw_min = V_an = m_an = V_Cl = ta = 0;
+	m_plus = m_min = eq_plus = eq_min = eq_dw_plus = eq_dw_min = V_an = m_an = V_Cl = 0;
 
 	tc = (tc_x > 200) ? 200 : tc_x;
 
@@ -5978,6 +5978,7 @@ viscosity(void)
 			continue;
 		if (s_x[i]->Jones_Dole[0] || s_x[i]->Jones_Dole[1] || s_x[i]->Jones_Dole[3])
 		{
+			s_x[i]->dw_t_visc = 0;
 			t1 = s_x[i]->moles / mass_water_aq_x;
 			l_z = fabs(s_x[i]->z);
 			if (l_z)
@@ -5993,8 +5994,9 @@ viscosity(void)
 					s_x[i]->Jones_Dole[8] / exp(-s_x[i]->Jones_Dole[4] * 25.0);
 			}
 			// find B * m and D * m * mu^d3
-			Bc += (s_x[i]->Jones_Dole[0] +
+			s_x[i]->dw_t_visc = (s_x[i]->Jones_Dole[0] +
 				s_x[i]->Jones_Dole[1] * exp(-s_x[i]->Jones_Dole[2] * tc)) * t1;
+			Bc += s_x[i]->dw_t_visc;
 			// define f_I from the exponent of the D * m^d3 term...
 			if (s_x[i]->Jones_Dole[5] >= 1)
 				t2 = mu_x / 3 / s_x[i]->Jones_Dole[5];
@@ -6002,8 +6004,10 @@ viscosity(void)
 				t2 = -0.8 / s_x[i]->Jones_Dole[5];
 			else
 				t2 = -1;
-			Dc += (s_x[i]->Jones_Dole[3] * exp(-s_x[i]->Jones_Dole[4] * tc)) *
+			t3 = (s_x[i]->Jones_Dole[3] * exp(-s_x[i]->Jones_Dole[4] * tc)) *
 				t1 * (pow(mu_x, s_x[i]->Jones_Dole[5])*(1 + t2) + pow(t1 * f_z, s_x[i]->Jones_Dole[5])) / (2 + t2);
+			s_x[i]->dw_t_visc += t3;
+			Dc += t3;
 			//output_msg(sformatf("\t%s\t%e\t%e\t%e\n", s_x[i]->name, t1, Bc, Dc ));
 		}
 		// parms for A...
@@ -6023,13 +6027,11 @@ viscosity(void)
 			{
 				V_Cl = s_x[i]->logk[vm_tc];
 				V_an += V_Cl * s_x[i]->moles;
-				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
 			else// if (s_x[i]->Jones_Dole[6])
 			{
 				V_an += s_x[i]->logk[vm_tc] * s_x[i]->Jones_Dole[6] * s_x[i]->moles;
-				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
 			if (Dw)
@@ -6064,23 +6066,24 @@ viscosity(void)
 		A = 0;
 	viscos = viscos_0 + A * sqrt((eq_plus + eq_min) / 2 / mass_water_aq_x);
 	if (m_an)
-	{
 		V_an /= m_an;
-		ta /= m_an;
-	}
 	if (!V_Cl)
 		V_Cl = calc_vm_Cl();
-	if (V_an && V_Cl && ta)
-		viscos += (viscos_0 * (2 - ta * V_an / V_Cl) * (Bc + Dc));
-	else
-		viscos += (viscos_0 * (Bc + Dc));
+	if (V_an)
+		fan = 2 - V_an / V_Cl;
+	//else
+	//	fan = 1;
+	viscos += viscos_0 * fan * (Bc + Dc);
 	if (viscos < 0)
 	{
 		viscos = viscos_0;
 		warning_msg("viscosity < 0, reset to viscosity of pure water");
 	}
+	for (i = 0; i < (int)this->s_x.size(); i++)
+	{
+		s_x[i]->dw_t_visc /= (Bc + Dc);
+	}
 	return viscos;
-
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
