@@ -1,0 +1,45 @@
+# DATABASE C:\phreeqc\database\pitzer.dat
+# DATABASE c:\phreeqc\database\phreeqc_old.dat
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 cc_Ellis_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+Na 200; Cl 200
+pH 7 charge
+-pressure 11.8
+# USE solution 1
+EQUILIBRIUM_PHASES 1
+CO2(g) 1.07
+Calcite
+REACTION_TEMPERATURE
+ 120 270 in 10
+USER_GRAPH 1 12 bar CO2 pressure
+-connect_simulations false
+-plot_tsv_file cc_Ellis.dat
+-axis_scale y_axis 0 8
+-axis_titles "temperature / �C" "calcite solubility / (mmol/kgw)"
+10 graph_x tc
+20 graph_y tot("Ca") * 1e3
+# 30 if sim_no = 3 then graph_sy pressure
+# 30 plot_xy tc, GAMMA("HCO3-"), color = Black , y_axis = 2 
+END
+
+SOLUTION 1
+Na 500; Cl 500
+pH 7 charge
+-pressure 11.8
+USE equilibrium_phases 1; USE reaction_temperature 1
+END
+
+SOLUTION 1
+Na 1e3; Cl 1e3
+pH 7 charge
+-pressure 11.8
+USE equilibrium_phases 1; USE reaction_temperature 1
+END

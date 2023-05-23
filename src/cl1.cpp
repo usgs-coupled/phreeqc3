@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-//#include <math.h>
 #include <cmath>
 #include <stdlib.h>
 #include "Phreeqc.h"

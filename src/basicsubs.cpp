@@ -1254,6 +1254,24 @@ calc_t_sc(const char *name)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
+calc_f_visc(const char *name)
+/* ---------------------------------------------------------------------- */
+{
+	char token[MAX_LENGTH];
+	class species *s_ptr;
+
+	if (print_viscosity)
+	{
+		strcpy(token, name);
+		s_ptr = s_search(token);
+		if (s_ptr != NULL)
+			return s_ptr->dw_t_visc;
+	}
+	return 0;
+}
+
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
 equi_phase(const char *phase_name)
 /* ---------------------------------------------------------------------- */
 {
@@ -1599,12 +1617,7 @@ get_calculate_value(const char *name)
 				calculate_value_ptr->name);
 		error_msg(error_string, STOP);
 	}
-#ifdef NPP
-	if (isnan(rate_moles))
-#else
-	//if (rate_moles == NAN)
 	if(std::isnan(rate_moles))
-#endif
 	{
 		error_string = sformatf( "Calculated value not SAVEed for %s.",
 				calculate_value_ptr->name);
@@ -1762,18 +1775,17 @@ LDBLE Phreeqc::
 pr_pressure(const char* phase_name)
 /* ---------------------------------------------------------------------- */
 {
-
+	int l;
+	class phase* phase_ptr = phase_bsearch(phase_name, &l, FALSE);
+	if (phase_ptr == NULL)
+	{
+		error_string = sformatf("Gas %s, not found.", phase_name);
+		warning_msg(error_string);
+		return (1e-99);
+	}
 	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (gas_phase_ptr != NULL)
 	{
-		int l;
-		class phase* phase_ptr = phase_bsearch(phase_name, &l, FALSE);
-		if (phase_ptr == NULL)
-		{
-			error_string = sformatf("Gas %s, not found.", phase_name);
-			warning_msg(error_string);
-			return (1e-99);
-		}
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 		{
 			const cxxGasComp* gas_comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
@@ -1792,6 +1804,10 @@ pr_pressure(const char* phase_name)
 			}
 		}
 	}
+	else if (phase_ptr->in != FALSE && phase_ptr->pr_in)
+		{
+			return phase_ptr->pr_p;
+		}
 	return(0.0);
 }
 /* ---------------------------------------------------------------------- */
@@ -1807,34 +1823,34 @@ LDBLE Phreeqc::
 pr_phi(const char *phase_name)
 /* ---------------------------------------------------------------------- */
 {
-	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
-	if (gas_phase_ptr != NULL)
-	{
 	int l;
-		class phase* phase_ptr = phase_bsearch(phase_name, &l, FALSE);
+	class phase* phase_ptr = phase_bsearch(phase_name, &l, FALSE);
 	if (phase_ptr == NULL)
 	{
 		error_string = sformatf( "Gas %s, not found.", phase_name);
 		warning_msg(error_string);
 		return (1e-99);
 	}
-		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
+	if (gas_phase_ptr != NULL)
 	{
+		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+		{
 			const cxxGasComp* gas_comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 			int j;
 			class phase* phase_ptr_gas = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 			if (phase_ptr == phase_ptr_gas)
 			{
 				if (gas_phase_ptr->Get_pr_in())
-				{
-		return phase_ptr->pr_phi;
-	}
+					return phase_ptr->pr_phi;
 				else
-				{
 					return gas_comp_ptr->Get_phi();
-				}
 			}
 		}
+	}
+	else if (phase_ptr->in != FALSE && phase_ptr->pr_in)
+	{
+		return phase_ptr->pr_phi;
 	}
 	return (1.0);
 }

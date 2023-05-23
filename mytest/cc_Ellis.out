@@ -1,0 +1,2864 @@
+   Input file: cc_Ellis
+  Output file: cc_Ellis.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SELECTED_OUTPUT 101
+	    file                 cc_Ellis_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION 1
+	Na 200
+	 Cl 200
+	pH 7 charge
+	pressure 11.8
+	EQUILIBRIUM_PHASES 1
+	CO2(g) 1.07
+	Calcite
+	REACTION_TEMPERATURE
+	 120 270 in 10
+	USER_GRAPH 1 12 bar CO2 pressure
+	-connect_simulations false
+	-plot_tsv_file cc_Ellis.dat
+	-axis_scale y_axis 0 8
+	-axis_titles "temperature / ï¿½C" "calcite solubility / (mmol/kgw)"
+	10 graph_x tc
+	20 graph_y tot("Ca") * 1e3
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.969      Charge balance
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 20252
+                          Density (g/cm³)  =   1.00566
+                               Volume (L)  =   1.00599
+                        Viscosity (mPa s)  =   0.90606
+                        Activity of water  =   0.993
+                 Ionic strength (mol/kgw)  =   2.000e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.651e-16
+                         Temperature (°C)  =  25.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -4.698e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   5
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92390
+                         Density of water  =   0.99753
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.348e-07   9.462e-08    -6.870    -7.024    -0.154     -3.46
+   H+              1.348e-07   1.073e-07    -6.870    -6.969    -0.099      0.00
+   H2O             5.551e+01   9.934e-01     1.744    -0.003     0.000     18.06
+Cl            2.000e-01
+   Cl-             2.000e-01   1.434e-01    -0.699    -0.843    -0.144     18.46
+Na            2.000e-01
+   Na+             2.000e-01   1.501e-01    -0.699    -0.824    -0.125     -0.90
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,  12 atm)
+
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.25     -1.67    1.58  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -0.98     -2.04    1.000e+01   9.891e+00  -1.089e-01
+Calcite           0.00    -9.77     -9.77    1.000e+01   9.994e+00  -6.238e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.152e-01   1.152e-01
+	Ca                6.239e-03   6.238e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.428      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 120°C)  = 67108
+                          Density (g/cm³)  =   0.95294
+                               Volume (L)  =   1.06734
+                        Viscosity (mPa s)  =   0.24006
+                        Activity of water  =   0.991
+                 Ionic strength (mol/kgw)  =   2.187e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   1.248e-02
+                       Total CO2 (mol/kg)  =   1.152e-01
+                         Temperature (°C)  = 120.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   4.444e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  16
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92558
+                         Density of water  =   0.94362
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.574281e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.343e-06   3.735e-06    -5.272    -5.428    -0.156      0.00
+   OH-             4.677e-07   2.986e-07    -6.330    -6.525    -0.195     -6.43
+   H2O             5.551e+01   9.913e-01     1.744    -0.004     0.000     19.09
+C(4)          1.152e-01
+   CO2             1.027e-01   1.047e-01    -0.988    -0.980     0.008     40.75
+   HCO3-           1.248e-02   8.196e-03    -1.904    -2.086    -0.183     24.43
+   CO3-2           8.206e-07   1.293e-07    -6.086    -6.888    -0.802     -8.79
+Ca            6.239e-03
+   Ca+2            6.239e-03   1.316e-03    -2.205    -2.881    -0.676    -18.54
+Cl            2.000e-01
+   Cl-             2.000e-01   1.330e-01    -0.699    -0.876    -0.177     15.54
+Na            2.000e-01
+   Na+             2.000e-01   1.396e-01    -0.699    -0.855    -0.156      1.13
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(393 K,  12 atm)
+
+  Aragonite        -0.40     -9.77   -9.37  CaCO3
+  Calcite           0.00     -9.77   -9.77  CaCO3
+  CO2(g)            1.06     -0.98   -2.04  CO2	 Pressure  11.7 atm, phi 0.974
+  Gaylussite       -8.96    -18.39   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.28     -0.00   -0.29  H2O
+  Halite           -3.27     -1.73    1.54  NaCl
+  Nahcolite        -2.44    -13.17  -10.74  NaHCO3
+  Natron           -7.78     -8.64   -0.85  Na2CO3:10H2O
+  Pirssonite       -9.14    -18.38   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.75    -15.93   -5.19  Ca(OH)2
+  Trona           -10.41    -21.78  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.01     -2.07    1.000e+01   9.898e+00  -1.017e-01
+Calcite           0.00   -10.09    -10.09    1.000e+01   9.995e+00  -4.938e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.067e-01   1.067e-01
+	Ca                4.939e-03   4.938e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.452      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 137°C)  = 74404
+                          Density (g/cm³)  =   0.93876
+                               Volume (L)  =   1.08298
+                        Viscosity (mPa s)  =   0.20870
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.148e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   9.878e-03
+                       Total CO2 (mol/kg)  =   1.067e-01
+                         Temperature (°C)  = 136.67
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   1.167e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92062
+                         Density of water  =   0.92955
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.572446e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.175e-06   3.535e-06    -5.286    -5.452    -0.165      0.00
+   OH-             7.830e-07   4.943e-07    -6.106    -6.306    -0.200     -8.28
+   H2O             5.551e+01   9.916e-01     1.744    -0.004     0.000     19.38
+C(4)          1.067e-01
+   CO2             9.678e-02   9.864e-02    -1.014    -1.006     0.008     42.74
+   HCO3-           9.881e-03   6.218e-03    -2.005    -2.206    -0.201     22.97
+   CO3-2           5.799e-07   8.575e-08    -6.237    -7.067    -0.830    -13.00
+Ca            4.939e-03
+   Ca+2            4.939e-03   9.433e-04    -2.306    -3.025    -0.719    -19.40
+Cl            2.000e-01
+   Cl-             2.000e-01   1.306e-01    -0.699    -0.884    -0.185     13.83
+Na            2.000e-01
+   Na+             2.000e-01   1.366e-01    -0.699    -0.865    -0.166      1.29
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(409 K,  12 atm)
+
+  Aragonite        -0.41    -10.09   -9.68  CaCO3
+  Calcite           0.00    -10.09  -10.09  CaCO3
+  CO2(g)            1.06     -1.01   -2.07  CO2	 Pressure  11.7 atm, phi 0.978
+  Gaylussite       -9.48    -18.91   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.50     -0.00   -0.50  H2O
+  Halite           -3.24     -1.75    1.49  NaCl
+  Nahcolite        -2.65    -13.38  -10.74  NaHCO3
+  Natron           -7.98     -8.83   -0.85  Na2CO3:10H2O
+  Pirssonite       -9.66    -18.90   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.45    -15.64   -5.18  Ca(OH)2
+  Trona           -10.81    -22.19  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.02     -2.08    1.000e+01   9.902e+00  -9.791e-02
+Calcite           0.00   -10.43    -10.43    1.000e+01   9.996e+00  -3.936e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.018e-01   1.018e-01
+	Ca                3.936e-03   3.936e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.478      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 153°C)  = 81323
+                          Density (g/cm³)  =   0.92345
+                               Volume (L)  =   1.10065
+                        Viscosity (mPa s)  =   0.18441
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.118e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   7.872e-03
+                       Total CO2 (mol/kg)  =   1.018e-01
+                         Temperature (°C)  = 153.33
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   6.502e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  14
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.91540
+                         Density of water  =   0.91426
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.571383e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.996e-06   3.324e-06    -5.301    -5.478    -0.177      0.00
+   OH-             1.221e-06   7.593e-07    -5.913    -6.120    -0.206    -10.72
+   H2O             5.551e+01   9.917e-01     1.744    -0.004     0.000     19.71
+C(4)          1.018e-01
+   CO2             9.397e-02   9.577e-02    -1.027    -1.019     0.008     45.27
+   HCO3-           7.875e-03   4.734e-03    -2.104    -2.325    -0.221     21.00
+   CO3-2           4.017e-07   5.490e-08    -6.396    -7.260    -0.864    -18.52
+Ca            3.936e-03
+   Ca+2            3.936e-03   6.732e-04    -2.405    -3.172    -0.767    -20.53
+Cl            2.000e-01
+   Cl-             2.000e-01   1.279e-01    -0.699    -0.893    -0.194     11.60
+Na            2.000e-01
+   Na+             2.000e-01   1.333e-01    -0.699    -0.875    -0.176      1.45
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(426 K,  12 atm)
+
+  Aragonite        -0.41    -10.43  -10.02  CaCO3
+  Calcite           0.00    -10.43  -10.43  CaCO3
+  CO2(g)            1.06     -1.02   -2.08  CO2	 Pressure  11.7 atm, phi 0.981
+  Gaylussite      -10.03    -19.46   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.70     -0.00   -0.70  H2O
+  Halite           -3.20     -1.77    1.43  NaCl
+  Nahcolite        -2.88    -13.61  -10.73  NaHCO3
+  Natron           -8.20     -9.05   -0.85  Na2CO3:10H2O
+  Pirssonite      -10.22    -19.45   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.23    -15.41   -5.18  Ca(OH)2
+  Trona           -11.26    -22.63  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.02     -2.08    1.000e+01   9.903e+00  -9.687e-02
+Calcite           0.00   -10.79    -10.79    1.000e+01   9.997e+00  -3.159e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.000e-01   1.000e-01
+	Ca                3.159e-03   3.159e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.508      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 170°C)  = 87812
+                          Density (g/cm³)  =   0.90695
+                               Volume (L)  =   1.12053
+                        Viscosity (mPa s)  =   0.16513
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.095e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   6.318e-03
+                       Total CO2 (mol/kg)  =   1.000e-01
+                         Temperature (°C)  = 170.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   6.496e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  14
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.90985
+                         Density of water  =   0.89771
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.570944e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.811e-06   3.106e-06    -5.318    -5.508    -0.190      0.00
+   OH-             1.784e-06   1.089e-06    -5.749    -5.963    -0.215    -13.94
+   H2O             5.551e+01   9.918e-01     1.744    -0.004     0.000     20.07
+C(4)          1.000e-01
+   CO2             9.372e-02   9.549e-02    -1.028    -1.020     0.008     48.52
+   HCO3-           6.321e-03   3.618e-03    -2.199    -2.441    -0.242     18.36
+   CO3-2           2.744e-07   3.412e-08    -6.562    -7.467    -0.905    -25.77
+Ca            3.159e-03
+   Ca+2            3.159e-03   4.780e-04    -2.500    -3.321    -0.820    -21.99
+Cl            2.000e-01
+   Cl-             2.000e-01   1.248e-01    -0.699    -0.904    -0.205      8.65
+Na            2.000e-01
+   Na+             2.000e-01   1.298e-01    -0.699    -0.887    -0.188      1.61
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(443 K,  12 atm)
+
+  Aragonite        -0.41    -10.79  -10.38  CaCO3
+  Calcite           0.00    -10.79  -10.79  CaCO3
+  CO2(g)            1.06     -1.02   -2.08  CO2	 Pressure  11.7 atm, phi 0.984
+  Gaylussite      -10.62    -20.05   -9.42  CaNa2(CO3)2:5H2O
+  H2O(g)            0.87     -0.00   -0.88  H2O
+  Halite           -3.15     -1.79    1.36  NaCl
+  Nahcolite        -3.13    -13.86  -10.73  NaHCO3
+  Natron           -8.43     -9.28   -0.85  Na2CO3:10H2O
+  Pirssonite      -10.81    -20.04   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.06    -15.25   -5.18  Ca(OH)2
+  Trona           -11.74    -23.11  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.01     -2.07    1.000e+01   9.902e+00  -9.830e-02
+Calcite           0.00   -11.16    -11.16    1.000e+01   9.997e+00  -2.556e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.009e-01   1.009e-01
+	Ca                2.556e-03   2.556e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.540      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 187°C)  = 93845
+                          Density (g/cm³)  =   0.88917
+                               Volume (L)  =   1.14294
+                        Viscosity (mPa s)  =   0.14943
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.077e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.111e-03
+                       Total CO2 (mol/kg)  =   1.009e-01
+                         Temperature (°C)  = 186.67
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   3.476e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  15
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.90393
+                         Density of water  =   0.87980
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.571047e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.622e-06   2.885e-06    -5.335    -5.540    -0.205      0.00
+   OH-             2.457e-06   1.465e-06    -5.610    -5.834    -0.225    -18.21
+   H2O             5.551e+01   9.918e-01     1.744    -0.004     0.000     20.48
+C(4)          1.009e-01
+   CO2             9.574e-02   9.752e-02    -1.019    -1.011     0.008     52.77
+   HCO3-           5.113e-03   2.778e-03    -2.291    -2.556    -0.265     14.81
+   CO3-2           1.859e-07   2.069e-08    -6.731    -7.684    -0.953    -35.38
+Ca            2.556e-03
+   Ca+2            2.556e-03   3.374e-04    -2.592    -3.472    -0.879    -23.93
+Cl            2.000e-01
+   Cl-             2.000e-01   1.214e-01    -0.699    -0.916    -0.217      4.74
+Na            2.000e-01
+   Na+             2.000e-01   1.259e-01    -0.699    -0.900    -0.201      1.79
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(459 K,  12 atm)
+
+  Aragonite        -0.39    -11.16  -10.77  CaCO3
+  Calcite           0.00    -11.16  -11.16  CaCO3
+  CO2(g)            1.06     -1.01   -2.07  CO2	 Pressure  11.7 atm, phi 0.986
+  Gaylussite      -11.24    -20.66   -9.42  CaNa2(CO3)2:5H2O
+  H2O(g)            1.03     -0.00   -1.04  H2O
+  Halite           -3.09     -1.82    1.27  NaCl
+  Nahcolite        -3.39    -14.12  -10.73  NaHCO3
+  Natron           -8.67     -9.52   -0.85  Na2CO3:10H2O
+  Pirssonite      -11.42    -20.65   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.96    -15.14   -5.18  Ca(OH)2
+  Trona           -12.25    -23.62  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.00     -2.06    1.000e+01   9.899e+00  -1.014e-01
+Calcite           0.00   -11.53    -11.53    1.000e+01   9.998e+00  -2.091e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.035e-01   1.035e-01
+	Ca                2.091e-03   2.091e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.575      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 203°C)  = 99352
+                          Density (g/cm³)  =   0.87031
+                               Volume (L)  =   1.16782
+                        Viscosity (mPa s)  =   0.13871 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.063e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.182e-03
+                       Total CO2 (mol/kg)  =   1.035e-01
+                         Temperature (°C)  = 203.33
+                           Pressure (atm)  = 16.34
+                  Electrical balance (eq)  =   1.904e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  14
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.89754
+                         Density of water  =   0.86075
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.571531e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.424e-06   2.659e-06    -5.354    -5.575    -0.221      0.00
+   OH-             3.220e-06   1.869e-06    -5.492    -5.728    -0.236    -23.93
+   H2O             5.551e+01   9.919e-01     1.744    -0.004     0.000     20.93
+C(4)          1.035e-01
+   CO2             9.932e-02   1.011e-01    -1.003    -0.995     0.008     58.34
+   HCO3-           4.183e-03   2.148e-03    -2.379    -2.668    -0.289     10.09
+   CO3-2           1.270e-07   1.243e-08    -6.896    -7.906    -1.010    -48.06
+Ca            2.091e-03
+   Ca+2            2.091e-03   2.370e-04    -2.680    -3.625    -0.946    -26.48
+Cl            2.000e-01
+   Cl-             2.000e-01   1.177e-01    -0.699    -0.929    -0.230     -0.46
+Na            2.000e-01
+   Na+             2.000e-01   1.218e-01    -0.699    -0.915    -0.216      2.01
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(476 K,  16 atm)
+
+  Aragonite        -0.35    -11.53  -11.18  CaCO3
+  Calcite           0.00    -11.53  -11.53  CaCO3
+  CO2(g)            1.06     -1.00   -2.06  CO2	 Pressure  11.7 atm, phi 0.988
+  Gaylussite      -11.86    -21.28   -9.42  CaNa2(CO3)2:5H2O
+  H2O(g)            1.18     -0.00   -1.18  H2O
+  Halite           -3.02     -1.84    1.18  NaCl
+  Nahcolite        -3.67    -14.40  -10.73  NaHCO3
+  Natron           -8.92     -9.77   -0.85  Na2CO3:10H2O
+  Pirssonite      -12.05    -21.27   -9.22  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.90    -15.08   -5.18  Ca(OH)2
+  Trona           -12.78    -24.14  -11.36  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.97     -2.04    1.000e+01   9.894e+00  -1.065e-01
+Calcite           0.00   -11.91    -11.91    1.000e+01   9.998e+00  -1.733e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.082e-01   1.082e-01
+	Ca                1.733e-03   1.733e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.614      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 220°C)  = 104364
+                          Density (g/cm³)  =   0.85003
+                               Volume (L)  =   1.19589
+                        Viscosity (mPa s)  =   0.12609 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.052e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.465e-03
+                       Total CO2 (mol/kg)  =   1.082e-01
+                         Temperature (°C)  = 220.00
+                           Pressure (atm)  = 22.75
+                  Electrical balance (eq)  =  -4.156e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.89067
+                         Density of water  =   0.84025
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.572435e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.225e-06   2.434e-06    -5.374    -5.614    -0.239      0.00
+   OH-             4.027e-06   2.264e-06    -5.395    -5.645    -0.250    -31.70
+   H2O             5.551e+01   9.919e-01     1.744    -0.004     0.000     21.44
+C(4)          1.082e-01
+   CO2             1.047e-01   1.066e-01    -0.980    -0.972     0.008     65.84
+   HCO3-           3.465e-03   1.675e-03    -2.460    -2.776    -0.316      3.67
+   CO3-2           8.800e-08   7.405e-09    -7.056    -8.130    -1.075    -65.22
+Ca            1.733e-03
+   Ca+2            1.733e-03   1.655e-04    -2.761    -3.781    -1.020    -29.94
+Cl            2.000e-01
+   Cl-             2.000e-01   1.135e-01    -0.699    -0.945    -0.246     -7.51
+Na            2.000e-01
+   Na+             2.000e-01   1.172e-01    -0.699    -0.931    -0.232      2.27
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(493 K,  23 atm)
+
+  Aragonite        -0.31    -11.91  -11.60  CaCO3
+  Calcite           0.00    -11.91  -11.91  CaCO3
+  CO2(g)            1.07     -0.97   -2.04  CO2	 Pressure  11.7 atm, phi 0.990
+  Gaylussite      -12.51    -21.92   -9.41  CaNa2(CO3)2:5H2O
+  H2O(g)            1.32     -0.00   -1.32  H2O
+  Halite           -2.95     -1.88    1.07  NaCl
+  Nahcolite        -3.96    -14.68  -10.72  NaHCO3
+  Natron           -9.17    -10.03   -0.86  Na2CO3:10H2O
+  Pirssonite      -12.70    -21.91   -9.21  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.90    -15.07   -5.17  Ca(OH)2
+  Trona           -13.33    -24.67  -11.34  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.94     -2.01    1.000e+01   9.887e+00  -1.134e-01
+Calcite           0.00   -12.30    -12.30    1.000e+01   9.999e+00  -1.459e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.149e-01   1.149e-01
+	Ca                1.459e-03   1.459e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.655      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 237°C)  = 108894
+                          Density (g/cm³)  =   0.82813
+                               Volume (L)  =   1.22786
+                        Viscosity (mPa s)  =   0.11671 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.044e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.919e-03
+                       Total CO2 (mol/kg)  =   1.149e-01
+                         Temperature (°C)  = 236.67
+                           Pressure (atm)  = 30.92
+                  Electrical balance (eq)  =  -3.693e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.88322
+                         Density of water  =   0.81809
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.573741e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             4.833e-06   2.617e-06    -5.316    -5.582    -0.266    -42.46
+   H+              4.026e-06   2.212e-06    -5.395    -5.655    -0.260      0.00
+   H2O             5.551e+01   9.918e-01     1.744    -0.004     0.000     22.02
+C(4)          1.149e-01
+   CO2             1.120e-01   1.139e-01    -0.951    -0.943     0.008     76.20
+   HCO3-           2.918e-03   1.321e-03    -2.535    -2.879    -0.344     -5.27
+   CO3-2           6.263e-08   4.417e-09    -7.203    -8.355    -1.152    -89.00
+Ca            1.459e-03
+   Ca+2            1.459e-03   1.147e-04    -2.836    -3.941    -1.105    -34.75
+Cl            2.000e-01
+   Cl-             2.000e-01   1.089e-01    -0.699    -0.963    -0.264    -17.29
+Na            2.000e-01
+   Na+             2.000e-01   1.123e-01    -0.699    -0.949    -0.250      2.61
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(509 K,  31 atm)
+
+  Aragonite        -0.25    -12.30  -12.04  CaCO3
+  Calcite           0.00    -12.30  -12.30  CaCO3
+  CO2(g)            1.07     -0.94   -2.01  CO2	 Pressure  11.7 atm, phi 0.991
+  Gaylussite      -13.18    -22.57   -9.39  CaNa2(CO3)2:5H2O
+  H2O(g)            1.44     -0.00   -1.44  H2O
+  Halite           -2.87     -1.91    0.95  NaCl
+  Nahcolite        -4.26    -14.96  -10.70  NaHCO3
+  Natron           -9.42    -10.29   -0.87  Na2CO3:10H2O
+  Pirssonite      -13.37    -22.56   -9.18  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.95    -15.11   -5.15  Ca(OH)2
+  Trona           -13.91    -25.22  -11.31  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.91     -1.98    1.000e+01   9.878e+00  -1.219e-01
+Calcite           0.00   -12.68    -12.68    1.000e+01   9.999e+00  -1.257e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.232e-01   1.232e-01
+	Ca                1.257e-03   1.257e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.701      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 253°C)  = 112956
+                          Density (g/cm³)  =   0.80431
+                               Volume (L)  =   1.26467
+                        Viscosity (mPa s)  =   0.10850 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.038e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.515e-03
+                       Total CO2 (mol/kg)  =   1.232e-01
+                         Temperature (°C)  = 253.33
+                           Pressure (atm)  = 41.14
+                  Electrical balance (eq)  =  -3.067e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.87495
+                         Density of water  =   0.79400
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.575384e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             5.613e-06   2.906e-06    -5.251    -5.537    -0.286    -57.79
+   H+              3.828e-06   1.992e-06    -5.417    -5.701    -0.284      0.00
+   H2O             5.551e+01   9.918e-01     1.744    -0.004     0.000     22.69
+C(4)          1.232e-01
+   CO2             1.207e-01   1.228e-01    -0.918    -0.911     0.007     90.92
+   HCO3-           2.513e-03   1.058e-03    -2.600    -2.976    -0.376    -18.03
+   CO3-2           4.675e-08   2.674e-09    -7.330    -8.573    -1.243   -122.81
+Ca            1.257e-03
+   Ca+2            1.257e-03   7.890e-05    -2.901    -4.103    -1.202    -41.60
+Cl            2.000e-01
+   Cl-             2.000e-01   1.038e-01    -0.699    -0.984    -0.285    -31.20
+Na            2.000e-01
+   Na+             2.000e-01   1.070e-01    -0.699    -0.971    -0.272      3.07
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(526 K,  41 atm)
+
+  Aragonite        -0.19    -12.68  -12.49  CaCO3
+  Calcite           0.00    -12.68  -12.68  CaCO3
+  CO2(g)            1.07     -0.91   -1.98  CO2	 Pressure  11.7 atm, phi 0.993
+  Gaylussite      -13.85    -23.21   -9.35  CaNa2(CO3)2:5H2O
+  H2O(g)            1.55     -0.00   -1.55  H2O
+  Halite           -2.78     -1.95    0.83  NaCl
+  Nahcolite        -4.57    -15.24  -10.68  NaHCO3
+  Natron           -9.68    -10.55   -0.87  Na2CO3:10H2O
+  Pirssonite      -14.06    -23.20   -9.14  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.05    -15.18   -5.13  Ca(OH)2
+  Trona           -14.50    -25.77  -11.26  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.88     -1.95    1.000e+01   9.869e+00  -1.312e-01
+Calcite           0.00   -13.04    -13.04    1.000e+01   9.999e+00  -1.120e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.323e-01   1.323e-01
+	Ca                1.120e-03   1.120e-03
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.750      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 270°C)  = 116554
+                          Density (g/cm³)  =   0.77817
+                               Volume (L)  =   1.30765
+                        Viscosity (mPa s)  =   0.10112 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   2.034e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.240e-03
+                       Total CO2 (mol/kg)  =   1.323e-01
+                         Temperature (°C)  = 270.00
+                           Pressure (atm)  = 53.69
+                  Electrical balance (eq)  =  -2.192e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  18
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.86534
+                         Density of water  =   0.76760
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.577195e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             6.391e-06   3.136e-06    -5.194    -5.504    -0.309    -80.37
+   H+              3.635e-06   1.777e-06    -5.439    -5.750    -0.311      0.00
+   H2O             5.551e+01   9.917e-01     1.744    -0.004     0.000     23.47
+C(4)          1.323e-01
+   CO2             1.301e-01   1.323e-01    -0.886    -0.878     0.007    112.63
+   HCO3-           2.237e-03   8.678e-04    -2.650    -3.062    -0.411    -36.88
+   CO3-2           3.781e-08   1.681e-09    -7.422    -8.774    -1.352   -172.60
+Ca            1.120e-03
+   Ca+2            1.120e-03   5.392e-05    -2.951    -4.268    -1.317    -51.68
+Cl            2.000e-01
+   Cl-             2.000e-01   9.807e-02    -0.699    -1.008    -0.309    -51.73
+Na            2.000e-01
+   Na+             2.000e-01   1.011e-01    -0.699    -0.995    -0.296      3.75
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(543 K,  54 atm)
+
+  Aragonite        -0.10    -13.04  -12.94  CaCO3
+  Calcite           0.00    -13.04  -13.04  CaCO3
+  CO2(g)            1.07     -0.88   -1.95  CO2	 Pressure  11.7 atm, phi 0.994
+  Gaylussite      -14.54    -23.83   -9.28  CaNa2(CO3)2:5H2O
+  H2O(g)            1.65     -0.00   -1.66  H2O
+  Halite           -2.70     -2.00    0.70  NaCl
+  Nahcolite        -4.88    -15.52  -10.64  NaHCO3
+  Natron           -9.94    -10.80   -0.86  Na2CO3:10H2O
+  Pirssonite      -14.76    -23.81   -9.06  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.19    -15.28   -5.08  Ca(OH)2
+  Trona           -15.11    -26.29  -11.18  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1
+	Na 500
+	 Cl 500
+	pH 7 charge
+	pressure 11.8
+	USE equilibrium_phases 1
+	 USE reaction_temperature 1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.936      Charge balance
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 46096
+                          Density (g/cm³)  =   1.01749
+                               Volume (L)  =   1.01153
+                        Viscosity (mPa s)  =   0.92970
+                        Activity of water  =   0.984
+                 Ionic strength (mol/kgw)  =   5.000e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.280e-15
+                         Temperature (°C)  =  25.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -7.766e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   5
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92204
+                         Density of water  =   0.99753
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.403e-07   8.673e-08    -6.853    -7.062    -0.209     -2.89
+   H+              1.403e-07   1.158e-07    -6.853    -6.936    -0.083      0.00
+   H2O             5.551e+01   9.835e-01     1.744    -0.007     0.000     18.06
+Cl            5.000e-01
+   Cl-             5.000e-01   3.248e-01    -0.301    -0.488    -0.187     18.69
+Na            5.000e-01
+   Na+             5.000e-01   3.574e-01    -0.301    -0.447    -0.146     -0.60
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,  12 atm)
+
+  H2O(g)           -1.51     -0.01    1.50  H2O
+  Halite           -2.52     -0.94    1.58  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -0.98     -2.04    1.000e+01   9.895e+00  -1.055e-01
+Calcite           0.00    -9.77     -9.77    1.000e+01   9.992e+00  -7.728e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.132e-01   1.132e-01
+	Ca                7.729e-03   7.728e-03
+	Cl                5.001e-01   5.000e-01
+	Na                5.001e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.431      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 120°C)  = 146262
+                          Density (g/cm³)  =   0.96463
+                               Volume (L)  =   1.07257
+                        Viscosity (mPa s)  =   0.24951
+                        Activity of water  =   0.982
+                 Ionic strength (mol/kgw)  =   5.233e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   1.546e-02
+                       Total CO2 (mol/kg)  =   1.132e-01
+                         Temperature (°C)  = 120.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -7.710e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  19
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.91793
+                         Density of water  =   0.94362
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.574038e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.386e-06   3.707e-06    -5.269    -5.431    -0.162      0.00
+   OH-             5.264e-07   2.978e-07    -6.279    -6.526    -0.247     -5.45
+   H2O             5.551e+01   9.816e-01     1.744    -0.008     0.000     19.09
+C(4)          1.132e-01
+   CO2             9.777e-02   1.047e-01    -1.010    -0.980     0.030     40.75
+   HCO3-           1.546e-02   8.173e-03    -1.811    -2.088    -0.277     25.31
+   CO3-2           1.441e-06   1.299e-07    -5.841    -6.886    -1.045     -6.90
+Ca            7.729e-03
+   Ca+2            7.729e-03   1.309e-03    -2.112    -2.883    -0.771    -17.83
+Cl            5.001e-01
+   Cl-             5.001e-01   2.999e-01    -0.301    -0.523    -0.222     16.12
+Na            5.001e-01
+   Na+             5.001e-01   3.277e-01    -0.301    -0.485    -0.184      1.35
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(393 K,  12 atm)
+
+  Aragonite        -0.40     -9.77   -9.37  CaCO3
+  Calcite           0.00     -9.77   -9.77  CaCO3
+  CO2(g)            1.06     -0.98   -2.04  CO2	 Pressure  11.7 atm, phi 0.974
+  Gaylussite       -8.23    -17.67   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.28     -0.01   -0.29  H2O
+  Halite           -2.55     -1.01    1.54  NaCl
+  Nahcolite        -2.07    -12.80  -10.74  NaHCO3
+  Natron           -7.08     -7.94   -0.85  Na2CO3:10H2O
+  Pirssonite       -8.41    -17.64   -9.24  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.75    -15.94   -5.19  Ca(OH)2
+  Trona            -9.30    -20.67  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.01     -2.07    1.000e+01   9.902e+00  -9.835e-02
+Calcite           0.00   -10.09    -10.09    1.000e+01   9.994e+00  -6.222e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.046e-01   1.046e-01
+	Ca                6.223e-03   6.222e-03
+	Cl                5.001e-01   5.000e-01
+	Na                5.001e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.457      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 137°C)  = 162172
+                          Density (g/cm³)  =   0.95067
+                               Volume (L)  =   1.08783
+                        Viscosity (mPa s)  =   0.21711
+                        Activity of water  =   0.982
+                 Ionic strength (mol/kgw)  =   5.187e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   1.245e-02
+                       Total CO2 (mol/kg)  =   1.046e-01
+                         Temperature (°C)  = 136.67
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -7.673e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  19
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.91068
+                         Density of water  =   0.92956
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.572158e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.270e-06   3.490e-06    -5.278    -5.457    -0.179      0.00
+   OH-             8.892e-07   4.956e-07    -6.051    -6.305    -0.254     -7.15
+   H2O             5.551e+01   9.819e-01     1.744    -0.008     0.000     19.38
+C(4)          1.046e-01
+   CO2             9.213e-02   9.864e-02    -1.036    -1.006     0.030     42.74
+   HCO3-           1.245e-02   6.234e-03    -1.905    -2.205    -0.300     23.98
+   CO3-2           1.054e-06   8.703e-08    -5.977    -7.060    -1.083    -10.66
+Ca            6.223e-03
+   Ca+2            6.223e-03   9.284e-04    -2.206    -3.032    -0.826    -18.57
+Cl            5.001e-01
+   Cl-             5.001e-01   2.923e-01    -0.301    -0.534    -0.233     14.57
+Na            5.001e-01
+   Na+             5.001e-01   3.176e-01    -0.301    -0.498    -0.197      1.53
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(409 K,  12 atm)
+
+  Aragonite        -0.41    -10.09   -9.68  CaCO3
+  Calcite           0.00    -10.09  -10.09  CaCO3
+  CO2(g)            1.06     -1.01   -2.07  CO2	 Pressure  11.7 atm, phi 0.978
+  Gaylussite       -8.76    -18.19   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.50     -0.01   -0.50  H2O
+  Halite           -2.52     -1.03    1.49  NaCl
+  Nahcolite        -2.28    -13.02  -10.74  NaHCO3
+  Natron           -7.28     -8.14   -0.85  Na2CO3:10H2O
+  Pirssonite       -8.93    -18.17   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.46    -15.64   -5.19  Ca(OH)2
+  Trona            -9.72    -21.09  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.02     -2.08    1.000e+01   9.905e+00  -9.452e-02
+Calcite           0.00   -10.43    -10.43    1.000e+01   9.995e+00  -5.051e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.958e-02   9.957e-02
+	Ca                5.051e-03   5.051e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.487      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 153°C)  = 176999
+                          Density (g/cm³)  =   0.93567
+                               Volume (L)  =   1.10497
+                        Viscosity (mPa s)  =   0.19198
+                        Activity of water  =   0.982
+                 Ionic strength (mol/kgw)  =   5.152e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   1.010e-02
+                       Total CO2 (mol/kg)  =   9.958e-02
+                         Temperature (°C)  = 153.33
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -7.633e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.90260
+                         Density of water  =   0.91427
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.571040e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.138e-06   3.261e-06    -5.289    -5.487    -0.197      0.00
+   OH-             1.401e-06   7.662e-07    -5.853    -6.116    -0.262     -9.39
+   H2O             5.551e+01   9.822e-01     1.744    -0.008     0.000     19.71
+C(4)          9.958e-02
+   CO2             8.947e-02   9.577e-02    -1.048    -1.019     0.030     45.27
+   HCO3-           1.010e-02   4.777e-03    -1.995    -2.321    -0.325     22.19
+   CO3-2           7.596e-07   5.643e-08    -6.119    -7.248    -1.129    -15.55
+Ca            5.051e-03
+   Ca+2            5.051e-03   6.541e-04    -2.297    -3.184    -0.888    -19.52
+Cl            5.000e-01
+   Cl-             5.000e-01   2.837e-01    -0.301    -0.547    -0.246     12.53
+Na            5.000e-01
+   Na+             5.000e-01   3.066e-01    -0.301    -0.513    -0.212      1.72
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(426 K,  12 atm)
+
+  Aragonite        -0.41    -10.43  -10.02  CaCO3
+  Calcite           0.00    -10.43  -10.43  CaCO3
+  CO2(g)            1.06     -1.02   -2.08  CO2	 Pressure  11.7 atm, phi 0.981
+  Gaylussite       -9.32    -18.75   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.69     -0.01   -0.70  H2O
+  Halite           -2.49     -1.06    1.43  NaCl
+  Nahcolite        -2.51    -13.25  -10.74  NaHCO3
+  Natron           -7.50     -8.35   -0.85  Na2CO3:10H2O
+  Pirssonite       -9.49    -18.72   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.23    -15.42   -5.18  Ca(OH)2
+  Trona           -10.17    -21.54  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.02     -2.08    1.000e+01   9.907e+00  -9.336e-02
+Calcite           0.00   -10.79    -10.79    1.000e+01   9.996e+00  -4.137e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.751e-02   9.750e-02
+	Ca                4.137e-03   4.137e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.519      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 170°C)  = 190598
+                          Density (g/cm³)  =   0.91957
+                               Volume (L)  =   1.12416
+                        Viscosity (mPa s)  =   0.17203
+                        Activity of water  =   0.982
+                 Ionic strength (mol/kgw)  =   5.125e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   8.274e-03
+                       Total CO2 (mol/kg)  =   9.751e-02
+                         Temperature (°C)  = 170.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -7.596e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.89361
+                         Density of water  =   0.89771
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.570535e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.996e-06   3.024e-06    -5.301    -5.519    -0.218      0.00
+   OH-             2.074e-06   1.107e-06    -5.683    -5.956    -0.273    -12.34
+   H2O             5.551e+01   9.824e-01     1.744    -0.008     0.000     20.07
+C(4)          9.751e-02
+   CO2             8.923e-02   9.549e-02    -1.049    -1.020     0.029     48.52
+   HCO3-           8.276e-03   3.680e-03    -2.082    -2.434    -0.352     19.79
+   CO3-2           5.433e-07   3.561e-08    -6.265    -7.448    -1.183    -21.92
+Ca            4.137e-03
+   Ca+2            4.137e-03   4.573e-04    -2.383    -3.340    -0.956    -20.77
+Cl            5.000e-01
+   Cl-             5.000e-01   2.742e-01    -0.301    -0.562    -0.261      9.84
+Na            5.000e-01
+   Na+             5.000e-01   2.947e-01    -0.301    -0.531    -0.230      1.94
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(443 K,  12 atm)
+
+  Aragonite        -0.41    -10.79  -10.38  CaCO3
+  Calcite           0.00    -10.79  -10.79  CaCO3
+  CO2(g)            1.06     -1.02   -2.08  CO2	 Pressure  11.7 atm, phi 0.984
+  Gaylussite       -9.91    -19.34   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.87     -0.01   -0.88  H2O
+  Halite           -2.45     -1.09    1.36  NaCl
+  Nahcolite        -2.76    -13.50  -10.73  NaHCO3
+  Natron           -7.74     -8.59   -0.85  Na2CO3:10H2O
+  Pirssonite      -10.08    -19.31   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.07    -15.25   -5.18  Ca(OH)2
+  Trona           -10.65    -22.02  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.01     -2.07    1.000e+01   9.905e+00  -9.458e-02
+Calcite           0.00   -11.16    -11.16    1.000e+01   9.997e+00  -3.423e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.801e-02   9.800e-02
+	Ca                3.423e-03   3.423e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.555      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 187°C)  = 202878
+                          Density (g/cm³)  =   0.90233
+                               Volume (L)  =   1.14562
+                        Viscosity (mPa s)  =   0.15578
+                        Activity of water  =   0.983
+                 Ionic strength (mol/kgw)  =   5.103e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   6.846e-03
+                       Total CO2 (mol/kg)  =   9.801e-02
+                         Temperature (°C)  = 186.67
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -7.566e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.88364
+                         Density of water  =   0.87981
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.570565e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.845e-06   2.783e-06    -5.315    -5.555    -0.241      0.00
+   OH-             2.899e-06   1.503e-06    -5.538    -5.823    -0.285    -16.27
+   H2O             5.551e+01   9.826e-01     1.744    -0.008     0.000     20.48
+C(4)          9.801e-02
+   CO2             9.116e-02   9.752e-02    -1.040    -1.011     0.029     52.77
+   HCO3-           6.848e-03   2.851e-03    -2.164    -2.545    -0.381     16.58
+   CO3-2           3.886e-07   2.199e-08    -6.411    -7.658    -1.247    -30.30
+Ca            3.423e-03
+   Ca+2            3.423e-03   3.169e-04    -2.466    -3.499    -1.034    -22.41
+Cl            5.000e-01
+   Cl-             5.000e-01   2.638e-01    -0.301    -0.579    -0.278      6.27
+Na            5.000e-01
+   Na+             5.000e-01   2.819e-01    -0.301    -0.550    -0.249      2.20
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(459 K,  12 atm)
+
+  Aragonite        -0.39    -11.16  -10.77  CaCO3
+  Calcite           0.00    -11.16  -11.16  CaCO3
+  CO2(g)            1.06     -1.01   -2.07  CO2	 Pressure  11.7 atm, phi 0.986
+  Gaylussite      -10.53    -19.95   -9.42  CaNa2(CO3)2:5H2O
+  H2O(g)            1.03     -0.01   -1.04  H2O
+  Halite           -2.40     -1.13    1.27  NaCl
+  Nahcolite        -3.03    -13.76  -10.73  NaHCO3
+  Natron           -7.99     -8.83   -0.85  Na2CO3:10H2O
+  Pirssonite      -10.70    -19.93   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.96    -15.14   -5.18  Ca(OH)2
+  Trona           -11.17    -22.54  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -0.99     -2.06    1.000e+01   9.903e+00  -9.746e-02
+Calcite           0.00   -11.53    -11.53    1.000e+01   9.997e+00  -2.872e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.003e-01   1.003e-01
+	Ca                2.872e-03   2.872e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.596      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 203°C)  = 213686
+                          Density (g/cm³)  =   0.88415
+                               Volume (L)  =   1.16926
+                        Viscosity (mPa s)  =   0.14191 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.983
+                 Ionic strength (mol/kgw)  =   5.086e-01
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   5.745e-03
+                       Total CO2 (mol/kg)  =   1.003e-01
+                         Temperature (°C)  = 203.33
+                           Pressure (atm)  = 16.20
+                  Electrical balance (eq)  =  -7.548e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.87263
+                         Density of water  =   0.86075
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.570976e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.679e-06   2.538e-06    -5.330    -5.596    -0.266      0.00
+   OH-             3.867e-06   1.938e-06    -5.413    -5.713    -0.300    -21.53
+   H2O             5.551e+01   9.828e-01     1.744    -0.008     0.000     20.93
+C(4)          1.003e-01
+   CO2             9.459e-02   1.012e-01    -1.024    -0.995     0.029     58.34
+   HCO3-           5.745e-03   2.229e-03    -2.241    -2.652    -0.411     12.31
+   CO3-2           2.830e-07   1.348e-08    -6.548    -7.870    -1.322    -41.31
+Ca            2.872e-03
+   Ca+2            2.872e-03   2.177e-04    -2.542    -3.662    -1.120    -24.57
+Cl            5.000e-01
+   Cl-             5.000e-01   2.525e-01    -0.301    -0.598    -0.297      1.53
+Na            5.000e-01
+   Na+             5.000e-01   2.683e-01    -0.301    -0.571    -0.270      2.53
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(476 K,  16 atm)
+
+  Aragonite        -0.35    -11.53  -11.18  CaCO3
+  Calcite           0.00    -11.53  -11.53  CaCO3
+  CO2(g)            1.06     -0.99   -2.06  CO2	 Pressure  11.7 atm, phi 0.988
+  Gaylussite      -11.16    -20.58   -9.42  CaNa2(CO3)2:5H2O
+  H2O(g)            1.18     -0.01   -1.18  H2O
+  Halite           -2.35     -1.17    1.18  NaCl
+  Nahcolite        -3.31    -14.04  -10.73  NaHCO3
+  Natron           -8.23     -9.09   -0.85  Na2CO3:10H2O
+  Pirssonite      -11.34    -20.56   -9.22  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.91    -15.09   -5.18  Ca(OH)2
+  Trona           -11.70    -23.07  -11.36  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.97     -2.04    1.000e+01   9.898e+00  -1.022e-01
+Calcite           0.00   -11.91    -11.91    1.000e+01   9.998e+00  -2.449e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.047e-01   1.047e-01
+	Ca                2.450e-03   2.449e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.640      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 220°C)  = 223050
+                          Density (g/cm³)  =   0.86479
+                               Volume (L)  =   1.19562
+                        Viscosity (mPa s)  =   0.13163 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.983
+                 Ionic strength (mol/kgw)  =   5.074e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.899e-03
+                       Total CO2 (mol/kg)  =   1.047e-01
+                         Temperature (°C)  = 220.00
+                           Pressure (atm)  = 22.55
+                  Electrical balance (eq)  =  -7.544e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.86047
+                         Density of water  =   0.84025
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.571799e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             4.941e-06   2.378e-06    -5.306    -5.624    -0.318    -28.68
+   H+              4.504e-06   2.293e-06    -5.346    -5.640    -0.293      0.00
+   H2O             5.551e+01   9.830e-01     1.744    -0.007     0.000     21.44
+C(4)          1.047e-01
+   CO2             9.977e-02   1.067e-01    -1.001    -0.972     0.029     65.85
+   HCO3-           4.898e-03   1.760e-03    -2.310    -2.754    -0.445      6.49
+   CO3-2           2.115e-07   8.229e-09    -6.675    -8.085    -1.410    -56.18
+Ca            2.450e-03
+   Ca+2            2.450e-03   1.479e-04    -2.611    -3.830    -1.219    -27.50
+Cl            5.000e-01
+   Cl-             5.000e-01   2.402e-01    -0.301    -0.619    -0.318     -4.91
+Na            5.000e-01
+   Na+             5.000e-01   2.539e-01    -0.301    -0.595    -0.294      2.95
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(493 K,  23 atm)
+
+  Aragonite        -0.31    -11.91  -11.60  CaCO3
+  Calcite           0.00    -11.91  -11.91  CaCO3
+  CO2(g)            1.07     -0.97   -2.04  CO2	 Pressure  11.7 atm, phi 0.990
+  Gaylussite      -11.81    -21.23   -9.41  CaNa2(CO3)2:5H2O
+  H2O(g)            1.31     -0.01   -1.32  H2O
+  Halite           -2.28     -1.21    1.07  NaCl
+  Nahcolite        -3.60    -14.32  -10.72  NaHCO3
+  Natron           -8.49     -9.35   -0.86  Na2CO3:10H2O
+  Pirssonite      -11.99    -21.21   -9.21  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.91    -15.08   -5.17  Ca(OH)2
+  Trona           -12.26    -23.61  -11.35  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.94     -2.01    1.000e+01   9.891e+00  -1.088e-01
+Calcite           0.00   -12.30    -12.30    1.000e+01   9.998e+00  -2.133e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.109e-01   1.109e-01
+	Ca                2.133e-03   2.133e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.688      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 237°C)  = 230968
+                          Density (g/cm³)  =   0.84412
+                               Volume (L)  =   1.22521
+                        Viscosity (mPa s)  =   0.12180 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.983
+                 Ionic strength (mol/kgw)  =   5.064e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.266e-03
+                       Total CO2 (mol/kg)  =   1.109e-01
+                         Temperature (°C)  = 236.67
+                           Pressure (atm)  = 30.65
+                  Electrical balance (eq)  =  -7.556e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.84696
+                         Density of water  =   0.81809
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.573017e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             6.084e-06   2.789e-06    -5.216    -5.554    -0.339    -38.60
+   H+              4.323e-06   2.050e-06    -5.364    -5.688    -0.324      0.00
+   H2O             5.551e+01   9.832e-01     1.744    -0.007     0.000     22.02
+C(4)          1.109e-01
+   CO2             1.067e-01   1.140e-01    -0.972    -0.943     0.029     76.21
+   HCO3-           4.264e-03   1.408e-03    -2.370    -2.851    -0.481     -1.61
+   CO3-2           1.649e-07   5.048e-09    -6.783    -8.297    -1.514    -76.70
+Ca            2.133e-03
+   Ca+2            2.133e-03   9.915e-05    -2.671    -4.004    -1.333    -31.57
+Cl            5.000e-01
+   Cl-             5.000e-01   2.267e-01    -0.301    -0.645    -0.344    -13.83
+Na            5.000e-01
+   Na+             5.000e-01   2.386e-01    -0.301    -0.622    -0.321      3.51
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(509 K,  31 atm)
+
+  Aragonite        -0.25    -12.30  -12.05  CaCO3
+  Calcite           0.00    -12.30  -12.30  CaCO3
+  CO2(g)            1.07     -0.94   -2.01  CO2	 Pressure  11.7 atm, phi 0.991
+  Gaylussite      -12.48    -21.88   -9.40  CaNa2(CO3)2:5H2O
+  H2O(g)            1.43     -0.01   -1.44  H2O
+  Halite           -2.22     -1.27    0.95  NaCl
+  Nahcolite        -3.90    -14.61  -10.71  NaHCO3
+  Natron           -8.74     -9.62   -0.87  Na2CO3:10H2O
+  Pirssonite      -12.66    -21.86   -9.19  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.96    -15.11   -5.16  Ca(OH)2
+  Trona           -12.84    -24.16  -11.32  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.91     -1.98    1.000e+01   9.883e+00  -1.169e-01
+Calcite           0.00   -12.68    -12.68    1.000e+01   9.998e+00  -1.910e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.188e-01   1.188e-01
+	Ca                1.910e-03   1.910e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.742      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 253°C)  = 237419
+                          Density (g/cm³)  =   0.82198
+                               Volume (L)  =   1.25862
+                        Viscosity (mPa s)  =   0.11325 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.983
+                 Ionic strength (mol/kgw)  =   5.058e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.821e-03
+                       Total CO2 (mol/kg)  =   1.188e-01
+                         Temperature (°C)  = 253.33
+                           Pressure (atm)  = 40.79
+                  Electrical balance (eq)  =  -7.587e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.83175
+                         Density of water  =   0.79400
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.574573e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             7.292e-06   3.153e-06    -5.137    -5.501    -0.364    -52.72
+   H+              4.136e-06   1.811e-06    -5.383    -5.742    -0.359      0.00
+   H2O             5.551e+01   9.833e-01     1.744    -0.007     0.000     22.69
+C(4)          1.188e-01
+   CO2             1.150e-01   1.229e-01    -0.939    -0.911     0.029     90.95
+   HCO3-           3.817e-03   1.148e-03    -2.418    -2.940    -0.522    -13.16
+   CO3-2           1.373e-07   3.155e-09    -6.862    -8.501    -1.639   -105.82
+Ca            1.910e-03
+   Ca+2            1.910e-03   6.548e-05    -2.719    -4.184    -1.465    -37.38
+Cl            5.000e-01
+   Cl-             5.000e-01   2.120e-01    -0.301    -0.674    -0.373    -26.54
+Na            5.000e-01
+   Na+             5.000e-01   2.223e-01    -0.301    -0.653    -0.352      4.29
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(526 K,  41 atm)
+
+  Aragonite        -0.19    -12.68  -12.50  CaCO3
+  Calcite           0.00    -12.68  -12.68  CaCO3
+  CO2(g)            1.07     -0.91   -1.98  CO2	 Pressure  11.7 atm, phi 0.993
+  Gaylussite      -13.16    -22.53   -9.37  CaNa2(CO3)2:5H2O
+  H2O(g)            1.55     -0.01   -1.55  H2O
+  Halite           -2.15     -1.33    0.83  NaCl
+  Nahcolite        -4.21    -14.90  -10.69  NaHCO3
+  Natron           -9.00     -9.88   -0.88  Na2CO3:10H2O
+  Pirssonite      -13.35    -22.51   -9.16  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.05    -15.19   -5.13  Ca(OH)2
+  Trona           -13.44    -24.72  -11.28  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.88     -1.95    1.000e+01   9.874e+00  -1.258e-01
+Calcite           0.00   -13.06    -13.06    1.000e+01   9.998e+00  -1.781e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.275e-01   1.275e-01
+	Ca                1.781e-03   1.781e-03
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.802      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 270°C)  = 242335
+                          Density (g/cm³)  =   0.79820
+                               Volume (L)  =   1.29659
+                        Viscosity (mPa s)  =   0.10557 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.984
+                 Ionic strength (mol/kgw)  =   5.054e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.562e-03
+                       Total CO2 (mol/kg)  =   1.275e-01
+                         Temperature (°C)  = 270.00
+                           Pressure (atm)  = 53.25
+                  Electrical balance (eq)  =  -7.632e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  18
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.81418
+                         Density of water  =   0.76760
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.576308e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             8.629e-06   3.473e-06    -5.064    -5.459    -0.395    -73.50
+   H+              3.944e-06   1.577e-06    -5.404    -5.802    -0.398      0.00
+   H2O             5.551e+01   9.836e-01     1.744    -0.007     0.000     23.47
+C(4)          1.275e-01
+   CO2             1.240e-01   1.325e-01    -0.907    -0.878     0.029    112.69
+   HCO3-           3.557e-03   9.618e-04    -2.449    -3.017    -0.568    -30.21
+   CO3-2           1.269e-07   2.055e-09    -6.897    -8.687    -1.791   -148.52
+Ca            1.781e-03
+   Ca+2            1.781e-03   4.248e-05    -2.749    -4.372    -1.622    -45.91
+Cl            5.000e-01
+   Cl-             5.000e-01   1.957e-01    -0.301    -0.708    -0.407    -45.27
+Na            5.000e-01
+   Na+             5.000e-01   2.049e-01    -0.301    -0.688    -0.387      5.44
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(543 K,  53 atm)
+
+  Aragonite        -0.10    -13.06  -12.95  CaCO3
+  Calcite           0.00    -13.06  -13.06  CaCO3
+  CO2(g)            1.07     -0.88   -1.95  CO2	 Pressure  11.7 atm, phi 0.994
+  Gaylussite      -13.85    -23.16   -9.31  CaNa2(CO3)2:5H2O
+  H2O(g)            1.65     -0.01   -1.66  H2O
+  Halite           -2.09     -1.40    0.69  NaCl
+  Nahcolite        -4.53    -15.18  -10.65  NaHCO3
+  Natron           -9.26    -10.14   -0.87  Na2CO3:10H2O
+  Pirssonite      -14.05    -23.14   -9.09  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.20    -15.29   -5.09  Ca(OH)2
+  Trona           -14.05    -25.26  -11.21  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SOLUTION 1
+	Na 1e3
+	 Cl 1e3
+	pH 7 charge
+	pressure 11.8
+	USE equilibrium_phases 1
+	 USE reaction_temperature 1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.884      Charge balance
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 82884
+                          Density (g/cm³)  =   1.03652
+                               Volume (L)  =   1.02115
+                        Viscosity (mPa s)  =   0.97285
+                        Activity of water  =   0.967
+                 Ionic strength (mol/kgw)  =   1.000e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   6.996e-17
+                         Temperature (°C)  =  25.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =  -7.990e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   6
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.93645
+                         Density of water  =   0.99753
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.377e-07   7.566e-08    -6.861    -7.121    -0.260     -2.07
+   H+              1.377e-07   1.305e-07    -6.861    -6.884    -0.023      0.00
+   H2O             5.551e+01   9.668e-01     1.744    -0.015     0.000     18.06
+Cl            1.000e+00
+   Cl-             1.000e+00   6.044e-01     0.000    -0.219    -0.219     18.95
+Na            1.000e+00
+   Na+             1.000e+00   7.149e-01    -0.000    -0.146    -0.146     -0.27
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,  12 atm)
+
+  H2O(g)           -1.51     -0.01    1.50  H2O
+  Halite           -1.95     -0.36    1.58  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -0.98     -2.04    1.000e+01   9.901e+00  -9.910e-02
+Calcite           0.00    -9.77     -9.77    1.000e+01   9.991e+00  -8.999e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.081e-01   1.081e-01
+	Ca                9.000e-03   8.999e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.409      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 120°C)  = 254916
+                          Density (g/cm³)  =   0.98324
+                               Volume (L)  =   1.08184
+                        Viscosity (mPa s)  =   0.26531
+                        Activity of water  =   0.965
+                 Ionic strength (mol/kgw)  =   1.027e+00
+                       Mass of water (kg)  =   9.998e-01
+                 Total alkalinity (eq/kg)  =   1.800e-02
+                       Total CO2 (mol/kg)  =   1.081e-01
+                         Temperature (°C)  = 120.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   3.071e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  19
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.93187
+                         Density of water  =   0.94362
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.573141e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.261e-06   3.899e-06    -5.279    -5.409    -0.130      0.00
+   OH-             5.411e-07   2.782e-07    -6.267    -6.556    -0.289     -4.17
+   H2O             5.551e+01   9.651e-01     1.744    -0.015     0.000     19.09
+C(4)          1.081e-01
+   CO2             9.011e-02   1.047e-01    -1.045    -0.980     0.065     40.75
+   HCO3-           1.800e-02   7.637e-03    -1.745    -2.117    -0.372     26.34
+   CO3-2           2.084e-06   1.153e-07    -5.681    -6.938    -1.257     -5.02
+Ca            9.000e-03
+   Ca+2            9.000e-03   1.473e-03    -2.046    -2.832    -0.786    -17.23
+Cl            1.000e+00
+   Cl-             1.000e+00   5.582e-01     0.000    -0.253    -0.253     16.75
+Na            1.000e+00
+   Na+             1.000e+00   6.490e-01     0.000    -0.188    -0.188      1.52
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(393 K,  12 atm)
+
+  Aragonite        -0.40     -9.77   -9.37  CaCO3
+  Calcite           0.00     -9.77   -9.77  CaCO3
+  CO2(g)            1.06     -0.98   -2.04  CO2	 Pressure  11.7 atm, phi 0.974
+  Gaylussite       -7.73    -17.16   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.27     -0.02   -0.29  H2O
+  Halite           -1.98     -0.44    1.54  NaCl
+  Nahcolite        -1.80    -12.53  -10.74  NaHCO3
+  Natron           -6.62     -7.47   -0.85  Na2CO3:10H2O
+  Pirssonite       -7.88    -17.11   -9.24  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.76    -15.94   -5.19  Ca(OH)2
+  Trona            -8.51    -19.88  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.01     -2.07    1.000e+01   9.908e+00  -9.226e-02
+Calcite           0.00   -10.09    -10.09    1.000e+01   9.993e+00  -7.346e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.962e-02   9.960e-02
+	Ca                7.347e-03   7.346e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.437      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 137°C)  = 281618
+                          Density (g/cm³)  =   0.96959
+                               Volume (L)  =   1.09658
+                        Viscosity (mPa s)  =   0.23112
+                        Activity of water  =   0.966
+                 Ionic strength (mol/kgw)  =   1.022e+00
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   1.469e-02
+                       Total CO2 (mol/kg)  =   9.962e-02
+                         Temperature (°C)  = 136.67
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   3.749e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  18
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.92246
+                         Density of water  =   0.92956
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.571277e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.208e-06   3.654e-06    -5.283    -5.437    -0.154      0.00
+   OH-             9.178e-07   4.653e-07    -6.037    -6.332    -0.295     -5.69
+   H2O             5.551e+01   9.656e-01     1.744    -0.015     0.000     19.38
+C(4)          9.962e-02
+   CO2             8.492e-02   9.864e-02    -1.071    -1.006     0.065     42.74
+   HCO3-           1.469e-02   5.853e-03    -1.833    -2.233    -0.400     25.16
+   CO3-2           1.550e-06   7.802e-08    -5.810    -7.108    -1.298     -8.34
+Ca            7.347e-03
+   Ca+2            7.347e-03   1.035e-03    -2.134    -2.985    -0.851    -17.90
+Cl            1.000e+00
+   Cl-             1.000e+00   5.405e-01     0.000    -0.267    -0.267     15.37
+Na            1.000e+00
+   Na+             1.000e+00   6.229e-01     0.000    -0.206    -0.206      1.71
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(409 K,  12 atm)
+
+  Aragonite        -0.41    -10.09   -9.68  CaCO3
+  Calcite           0.00    -10.09  -10.09  CaCO3
+  CO2(g)            1.06     -1.01   -2.07  CO2	 Pressure  11.7 atm, phi 0.978
+  Gaylussite       -8.26    -17.69   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.49     -0.02   -0.50  H2O
+  Halite           -1.96     -0.47    1.49  NaCl
+  Nahcolite        -2.01    -12.75  -10.74  NaHCO3
+  Natron           -6.82     -7.67   -0.85  Na2CO3:10H2O
+  Pirssonite       -8.41    -17.64   -9.24  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.46    -15.65   -5.19  Ca(OH)2
+  Trona            -8.93    -20.30  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.02     -2.08    1.000e+01   9.911e+00  -8.852e-02
+Calcite          -0.00   -10.43    -10.43    1.000e+01   9.994e+00  -6.054e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.458e-02   9.457e-02
+	Ca                6.055e-03   6.054e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.469      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 153°C)  = 305971
+                          Density (g/cm³)  =   0.95501
+                               Volume (L)  =   1.11302
+                        Viscosity (mPa s)  =   0.20457
+                        Activity of water  =   0.966
+                 Ionic strength (mol/kgw)  =   1.018e+00
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   1.211e-02
+                       Total CO2 (mol/kg)  =   9.458e-02
+                         Temperature (°C)  = 153.33
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   3.790e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.91166
+                         Density of water  =   0.91427
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.570142e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.136e-06   3.395e-06    -5.289    -5.469    -0.180      0.00
+   OH-             1.455e-06   7.236e-07    -5.837    -6.141    -0.303     -7.71
+   H2O             5.551e+01   9.661e-01     1.744    -0.015     0.000     19.71
+C(4)          9.458e-02
+   CO2             8.247e-02   9.577e-02    -1.084    -1.019     0.065     45.27
+   HCO3-           1.211e-02   4.512e-03    -1.917    -2.346    -0.429     23.57
+   CO3-2           1.143e-06   5.117e-08    -5.942    -7.291    -1.349    -12.57
+Ca            6.055e-03
+   Ca+2            6.055e-03   7.204e-04    -2.218    -3.142    -0.925    -18.76
+Cl            1.000e+00
+   Cl-             1.000e+00   5.206e-01     0.000    -0.283    -0.284     13.55
+Na            1.000e+00
+   Na+             1.000e+00   5.944e-01     0.000    -0.226    -0.226      1.92
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(426 K,  12 atm)
+
+  Aragonite        -0.41    -10.43  -10.02  CaCO3
+  Calcite          -0.00    -10.43  -10.43  CaCO3
+  CO2(g)            1.06     -1.02   -2.08  CO2	 Pressure  11.7 atm, phi 0.981
+  Gaylussite       -8.82    -18.25   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.68     -0.01   -0.70  H2O
+  Halite           -1.94     -0.51    1.43  NaCl
+  Nahcolite        -2.25    -12.99  -10.74  NaHCO3
+  Natron           -7.04     -7.89   -0.85  Na2CO3:10H2O
+  Pirssonite       -8.97    -18.21   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.24    -15.42   -5.19  Ca(OH)2
+  Trona            -9.39    -20.76  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.02     -2.08    1.000e+01   9.913e+00  -8.729e-02
+Calcite           0.00   -10.79    -10.79    1.000e+01   9.995e+00  -5.044e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.235e-02   9.234e-02
+	Ca                5.045e-03   5.044e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.505      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 170°C)  = 327688
+                          Density (g/cm³)  =   0.93947
+                               Volume (L)  =   1.13126
+                        Viscosity (mPa s)  =   0.18345
+                        Activity of water  =   0.967
+                 Ionic strength (mol/kgw)  =   1.015e+00
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   1.009e-02
+                       Total CO2 (mol/kg)  =   9.235e-02
+                         Temperature (°C)  = 170.00
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   3.149e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.89939
+                         Density of water  =   0.89772
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.569594e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              5.050e-06   3.126e-06    -5.297    -5.505    -0.208      0.00
+   OH-             2.169e-06   1.053e-06    -5.664    -5.978    -0.314    -10.37
+   H2O             5.551e+01   9.666e-01     1.744    -0.015     0.000     20.07
+C(4)          9.235e-02
+   CO2             8.225e-02   9.549e-02    -1.085    -1.020     0.065     48.52
+   HCO3-           1.009e-02   3.500e-03    -1.996    -2.456    -0.460     21.45
+   CO3-2           8.413e-07   3.274e-08    -6.075    -7.485    -1.410    -18.00
+Ca            5.045e-03
+   Ca+2            5.045e-03   4.966e-04    -2.297    -3.304    -1.007    -19.87
+Cl            1.000e+00
+   Cl-             1.000e+00   4.988e-01     0.000    -0.302    -0.302     11.15
+Na            1.000e+00
+   Na+             1.000e+00   5.639e-01     0.000    -0.249    -0.249      2.17
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(443 K,  12 atm)
+
+  Aragonite        -0.41    -10.79  -10.38  CaCO3
+  Calcite           0.00    -10.79  -10.79  CaCO3
+  CO2(g)            1.06     -1.02   -2.08  CO2	 Pressure  11.7 atm, phi 0.984
+  Gaylussite       -9.42    -18.85   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            0.86     -0.01   -0.88  H2O
+  Halite           -1.91     -0.55    1.36  NaCl
+  Nahcolite        -2.50    -13.24  -10.74  NaHCO3
+  Natron           -7.28     -8.13   -0.85  Na2CO3:10H2O
+  Pirssonite       -9.57    -18.80   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.07    -15.26   -5.18  Ca(OH)2
+  Trona            -9.88    -21.25  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -1.01     -2.07    1.000e+01   9.912e+00  -8.829e-02
+Calcite           0.00   -11.16    -11.16    1.000e+01   9.996e+00  -4.256e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.255e-02   9.254e-02
+	Ca                4.256e-03   4.256e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.545      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 187°C)  = 346583
+                          Density (g/cm³)  =   0.92296
+                               Volume (L)  =   1.15146
+                        Viscosity (mPa s)  =   0.16626
+                        Activity of water  =   0.967
+                 Ionic strength (mol/kgw)  =   1.013e+00
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   8.512e-03
+                       Total CO2 (mol/kg)  =   9.255e-02
+                         Temperature (°C)  = 186.67
+                           Pressure (atm)  = 11.80
+                  Electrical balance (eq)  =   1.724e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.88557
+                         Density of water  =   0.87982
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.569556e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.952e-06   2.854e-06    -5.305    -5.545    -0.239      0.00
+   OH-             3.061e-06   1.442e-06    -5.514    -5.841    -0.327    -13.90
+   H2O             5.551e+01   9.671e-01     1.744    -0.015     0.000     20.48
+C(4)          9.255e-02
+   CO2             8.404e-02   9.752e-02    -1.076    -1.011     0.065     52.77
+   HCO3-           8.513e-03   2.735e-03    -2.070    -2.563    -0.493     18.62
+   CO3-2           6.242e-07   2.056e-08    -6.205    -7.687    -1.482    -25.07
+Ca            4.256e-03
+   Ca+2            4.256e-03   3.384e-04    -2.371    -3.471    -1.100    -21.32
+Cl            1.000e+00
+   Cl-             1.000e+00   4.749e-01     0.000    -0.323    -0.323      7.97
+Na            1.000e+00
+   Na+             1.000e+00   5.315e-01     0.000    -0.275    -0.275      2.48
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(459 K,  12 atm)
+
+  Aragonite        -0.39    -11.16  -10.77  CaCO3
+  Calcite           0.00    -11.16  -11.16  CaCO3
+  CO2(g)            1.06     -1.01   -2.07  CO2	 Pressure  11.7 atm, phi 0.986
+  Gaylussite      -10.04    -19.47   -9.43  CaNa2(CO3)2:5H2O
+  H2O(g)            1.02     -0.01   -1.04  H2O
+  Halite           -1.87     -0.60    1.27  NaCl
+  Nahcolite        -2.77    -13.51  -10.73  NaHCO3
+  Natron           -7.53     -8.38   -0.85  Na2CO3:10H2O
+  Pirssonite      -10.19    -19.42   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.97    -15.15   -5.18  Ca(OH)2
+  Trona           -10.40    -21.77  -11.37  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.06    -0.99     -2.06    1.000e+01   9.909e+00  -9.088e-02
+Calcite           0.00   -11.53    -11.53    1.000e+01   9.996e+00  -3.650e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.454e-02   9.453e-02
+	Ca                3.651e-03   3.650e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.589      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 203°C)  = 362404
+                          Density (g/cm³)  =   0.90573
+                               Volume (L)  =   1.17343
+                        Viscosity (mPa s)  =   0.15193 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.968
+                 Ionic strength (mol/kgw)  =   1.011e+00
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   7.301e-03
+                       Total CO2 (mol/kg)  =   9.454e-02
+                         Temperature (°C)  = 203.33
+                           Pressure (atm)  = 15.95
+                  Electrical balance (eq)  =  -5.895e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.87020
+                         Density of water  =   0.86075
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.569893e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.834e-06   2.576e-06    -5.316    -5.589    -0.273      0.00
+   OH-             4.134e-06   1.878e-06    -5.384    -5.726    -0.343    -18.65
+   H2O             5.551e+01   9.676e-01     1.744    -0.014     0.000     20.93
+C(4)          9.454e-02
+   CO2             8.723e-02   1.012e-01    -1.059    -0.995     0.064     58.35
+   HCO3-           7.301e-03   2.160e-03    -2.137    -2.666    -0.529     14.84
+   CO3-2           4.758e-07   1.284e-08    -6.323    -7.891    -1.569    -34.28
+Ca            3.651e-03
+   Ca+2            3.651e-03   2.276e-04    -2.438    -3.643    -1.205    -23.23
+Cl            1.000e+00
+   Cl-             1.000e+00   4.492e-01     0.000    -0.348    -0.348      3.73
+Na            1.000e+00
+   Na+             1.000e+00   4.976e-01     0.000    -0.303    -0.303      2.88
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(476 K,  16 atm)
+
+  Aragonite        -0.35    -11.53  -11.18  CaCO3
+  Calcite           0.00    -11.53  -11.53  CaCO3
+  CO2(g)            1.06     -0.99   -2.06  CO2	 Pressure  11.7 atm, phi 0.988
+  Gaylussite      -10.68    -20.10   -9.42  CaNa2(CO3)2:5H2O
+  H2O(g)            1.17     -0.01   -1.18  H2O
+  Halite           -1.83     -0.65    1.18  NaCl
+  Nahcolite        -3.05    -13.78  -10.73  NaHCO3
+  Natron           -7.79     -8.64   -0.86  Na2CO3:10H2O
+  Pirssonite      -10.83    -20.06   -9.23  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.92    -15.10   -5.18  Ca(OH)2
+  Trona           -10.95    -22.31  -11.36  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.97     -2.04    1.000e+01   9.905e+00  -9.521e-02
+Calcite           0.00   -11.92    -11.92    1.000e+01   9.997e+00  -3.193e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.841e-02   9.840e-02
+	Ca                3.193e-03   3.193e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.639      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 220°C)  = 375148
+                          Density (g/cm³)  =   0.88765
+                               Volume (L)  =   1.19749
+                        Viscosity (mPa s)  =   0.14103 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.968
+                 Ionic strength (mol/kgw)  =   1.010e+00
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   6.386e-03
+                       Total CO2 (mol/kg)  =   9.841e-02
+                         Temperature (°C)  = 220.00
+                           Pressure (atm)  = 22.21
+                  Electrical balance (eq)  =  -4.032e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.85311
+                         Density of water  =   0.84025
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.570621e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             5.365e-06   2.331e-06    -5.270    -5.633    -0.362    -25.11
+   H+              4.700e-06   2.299e-06    -5.328    -5.639    -0.311      0.00
+   H2O             5.551e+01   9.682e-01     1.744    -0.014     0.000     21.44
+C(4)          9.841e-02
+   CO2             9.202e-02   1.067e-01    -1.036    -0.972     0.064     65.86
+   HCO3-           6.385e-03   1.726e-03    -2.195    -2.763    -0.568      9.70
+   CO3-2           3.767e-07   8.018e-09    -6.424    -8.096    -1.672    -46.61
+Ca            3.193e-03
+   Ca+2            3.193e-03   1.507e-04    -2.496    -3.822    -1.326    -25.80
+Cl            1.000e+00
+   Cl-             1.000e+00   4.216e-01     0.000    -0.375    -0.375     -2.01
+Na            1.000e+00
+   Na+             1.000e+00   4.623e-01     0.000    -0.335    -0.335      3.41
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(493 K,  22 atm)
+
+  Aragonite        -0.31    -11.92  -11.61  CaCO3
+  Calcite           0.00    -11.92  -11.92  CaCO3
+  CO2(g)            1.07     -0.97   -2.04  CO2	 Pressure  11.7 atm, phi 0.990
+  Gaylussite      -11.33    -20.75   -9.42  CaNa2(CO3)2:5H2O
+  H2O(g)            1.30     -0.01   -1.32  H2O
+  Halite           -1.78     -0.71    1.07  NaCl
+  Nahcolite        -3.35    -14.07  -10.72  NaHCO3
+  Natron           -8.04     -8.91   -0.86  Na2CO3:10H2O
+  Pirssonite      -11.49    -20.71   -9.22  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.91    -15.09   -5.17  Ca(OH)2
+  Trona           -11.51    -22.86  -11.35  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.94     -2.01    1.000e+01   9.899e+00  -1.013e-01
+Calcite          -0.00   -12.31    -12.31    1.000e+01   9.997e+00  -2.863e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.041e-01   1.041e-01
+	Ca                2.864e-03   2.863e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.694      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 237°C)  = 384778
+                          Density (g/cm³)  =   0.86870
+                               Volume (L)  =   1.22388
+                        Viscosity (mPa s)  =   0.13016 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.969
+                 Ionic strength (mol/kgw)  =   1.009e+00
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   5.727e-03
+                       Total CO2 (mol/kg)  =   1.041e-01
+                         Temperature (°C)  = 236.67
+                           Pressure (atm)  = 30.20
+                  Electrical balance (eq)  =  -8.884e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.83407
+                         Density of water  =   0.81809
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.571731e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             6.738e-06   2.772e-06    -5.171    -5.557    -0.386    -34.07
+   H+              4.552e-06   2.025e-06    -5.342    -5.694    -0.352      0.00
+   H2O             5.551e+01   9.688e-01     1.744    -0.014     0.000     22.02
+C(4)          1.041e-01
+   CO2             9.840e-02   1.141e-01    -1.007    -0.943     0.064     76.23
+   HCO3-           5.724e-03   1.401e-03    -2.242    -2.854    -0.611      2.55
+   CO3-2           3.155e-07   5.045e-09    -6.501    -8.297    -1.796    -63.54
+Ca            2.864e-03
+   Ca+2            2.864e-03   9.799e-05    -2.543    -4.009    -1.466    -29.38
+Cl            1.000e+00
+   Cl-             1.000e+00   3.918e-01     0.000    -0.407    -0.407     -9.98
+Na            1.000e+00
+   Na+             1.000e+00   4.258e-01     0.000    -0.371    -0.371      4.13
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(509 K,  30 atm)
+
+  Aragonite        -0.25    -12.31  -12.05  CaCO3
+  Calcite          -0.00    -12.31  -12.31  CaCO3
+  CO2(g)            1.07     -0.94   -2.01  CO2	 Pressure  11.7 atm, phi 0.991
+  Gaylussite      -12.00    -21.41   -9.41  CaNa2(CO3)2:5H2O
+  H2O(g)            1.43     -0.01   -1.44  H2O
+  Halite           -1.73     -0.78    0.95  NaCl
+  Nahcolite        -3.65    -14.36  -10.71  NaHCO3
+  Natron           -8.30     -9.18   -0.88  Na2CO3:10H2O
+  Pirssonite      -12.17    -21.37   -9.20  Na2Ca(CO3)2:2H2O
+  Portlandite      -9.96    -15.12   -5.16  Ca(OH)2
+  Trona           -12.10    -23.43  -11.33  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.91     -1.98    1.000e+01   9.891e+00  -1.088e-01
+Calcite           0.00   -12.69    -12.69    1.000e+01   9.997e+00  -2.655e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.114e-01   1.114e-01
+	Ca                2.655e-03   2.655e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.755      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 253°C)  = 391193
+                          Density (g/cm³)  =   0.84895
+                               Volume (L)  =   1.25272
+                        Viscosity (mPa s)  =   0.12103 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.970
+                 Ionic strength (mol/kgw)  =   1.008e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.310e-03
+                       Total CO2 (mol/kg)  =   1.114e-01
+                         Temperature (°C)  = 253.33
+                           Pressure (atm)  = 40.21
+                  Electrical balance (eq)  =  -1.260e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  19
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.81267
+                         Density of water  =   0.79400
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.573172e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             8.280e-06   3.184e-06    -5.082    -5.497    -0.415    -46.83
+   H+              4.389e-06   1.757e-06    -5.358    -5.755    -0.398      0.00
+   H2O             5.551e+01   9.695e-01     1.744    -0.013     0.000     22.69
+C(4)          1.114e-01
+   CO2             1.061e-01   1.230e-01    -0.974    -0.910     0.064     90.99
+   HCO3-           5.306e-03   1.161e-03    -2.275    -2.935    -0.660     -7.66
+   CO3-2           2.874e-07   3.246e-09    -6.542    -8.489    -1.947    -87.42
+Ca            2.655e-03
+   Ca+2            2.655e-03   6.228e-05    -2.576    -4.206    -1.630    -34.47
+Cl            1.000e+00
+   Cl-             1.000e+00   3.597e-01     0.000    -0.444    -0.444    -21.33
+Na            1.000e+00
+   Na+             1.000e+00   3.881e-01     0.000    -0.411    -0.411      5.14
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(526 K,  40 atm)
+
+  Aragonite        -0.19    -12.69  -12.51  CaCO3
+  Calcite           0.00    -12.69  -12.69  CaCO3
+  CO2(g)            1.07     -0.91   -1.98  CO2	 Pressure  11.7 atm, phi 0.993
+  Gaylussite      -12.69    -22.07   -9.39  CaNa2(CO3)2:5H2O
+  H2O(g)            1.54     -0.01   -1.55  H2O
+  Halite           -1.68     -0.86    0.82  NaCl
+  Nahcolite        -3.96    -14.66  -10.69  NaHCO3
+  Natron           -8.56     -9.45   -0.88  Na2CO3:10H2O
+  Pirssonite      -12.86    -22.03   -9.17  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.06    -15.20   -5.14  Ca(OH)2
+  Trona           -12.70    -23.99  -11.30  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)            1.07    -0.88     -1.94    1.000e+01   9.883e+00  -1.171e-01
+Calcite           0.00   -13.08    -13.08    1.000e+01   9.997e+00  -2.580e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.196e-01   1.196e-01
+	Ca                2.580e-03   2.580e-03
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.825      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm, 270°C)  = 394174
+                          Density (g/cm³)  =   0.82855
+                               Volume (L)  =   1.28400
+                        Viscosity (mPa s)  =   0.11285 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.970
+                 Ionic strength (mol/kgw)  =   1.008e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.160e-03
+                       Total CO2 (mol/kg)  =   1.196e-01
+                         Temperature (°C)  = 270.00
+                           Pressure (atm)  = 52.53
+                  Electrical balance (eq)  =  -1.563e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  21
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.78815
+                         Density of water  =   0.76760
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.574807e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.011e-05   3.576e-06    -4.995    -5.447    -0.452    -65.59
+   H+              4.211e-06   1.495e-06    -5.376    -5.825    -0.450      0.00
+   H2O             5.551e+01   9.703e-01     1.744    -0.013     0.000     23.47
+C(4)          1.196e-01
+   CO2             1.145e-01   1.327e-01    -0.941    -0.877     0.064    112.78
+   HCO3-           5.154e-03   9.913e-04    -2.288    -3.004    -0.716    -22.69
+   CO3-2           2.971e-07   2.182e-09    -6.527    -8.661    -2.134   -122.19
+Ca            2.580e-03
+   Ca+2            2.580e-03   3.849e-05    -2.588    -4.415    -1.826    -41.92
+Cl            1.000e+00
+   Cl-             1.000e+00   3.250e-01     0.000    -0.488    -0.488    -38.04
+Na            1.000e+00
+   Na+             1.000e+00   3.489e-01     0.000    -0.457    -0.457      6.65
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(543 K,  53 atm)
+
+  Aragonite        -0.10    -13.08  -12.97  CaCO3
+  Calcite           0.00    -13.08  -13.08  CaCO3
+  CO2(g)            1.07     -0.88   -1.94  CO2	 Pressure  11.7 atm, phi 0.994
+  Gaylussite      -13.37    -22.72   -9.34  CaNa2(CO3)2:5H2O
+  H2O(g)            1.64     -0.01   -1.66  H2O
+  Halite           -1.63     -0.95    0.69  NaCl
+  Nahcolite        -4.28    -14.94  -10.66  NaHCO3
+  Natron           -8.82     -9.71   -0.89  Na2CO3:10H2O
+  Pirssonite      -13.56    -22.68   -9.12  Na2Ca(CO3)2:2H2O
+  Portlandite     -10.20    -15.31   -5.10  Ca(OH)2
+  Trona           -13.30    -24.55  -11.24  Na3H(CO3)2:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+-------------------------------
+End of Run after 3.148 Seconds.
+-------------------------------
+

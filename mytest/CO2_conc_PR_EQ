@@ -1,5 +1,5 @@
 # Compare expt data of CO2 solubility at high CO2 pressure and
-#   Peng-Robinson calc's with equilibrium_phases, 25, 50, 75 oC.
+#   Peng-Robinson calc's with equilibrium_phases, 25, 50, 75, 100 °C.
 DATABASE ../database/phreeqc.dat
 SELECTED_OUTPUT 101
     -file                 CO2_conc_PR_EQ_101.sel
@@ -19,7 +19,7 @@ USER_PUNCH
  30 next i
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
 #PRINT; -reset false; -echo_input true
 USER_GRAPH
  -chart_title "Using: EQUILIBRIUM_PHASES"
@@ -35,7 +35,7 @@ INCLUDE$ CO2_conc_PR_EQ.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file CO2_conc_PR_EQ_50.sel
+SELECTED_OUTPUT; -active true; file CO2_conc_PR_EQ_50.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -45,14 +45,15 @@ USER_GRAPH
  -connect_simulations false
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
 USER_GRAPH
  -connect_simulations true
 INCLUDE$ CO2_conc_PR_EQ_50.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file CO2_conc_PR_EQ_75.sel
+SELECTED_OUTPUT; -active true
+SELECTED_OUTPUT; file CO2_conc_PR_EQ_75.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -62,14 +63,16 @@ USER_GRAPH
  -connect_simulations false
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
+
 USER_GRAPH
  -connect_simulations true
 INCLUDE$ CO2_conc_PR_EQ_75.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file CO2_conc_PR_EQ_100.sel
+SELECTED_OUTPUT; -active true
+SELECTED_OUTPUT; file CO2_conc_PR_EQ_100.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -79,7 +82,7 @@ USER_GRAPH
  -connect_simulations false
 END
 
-SELECTED_OUTPUT; -selected_out false
+SELECTED_OUTPUT; -active false
 USER_GRAPH
  -connect_simulations true
 INCLUDE$ CO2_conc_PR_EQ_100.sel

@@ -1,0 +1,42 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 HighTPwaterGas_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+    temp      65
+    pH        7  charge
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    Cl        10
+    Na        10
+    -water    1 # kg
+END
+
+USE SOLUTION 1
+   
+REACTION 1
+    CO2(g)     1
+    1 moles in 100 steps
+   
+GAS_PHASE 1
+    -fixed_pressure
+    -pressure 600
+    -volume 1e-9
+    -temperature 65
+     CO2(g) 0
+     H2O(g) 0
+   
+USER_GRAPH 1
+-headings RXN Gas_volume pH
+-axis_titles "CO2 addition, mol" "Gas volume, L" "pH"
+10 GRAPH_X RXN
+20 GRAPH_Y GAS_VM * GAS("CO2(g)")
+30 GRAPH_SY -LA("H+")
+END 
