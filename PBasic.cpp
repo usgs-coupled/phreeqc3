@@ -1558,6 +1558,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokt_sc:
 			output_msg("T_SC");
 			break;
+		case tokf_visc:
+			output_msg("F_VISC");
+			break;
 		case toktc:
 			output_msg("TC");
 			break;
@@ -3901,6 +3904,13 @@ factor(struct LOC_exec * LINK)
 	{
 		const char* str = stringfactor(STR1, LINK);
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_t_sc(str);
+	}
+	break;
+
+	case tokf_visc:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_f_visc(str);
 	}
 	break;
 
@@ -7518,6 +7528,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("surf",               PBasic::toksurf),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sys",                PBasic::toksys),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",               PBasic::tokt_sc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("f_visc",             PBasic::tokf_visc),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tc",                 PBasic::toktc),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("time",               PBasic::toktime),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("title",              PBasic::toktitle),

@@ -67,12 +67,7 @@ cxxSolutionIsotope::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent1;
 	s_oss << "iso_ratio=\"" << this->ratio << "\"" << "\n";
 
-#ifdef NPP
-	if (!isnan(this->ratio_uncertainty))
-#else
-	//if (this->ratio_uncertainty != NAN)
 	if (!std::isnan(this->ratio_uncertainty))
-#endif
 	{
 		s_oss << indent1;
 		s_oss << "iso_ratio_uncertainty=\"" << this->

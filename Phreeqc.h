@@ -996,6 +996,7 @@ public:
 	int reformat_surf(const char* comp_name, LDBLE fraction, const char* new_comp_name,
 		LDBLE new_Dw, int cell);
 	LDBLE viscosity(void);
+	LDBLE calc_f_visc(const char *name);
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	LDBLE find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);

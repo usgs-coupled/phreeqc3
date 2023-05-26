@@ -170,18 +170,14 @@ ChartHandler::End_timer()
 			io->error_flush();
 		}
 	}
-	size_t i(0), i2(0);
 	for  ( ; it != chart_map.end(); it++)
 	{
-		i = 0;
 		it->second->Rate_free();
 		if (it->second->Get_form_started())
 		{
 #if defined(__cplusplus_cli)
 			while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 6, 0))
 			{
-				//if (i > max_tries) break;
-				i++;
 				System::Threading::Thread::Sleep(60);
 			}
 #endif
@@ -191,12 +187,8 @@ ChartHandler::End_timer()
 			int n = System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
 			assert(n == 6);
 #endif
-
-			i2 = 0;
 			while (it->second->Get_done() != true) 
 			{
-				//if (i2 > max_tries) break;
-				i2++;
 #if defined(__cplusplus_cli)
 				System::Threading::Thread::Sleep(60);
 #endif
@@ -225,7 +217,6 @@ ChartHandler::dump(std::ostream & oss, unsigned int indent)
 	std::map<int, ChartObject *>::iterator it = this->chart_map.begin();
 	for  ( ; it != chart_map.end(); it++)
 	{
-		size_t i = 0;
 		it->second->dump(oss, indent);
 	}
 	return true;
