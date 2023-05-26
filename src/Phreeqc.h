@@ -1593,6 +1593,12 @@ protected:
 	int initial_solution_isotopes;
 	std::vector<class calculate_value*> calculate_value;
 	std::map<std::string, class calculate_value*> calculate_value_map;
+public:
+	std::map<std::string, class calculate_value*>&  GetCalculateValueMap() 
+	{
+		return this->calculate_value_map;
+	}
+protected:
 	std::vector<class isotope_ratio*> isotope_ratio;
 	std::map<std::string, class isotope_ratio*> isotope_ratio_map;
 	std::vector<class isotope_alpha*> isotope_alpha;
