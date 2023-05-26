@@ -114,6 +114,7 @@ trigger-downstream:
   script:
     - echo triggering phreeqci
     - curl -X POST -F token=${PHREEQCI_TRIGGER} -F ref=master https://code.chs.usgs.gov/api/v4/projects/${PHREEQCI_ID}/trigger/pipeline
+    - sleep 360
 
   ## Upstream Projects
   ## phreeqc3-database https://code.chs.usgs.gov/coupled/subtrees/phreeqc3-database

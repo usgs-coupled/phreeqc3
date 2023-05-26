@@ -39,8 +39,10 @@ trigger-downstream:
   script:
     - echo triggering iphreeqc
     - curl -X POST -F token=${IPHREEQC_TRIGGER} -F ref=master https://code.chs.usgs.gov/api/v4/projects/${IPHREEQC_ID}/trigger/pipeline
+    - sleep 180
     - echo triggering phreeqc3
     - curl -X POST -F token=${PHREEQC3_TRIGGER} -F ref=master https://code.chs.usgs.gov/api/v4/projects/${PHREEQC3_ID}/trigger/pipeline
+    - sleep 360
 
   ## Upstream Projects
   ## none
