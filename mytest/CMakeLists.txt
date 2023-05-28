@@ -714,8 +714,9 @@ endforeach()
 
 # add tests
 foreach(test ${TESTS})
+  configure_file(${test} ${test} COPYONLY)
   add_test(NAME mytest.${test}
-           COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
+           COMMAND $<TARGET_FILE:phreeqc> ${test} ${test}.out xxx ${test}.log
   )
 endforeach()
 

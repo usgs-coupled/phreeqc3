@@ -71,6 +71,7 @@ Initial solution 1.
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99704
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.006e-07
                        Mass of water (kg)  =   1.000e+00
@@ -171,8 +172,8 @@ Halite           -1.01    -1.01      0.00    0.000e+00           0   0.000e+00
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  8.219e-34  Surface + diffuse layer charge, eq
-	  8.219e-34  Surface charge, eq
+	  8.449e-34  Surface + diffuse layer charge, eq
+	  8.449e-34  Surface charge, eq
 	undefined  sigma, C/m²
 	  0.000e+00  psi, V
 	 -0.000e+00  -F*psi/RT
@@ -188,8 +189,8 @@ Su_
 	Species               Moles    Fraction    Molality    Molality
 
 	Su_OH             1.000e-30       0.000   1.000e-30     -30.000
-	Su_ONa2+          8.265e-34       0.000   8.265e-34     -33.083
-	Su_O-             4.547e-36       0.000   4.547e-36     -35.342
+	Su_ONa2+          8.496e-34       0.000   8.496e-34     -33.071
+	Su_O-             4.674e-36       0.000   4.674e-36     -35.330
 
 -----------------------------Solution composition------------------------------
 
@@ -200,11 +201,12 @@ Su_
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.958      Charge balance
-                                       pe  =  -0.851      Adjusted to redox equilibrium
+                                       pH  =   6.970      Charge balance
+                                       pe  =  -0.887      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 59070
                           Density (g/cm³)  =   1.02346
                                Volume (L)  =   1.01515
+                        Viscosity (mPa s)  =   0.94380
                         Activity of water  =   0.977
                  Ionic strength (mol/kgw)  =   6.667e-01
                        Mass of water (kg)  =   1.000e+00
@@ -212,7 +214,7 @@ Su_
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   1 (11 overall)
+                               Iterations  =   1 (13 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -221,27 +223,28 @@ Su_
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.472e-07   8.975e-08    -6.832    -7.047    -0.215     -2.64
-   H+              1.460e-07   1.102e-07    -6.836    -6.958    -0.122      0.00
+   OH-             1.513e-07   9.226e-08    -6.820    -7.035    -0.215     -2.64
+   H+              1.420e-07   1.072e-07    -6.848    -6.970    -0.122      0.00
    H2O             5.551e+01   9.773e-01     1.744    -0.010     0.000     18.07
 Cl            6.667e-01
    Cl-             6.667e-01   4.210e-01    -0.176    -0.376    -0.200     18.79
-H(0)          7.433e-16
-   H2              3.717e-16   4.333e-16   -15.430   -15.363     0.067     28.61
+   HCl             8.090e-09   1.555e-08    -8.092    -7.808     0.284     (0)  
+H(0)          8.284e-16
+   H2              4.142e-16   4.829e-16   -15.383   -15.316     0.067     28.61
 Na            6.667e-01
    Na+             6.667e-01   4.783e-01    -0.176    -0.320    -0.144     -0.51
-   NaOH            3.682e-18   4.293e-18   -17.434   -17.367     0.067     (0)  
+   NaOH            3.785e-18   4.413e-18   -17.422   -17.355     0.067     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -61.740   -61.674     0.067     30.40
+   O2              0.000e+00   0.000e+00   -61.834   -61.768     0.067     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -12.26    -15.36   -3.10  H2
+  H2(g)           -12.22    -15.32   -3.10  H2
   H2O(g)           -1.51     -0.01    1.50  H2O
   Halite           -1.01     -1.01    0.00  NaCl:32H2O
-  O2(g)           -58.78    -61.67   -2.89  O2
+  O2(g)           -58.88    -61.77   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -279,8 +282,8 @@ Halite           -0.74    -0.74      0.00    0.000e+00           0   0.000e+00
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  3.590e-33  Surface + diffuse layer charge, eq
-	  3.590e-33  Surface charge, eq
+	  3.686e-33  Surface + diffuse layer charge, eq
+	  3.686e-33  Surface charge, eq
 	undefined  sigma, C/m²
 	  0.000e+00  psi, V
 	 -0.000e+00  -F*psi/RT
@@ -296,8 +299,8 @@ Su_
 	Species               Moles    Fraction    Molality    Molality
 
 	Su_OH             1.000e-30       0.000   1.000e-30     -30.000
-	Su_ONa2+          3.594e-33       0.000   3.594e-33     -32.444
-	Su_O-             4.460e-36       0.000   4.460e-36     -35.351
+	Su_ONa2+          3.690e-33       0.000   3.690e-33     -32.433
+	Su_O-             4.580e-36       0.000   4.580e-36     -35.339
 
 -----------------------------Solution composition------------------------------
 
@@ -308,11 +311,12 @@ Su_
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.949      Charge balance
-                                       pe  =  -0.879      Adjusted to redox equilibrium
+                                       pH  =   6.961      Charge balance
+                                       pe  =  -0.904      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 104236
                           Density (g/cm³)  =   1.04834
                                Volume (L)  =   1.02822
+                        Viscosity (mPa s)  =   1.00507
                         Activity of water  =   0.955
                  Ionic strength (mol/kgw)  =   1.333e+00
                        Mass of water (kg)  =   1.000e+00
@@ -329,27 +333,28 @@ Su_
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.540e-07   8.600e-08    -6.813    -7.066    -0.253     -1.60
-   H+              1.528e-07   1.124e-07    -6.816    -6.949    -0.133      0.00
+   OH-             1.581e-07   8.830e-08    -6.801    -7.054    -0.253     -1.60
+   H+              1.488e-07   1.094e-07    -6.827    -6.961    -0.133      0.00
    H2O             5.551e+01   9.547e-01     1.744    -0.020     0.000     18.07
 Cl            1.333e+00
    Cl-             1.333e+00   7.940e-01     0.125    -0.100    -0.225     19.08
-H(0)          7.519e-16
-   H2              3.760e-16   5.111e-16   -15.425   -15.292     0.133     28.61
+   HCl             8.104e-09   2.993e-08    -8.091    -7.524     0.567     (0)  
+H(0)          8.011e-16
+   H2              4.005e-16   5.445e-16   -15.397   -15.264     0.133     28.61
 Na            1.333e+00
    Na+             1.333e+00   1.007e+00     0.125     0.003    -0.122     -0.14
-   NaOH            6.372e-18   8.661e-18   -17.196   -17.062     0.133     (0)  
+   NaOH            6.542e-18   8.893e-18   -17.184   -17.051     0.133     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -61.971   -61.837     0.133     30.40
+   O2              0.000e+00   0.000e+00   -62.026   -61.892     0.133     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -12.19    -15.29   -3.10  H2
+  H2(g)           -12.16    -15.26   -3.10  H2
   H2O(g)           -1.52     -0.02    1.50  H2O
   Halite           -0.74     -0.74    0.00  NaCl:32H2O
-  O2(g)           -58.94    -61.84   -2.89  O2
+  O2(g)           -59.00    -61.89   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -387,8 +392,8 @@ Halite           -0.70    -0.70      0.00    0.000e+00           0   0.000e+00
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  9.512e-33  Surface + diffuse layer charge, eq
-	  9.512e-33  Surface charge, eq
+	  9.704e-33  Surface + diffuse layer charge, eq
+	  9.704e-33  Surface charge, eq
 	undefined  sigma, C/m²
 	  0.000e+00  psi, V
 	 -0.000e+00  -F*psi/RT
@@ -404,8 +409,8 @@ Su_
 	Species               Moles    Fraction    Molality    Molality
 
 	Su_OH             1.000e-30       0.000   1.000e-30     -30.000
-	Su_ONa2+          9.516e-33       0.000   9.516e-33     -32.022
-	Su_O-             4.432e-36       0.000   4.432e-36     -35.353
+	Su_ONa2+          9.709e-33       0.000   9.709e-33     -32.013
+	Su_O-             4.522e-36       0.000   4.522e-36     -35.345
 
 -----------------------------Solution composition------------------------------
 
@@ -416,11 +421,12 @@ Su_
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.947      Charge balance
-                                       pe  =  -0.877      Adjusted to redox equilibrium
+                                       pH  =   6.955      Charge balance
+                                       pe  =  -0.985      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 141362
                           Density (g/cm³)  =   1.07204
                                Volume (L)  =   1.04183
+                        Viscosity (mPa s)  =   1.07650
                         Activity of water  =   0.932
                  Ionic strength (mol/kgw)  =   2.000e+00
                        Mass of water (kg)  =   1.000e+00
@@ -437,27 +443,28 @@ Su_
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.570e-07   8.342e-08    -6.804    -7.079    -0.275     -0.62
-   H+              1.558e-07   1.131e-07    -6.807    -6.947    -0.139      0.00
+   OH-             1.602e-07   8.511e-08    -6.795    -7.070    -0.275     -0.62
+   H+              1.527e-07   1.108e-07    -6.816    -6.955    -0.139      0.00
    H2O             5.551e+01   9.320e-01     1.744    -0.031     0.000     18.07
 Cl            2.000e+00
    Cl-             2.000e+00   1.166e+00     0.301     0.067    -0.235     19.29
-H(0)          6.476e-16
-   H2              3.238e-16   5.132e-16   -15.490   -15.290     0.200     28.61
+   HCl             6.269e-09   4.450e-08    -8.203    -7.352     0.851     (0)  
+H(0)          1.023e-15
+   H2              5.113e-16   8.103e-16   -15.291   -15.091     0.200     28.61
 Na            2.000e+00
    Na+             2.000e+00   1.644e+00     0.301     0.216    -0.085      0.14
-   NaOH            8.654e-18   1.372e-17   -17.063   -16.863     0.200     (0)  
+   NaOH            8.829e-18   1.399e-17   -17.054   -16.854     0.200     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -62.062   -61.862     0.200     30.40
+   O2              0.000e+00   0.000e+00   -62.458   -62.258     0.200     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -12.19    -15.29   -3.10  H2
+  H2(g)           -11.99    -15.09   -3.10  H2
   H2O(g)           -1.53     -0.03    1.50  H2O
   Halite           -0.70     -0.70    0.00  NaCl:32H2O
-  O2(g)           -58.97    -61.86   -2.89  O2
+  O2(g)           -59.37    -62.26   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.

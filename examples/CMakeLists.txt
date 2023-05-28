@@ -116,163 +116,196 @@ configure_file (
 #
 
 # ex1
+configure_file(ex1 ex1 COPYONLY)
 add_test(NAME examples.ex1
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex1 ex1.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex1.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex1 ex1.out ../database/phreeqc.dat ex1.log
 )
 
 # ex2
+configure_file(ex2 ex2 COPYONLY)
 add_test(NAME examples.ex2
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex2 ex2.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex2.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex2 ex2.out ../database/phreeqc.dat ex2.log
 )
 
 # ex2b
+configure_file(ex2b ex2b COPYONLY)
 add_test(NAME examples.ex2b
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex2b ex2b.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex2b.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex2b ex2b.out ../database/phreeqc.dat ex2b.log
 )
 
 # ex3
+configure_file(ex3 ex3 COPYONLY)
 add_test(NAME examples.ex3
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex3 ex3.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex3.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex3 ex3.out ../database/phreeqc.dat ex3.log
 )
 
 # ex4
+configure_file(ex4 ex4 COPYONLY)
 add_test(NAME examples.ex4
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex4 ex4.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex4.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex4 ex4.out ../database/phreeqc.dat ex4.log
 )
 
 # ex5
+configure_file(ex5 ex5 COPYONLY)
 add_test(NAME examples.ex5
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex5 ex5.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex5.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex5 ex5.out ../database/phreeqc.dat ex5.log
 )
 
 # ex6
+configure_file(ex6 ex6 COPYONLY)
 add_test(NAME examples.ex6
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex6 ex6.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex6.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex6 ex6.out ../database/phreeqc.dat ex6.log
 )
 
 # ex7
+configure_file(ex7 ex7 COPYONLY)
 add_test(NAME examples.ex7
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex7 ex7.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex7.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex7 ex7.out ../database/phreeqc.dat ex7.log
 )
 
 # ex8
+configure_file(ex8 ex8 COPYONLY)
 add_test(NAME examples.ex8
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex8 ex8.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex8.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex8 ex8.out ../database/phreeqc.dat ex8.log
 )
 
 # ex9
+configure_file(ex9 ex9 COPYONLY)
 add_test(NAME examples.ex9
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex9 ex9.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex9.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex9 ex9.out ../database/phreeqc.dat ex9.log
 )
 
 # ex10
+configure_file(ex10 ex10 COPYONLY)
 add_test(NAME examples.ex10
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex10 ex10.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex10.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex10 ex10.out ../database/phreeqc.dat ex10.log
 )
 
 # ex11
+configure_file(ex11 ex11 COPYONLY)
 add_test(NAME examples.ex11
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex11 ex11.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex11.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex11 ex11.out ../database/phreeqc.dat ex11.log
 )
 
 # ex12
+configure_file(ex12 ex12 COPYONLY)
 add_test(NAME examples.ex12
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex12 ex12.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex12.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex12 ex12.out ../database/phreeqc.dat ex12.log
 )
 
 # ex12a
+configure_file(ex12a ex12a COPYONLY)
 add_test(NAME examples.ex12a
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex12a ex12a.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex12a.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex12a ex12a.out ../database/phreeqc.dat ex12a.log
 )
 
 # ex13a
+configure_file(ex13a ex13a COPYONLY)
 add_test(NAME examples.ex13a
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex13a ex13a.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex13a.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex13a ex13a.out ../database/phreeqc.dat ex13a.log
 )
 
 # ex13b
+configure_file(ex13b ex13b COPYONLY)
 add_test(NAME examples.ex13b
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex13b ex13b.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex13b.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex13b ex13b.out ../database/phreeqc.dat ex13b.log
 )
 
 # ex13c
+configure_file(ex13c ex13c COPYONLY)
 add_test(NAME examples.ex13c
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex13c ex13c.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex13c.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex13c ex13c.out ../database/phreeqc.dat ex13c.log
 )
 
 # ex13ac
+configure_file(ex13ac ex13ac COPYONLY)
 add_test(NAME examples.ex13ac
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex13ac ex13ac.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex13ac.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex13ac ex13ac.out ../database/phreeqc.dat ex13ac.log
 )
 
 # ex14
+configure_file(ex14 ex14 COPYONLY)
 add_test(NAME examples.ex14
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex14 ex14.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex14.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex14 ex14.out ../database/phreeqc.dat ex14.log
 )
 
 # ex15
+configure_file(ex15 ex15 COPYONLY)
+configure_file(ex15.dat ex15.dat COPYONLY)
 add_test(NAME examples.ex15
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex15 ex15.out ${PROJECT_SOURCE_DIR}/examples/ex15.dat ex15.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex15 ex15.out ../examples/ex15.dat ex15.log
 )
 
 # ex15a
+configure_file(ex15a ex15a COPYONLY)
 add_test(NAME examples.ex15a
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex15a ex15a.out ${PROJECT_SOURCE_DIR}/examples/ex15.dat ex15a.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex15a ex15a.out ../examples/ex15.dat ex15a.log
 )
 
 # ex15b
+configure_file(ex15b ex15b COPYONLY)
 add_test(NAME examples.ex15b
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex15b ex15b.out ${PROJECT_SOURCE_DIR}/examples/ex15.dat ex15b.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex15b ex15b.out ../examples/ex15.dat ex15b.log
 )
 
 # ex16
+configure_file(ex16 ex16 COPYONLY)
 add_test(NAME examples.ex16
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex16 ex16.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex16.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex16 ex16.out ../database/phreeqc.dat ex16.log
 )
 	
 # ex17
+configure_file(ex17 ex17 COPYONLY)
 add_test(NAME examples.ex17
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex17 ex17.out ${PROJECT_SOURCE_DIR}/database/pitzer.dat ex17.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex17 ex17.out ../database/pitzer.dat ex17.log
 )
 
 # ex17b
+configure_file(ex17b ex17b COPYONLY)
 add_test(NAME examples.ex17b
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex17b ex17b.out ${PROJECT_SOURCE_DIR}/database/pitzer.dat ex17b.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex17b ex17b.out ../database/pitzer.dat ex17b.log
 )
 
 # ex18
+configure_file(ex18 ex18 COPYONLY)
 add_test(NAME examples.ex18
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex18 ex18.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex18.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex18 ex18.out ../database/phreeqc.dat ex18.log
 )
 
 # ex19
+configure_file(ex19 ex19 COPYONLY)
 add_test(NAME examples.ex19
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex19 ex19.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex19.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex19 ex19.out ../database/phreeqc.dat ex19.log
 )
 
 # ex19b
+configure_file(ex19b ex19b COPYONLY)
 add_test(NAME examples.ex19b
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex19b ex19b.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex19b.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex19b ex19b.out ../database/phreeqc.dat ex19b.log
 )
 
 # ex20a
+configure_file(ex20a ex20a COPYONLY)
 add_test(NAME examples.ex20a
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex20a ex20a.out ${PROJECT_SOURCE_DIR}/database/iso.dat ex20a.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex20a ex20a.out ../database/iso.dat ex20a.log
 )
 
 # ex20b
+configure_file(ex20b ex20b COPYONLY)
 add_test(NAME examples.ex20b
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex20b ex20b.out ${PROJECT_SOURCE_DIR}/database/iso.dat ex20b.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex20b ex20b.out ../database/iso.dat ex20b.log
 )
 
 # ex21
+configure_file(ex21 ex21 COPYONLY)
 add_test(NAME examples.ex21
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex21 ex21.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex21.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex21 ex21.out ../database/phreeqc.dat ex21.log
 )
 
 # ex22
+configure_file(ex22 ex22 COPYONLY)
 add_test(NAME examples.ex22
-COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex22 ex22.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex22.log
+  COMMAND $<TARGET_FILE:phreeqc> ../examples/ex22 ex22.out ../database/phreeqc.dat ex22.log
 )
 
 # Note when setting labels we can't use the following:

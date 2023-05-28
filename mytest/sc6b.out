@@ -84,6 +84,7 @@ Beginning of initial solution calculations.
 
 Initial solution 0.	
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
@@ -97,6 +98,7 @@ Initial solution 0.
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99704
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.007e-07
                        Mass of water (kg)  =   1.000e+00
@@ -161,6 +163,7 @@ Beginning of initial solution calculations.
 
 Initial solution 0.	
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
@@ -176,10 +179,11 @@ Initial solution 0.
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99710
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.002e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.453e-09
+                 Total alkalinity (eq/kg)  =   1.418e-09
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.999e-06
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.10
@@ -201,6 +205,7 @@ Ca            1.000e-06
    CaOH+           1.720e-12   1.660e-12   -11.765   -11.780    -0.015     (0)  
 Cl            1.000e-03
    Cl-             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
+   HCl             3.441e-11   3.445e-11   -10.463   -10.463     0.000     (0)  
 H(0)          1.416e-25
    H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     28.61
 Na            1.000e-03
@@ -227,10 +232,11 @@ Beginning of initial surface-composition calculations.
 
 Surface 0.	
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  8.885e-18  Surface + diffuse layer charge, eq
+	  8.777e-18  Surface + diffuse layer charge, eq
 	  3.336e-06  Surface charge, eq
 	  6.097e-03  sigma, C/m²
 	  6.530e-02  psi, V
@@ -273,11 +279,11 @@ Hfo_w
 	Hfo_wOCa+         8.324e-10       0.000   8.324e-10      -9.080
 
 Sua           
-	  1.445e-24  Surface + diffuse layer charge, eq
+	 -2.308e-25  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.755e-22  psi, V
-	 -1.072e-20  -F*psi/RT
+	  1.273e-22  psi, V
+	 -4.957e-21  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -291,7 +297,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -303,11 +309,11 @@ Sua
 	Sua               1.000e-03       1.000   1.000e-03      -3.000
 
 Sub           
-	  1.445e-24  Surface + diffuse layer charge, eq
+	 -2.308e-25  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.755e-22  psi, V
-	 -1.072e-20  -F*psi/RT
+	  1.273e-22  psi, V
+	 -4.957e-21  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -321,7 +327,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -338,6 +344,7 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 Using solution 0.	
 Using surface 0.	
 
@@ -407,7 +414,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -437,7 +444,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -459,14 +466,15 @@ Sub
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000      Charge balance
-                                       pe  =   4.031      Adjusted to redox equilibrium
+                                       pe  =   4.015      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99710
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.002e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.453e-09
+                 Total alkalinity (eq/kg)  =   1.418e-09
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.999e-06
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.10
@@ -481,29 +489,30 @@ Sub
 
    OH-             1.049e-07   1.012e-07    -6.979    -6.995    -0.016     -4.11
    H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
-   H2O-0.01        9.113e-10   9.113e-10    -9.040    -9.040    -0.000     (0)  
+   H2O-0.01        9.117e-10   9.117e-10    -9.040    -9.040    -0.000     (0)  
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 Ca            1.000e-06
    Ca+2            1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
    CaOH+           1.720e-12   1.660e-12   -11.765   -11.780    -0.015     (0)  
 Cl            1.000e-03
    Cl-             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
-H(0)          1.229e-25
-   H2              6.147e-26   6.149e-26   -25.211   -25.211     0.000     28.61
+   HCl             3.441e-11   3.445e-11   -10.463   -10.463     0.000     (0)  
+H(0)          1.323e-25
+   H2              6.615e-26   6.616e-26   -25.179   -25.179     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
    NaOH            1.012e-20   1.012e-20   -19.995   -19.995     0.000     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -41.958   -41.958     0.000     30.40
+   O2              0.000e+00   0.000e+00   -42.021   -42.021     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -22.11    -25.21   -3.10  H2
+  H2(g)           -22.08    -25.18   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -7.57     -6.00    1.57  NaCl
-  O2(g)           -39.07    -41.96   -2.89  O2
+  O2(g)           -39.13    -42.02   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -521,6 +530,7 @@ Reading input data for simulation 3.
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 3.
 WARNING: Dispersivities were read for 1 cells. Last value is used till cell 3.
 WARNING: No porosities were read; used the value 3.00e-01 from -multi_D.
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
@@ -590,7 +600,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -620,7 +630,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -631,29 +641,47 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
 WARNING: multi_D calc's and stagnant: define MIXing factors explicitly, or 
 	 give in -multi_D the Dw used for calculating the mobile-immobile exchange factor.
+WARNING: 
+Calculating transport: 3 (mobile) cells, 4 shifts, 1 mixruns...
+
+
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -724,7 +752,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -754,7 +782,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -765,6 +793,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            1 
@@ -790,7 +819,7 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 8.255e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.0583e-24
+	Ca            	  2.0584e-24
 	Cl            	  3.1933e-06
 	H             	  3.8818e-10
 	Na            	  2.1800e-16
@@ -817,7 +846,7 @@ Hfo_w
 	Hfo_wOCa+         1.452e-10       0.000   1.452e-10      -9.838
 
 Sua           
-	  9.654e-18  Surface + diffuse layer charge, eq
+	  9.653e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	 -3.642e-15  psi, V
@@ -835,9 +864,9 @@ Sua
 	Element       	     Moles
 	Ca            	  2.5428e-12
 	Cl            	  2.5019e-09
-	H             	  1.1877e-12
+	H             	  1.1878e-12
 	Na            	  2.4963e-09
-	O             	  3.0870e-13
+	O             	  3.0871e-13
 
 Sua           
 	  4.999e-04  moles
@@ -865,9 +894,9 @@ Sub
 	Element       	     Moles
 	Ca            	  5.0844e-12
 	Cl            	  5.0027e-09
-	H             	  2.3748e-12
+	H             	  2.3751e-12
 	Na            	  4.9914e-09
-	O             	  6.1725e-13
+	O             	  6.1726e-13
 
 Sub           
 	  9.995e-04  moles
@@ -876,6 +905,8 @@ Sub
 
 	Sub               9.995e-04       1.000   9.995e-04      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            2 
@@ -885,7 +916,7 @@ Adapting surface in            2
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  3.463e-20  Surface + diffuse layer charge, eq
+	  3.446e-20  Surface + diffuse layer charge, eq
 	  1.596e-14  Surface charge, eq
 	  9.727e-05  sigma, C/m²
 	  6.566e-02  psi, V
@@ -932,7 +963,7 @@ Sua
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	 -1.425e-12  psi, V
-	  5.545e-11  -F*psi/RT
+	  5.546e-11  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -946,9 +977,9 @@ Sua
 	Element       	     Moles
 	Ca            	  2.2571e-19
 	Cl            	  2.2468e-16
-	H             	  3.0475e-16
+	H             	  3.0476e-16
 	Na            	  2.2537e-16
-	O             	  1.5292e-16
+	O             	  1.5293e-16
 
 Sua           
 	  1.500e-07  moles
@@ -962,7 +993,7 @@ Sub
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	 -1.425e-12  psi, V
-	  5.545e-11  -F*psi/RT
+	  5.546e-11  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  2.999e-03  m² for   2.999e-07 g
@@ -976,9 +1007,9 @@ Sub
 	Element       	     Moles
 	Ca            	  4.5118e-22
 	Cl            	  4.4912e-19
-	H             	  6.0917e-19
+	H             	  6.0918e-19
 	Na            	  4.5048e-19
-	O             	  3.0568e-19
+	O             	  3.0569e-19
 
 Sub           
 	  2.999e-10  moles
@@ -987,14 +1018,19 @@ Sub
 
 	Sub               2.999e-10       1.000   2.999e-10      -9.523
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            3 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            4 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            5 
@@ -1044,14 +1080,14 @@ Hfo_w
 	Hfo_wOH           3.742e-07       0.768   3.742e-07      -6.427
 	Hfo_wOH2+         5.722e-08       0.117   5.722e-08      -7.242
 	Hfo_wO-           5.606e-08       0.115   5.606e-08      -7.251
-	Hfo_wOCa+         1.959e-13       0.000   1.959e-13     -12.708
+	Hfo_wOCa+         1.960e-13       0.000   1.960e-13     -12.708
 
 Sua           
-	 -6.308e-21  Surface + diffuse layer charge, eq
+	 -6.310e-21  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -3.773e-19  psi, V
-	  1.469e-17  -F*psi/RT
+	 -3.771e-19  psi, V
+	  1.468e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.998e+03  m² for   4.998e-01 g
@@ -1065,9 +1101,9 @@ Sua
 	Element       	     Moles
 	Ca            	  2.4933e-12
 	Cl            	  2.5008e-09
-	H             	  1.0407e-12
+	H             	  1.0408e-12
 	Na            	  2.4958e-09
-	O             	  5.0983e-13
+	O             	  5.0982e-13
 
 Sua           
 	  4.998e-04  moles
@@ -1077,11 +1113,11 @@ Sua
 	Sua               4.998e-04       1.000   4.998e-04      -3.301
 
 Sub           
-	 -7.308e-24  Surface + diffuse layer charge, eq
+	 -7.311e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -3.152e-22  psi, V
-	  1.227e-20  -F*psi/RT
+	 -3.876e-23  psi, V
+	  1.509e-21  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  5.000e+00  m² for   5.000e-04 g
@@ -1095,9 +1131,9 @@ Sub
 	Element       	     Moles
 	Ca            	  2.4941e-15
 	Cl            	  2.5015e-12
-	H             	  1.0410e-15
+	H             	  1.0411e-15
 	Na            	  2.4965e-12
-	O             	  5.0998e-16
+	O             	  5.0997e-16
 
 Sub           
 	  5.000e-07  moles
@@ -1106,6 +1142,7 @@ Sub
 
 	Sub               5.000e-07       1.000   5.000e-07      -6.301
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            6 
@@ -1131,7 +1168,7 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.494e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.6496e-40
+	Ca            	  5.6460e-40
 	Cl            	  4.7682e-18
 	H             	  3.2158e-18
 	Na            	  2.9594e-31
@@ -1161,8 +1198,8 @@ Sua
 	 -1.838e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  7.212e-24  psi, V
-	 -2.807e-22  -F*psi/RT
+	  6.794e-24  psi, V
+	 -2.645e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -1191,8 +1228,8 @@ Sub
 	 -1.838e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.440e-24  psi, V
-	 -9.498e-23  -F*psi/RT
+	  1.559e-23  psi, V
+	 -6.070e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-06  m² for   1.500e-10 g
@@ -1217,10 +1254,18 @@ Sub
 
 	Sub               1.500e-13       1.000   1.500e-13     -12.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            7 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -1291,7 +1336,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1321,7 +1366,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1332,6 +1377,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            1 
@@ -1341,7 +1387,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -8.793e-14  Surface + diffuse layer charge, eq
+	 -4.748e-14  Surface + diffuse layer charge, eq
 	  3.303e-06  Surface charge, eq
 	  6.040e-03  sigma, C/m²
 	  7.131e-02  psi, V
@@ -1384,7 +1430,7 @@ Hfo_w
 	Hfo_wOCa+         3.958e-10       0.000   3.958e-10      -9.403
 
 Sorbedhfo     
-	 -4.396e-14  Surface + diffuse layer charge, eq
+	 -2.374e-14  Surface + diffuse layer charge, eq
 	  1.652e-06  Surface charge, eq
 	  6.040e-03  sigma, C/m²
 	  7.131e-02  psi, V
@@ -1427,11 +1473,11 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   1.979e-10       0.000   1.979e-10      -9.704
 
 Sua           
-	  2.623e-17  Surface + diffuse layer charge, eq
+	  1.007e-17  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -8.087e-15  psi, V
-	  3.148e-13  -F*psi/RT
+	 -3.102e-15  psi, V
+	  1.208e-13  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.999e+03  m² for   4.999e-01 g
@@ -1445,7 +1491,7 @@ Sua
 	Element       	     Moles
 	Ca            	  3.7864e-12
 	Cl            	  3.7518e-09
-	H             	  1.0726e-12
+	H             	  1.0728e-12
 	Na            	  3.7440e-09
 	O             	  4.1825e-13
 
@@ -1457,11 +1503,11 @@ Sua
 	Sua               4.999e-04       1.000   4.999e-04      -3.301
 
 Sub           
-	  5.247e-17  Surface + diffuse layer charge, eq
+	  2.014e-17  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -8.087e-15  psi, V
-	  3.148e-13  -F*psi/RT
+	 -3.102e-15  psi, V
+	  1.208e-13  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -1475,9 +1521,9 @@ Sub
 	Element       	     Moles
 	Ca            	  7.5748e-12
 	Cl            	  7.5056e-09
-	H             	  2.1458e-12
+	H             	  2.1461e-12
 	Na            	  7.4899e-09
-	O             	  8.3672e-13
+	O             	  8.3671e-13
 
 Sub           
 	  1.000e-03  moles
@@ -1486,6 +1532,8 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            2 
@@ -1495,7 +1543,7 @@ Adapting surface in            2
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.069e-15  Surface + diffuse layer charge, eq
+	 -1.771e-15  Surface + diffuse layer charge, eq
 	  1.153e-06  Surface charge, eq
 	  4.219e-03  sigma, C/m²
 	  8.006e-02  psi, V
@@ -1538,7 +1586,7 @@ Hfo_w
 	Hfo_wOCa+         3.438e-11       0.000   3.438e-11     -10.464
 
 Sorbedhfo     
-	 -3.210e-22  Surface + diffuse layer charge, eq
+	 -5.314e-22  Surface + diffuse layer charge, eq
 	  3.461e-13  Surface charge, eq
 	  4.219e-03  sigma, C/m²
 	  8.006e-02  psi, V
@@ -1581,11 +1629,11 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   1.032e-17       0.000   1.032e-17     -16.986
 
 Sua           
-	  8.471e-22  Surface + diffuse layer charge, eq
+	  1.017e-21  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.495e-15  psi, V
-	  5.819e-14  -F*psi/RT
+	 -1.795e-15  psi, V
+	  6.989e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -1599,9 +1647,9 @@ Sua
 	Element       	     Moles
 	Ca            	  3.8676e-16
 	Cl            	  3.7598e-13
-	H             	  3.5946e-16
+	H             	  3.5948e-16
 	Na            	  3.7503e-13
-	O             	  8.9078e-17
+	O             	  8.9077e-17
 
 Sua           
 	  1.500e-07  moles
@@ -1611,11 +1659,11 @@ Sua
 	Sua               1.500e-07       1.000   1.500e-07      -6.824
 
 Sub           
-	  8.467e-18  Surface + diffuse layer charge, eq
+	  1.016e-17  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.495e-15  psi, V
-	  5.819e-14  -F*psi/RT
+	 -1.795e-15  psi, V
+	  6.989e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.499e+04  m² for   1.499e+00 g
@@ -1629,9 +1677,9 @@ Sub
 	Element       	     Moles
 	Ca            	  3.8657e-12
 	Cl            	  3.7580e-09
-	H             	  3.5929e-12
+	H             	  3.5931e-12
 	Na            	  3.7485e-09
-	O             	  8.9035e-13
+	O             	  8.9034e-13
 
 Sub           
 	  1.499e-03  moles
@@ -1640,6 +1688,8 @@ Sub
 
 	Sub               1.499e-03       1.000   1.499e-03      -2.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            3 
@@ -1692,7 +1742,7 @@ Hfo_w
 	Hfo_wOCa+         3.738e-20       0.000   3.738e-20     -19.427
 
 Sua           
-	  4.414e-27  Surface + diffuse layer charge, eq
+	  4.415e-27  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	 -2.485e-11  psi, V
@@ -1704,13 +1754,13 @@ Sua
 	Water in diffuse layer: 1.500e-17 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -7.781e-05 V.
+	Donnan Layer potential, psi_DL = -7.782e-05 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.003e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
 	Ca            	  2.2922e-27
 	Cl            	  2.2447e-24
-	H             	  3.0467e-24
+	H             	  3.0468e-24
 	Na            	  2.2539e-24
 	O             	  1.5280e-24
 
@@ -1742,7 +1792,7 @@ Sub
 	Cl            	  2.2497e-16
 	H             	  3.0536e-16
 	Na            	  2.2590e-16
-	O             	  1.5314e-16
+	O             	  1.5315e-16
 
 Sub           
 	  1.503e-07  moles
@@ -1751,10 +1801,13 @@ Sub
 
 	Sub               1.503e-07       1.000   1.503e-07      -6.823
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            4 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            5 
@@ -1764,7 +1817,7 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  8.642e-21  Surface + diffuse layer charge, eq
+	  9.176e-21  Surface + diffuse layer charge, eq
 	  2.077e-09  Surface charge, eq
 	  5.063e-03  sigma, C/m²
 	  6.347e-02  psi, V
@@ -1780,8 +1833,8 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.431e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  6.8502e-27
-	Cl            	  2.0769e-09
+	Ca            	  6.8500e-27
+	Cl            	  2.0770e-09
 	H             	  3.1099e-13
 	Na            	  4.2445e-19
 	O             	  3.1099e-13
@@ -1807,7 +1860,7 @@ Hfo_w
 	Hfo_wOCa+         5.401e-13       0.000   5.401e-13     -12.268
 
 Sorbedhfo     
-	  2.865e-21  Surface + diffuse layer charge, eq
+	  2.922e-21  Surface + diffuse layer charge, eq
 	  6.925e-10  Surface charge, eq
 	  5.063e-03  sigma, C/m²
 	  6.347e-02  psi, V
@@ -1823,7 +1876,7 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.431e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.2838e-27
+	Ca            	  2.2837e-27
 	Cl            	  6.9243e-10
 	H             	  1.0368e-13
 	Na            	  1.4151e-19
@@ -1850,11 +1903,11 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   1.801e-13       0.000   1.801e-13     -12.745
 
 Sua           
-	  1.143e-23  Surface + diffuse layer charge, eq
+	  6.768e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -3.653e-21  psi, V
-	  1.422e-19  -F*psi/RT
+	 -2.368e-21  psi, V
+	  9.216e-20  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.998e+03  m² for   4.998e-01 g
@@ -1868,9 +1921,9 @@ Sua
 	Element       	     Moles
 	Ca            	  3.7415e-12
 	Cl            	  3.7521e-09
-	H             	  1.0493e-12
+	H             	  1.0494e-12
 	Na            	  3.7447e-09
-	O             	  5.6640e-13
+	O             	  5.6638e-13
 
 Sua           
 	  4.998e-04  moles
@@ -1880,11 +1933,11 @@ Sua
 	Sua               4.998e-04       1.000   4.998e-04      -3.301
 
 Sub           
-	  9.147e-24  Surface + diffuse layer charge, eq
+	  3.942e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -3.431e-21  psi, V
-	  1.335e-19  -F*psi/RT
+	 -2.335e-21  psi, V
+	  9.091e-20  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  5.003e+03  m² for   5.003e-01 g
@@ -1898,9 +1951,9 @@ Sub
 	Element       	     Moles
 	Ca            	  3.7453e-12
 	Cl            	  3.7558e-09
-	H             	  1.0504e-12
+	H             	  1.0505e-12
 	Na            	  3.7484e-09
-	O             	  5.6697e-13
+	O             	  5.6694e-13
 
 Sub           
 	  5.003e-04  moles
@@ -1909,6 +1962,7 @@ Sub
 
 	Sub               5.003e-04       1.000   5.003e-04      -3.301
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            6 
@@ -1920,7 +1974,7 @@ Diffuse Double Layer Surface-Complexation Model
 Hfo           
 	  2.993e-15  Surface + diffuse layer charge, eq
 	  9.994e-10  Surface charge, eq
-	  7.310e-03  sigma, C/m²
+	  7.309e-03  sigma, C/m²
 	  1.068e-01  psi, V
 	 -4.157e+00  -F*psi/RT
 	  1.565e-02  exp(-F*psi/RT)
@@ -1934,11 +1988,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 3.308e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  4.0768e-29
-	Cl            	  9.9930e-10
-	H             	  8.1483e-14
+	Ca            	  4.0771e-29
+	Cl            	  9.9927e-10
+	H             	  8.1486e-14
 	Na            	  1.0890e-20
-	O             	  8.1483e-14
+	O             	  8.1486e-14
 
 Hfo_s         
 	  6.247e-09  moles
@@ -1948,7 +2002,7 @@ Hfo_s
 	Hfo_sOH           4.795e-09       0.768   4.795e-09      -8.319
 	Hfo_sOH2+         7.383e-10       0.118   7.383e-10      -9.132
 	Hfo_sO-           7.134e-10       0.114   7.134e-10      -9.147
-	Hfo_sOHCa+2       2.811e-14       0.000   2.811e-14     -13.551
+	Hfo_sOHCa+2       2.812e-14       0.000   2.812e-14     -13.551
 
 Hfo_w         
 	  2.436e-07  moles
@@ -1958,7 +2012,7 @@ Hfo_w
 	Hfo_wOH           1.870e-07       0.768   1.870e-07      -6.728
 	Hfo_wOH2+         2.880e-08       0.118   2.880e-08      -7.541
 	Hfo_wO-           2.782e-08       0.114   2.782e-08      -7.556
-	Hfo_wOCa+         2.101e-15       0.000   2.101e-15     -14.677
+	Hfo_wOCa+         2.102e-15       0.000   2.102e-15     -14.677
 
 Sorbedhfo     
 	  1.548e-19  Surface + diffuse layer charge, eq
@@ -1977,11 +2031,11 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 3.308e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.2236e-35
-	Cl            	  2.9994e-16
-	H             	  2.4457e-20
-	Na            	  3.2686e-27
-	O             	  2.4457e-20
+	Ca            	  1.2237e-35
+	Cl            	  2.9993e-16
+	H             	  2.4458e-20
+	Na            	  3.2687e-27
+	O             	  2.4458e-20
 
 Sorbedhfo_s   
 	  1.879e-15  moles
@@ -1991,7 +2045,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     1.443e-15       0.768   1.443e-15     -14.841
 	Sorbedhfo_sOH2+   2.222e-16       0.118   2.222e-16     -15.653
 	Sorbedhfo_sO-     2.146e-16       0.114   2.146e-16     -15.668
-	Sorbedhfo_sOHCa+2   8.460e-21       0.000   8.460e-21     -20.073
+	Sorbedhfo_sOHCa+2   8.461e-21       0.000   8.461e-21     -20.073
 
 Sorbedhfo_w   
 	  7.312e-14  moles
@@ -2004,11 +2058,11 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   6.311e-22       0.000   6.311e-22     -21.200
 
 Sua           
-	 -3.046e-24  Surface + diffuse layer charge, eq
+	 -3.033e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.115e-18  psi, V
-	  4.339e-17  -F*psi/RT
+	 -1.140e-18  psi, V
+	  4.436e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -2022,9 +2076,9 @@ Sua
 	Element       	     Moles
 	Ca            	  3.8468e-16
 	Cl            	  3.7582e-13
-	H             	  8.0375e-16
+	H             	  8.0378e-16
 	Na            	  3.7431e-13
-	O             	  3.2009e-17
+	O             	  3.2015e-17
 
 Sua           
 	  1.500e-07  moles
@@ -2034,11 +2088,11 @@ Sua
 	Sua               1.500e-07       1.000   1.500e-07      -6.824
 
 Sub           
-	 -3.046e-24  Surface + diffuse layer charge, eq
+	 -3.033e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.115e-18  psi, V
-	  4.338e-17  -F*psi/RT
+	 -1.140e-18  psi, V
+	  4.437e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -2052,9 +2106,9 @@ Sub
 	Element       	     Moles
 	Ca            	  3.8467e-16
 	Cl            	  3.7581e-13
-	H             	  8.0374e-16
+	H             	  8.0377e-16
 	Na            	  3.7430e-13
-	O             	  3.2009e-17
+	O             	  3.2015e-17
 
 Sub           
 	  1.500e-07  moles
@@ -2063,6 +2117,7 @@ Sub
 
 	Sub               1.500e-07       1.000   1.500e-07      -6.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            7 
@@ -2088,7 +2143,7 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.492e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.7042e-40
+	Ca            	  5.7007e-40
 	Cl            	  4.7736e-18
 	H             	  3.2125e-18
 	Na            	  2.9522e-31
@@ -2118,8 +2173,8 @@ Sua
 	 -1.838e-26  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.471e-23  psi, V
-	 -5.725e-22  -F*psi/RT
+	  2.077e-23  psi, V
+	 -8.083e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-08  m² for   1.500e-12 g
@@ -2148,8 +2203,8 @@ Sub
 	  0.000e+00  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	undefined  sigma, C/m²
-	  3.406e-13  psi, V
-	 -1.326e-11  -F*psi/RT
+	  5.158e-13  psi, V
+	 -2.008e-11  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
@@ -2163,6 +2218,13 @@ Sub
 
 	Sub               1.000e-25       0.000   1.000e-25     -25.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -2172,7 +2234,7 @@ Adapting surface in            0
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -9.539e-14  Surface + diffuse layer charge, eq
+	 -8.574e-14  Surface + diffuse layer charge, eq
 	  3.336e-06  Surface charge, eq
 	  6.097e-03  sigma, C/m²
 	  6.530e-02  psi, V
@@ -2215,11 +2277,11 @@ Hfo_w
 	Hfo_wOCa+         8.324e-10       0.000   8.324e-10      -9.080
 
 Sua           
-	 -7.964e-19  Surface + diffuse layer charge, eq
+	 -7.476e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.551e-16  psi, V
-	 -6.039e-15  -F*psi/RT
+	  1.553e-16  psi, V
+	 -6.043e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -2233,7 +2295,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -2245,11 +2307,11 @@ Sua
 	Sua               1.000e-03       1.000   1.000e-03      -3.000
 
 Sub           
-	 -7.964e-19  Surface + diffuse layer charge, eq
+	 -7.476e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.551e-16  psi, V
-	 -6.039e-15  -F*psi/RT
+	  1.553e-16  psi, V
+	 -6.043e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -2263,7 +2325,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -2274,6 +2336,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            1 
@@ -2283,7 +2346,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -2.061e-13  Surface + diffuse layer charge, eq
+	 -2.060e-13  Surface + diffuse layer charge, eq
 	  3.291e-06  Surface charge, eq
 	  6.018e-03  sigma, C/m²
 	  6.767e-02  psi, V
@@ -2326,7 +2389,7 @@ Hfo_w
 	Hfo_wOCa+         6.096e-10       0.000   6.096e-10      -9.215
 
 Sorbedhfo     
-	 -2.061e-13  Surface + diffuse layer charge, eq
+	 -2.060e-13  Surface + diffuse layer charge, eq
 	  3.291e-06  Surface charge, eq
 	  6.018e-03  sigma, C/m²
 	  6.767e-02  psi, V
@@ -2369,11 +2432,11 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   6.096e-10       0.000   6.096e-10      -9.215
 
 Sua           
-	  3.523e-17  Surface + diffuse layer charge, eq
+	  3.522e-17  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	 -1.005e-14  psi, V
-	  3.914e-13  -F*psi/RT
+	  3.913e-13  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.999e+03  m² for   4.999e-01 g
@@ -2387,9 +2450,9 @@ Sua
 	Element       	     Moles
 	Ca            	  4.3961e-12
 	Cl            	  4.3777e-09
-	H             	  1.0520e-12
+	H             	  1.0522e-12
 	Na            	  4.3688e-09
-	O             	  4.8210e-13
+	O             	  4.8211e-13
 
 Sua           
 	  4.999e-04  moles
@@ -2399,11 +2462,11 @@ Sua
 	Sua               4.999e-04       1.000   4.999e-04      -3.301
 
 Sub           
-	  7.048e-17  Surface + diffuse layer charge, eq
+	  7.046e-17  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	 -1.005e-14  psi, V
-	  3.914e-13  -F*psi/RT
+	  3.913e-13  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -2417,9 +2480,9 @@ Sub
 	Element       	     Moles
 	Ca            	  8.7945e-12
 	Cl            	  8.7576e-09
-	H             	  2.1045e-12
+	H             	  2.1049e-12
 	Na            	  8.7399e-09
-	O             	  9.6445e-13
+	O             	  9.6446e-13
 
 Sub           
 	  1.000e-03  moles
@@ -2428,6 +2491,8 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            2 
@@ -2437,7 +2502,7 @@ Adapting surface in            2
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -5.867e-13  Surface + diffuse layer charge, eq
+	 -5.828e-13  Surface + diffuse layer charge, eq
 	  2.686e-06  Surface charge, eq
 	  9.827e-03  sigma, C/m²
 	  1.044e-01  psi, V
@@ -2453,10 +2518,10 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 4.898e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  3.4845e-25
-	Cl            	  2.6859e-06
+	Ca            	  3.4847e-25
+	Cl            	  2.6858e-06
 	H             	  1.2119e-10
-	Na            	  6.4497e-17
+	Na            	  6.4500e-17
 	O             	  1.2119e-10
 
 Hfo_s         
@@ -2480,7 +2545,7 @@ Hfo_w
 	Hfo_wOCa+         1.009e-11       0.000   1.009e-11     -10.996
 
 Sorbedhfo     
-	 -2.934e-13  Surface + diffuse layer charge, eq
+	 -2.914e-13  Surface + diffuse layer charge, eq
 	  1.343e-06  Surface charge, eq
 	  9.827e-03  sigma, C/m²
 	  1.044e-01  psi, V
@@ -2496,11 +2561,11 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 4.898e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.7422e-25
+	Ca            	  1.7424e-25
 	Cl            	  1.3429e-06
-	H             	  6.0594e-11
-	Na            	  3.2249e-17
-	O             	  6.0594e-11
+	H             	  6.0596e-11
+	Na            	  3.2250e-17
+	O             	  6.0596e-11
 
 Sorbedhfo_s   
 	  6.244e-06  moles
@@ -2510,7 +2575,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     4.793e-06       0.768   4.793e-06      -5.319
 	Sorbedhfo_sOH2+   7.424e-07       0.119   7.424e-07      -6.129
 	Sorbedhfo_sO-     7.088e-07       0.114   7.088e-07      -6.149
-	Sorbedhfo_sOHCa+2   6.791e-11       0.000   6.791e-11     -10.168
+	Sorbedhfo_sOHCa+2   6.792e-11       0.000   6.792e-11     -10.168
 
 Sorbedhfo_w   
 	  2.435e-04  moles
@@ -2520,14 +2585,14 @@ Sorbedhfo_w
 	Sorbedhfo_wOH     1.869e-04       0.768   1.869e-04      -3.728
 	Sorbedhfo_wOH2+   2.895e-05       0.119   2.895e-05      -4.538
 	Sorbedhfo_wO-     2.764e-05       0.114   2.764e-05      -4.558
-	Sorbedhfo_wOCa+   5.046e-12       0.000   5.046e-12     -11.297
+	Sorbedhfo_wOCa+   5.047e-12       0.000   5.047e-12     -11.297
 
 Sua           
-	  4.665e-19  Surface + diffuse layer charge, eq
+	  4.446e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -5.879e-13  psi, V
-	  2.288e-11  -F*psi/RT
+	 -5.603e-13  psi, V
+	  2.181e-11  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -2541,7 +2606,7 @@ Sua
 	Element       	     Moles
 	Ca            	  7.6526e-16
 	Cl            	  7.4972e-13
-	H             	  7.4447e-16
+	H             	  7.4453e-16
 	Na            	  7.4752e-13
 	O             	  3.5156e-17
 
@@ -2553,11 +2618,11 @@ Sua
 	Sua               1.500e-07       1.000   1.500e-07      -6.824
 
 Sub           
-	  4.664e-15  Surface + diffuse layer charge, eq
+	  4.445e-15  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -5.879e-13  psi, V
-	  2.288e-11  -F*psi/RT
+	 -5.603e-13  psi, V
+	  2.181e-11  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+04  m² for   1.500e+00 g
@@ -2571,7 +2636,7 @@ Sub
 	Element       	     Moles
 	Ca            	  7.6514e-12
 	Cl            	  7.4961e-09
-	H             	  7.4436e-12
+	H             	  7.4443e-12
 	Na            	  7.4741e-09
 	O             	  3.5151e-13
 
@@ -2582,6 +2647,8 @@ Sub
 
 	Sub               1.500e-03       1.000   1.500e-03      -2.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            3 
@@ -2591,7 +2658,7 @@ Adapting surface in            3
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  8.809e-15  Surface + diffuse layer charge, eq
+	  8.820e-15  Surface + diffuse layer charge, eq
 	  1.886e-07  Surface charge, eq
 	  1.381e-03  sigma, C/m²
 	  4.702e-02  psi, V
@@ -2607,10 +2674,10 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 8.728e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.8321e-25
+	Ca            	  1.8320e-25
 	Cl            	  1.8826e-07
 	H             	  3.1889e-10
-	Na            	  1.4559e-17
+	Na            	  1.4558e-17
 	O             	  3.1889e-10
 
 Hfo_s         
@@ -2634,7 +2701,7 @@ Hfo_w
 	Hfo_wOCa+         1.139e-10       0.000   1.139e-10      -9.944
 
 Sorbedhfo     
-	  5.288e-21  Surface + diffuse layer charge, eq
+	  5.295e-21  Surface + diffuse layer charge, eq
 	  1.132e-13  Surface charge, eq
 	  1.381e-03  sigma, C/m²
 	  4.702e-02  psi, V
@@ -2650,10 +2717,10 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 8.728e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.0998e-31
+	Ca            	  1.0997e-31
 	Cl            	  1.1301e-13
 	H             	  1.9143e-16
-	Na            	  8.7397e-24
+	Na            	  8.7394e-24
 	O             	  1.9143e-16
 
 Sorbedhfo_s   
@@ -2664,7 +2731,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     2.875e-12       0.767   2.875e-12     -11.541
 	Sorbedhfo_sOH2+   4.365e-13       0.117   4.365e-13     -12.360
 	Sorbedhfo_sO-     4.338e-13       0.116   4.338e-13     -12.363
-	Sorbedhfo_sOHCa+2   9.016e-16       0.000   9.016e-16     -15.045
+	Sorbedhfo_sOHCa+2   9.015e-16       0.000   9.015e-16     -15.045
 
 Sorbedhfo_w   
 	  1.461e-10  moles
@@ -2674,14 +2741,14 @@ Sorbedhfo_w
 	Sorbedhfo_wOH     1.122e-10       0.768   1.122e-10      -9.950
 	Sorbedhfo_wOH2+   1.703e-11       0.117   1.703e-11     -10.769
 	Sorbedhfo_wO-     1.692e-11       0.116   1.692e-11     -10.772
-	Sorbedhfo_wOCa+   6.836e-17       0.000   6.836e-17     -16.165
+	Sorbedhfo_wOCa+   6.835e-17       0.000   6.835e-17     -16.165
 
 Sua           
-	 -1.158e-28  Surface + diffuse layer charge, eq
+	 -1.157e-28  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.920e-14  psi, V
-	 -1.137e-12  -F*psi/RT
+	  2.917e-14  psi, V
+	 -1.135e-12  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-08  m² for   1.500e-12 g
@@ -2695,7 +2762,7 @@ Sua
 	Element       	     Moles
 	Ca            	  1.9285e-24
 	Cl            	  1.8844e-21
-	H             	  3.9503e-24
+	H             	  3.9506e-24
 	Na            	  1.8830e-21
 	O             	  3.2054e-24
 
@@ -2707,11 +2774,11 @@ Sua
 	Sua               1.500e-15       1.000   1.500e-15     -14.824
 
 Sub           
-	 -1.158e-16  Surface + diffuse layer charge, eq
+	 -1.156e-16  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.920e-14  psi, V
-	 -1.137e-12  -F*psi/RT
+	  2.917e-14  psi, V
+	 -1.135e-12  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+04  m² for   1.500e+00 g
@@ -2725,7 +2792,7 @@ Sub
 	Element       	     Moles
 	Ca            	  1.9283e-12
 	Cl            	  1.8842e-09
-	H             	  3.9499e-12
+	H             	  3.9502e-12
 	Na            	  1.8828e-09
 	O             	  3.2050e-12
 
@@ -2736,6 +2803,8 @@ Sub
 
 	Sub               1.500e-03       1.000   1.500e-03      -2.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            4 
@@ -2761,7 +2830,7 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.586e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.2468e-45
+	Ca            	  2.2455e-45
 	Cl            	  3.9918e-22
 	H             	  5.0513e-15
 	Na            	  5.6577e-37
@@ -2788,11 +2857,11 @@ Hfo_w
 	Hfo_wOCa+         1.211e-28       0.000   1.211e-28     -27.917
 
 Sua           
-	 -2.737e-48  Surface + diffuse layer charge, eq
+	 -1.095e-47  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  7.772e-26  psi, V
-	 -3.025e-24  -F*psi/RT
+	  7.729e-24  psi, V
+	 -3.008e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-16  m² for   1.500e-20 g
@@ -2818,11 +2887,11 @@ Sua
 	Sua               1.500e-23       1.000   1.500e-23     -22.824
 
 Sub           
-	  4.930e-32  Surface + diffuse layer charge, eq
+	 -7.396e-32  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -6.769e-24  psi, V
-	  2.635e-22  -F*psi/RT
+	  5.306e-24  psi, V
+	 -2.065e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.503e+00  m² for   1.503e-04 g
@@ -2847,6 +2916,7 @@ Sub
 
 	Sub               1.503e-07       1.000   1.503e-07      -6.823
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            5 
@@ -2856,11 +2926,11 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  4.794e-20  Surface + diffuse layer charge, eq
-	  3.036e-09  Surface charge, eq
+	  4.830e-20  Surface + diffuse layer charge, eq
+	  3.035e-09  Surface charge, eq
 	  6.342e-03  sigma, C/m²
 	  7.002e-02  psi, V
-	 -2.726e+00  -F*psi/RT
+	 -2.725e+00  -F*psi/RT
 	  6.551e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  4.618e-02  m² for   7.697e-05 g
@@ -2872,11 +2942,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.333e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.9329e-27
-	Cl            	  3.0352e-09
-	H             	  3.0159e-13
-	Na            	  5.3808e-19
-	O             	  3.0159e-13
+	Ca            	  7.9336e-27
+	Cl            	  3.0351e-09
+	H             	  3.0160e-13
+	Na            	  5.3811e-19
+	O             	  3.0160e-13
 
 Hfo_s         
 	  2.187e-08  moles
@@ -2886,7 +2956,7 @@ Hfo_s
 	Hfo_sOH           1.678e-08       0.767   1.678e-08      -7.775
 	Hfo_sOH2+         2.578e-09       0.118   2.578e-09      -8.589
 	Hfo_sO-           2.502e-09       0.114   2.502e-09      -8.602
-	Hfo_sOHCa+2       5.870e-12       0.000   5.870e-12     -11.231
+	Hfo_sOHCa+2       5.871e-12       0.000   5.871e-12     -11.231
 
 Hfo_w         
 	  8.528e-07  moles
@@ -2896,14 +2966,14 @@ Hfo_w
 	Hfo_wOH           6.546e-07       0.768   6.546e-07      -6.184
 	Hfo_wOH2+         1.006e-07       0.118   1.006e-07      -6.998
 	Hfo_wO-           9.762e-08       0.114   9.762e-08      -7.010
-	Hfo_wOCa+         4.399e-13       0.000   4.399e-13     -12.357
+	Hfo_wOCa+         4.400e-13       0.000   4.400e-13     -12.357
 
 Sorbedhfo     
-	  3.408e-20  Surface + diffuse layer charge, eq
+	  3.371e-20  Surface + diffuse layer charge, eq
 	  2.169e-09  Surface charge, eq
 	  6.342e-03  sigma, C/m²
 	  7.002e-02  psi, V
-	 -2.726e+00  -F*psi/RT
+	 -2.725e+00  -F*psi/RT
 	  6.551e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  3.300e-02  m² for   5.499e-05 g
@@ -2915,11 +2985,11 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.333e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.6674e-27
-	Cl            	  2.1684e-09
-	H             	  2.1546e-13
-	Na            	  3.8442e-19
-	O             	  2.1546e-13
+	Ca            	  5.6679e-27
+	Cl            	  2.1683e-09
+	H             	  2.1547e-13
+	Na            	  3.8443e-19
+	O             	  2.1547e-13
 
 Sorbedhfo_s   
 	  1.562e-08  moles
@@ -2942,11 +3012,11 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   3.143e-13       0.000   3.143e-13     -12.503
 
 Sua           
-	  3.146e-23  Surface + diffuse layer charge, eq
+	  3.369e-23  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -9.435e-21  psi, V
-	  3.672e-19  -F*psi/RT
+	 -9.707e-21  psi, V
+	  3.778e-19  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.998e+03  m² for   4.998e-01 g
@@ -2954,15 +3024,15 @@ Sua
 	Water in diffuse layer: 4.998e-06 kg, 33.3% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.795e-08 V.
+	Donnan Layer potential, psi_DL = -1.796e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
 	Ca            	  4.3655e-12
 	Cl            	  4.3781e-09
-	H             	  1.0648e-12
+	H             	  1.0650e-12
 	Na            	  4.3692e-09
-	O             	  4.3958e-13
+	O             	  4.3962e-13
 
 Sua           
 	  4.998e-04  moles
@@ -2972,11 +3042,11 @@ Sua
 	Sua               4.998e-04       1.000   4.998e-04      -3.301
 
 Sub           
-	  6.491e-23  Surface + diffuse layer charge, eq
+	  6.478e-23  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -9.685e-21  psi, V
-	  3.770e-19  -F*psi/RT
+	 -9.478e-21  psi, V
+	  3.689e-19  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -2984,15 +3054,15 @@ Sub
 	Water in diffuse layer: 1.000e-05 kg, 66.7% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.795e-08 V.
+	Donnan Layer potential, psi_DL = -1.796e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
 	Ca            	  8.7355e-12
 	Cl            	  8.7605e-09
-	H             	  2.1307e-12
+	H             	  2.1310e-12
 	Na            	  8.7427e-09
-	O             	  8.7961e-13
+	O             	  8.7968e-13
 
 Sub           
 	  1.000e-03  moles
@@ -3001,6 +3071,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            6 
@@ -3010,11 +3081,11 @@ Adapting surface in            6
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.545e-21  Surface + diffuse layer charge, eq
-	 -2.235e-11  Surface charge, eq
-	 -1.090e-04  sigma, C/m²
-	 -2.131e-03  psi, V
-	  8.293e-02  -F*psi/RT
+	  1.378e-21  Surface + diffuse layer charge, eq
+	 -2.232e-11  Surface charge, eq
+	 -1.089e-04  sigma, C/m²
+	 -2.128e-03  psi, V
+	  8.283e-02  -F*psi/RT
 	  1.086e+00  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  1.979e-02  m² for   3.298e-05 g
@@ -3022,15 +3093,15 @@ Hfo
 	Water in diffuse layer: 1.979e-11 kg,  0.4% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.729e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 8.357e+02 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL = -1.728e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 8.351e+02 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.0388e-12
-	Cl            	  1.1831e-17
-	H             	  1.2022e-16
-	Na            	  8.2704e-12
-	O             	  2.5395e-19
+	Ca            	  7.0288e-12
+	Cl            	  1.1839e-17
+	H             	  1.2014e-16
+	Na            	  8.2645e-12
+	O             	  2.5380e-19
 
 Hfo_s         
 	  9.368e-09  moles
@@ -3040,7 +3111,7 @@ Hfo_s
 	Hfo_sOH           6.894e-09       0.736   6.894e-09      -8.162
 	Hfo_sO-           1.053e-09       0.112   1.053e-09      -8.977
 	Hfo_sOH2+         1.034e-09       0.110   1.034e-09      -8.986
-	Hfo_sOHCa+2       3.868e-10       0.041   3.868e-10      -9.412
+	Hfo_sOHCa+2       3.868e-10       0.041   3.868e-10      -9.413
 
 Hfo_w         
 	  3.654e-07  moles
@@ -3053,11 +3124,11 @@ Hfo_w
 	Hfo_wOCa+         3.097e-11       0.000   3.097e-11     -10.509
 
 Sorbedhfo     
-	  4.864e-22  Surface + diffuse layer charge, eq
-	 -7.451e-12  Surface charge, eq
-	 -1.090e-04  sigma, C/m²
-	 -2.131e-03  psi, V
-	  8.293e-02  -F*psi/RT
+	  4.847e-22  Surface + diffuse layer charge, eq
+	 -7.442e-12  Surface charge, eq
+	 -1.089e-04  sigma, C/m²
+	 -2.128e-03  psi, V
+	  8.283e-02  -F*psi/RT
 	  1.086e+00  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  6.596e-03  m² for   1.099e-05 g
@@ -3065,15 +3136,15 @@ Sorbedhfo
 	Water in diffuse layer: 6.596e-12 kg,  0.1% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.729e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 8.357e+02 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL = -1.728e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 8.351e+02 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.3467e-12
-	Cl            	  3.9442e-18
-	H             	  4.0080e-17
-	Na            	  2.7573e-12
-	O             	  8.4664e-20
+	Ca            	  2.3433e-12
+	Cl            	  3.9471e-18
+	H             	  4.0055e-17
+	Na            	  2.7553e-12
+	O             	  8.4614e-20
 
 Sorbedhfo_s   
 	  3.123e-09  moles
@@ -3083,7 +3154,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     2.299e-09       0.736   2.299e-09      -8.639
 	Sorbedhfo_sO-     3.512e-10       0.112   3.512e-10      -9.454
 	Sorbedhfo_sOH2+   3.446e-10       0.110   3.446e-10      -9.463
-	Sorbedhfo_sOHCa+2   1.290e-10       0.041   1.290e-10      -9.890
+	Sorbedhfo_sOHCa+2   1.289e-10       0.041   1.289e-10      -9.890
 
 Sorbedhfo_w   
 	  1.218e-07  moles
@@ -3093,14 +3164,14 @@ Sorbedhfo_w
 	Sorbedhfo_wOH     9.349e-08       0.768   9.349e-08      -7.029
 	Sorbedhfo_wO-     1.429e-08       0.117   1.429e-08      -7.845
 	Sorbedhfo_wOH2+   1.402e-08       0.115   1.402e-08      -7.853
-	Sorbedhfo_wOCa+   1.033e-11       0.000   1.033e-11     -10.986
+	Sorbedhfo_wOCa+   1.032e-11       0.000   1.032e-11     -10.986
 
 Sua           
-	  2.570e-25  Surface + diffuse layer charge, eq
+	  2.560e-25  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -3.228e-19  psi, V
-	  1.256e-17  -F*psi/RT
+	 -3.219e-19  psi, V
+	  1.253e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -3114,9 +3185,9 @@ Sua
 	Element       	     Moles
 	Ca            	  7.6401e-16
 	Cl            	  7.4955e-13
-	H             	  2.2145e-15
+	H             	  2.2143e-15
 	Na            	  7.5021e-13
-	O             	  2.2023e-15
+	O             	  2.2020e-15
 
 Sua           
 	  1.500e-07  moles
@@ -3126,11 +3197,11 @@ Sua
 	Sua               1.500e-07       1.000   1.500e-07      -6.824
 
 Sub           
-	  5.139e-25  Surface + diffuse layer charge, eq
+	  5.119e-25  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -3.229e-19  psi, V
-	  1.257e-17  -F*psi/RT
+	 -3.221e-19  psi, V
+	  1.254e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.000e+00  m² for   3.000e-04 g
@@ -3144,9 +3215,9 @@ Sub
 	Element       	     Moles
 	Ca            	  1.5280e-15
 	Cl            	  1.4991e-12
-	H             	  4.4290e-15
+	H             	  4.4285e-15
 	Na            	  1.5004e-12
-	O             	  4.4045e-15
+	O             	  4.4041e-15
 
 Sub           
 	  3.000e-07  moles
@@ -3155,6 +3226,7 @@ Sub
 
 	Sub               3.000e-07       1.000   3.000e-07      -6.523
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            7 
@@ -3180,11 +3252,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.727e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.7922e-30
-	Cl            	  4.8079e-10
-	H             	  4.2708e-14
+	Ca            	  2.7923e-30
+	Cl            	  4.8077e-10
+	H             	  4.2709e-14
 	Na            	  1.4202e-21
-	O             	  4.2708e-14
+	O             	  4.2709e-14
 
 Hfo_s         
 	  3.122e-09  moles
@@ -3207,7 +3279,7 @@ Hfo_w
 	Hfo_wOCa+         1.592e-16       0.000   1.592e-16     -15.798
 
 Sorbedhfo     
-	  1.483e-19  Surface + diffuse layer charge, eq
+	  1.477e-19  Surface + diffuse layer charge, eq
 	  2.888e-16  Surface charge, eq
 	  7.041e-03  sigma, C/m²
 	  1.222e-01  psi, V
@@ -3223,10 +3295,10 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.727e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.6761e-36
-	Cl            	  2.8862e-16
+	Ca            	  1.6763e-36
+	Cl            	  2.8861e-16
 	H             	  2.5638e-20
-	Na            	  8.5252e-28
+	Na            	  8.5254e-28
 	O             	  2.5638e-20
 
 Sorbedhfo_s   
@@ -3247,14 +3319,14 @@ Sorbedhfo_w
 	Sorbedhfo_wOH     5.613e-14       0.768   5.613e-14     -13.251
 	Sorbedhfo_wOH2+   8.637e-15       0.118   8.637e-15     -14.064
 	Sorbedhfo_wO-     8.356e-15       0.114   8.356e-15     -14.078
-	Sorbedhfo_wOCa+   9.560e-23       0.000   9.560e-23     -22.020
+	Sorbedhfo_wOCa+   9.561e-23       0.000   9.561e-23     -22.020
 
 Sua           
-	  6.628e-31  Surface + diffuse layer charge, eq
+	  1.231e-30  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.750e-16  psi, V
-	  6.813e-15  -F*psi/RT
+	 -3.177e-16  psi, V
+	  1.237e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-08  m² for   1.500e-12 g
@@ -3270,7 +3342,7 @@ Sua
 	Cl            	  1.8882e-21
 	H             	  1.4118e-23
 	Na            	  1.8706e-21
-	O             	  1.8099e-25
+	O             	  1.8105e-25
 
 Sua           
 	  1.500e-15  moles
@@ -3280,11 +3352,11 @@ Sua
 	Sua               1.500e-15       1.000   1.500e-15     -14.824
 
 Sub           
-	  6.628e-31  Surface + diffuse layer charge, eq
+	  1.231e-30  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.750e-16  psi, V
-	  6.813e-15  -F*psi/RT
+	 -3.177e-16  psi, V
+	  1.237e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-08  m² for   1.500e-12 g
@@ -3300,7 +3372,7 @@ Sub
 	Cl            	  1.8882e-21
 	H             	  1.4118e-23
 	Na            	  1.8706e-21
-	O             	  1.8099e-25
+	O             	  1.8105e-25
 
 Sub           
 	  1.500e-15  moles
@@ -3309,6 +3381,13 @@ Sub
 
 	Sub               1.500e-15       1.000   1.500e-15     -14.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -3318,7 +3397,7 @@ Adapting surface in            0
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.035e-13  Surface + diffuse layer charge, eq
+	 -9.345e-14  Surface + diffuse layer charge, eq
 	  3.336e-06  Surface charge, eq
 	  6.097e-03  sigma, C/m²
 	  6.530e-02  psi, V
@@ -3361,11 +3440,11 @@ Hfo_w
 	Hfo_wOCa+         8.324e-10       0.000   8.324e-10      -9.080
 
 Sua           
-	 -8.565e-19  Surface + diffuse layer charge, eq
+	 -8.056e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.668e-16  psi, V
-	 -6.492e-15  -F*psi/RT
+	  1.671e-16  psi, V
+	 -6.506e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -3379,7 +3458,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -3391,11 +3470,11 @@ Sua
 	Sua               1.000e-03       1.000   1.000e-03      -3.000
 
 Sub           
-	 -8.565e-19  Surface + diffuse layer charge, eq
+	 -8.056e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.668e-16  psi, V
-	 -6.492e-15  -F*psi/RT
+	  1.671e-16  psi, V
+	 -6.506e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -3409,7 +3488,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -3420,6 +3499,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            1 
@@ -3429,7 +3509,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -3.218e-14  Surface + diffuse layer charge, eq
+	 -3.223e-14  Surface + diffuse layer charge, eq
 	  3.381e-06  Surface charge, eq
 	  6.182e-03  sigma, C/m²
 	  6.734e-02  psi, V
@@ -3447,7 +3527,7 @@ Hfo
 	Element       	     Moles
 	Ca            	  1.1813e-23
 	Cl            	  3.3806e-06
-	H             	  3.4901e-10
+	H             	  3.4902e-10
 	Na            	  7.2386e-16
 	O             	  3.4901e-10
 
@@ -3472,7 +3552,7 @@ Hfo_w
 	Hfo_wOCa+         6.693e-10       0.000   6.693e-10      -9.174
 
 Sorbedhfo     
-	 -4.827e-14  Surface + diffuse layer charge, eq
+	 -4.835e-14  Surface + diffuse layer charge, eq
 	  5.071e-06  Surface charge, eq
 	  6.182e-03  sigma, C/m²
 	  6.734e-02  psi, V
@@ -3515,11 +3595,11 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   1.004e-09       0.000   1.004e-09      -8.998
 
 Sua           
-	  2.389e-18  Surface + diffuse layer charge, eq
+	  2.396e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -6.570e-16  psi, V
-	  2.557e-14  -F*psi/RT
+	 -6.592e-16  psi, V
+	  2.566e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.999e+03  m² for   4.999e-01 g
@@ -3533,9 +3613,9 @@ Sua
 	Element       	     Moles
 	Ca            	  4.7049e-12
 	Cl            	  4.6904e-09
-	H             	  1.0520e-12
+	H             	  1.0522e-12
 	Na            	  4.6809e-09
-	O             	  4.8868e-13
+	O             	  4.8867e-13
 
 Sua           
 	  4.999e-04  moles
@@ -3545,11 +3625,11 @@ Sua
 	Sua               4.999e-04       1.000   4.999e-04      -3.301
 
 Sub           
-	  4.778e-18  Surface + diffuse layer charge, eq
+	  4.794e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -6.570e-16  psi, V
-	  2.557e-14  -F*psi/RT
+	 -6.592e-16  psi, V
+	  2.566e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -3563,7 +3643,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.4122e-12
 	Cl            	  9.3831e-09
-	H             	  2.1046e-12
+	H             	  2.1049e-12
 	Na            	  9.3641e-09
 	O             	  9.7760e-13
 
@@ -3574,6 +3654,8 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            2 
@@ -3583,11 +3665,11 @@ Adapting surface in            2
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.084e-12  Surface + diffuse layer charge, eq
-	  2.433e-07  Surface charge, eq
-	  8.901e-04  sigma, C/m²
-	  1.464e-02  psi, V
-	 -5.700e-01  -F*psi/RT
+	 -1.085e-12  Surface + diffuse layer charge, eq
+	  2.434e-07  Surface charge, eq
+	  8.904e-04  sigma, C/m²
+	  1.465e-02  psi, V
+	 -5.701e-01  -F*psi/RT
 	  5.655e-01  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  2.637e+01  m² for   4.396e-02 g
@@ -3596,14 +3678,14 @@ Hfo
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
 	Donnan Layer potential, psi_DL =  2.441e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 7.464e-05 (= c_DL / c_free if z is +1).
+	Boltzmann factor, exp(-psi_DL * F / RT) = 7.461e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.5417e-23
-	Cl            	  2.4303e-07
-	H             	  2.6852e-10
-	Na            	  1.3575e-15
-	O             	  2.6852e-10
+	Ca            	  7.5381e-23
+	Cl            	  2.4310e-07
+	H             	  2.6856e-10
+	Na            	  1.3571e-15
+	O             	  2.6856e-10
 
 Hfo_s         
 	  1.249e-05  moles
@@ -3613,7 +3695,7 @@ Hfo_s
 	Hfo_sOH           9.490e-06       0.760   9.490e-06      -5.023
 	Hfo_sO-           1.437e-06       0.115   1.437e-06      -5.843
 	Hfo_sOH2+         1.436e-06       0.115   1.436e-06      -5.843
-	Hfo_sOHCa+2       1.246e-07       0.010   1.246e-07      -6.904
+	Hfo_sOHCa+2       1.246e-07       0.010   1.246e-07      -6.905
 
 Hfo_w         
 	  4.870e-04  moles
@@ -3623,14 +3705,14 @@ Hfo_w
 	Hfo_wOH           3.738e-04       0.768   3.738e-04      -3.427
 	Hfo_wO-           5.659e-05       0.116   5.659e-05      -4.247
 	Hfo_wOH2+         5.658e-05       0.116   5.658e-05      -4.247
-	Hfo_wOCa+         9.572e-09       0.000   9.572e-09      -8.019
+	Hfo_wOCa+         9.570e-09       0.000   9.570e-09      -8.019
 
 Sorbedhfo     
-	 -1.084e-12  Surface + diffuse layer charge, eq
-	  2.433e-07  Surface charge, eq
-	  8.901e-04  sigma, C/m²
-	  1.464e-02  psi, V
-	 -5.700e-01  -F*psi/RT
+	 -1.085e-12  Surface + diffuse layer charge, eq
+	  2.434e-07  Surface charge, eq
+	  8.904e-04  sigma, C/m²
+	  1.465e-02  psi, V
+	 -5.701e-01  -F*psi/RT
 	  5.655e-01  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  2.637e+01  m² for   4.396e-02 g
@@ -3639,14 +3721,14 @@ Sorbedhfo
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
 	Donnan Layer potential, psi_DL =  2.441e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 7.464e-05 (= c_DL / c_free if z is +1).
+	Boltzmann factor, exp(-psi_DL * F / RT) = 7.461e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.5417e-23
-	Cl            	  2.4303e-07
-	H             	  2.6852e-10
-	Na            	  1.3575e-15
-	O             	  2.6852e-10
+	Ca            	  7.5381e-23
+	Cl            	  2.4310e-07
+	H             	  2.6856e-10
+	Na            	  1.3571e-15
+	O             	  2.6856e-10
 
 Sorbedhfo_s   
 	  1.249e-05  moles
@@ -3656,7 +3738,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     9.490e-06       0.760   9.490e-06      -5.023
 	Sorbedhfo_sO-     1.437e-06       0.115   1.437e-06      -5.843
 	Sorbedhfo_sOH2+   1.436e-06       0.115   1.436e-06      -5.843
-	Sorbedhfo_sOHCa+2   1.246e-07       0.010   1.246e-07      -6.904
+	Sorbedhfo_sOHCa+2   1.246e-07       0.010   1.246e-07      -6.905
 
 Sorbedhfo_w   
 	  4.870e-04  moles
@@ -3666,14 +3748,14 @@ Sorbedhfo_w
 	Sorbedhfo_wOH     3.738e-04       0.768   3.738e-04      -3.427
 	Sorbedhfo_wO-     5.659e-05       0.116   5.659e-05      -4.247
 	Sorbedhfo_wOH2+   5.658e-05       0.116   5.658e-05      -4.247
-	Sorbedhfo_wOCa+   9.572e-09       0.000   9.572e-09      -8.019
+	Sorbedhfo_wOCa+   9.570e-09       0.000   9.570e-09      -8.019
 
 Sua           
-	  7.333e-18  Surface + diffuse layer charge, eq
+	  7.331e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -7.899e-12  psi, V
-	  3.075e-10  -F*psi/RT
+	 -7.897e-12  psi, V
+	  3.074e-10  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -3685,11 +3767,11 @@ Sua
 	Boltzmann factor, exp(-psi_DL * F / RT) = 9.986e-01 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  6.5797e-16
+	Ca            	  6.5805e-16
 	Cl            	  1.0332e-12
-	H             	  1.1654e-15
+	H             	  1.1652e-15
 	Na            	  1.0330e-12
-	O             	  1.1429e-15
+	O             	  1.1427e-15
 
 Sua           
 	  1.500e-07  moles
@@ -3699,11 +3781,11 @@ Sua
 	Sua               1.500e-07       1.000   1.500e-07      -6.824
 
 Sub           
-	  7.332e-14  Surface + diffuse layer charge, eq
+	  7.330e-14  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -7.899e-12  psi, V
-	  3.075e-10  -F*psi/RT
+	 -7.897e-12  psi, V
+	  3.074e-10  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+04  m² for   1.500e+00 g
@@ -3715,11 +3797,11 @@ Sub
 	Boltzmann factor, exp(-psi_DL * F / RT) = 9.986e-01 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  6.5787e-12
+	Ca            	  6.5796e-12
 	Cl            	  1.0331e-08
-	H             	  1.1652e-11
+	H             	  1.1650e-11
 	Na            	  1.0329e-08
-	O             	  1.1427e-11
+	O             	  1.1425e-11
 
 Sub           
 	  1.500e-03  moles
@@ -3728,6 +3810,8 @@ Sub
 
 	Sub               1.500e-03       1.000   1.500e-03      -2.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            3 
@@ -3737,11 +3821,11 @@ Adapting surface in            3
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.062e-12  Surface + diffuse layer charge, eq
+	  1.061e-12  Surface + diffuse layer charge, eq
 	  2.083e-06  Surface charge, eq
 	  1.525e-02  sigma, C/m²
 	  1.383e-01  psi, V
-	 -5.385e+00  -F*psi/RT
+	 -5.384e+00  -F*psi/RT
 	  4.587e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  1.318e+01  m² for   2.197e-02 g
@@ -3753,11 +3837,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.971e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.7150e-26
-	Cl            	  2.0829e-06
-	H             	  3.9372e-11
-	Na            	  8.0827e-18
-	O             	  3.9372e-11
+	Ca            	  1.7152e-26
+	Cl            	  2.0828e-06
+	H             	  3.9374e-11
+	Na            	  8.0831e-18
+	O             	  3.9374e-11
 
 Hfo_s         
 	  6.241e-06  moles
@@ -3767,7 +3851,7 @@ Hfo_s
 	Hfo_sOH           4.790e-06       0.768   4.790e-06      -5.320
 	Hfo_sOH2+         7.515e-07       0.120   7.515e-07      -6.124
 	Hfo_sO-           6.994e-07       0.112   6.994e-07      -6.155
-	Hfo_sOHCa+2       3.002e-12       0.000   3.002e-12     -11.523
+	Hfo_sOHCa+2       3.003e-12       0.000   3.003e-12     -11.522
 
 Hfo_w         
 	  2.434e-04  moles
@@ -3777,14 +3861,14 @@ Hfo_w
 	Hfo_wOH           1.868e-04       0.768   1.868e-04      -3.729
 	Hfo_wOH2+         2.931e-05       0.120   2.931e-05      -4.533
 	Hfo_wO-           2.728e-05       0.112   2.728e-05      -4.564
-	Hfo_wOCa+         2.202e-13       0.000   2.202e-13     -12.657
+	Hfo_wOCa+         2.203e-13       0.000   2.203e-13     -12.657
 
 Sorbedhfo     
-	  5.312e-13  Surface + diffuse layer charge, eq
+	  5.306e-13  Surface + diffuse layer charge, eq
 	  1.041e-06  Surface charge, eq
 	  1.525e-02  sigma, C/m²
 	  1.383e-01  psi, V
-	 -5.385e+00  -F*psi/RT
+	 -5.384e+00  -F*psi/RT
 	  4.587e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  6.590e+00  m² for   1.098e-02 g
@@ -3796,11 +3880,11 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.971e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  8.5753e-27
+	Ca            	  8.5758e-27
 	Cl            	  1.0414e-06
-	H             	  1.9686e-11
-	Na            	  4.0414e-18
-	O             	  1.9686e-11
+	H             	  1.9687e-11
+	Na            	  4.0416e-18
+	O             	  1.9687e-11
 
 Sorbedhfo_s   
 	  3.120e-06  moles
@@ -3810,7 +3894,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     2.395e-06       0.768   2.395e-06      -5.621
 	Sorbedhfo_sOH2+   3.757e-07       0.120   3.757e-07      -6.425
 	Sorbedhfo_sO-     3.497e-07       0.112   3.497e-07      -6.456
-	Sorbedhfo_sOHCa+2   1.501e-12       0.000   1.501e-12     -11.824
+	Sorbedhfo_sOHCa+2   1.501e-12       0.000   1.501e-12     -11.823
 
 Sorbedhfo_w   
 	  1.217e-04  moles
@@ -3823,10 +3907,10 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   1.101e-13       0.000   1.101e-13     -12.958
 
 Sua           
-	  1.557e-29  Surface + diffuse layer charge, eq
+	  1.556e-29  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -2.627e-15  psi, V
+	 -2.625e-15  psi, V
 	  1.022e-13  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
@@ -3843,7 +3927,7 @@ Sua
 	Cl            	  4.6868e-21
 	H             	  2.6862e-23
 	Na            	  4.6506e-21
-	O             	  1.0183e-25
+	O             	  1.0196e-25
 
 Sua           
 	  1.500e-15  moles
@@ -3853,10 +3937,10 @@ Sua
 	Sua               1.500e-15       1.000   1.500e-15     -14.824
 
 Sub           
-	  1.558e-17  Surface + diffuse layer charge, eq
+	  1.557e-17  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -2.627e-15  psi, V
+	 -2.625e-15  psi, V
 	  1.022e-13  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
@@ -3873,7 +3957,7 @@ Sub
 	Cl            	  4.6878e-09
 	H             	  2.6868e-11
 	Na            	  4.6516e-09
-	O             	  1.0185e-13
+	O             	  1.0198e-13
 
 Sub           
 	  1.500e-03  moles
@@ -3882,6 +3966,8 @@ Sub
 
 	Sub               1.500e-03       1.000   1.500e-03      -2.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            4 
@@ -3891,7 +3977,7 @@ Adapting surface in            4
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  7.055e-16  Surface + diffuse layer charge, eq
+	  2.936e-16  Surface + diffuse layer charge, eq
 	  1.645e-08  Surface charge, eq
 	  2.408e-04  sigma, C/m²
 	  9.907e-02  psi, V
@@ -3907,7 +3993,7 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.493e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  3.5306e-32
+	Ca            	  3.5355e-32
 	Cl            	  1.5228e-08
 	H             	  1.2176e-09
 	Na            	  3.6904e-24
@@ -3934,11 +4020,11 @@ Hfo_w
 	Hfo_wOCa+         4.534e-16       0.000   4.534e-16     -15.344
 
 Sua           
-	 -6.396e-42  Surface + diffuse layer charge, eq
+	 -2.005e-42  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.569e-18  psi, V
-	 -6.108e-17  -F*psi/RT
+	 -2.546e-19  psi, V
+	  9.911e-18  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-16  m² for   1.500e-20 g
@@ -3946,15 +4032,15 @@ Sua
 	Water in diffuse layer: 1.500e-25 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -4.232e-05 V.
+	Donnan Layer potential, psi_DL = -4.230e-05 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.002e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  8.9757e-36
+	Ca            	  8.9759e-36
 	Cl            	  5.1650e-32
-	H             	  5.9603e-32
+	H             	  5.9604e-32
 	Na            	  5.6348e-34
-	O             	  4.2667e-33
+	O             	  4.2673e-33
 
 Sua           
 	  1.500e-23  moles
@@ -3964,11 +4050,11 @@ Sua
 	Sua               1.500e-23       1.000   1.500e-23     -22.824
 
 Sub           
-	 -6.395e-22  Surface + diffuse layer charge, eq
+	 -2.005e-22  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.569e-18  psi, V
-	 -6.108e-17  -F*psi/RT
+	 -2.546e-19  psi, V
+	  9.911e-18  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+04  m² for   1.500e+00 g
@@ -3976,15 +4062,15 @@ Sub
 	Water in diffuse layer: 1.500e-05 kg, 100.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -4.232e-05 V.
+	Donnan Layer potential, psi_DL = -4.230e-05 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.002e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  8.9747e-16
+	Ca            	  8.9749e-16
 	Cl            	  5.1644e-12
-	H             	  5.9596e-12
+	H             	  5.9597e-12
 	Na            	  5.6341e-14
-	O             	  4.2662e-13
+	O             	  4.2668e-13
 
 Sub           
 	  1.500e-03  moles
@@ -3993,6 +4079,7 @@ Sub
 
 	Sub               1.500e-03       1.000   1.500e-03      -2.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            5 
@@ -4002,9 +4089,9 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  8.196e-21  Surface + diffuse layer charge, eq
+	  9.005e-21  Surface + diffuse layer charge, eq
 	  2.262e-09  Surface charge, eq
-	  4.410e-03  sigma, C/m²
+	  4.411e-03  sigma, C/m²
 	  5.307e-02  psi, V
 	 -2.066e+00  -F*psi/RT
 	  1.267e-01  exp(-F*psi/RT)
@@ -4015,14 +4102,14 @@ Hfo
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
 	Donnan Layer potential, psi_DL =  2.773e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 2.054e-05 (= c_DL / c_free if z is +1).
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.053e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.2169e-26
-	Cl            	  2.2612e-09
-	H             	  4.0810e-13
-	Na            	  9.5175e-19
-	O             	  4.0810e-13
+	Ca            	  2.2161e-26
+	Cl            	  2.2616e-09
+	H             	  4.0806e-13
+	Na            	  9.5159e-19
+	O             	  4.0806e-13
 
 Hfo_s         
 	  2.343e-08  moles
@@ -4032,7 +4119,7 @@ Hfo_s
 	Hfo_sOH           1.796e-08       0.767   1.796e-08      -7.746
 	Hfo_sOH2+         2.747e-09       0.117   2.747e-09      -8.561
 	Hfo_sO-           2.692e-09       0.115   2.692e-09      -8.570
-	Hfo_sOHCa+2       2.520e-11       0.001   2.520e-11     -10.599
+	Hfo_sOHCa+2       2.519e-11       0.001   2.519e-11     -10.599
 
 Hfo_w         
 	  9.137e-07  moles
@@ -4042,12 +4129,12 @@ Hfo_w
 	Hfo_wOH           7.014e-07       0.768   7.014e-07      -6.154
 	Hfo_wOH2+         1.072e-07       0.117   1.072e-07      -6.970
 	Hfo_wO-           1.051e-07       0.115   1.051e-07      -6.978
-	Hfo_wOCa+         1.899e-12       0.000   1.899e-12     -11.721
+	Hfo_wOCa+         1.898e-12       0.000   1.898e-12     -11.722
 
 Sorbedhfo     
-	  9.264e-21  Surface + diffuse layer charge, eq
+	  9.609e-21  Surface + diffuse layer charge, eq
 	  2.564e-09  Surface charge, eq
-	  4.410e-03  sigma, C/m²
+	  4.411e-03  sigma, C/m²
 	  5.307e-02  psi, V
 	 -2.066e+00  -F*psi/RT
 	  1.267e-01  exp(-F*psi/RT)
@@ -4058,14 +4145,14 @@ Sorbedhfo
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
 	Donnan Layer potential, psi_DL =  2.773e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 2.054e-05 (= c_DL / c_free if z is +1).
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.053e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.5130e-26
-	Cl            	  2.5632e-09
-	H             	  4.6260e-13
-	Na            	  1.0789e-18
-	O             	  4.6260e-13
+	Ca            	  2.5121e-26
+	Cl            	  2.5636e-09
+	H             	  4.6256e-13
+	Na            	  1.0787e-18
+	O             	  4.6256e-13
 
 Sorbedhfo_s   
 	  2.656e-08  moles
@@ -4075,7 +4162,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     2.036e-08       0.767   2.036e-08      -7.691
 	Sorbedhfo_sOH2+   3.114e-09       0.117   3.114e-09      -8.507
 	Sorbedhfo_sO-     3.051e-09       0.115   3.051e-09      -8.516
-	Sorbedhfo_sOHCa+2   2.857e-11       0.001   2.857e-11     -10.544
+	Sorbedhfo_sOHCa+2   2.856e-11       0.001   2.856e-11     -10.544
 
 Sorbedhfo_w   
 	  1.036e-06  moles
@@ -4085,14 +4172,14 @@ Sorbedhfo_w
 	Sorbedhfo_wOH     7.950e-07       0.768   7.950e-07      -6.100
 	Sorbedhfo_wOH2+   1.216e-07       0.117   1.216e-07      -6.915
 	Sorbedhfo_wO-     1.191e-07       0.115   1.191e-07      -6.924
-	Sorbedhfo_wOCa+   2.153e-12       0.000   2.153e-12     -11.667
+	Sorbedhfo_wOCa+   2.152e-12       0.000   2.152e-12     -11.667
 
 Sua           
-	  1.625e-23  Surface + diffuse layer charge, eq
+	  2.264e-23  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -4.956e-21  psi, V
-	  1.929e-19  -F*psi/RT
+	 -5.255e-21  psi, V
+	  2.046e-19  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.998e+03  m² for   4.998e-01 g
@@ -4108,7 +4195,7 @@ Sua
 	Cl            	  4.6906e-09
 	H             	  1.1753e-12
 	Na            	  4.6818e-09
-	O             	  8.5113e-13
+	O             	  8.5094e-13
 
 Sua           
 	  4.998e-04  moles
@@ -4118,11 +4205,11 @@ Sua
 	Sua               4.998e-04       1.000   4.998e-04      -3.301
 
 Sub           
-	  4.532e-23  Surface + diffuse layer charge, eq
+	  5.721e-23  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -4.592e-21  psi, V
-	  1.788e-19  -F*psi/RT
+	 -4.692e-21  psi, V
+	  1.826e-19  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+04  m² for   1.500e+00 g
@@ -4136,9 +4223,9 @@ Sub
 	Element       	     Moles
 	Ca            	  1.4039e-11
 	Cl            	  1.4077e-08
-	H             	  3.5271e-12
+	H             	  3.5272e-12
 	Na            	  1.4050e-08
-	O             	  2.5542e-12
+	O             	  2.5537e-12
 
 Sub           
 	  1.500e-03  moles
@@ -4147,6 +4234,7 @@ Sub
 
 	Sub               1.500e-03       1.000   1.500e-03      -2.824
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            6 
@@ -4156,12 +4244,12 @@ Adapting surface in            6
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.408e-18  Surface + diffuse layer charge, eq
-	  6.483e-09  Surface charge, eq
+	  1.407e-18  Surface + diffuse layer charge, eq
+	  6.482e-09  Surface charge, eq
 	  2.710e-02  sigma, C/m²
 	  1.475e-01  psi, V
 	 -5.741e+00  -F*psi/RT
-	  3.212e-03  exp(-F*psi/RT)
+	  3.213e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  2.308e-02  m² for   3.847e-05 g
 
@@ -4172,11 +4260,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.455e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  9.8809e-29
-	Cl            	  6.4832e-09
-	H             	  3.8069e-14
-	Na            	  3.8832e-20
-	O             	  3.8069e-14
+	Ca            	  9.8834e-29
+	Cl            	  6.4822e-09
+	H             	  3.8075e-14
+	Na            	  3.8838e-20
+	O             	  3.8075e-14
 
 Hfo_s         
 	  1.093e-08  moles
@@ -4186,7 +4274,7 @@ Hfo_s
 	Hfo_sOH           8.385e-09       0.767   8.385e-09      -8.076
 	Hfo_sOH2+         1.353e-09       0.124   1.353e-09      -8.869
 	Hfo_sO-           1.191e-09       0.109   1.191e-09      -8.924
-	Hfo_sOHCa+2       5.585e-15       0.000   5.585e-15     -14.253
+	Hfo_sOHCa+2       5.588e-15       0.000   5.588e-15     -14.253
 
 Hfo_w         
 	  4.262e-07  moles
@@ -4196,15 +4284,15 @@ Hfo_w
 	Hfo_wOH           3.270e-07       0.767   3.270e-07      -6.485
 	Hfo_wOH2+         5.276e-08       0.124   5.276e-08      -7.278
 	Hfo_wO-           4.644e-08       0.109   4.644e-08      -7.333
-	Hfo_wOCa+         3.985e-16       0.000   3.985e-16     -15.400
+	Hfo_wOCa+         3.987e-16       0.000   3.987e-16     -15.399
 
 Sorbedhfo     
-	  1.002e-18  Surface + diffuse layer charge, eq
-	  4.632e-09  Surface charge, eq
+	  1.001e-18  Surface + diffuse layer charge, eq
+	  4.631e-09  Surface charge, eq
 	  2.710e-02  sigma, C/m²
 	  1.475e-01  psi, V
 	 -5.741e+00  -F*psi/RT
-	  3.212e-03  exp(-F*psi/RT)
+	  3.213e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  1.649e-02  m² for   2.748e-05 g
 
@@ -4215,11 +4303,11 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.455e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.0591e-29
-	Cl            	  4.6317e-09
-	H             	  2.7197e-14
-	Na            	  2.7742e-20
-	O             	  2.7197e-14
+	Ca            	  7.0609e-29
+	Cl            	  4.6310e-09
+	H             	  2.7201e-14
+	Na            	  2.7746e-20
+	O             	  2.7201e-14
 
 Sorbedhfo_s   
 	  7.807e-09  moles
@@ -4229,7 +4317,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     5.990e-09       0.767   5.990e-09      -8.223
 	Sorbedhfo_sOH2+   9.664e-10       0.124   9.664e-10      -9.015
 	Sorbedhfo_sO-     8.506e-10       0.109   8.506e-10      -9.070
-	Sorbedhfo_sOHCa+2   3.990e-15       0.000   3.990e-15     -14.399
+	Sorbedhfo_sOHCa+2   3.992e-15       0.000   3.992e-15     -14.399
 
 Sorbedhfo_w   
 	  3.045e-07  moles
@@ -4238,15 +4326,15 @@ Sorbedhfo_w
 
 	Sorbedhfo_wOH     2.336e-07       0.767   2.336e-07      -6.631
 	Sorbedhfo_wOH2+   3.769e-08       0.124   3.769e-08      -7.424
-	Sorbedhfo_wO-     3.317e-08       0.109   3.317e-08      -7.479
-	Sorbedhfo_wOCa+   2.847e-16       0.000   2.847e-16     -15.546
+	Sorbedhfo_wO-     3.318e-08       0.109   3.318e-08      -7.479
+	Sorbedhfo_wOCa+   2.848e-16       0.000   2.848e-16     -15.545
 
 Sua           
-	 -1.149e-27  Surface + diffuse layer charge, eq
+	 -1.343e-27  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.949e-22  psi, V
-	 -1.148e-20  -F*psi/RT
+	  1.382e-21  psi, V
+	 -5.381e-20  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -4260,9 +4348,9 @@ Sua
 	Element       	     Moles
 	Ca            	  1.0377e-15
 	Cl            	  1.0342e-12
-	H             	  3.9849e-15
+	H             	  3.9846e-15
 	Na            	  1.0281e-12
-	O             	  7.4003e-18
+	O             	  7.4035e-18
 
 Sua           
 	  1.500e-07  moles
@@ -4272,11 +4360,11 @@ Sua
 	Sua               1.500e-07       1.000   1.500e-07      -6.824
 
 Sub           
-	 -2.630e-27  Surface + diffuse layer charge, eq
+	 -6.107e-27  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.901e-22  psi, V
-	 -7.399e-21  -F*psi/RT
+	  1.817e-21  psi, V
+	 -7.071e-20  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.500e+00  m² for   4.500e-04 g
@@ -4290,9 +4378,9 @@ Sub
 	Element       	     Moles
 	Ca            	  3.1132e-15
 	Cl            	  3.1025e-12
-	H             	  1.1955e-14
+	H             	  1.1954e-14
 	Na            	  3.0843e-12
-	O             	  2.2201e-17
+	O             	  2.2211e-17
 
 Sub           
 	  4.500e-07  moles
@@ -4301,6 +4389,7 @@ Sub
 
 	Sub               4.500e-07       1.000   4.500e-07      -6.347
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            7 
@@ -4310,9 +4399,9 @@ Adapting surface in            7
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.437e-19  Surface + diffuse layer charge, eq
-	 -6.019e-11  Surface charge, eq
-	 -5.873e-04  sigma, C/m²
+	 -1.436e-19  Surface + diffuse layer charge, eq
+	 -6.018e-11  Surface charge, eq
+	 -5.872e-04  sigma, C/m²
 	 -1.433e-02  psi, V
 	  5.577e-01  -F*psi/RT
 	  1.747e+00  exp(-F*psi/RT)
@@ -4326,11 +4415,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.839e+03 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.5698e-11
-	Cl            	  1.0844e-18
+	Ca            	  2.5694e-11
+	Cl            	  1.0845e-18
 	H             	  1.2558e-16
-	Na            	  8.7890e-12
-	O             	  3.6689e-19
+	Na            	  8.7883e-12
+	O             	  3.6687e-19
 
 Hfo_s         
 	  4.682e-09  moles
@@ -4350,12 +4439,12 @@ Hfo_w
 	Hfo_wOH           1.401e-07       0.767   1.401e-07      -6.853
 	Hfo_wO-           2.156e-08       0.118   2.156e-08      -7.666
 	Hfo_wOH2+         2.087e-08       0.114   2.087e-08      -7.680
-	Hfo_wOCa+         2.550e-11       0.000   2.550e-11     -10.594
+	Hfo_wOCa+         2.549e-11       0.000   2.549e-11     -10.594
 
 Sorbedhfo     
-	 -4.753e-20  Surface + diffuse layer charge, eq
-	 -2.007e-11  Surface charge, eq
-	 -5.873e-04  sigma, C/m²
+	 -4.746e-20  Surface + diffuse layer charge, eq
+	 -2.006e-11  Surface charge, eq
+	 -5.872e-04  sigma, C/m²
 	 -1.433e-02  psi, V
 	  5.577e-01  -F*psi/RT
 	  1.747e+00  exp(-F*psi/RT)
@@ -4369,11 +4458,11 @@ Sorbedhfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.839e+03 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  8.5676e-12
-	Cl            	  3.6154e-19
+	Ca            	  8.5661e-12
+	Cl            	  3.6157e-19
 	H             	  4.1868e-17
-	Na            	  2.9302e-12
-	O             	  1.2232e-19
+	Na            	  2.9299e-12
+	O             	  1.2231e-19
 
 Sorbedhfo_s   
 	  1.561e-09  moles
@@ -4383,7 +4472,7 @@ Sorbedhfo_s
 	Sorbedhfo_sOH     1.119e-09       0.717   1.119e-09      -8.951
 	Sorbedhfo_sO-     1.722e-10       0.110   1.722e-10      -9.764
 	Sorbedhfo_sOH2+   1.667e-10       0.107   1.667e-10      -9.778
-	Sorbedhfo_sOHCa+2   1.028e-10       0.066   1.028e-10      -9.988
+	Sorbedhfo_sOHCa+2   1.027e-10       0.066   1.027e-10      -9.988
 
 Sorbedhfo_w   
 	  6.087e-08  moles
@@ -4393,14 +4482,14 @@ Sorbedhfo_w
 	Sorbedhfo_wOH     4.672e-08       0.767   4.672e-08      -7.330
 	Sorbedhfo_wO-     7.187e-09       0.118   7.187e-09      -8.143
 	Sorbedhfo_wOH2+   6.958e-09       0.114   6.958e-09      -8.158
-	Sorbedhfo_wOCa+   8.500e-12       0.000   8.500e-12     -11.071
+	Sorbedhfo_wOCa+   8.498e-12       0.000   8.498e-12     -11.071
 
 Sua           
-	  5.414e-32  Surface + diffuse layer charge, eq
+	  5.412e-32  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -8.609e-18  psi, V
-	  3.351e-16  -F*psi/RT
+	 -8.607e-18  psi, V
+	  3.350e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-08  m² for   1.500e-12 g
@@ -4414,9 +4503,9 @@ Sua
 	Element       	     Moles
 	Ca            	  4.8353e-24
 	Cl            	  4.6691e-21
-	H             	  3.5518e-23
+	H             	  3.5515e-23
 	Na            	  4.6948e-21
-	O             	  3.5438e-23
+	O             	  3.5435e-23
 
 Sua           
 	  1.500e-15  moles
@@ -4426,11 +4515,11 @@ Sua
 	Sua               1.500e-15       1.000   1.500e-15     -14.824
 
 Sub           
-	  1.083e-31  Surface + diffuse layer charge, eq
+	  1.082e-31  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -8.609e-18  psi, V
-	  3.351e-16  -F*psi/RT
+	 -8.607e-18  psi, V
+	  3.350e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  2.999e-08  m² for   2.999e-12 g
@@ -4444,9 +4533,9 @@ Sub
 	Element       	     Moles
 	Ca            	  9.6706e-24
 	Cl            	  9.3382e-21
-	H             	  7.1036e-23
+	H             	  7.1030e-23
 	Na            	  9.3896e-21
-	O             	  7.0876e-23
+	O             	  7.0870e-23
 
 Sub           
 	  2.999e-15  moles
