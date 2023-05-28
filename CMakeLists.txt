@@ -10,19 +10,6 @@ endif()
 
 include(GNUInstallDirs)
 
-# # Disable deprecation warnings for standard C and STL functions in VS2005
-# # and later
-# IF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
-#   ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
-#   ADD_DEFINITIONS(-D_SCL_SECURE_NO_WARNINGS)
-# ENDIF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400) 
-
-# # define DOS
-# IF(WIN32)
-#   ADD_DEFINITIONS(-DDOS)
-#   ADD_DEFINITIONS(-D_CONSOLE)
-# ENDIF(WIN32)
-
 set(phreeqc_SOURCES
 src/ChartHandler.cpp
 src/ChartObject.cpp
@@ -160,10 +147,6 @@ src/transport.cpp
 src/utilities.cpp
 )
 
-# include_directories("${PROJECT_SOURCE_DIR}/src")
-# include_directories("${PROJECT_SOURCE_DIR}/src/common")
-# include_directories("${PROJECT_SOURCE_DIR}/src/PhreeqcKeywords")
-
 option(PHRQC_USE_GMP "Use GNU Multiple Precision library" OFF)
 if(PHRQC_USE_GMP)
   find_path(GMP_INCLUDE_PATH gmp.h)
@@ -282,8 +265,8 @@ if(PHRQC_TESTING)
 endif()
 
 # force utf-8
-add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+target_compile_options(phreeqc PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+target_compile_options(phreeqc PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later
