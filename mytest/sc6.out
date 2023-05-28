@@ -84,6 +84,7 @@ Beginning of initial solution calculations.
 
 Initial solution 0.	
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
@@ -97,6 +98,7 @@ Initial solution 0.
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99704
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.007e-07
                        Mass of water (kg)  =   1.000e+00
@@ -161,6 +163,7 @@ Beginning of initial solution calculations.
 
 Initial solution 0.	
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
@@ -176,10 +179,11 @@ Initial solution 0.
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99710
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.002e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.453e-09
+                 Total alkalinity (eq/kg)  =   1.418e-09
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.999e-06
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.10
@@ -201,6 +205,7 @@ Ca            1.000e-06
    CaOH+           1.720e-12   1.660e-12   -11.765   -11.780    -0.015     (0)  
 Cl            1.000e-03
    Cl-             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
+   HCl             3.441e-11   3.445e-11   -10.463   -10.463     0.000     (0)  
 H(0)          1.416e-25
    H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     28.61
 Na            1.000e-03
@@ -227,10 +232,11 @@ Beginning of initial surface-composition calculations.
 
 Surface 0.	
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  8.885e-18  Surface + diffuse layer charge, eq
+	  8.777e-18  Surface + diffuse layer charge, eq
 	  3.336e-06  Surface charge, eq
 	  6.097e-03  sigma, C/m²
 	  6.530e-02  psi, V
@@ -273,11 +279,11 @@ Hfo_w
 	Hfo_wOCa+         8.324e-10       0.000   8.324e-10      -9.080
 
 Sua           
-	  1.445e-24  Surface + diffuse layer charge, eq
+	 -2.308e-25  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.755e-22  psi, V
-	 -1.072e-20  -F*psi/RT
+	  1.273e-22  psi, V
+	 -4.957e-21  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -291,7 +297,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -303,11 +309,11 @@ Sua
 	Sua               1.000e-03       1.000   1.000e-03      -3.000
 
 Sub           
-	  1.445e-24  Surface + diffuse layer charge, eq
+	 -2.308e-25  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.755e-22  psi, V
-	 -1.072e-20  -F*psi/RT
+	  1.273e-22  psi, V
+	 -4.957e-21  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -321,7 +327,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -338,6 +344,7 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 Using solution 0.	
 Using surface 0.	
 
@@ -407,7 +414,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -437,7 +444,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -459,14 +466,15 @@ Sub
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000      Charge balance
-                                       pe  =   4.031      Adjusted to redox equilibrium
+                                       pe  =   4.015      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99710
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.002e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.453e-09
+                 Total alkalinity (eq/kg)  =   1.418e-09
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.999e-06
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.10
@@ -481,29 +489,30 @@ Sub
 
    OH-             1.049e-07   1.012e-07    -6.979    -6.995    -0.016     -4.11
    H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
-   H2O-0.01        9.113e-10   9.113e-10    -9.040    -9.040    -0.000     (0)  
+   H2O-0.01        9.117e-10   9.117e-10    -9.040    -9.040    -0.000     (0)  
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 Ca            1.000e-06
    Ca+2            1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
    CaOH+           1.720e-12   1.660e-12   -11.765   -11.780    -0.015     (0)  
 Cl            1.000e-03
    Cl-             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
-H(0)          1.229e-25
-   H2              6.147e-26   6.149e-26   -25.211   -25.211     0.000     28.61
+   HCl             3.441e-11   3.445e-11   -10.463   -10.463     0.000     (0)  
+H(0)          1.323e-25
+   H2              6.615e-26   6.616e-26   -25.179   -25.179     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
    NaOH            1.012e-20   1.012e-20   -19.995   -19.995     0.000     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -41.958   -41.958     0.000     30.40
+   O2              0.000e+00   0.000e+00   -42.021   -42.021     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -22.11    -25.21   -3.10  H2
+  H2(g)           -22.08    -25.18   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -7.57     -6.00    1.57  NaCl
-  O2(g)           -39.07    -41.96   -2.89  O2
+  O2(g)           -39.13    -42.02   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -521,6 +530,7 @@ Reading input data for simulation 3.
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 3.
 WARNING: Dispersivities were read for 1 cells. Last value is used till cell 3.
 WARNING: No porosities were read; used the value 3.00e-01 from -multi_D.
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
@@ -590,7 +600,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -620,7 +630,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -631,18 +641,30 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 
+WARNING: 
+Calculating transport: 3 (mobile) cells, 3 shifts, 1 mixruns...
+
+
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -713,7 +735,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -743,7 +765,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -754,6 +776,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            1 
@@ -824,7 +847,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9742e-12
 	Cl            	  1.0004e-08
-	H             	  2.1013e-12
+	H             	  2.1017e-12
 	Na            	  9.9840e-09
 	O             	  1.0587e-12
 
@@ -854,7 +877,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9772e-12
 	Cl            	  1.0007e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9870e-09
 	O             	  1.0590e-12
 
@@ -865,6 +888,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            2 
@@ -917,11 +941,11 @@ Hfo_w
 	Hfo_wOCa+         7.373e-20       0.000   7.373e-20     -19.132
 
 Sua           
-	 -2.219e-30  Surface + diffuse layer charge, eq
+	 -2.021e-30  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  7.439e-24  psi, V
-	 -2.895e-22  -F*psi/RT
+	  4.571e-23  psi, V
+	 -1.779e-21  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.000e+00  m² for   3.000e-04 g
@@ -947,11 +971,11 @@ Sua
 	Sua               3.000e-07       1.000   3.000e-07      -6.523
 
 Sub           
-	 -2.600e-33  Surface + diffuse layer charge, eq
+	 -2.119e-33  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  6.935e-24  psi, V
-	 -2.699e-22  -F*psi/RT
+	  4.416e-23  psi, V
+	 -1.719e-21  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.000e-03  m² for   3.000e-07 g
@@ -976,14 +1000,20 @@ Sub
 
 	Sub               3.000e-10       1.000   3.000e-10      -9.523
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            3 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            4 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -1054,7 +1084,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1084,7 +1114,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1095,6 +1125,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            1 
@@ -1208,7 +1239,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1238,7 +1269,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1249,6 +1280,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            2 
@@ -1362,7 +1394,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9683e-12
 	Cl            	  9.9980e-09
-	H             	  2.1007e-12
+	H             	  2.1011e-12
 	Na            	  9.9781e-09
 	O             	  1.0582e-12
 
@@ -1392,7 +1424,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9743e-12
 	Cl            	  1.0004e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9840e-09
 	O             	  1.0588e-12
 
@@ -1403,6 +1435,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            3 
@@ -1412,7 +1445,7 @@ Adapting surface in            3
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -2.047e-16  Surface + diffuse layer charge, eq
+	 -2.113e-16  Surface + diffuse layer charge, eq
 	  2.649e-14  Surface charge, eq
 	  1.614e-04  sigma, C/m²
 	  6.565e-02  psi, V
@@ -1428,7 +1461,7 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 4.163e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  8.2020e-36
+	Ca            	  8.2005e-36
 	Cl            	  2.2845e-14
 	H             	  3.8546e-15
 	Na            	  3.9516e-27
@@ -1455,11 +1488,11 @@ Hfo_w
 	Hfo_wOCa+         1.474e-19       0.000   1.474e-19     -18.831
 
 Sua           
-	  5.665e-20  Surface + diffuse layer charge, eq
+	  5.851e-20  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -4.786e-13  psi, V
-	  1.863e-11  -F*psi/RT
+	 -4.944e-13  psi, V
+	  1.924e-11  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  5.998e+00  m² for   5.998e-04 g
@@ -1467,7 +1500,7 @@ Sua
 	Water in diffuse layer: 5.998e-09 kg, 99.9% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -2.261e-05 V.
+	Donnan Layer potential, psi_DL = -2.262e-05 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.001e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
@@ -1475,7 +1508,7 @@ Sua
 	Cl            	  3.5983e-15
 	H             	  1.2191e-15
 	Na            	  3.5975e-15
-	O             	  6.1262e-16
+	O             	  6.1264e-16
 
 Sua           
 	  5.998e-07  moles
@@ -1485,11 +1518,11 @@ Sua
 	Sua               5.998e-07       1.000   5.998e-07      -6.222
 
 Sub           
-	  5.666e-23  Surface + diffuse layer charge, eq
+	  5.852e-23  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -4.786e-13  psi, V
-	  1.863e-11  -F*psi/RT
+	 -4.944e-13  psi, V
+	  1.924e-11  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  6.000e-03  m² for   6.000e-07 g
@@ -1497,15 +1530,15 @@ Sub
 	Water in diffuse layer: 6.000e-12 kg,  0.1% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -2.261e-05 V.
+	Donnan Layer potential, psi_DL = -2.262e-05 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.001e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  3.5981e-21
+	Ca            	  3.5982e-21
 	Cl            	  3.5994e-18
-	H             	  1.2194e-18
+	H             	  1.2195e-18
 	Na            	  3.5985e-18
-	O             	  6.1281e-19
+	O             	  6.1282e-19
 
 Sub           
 	  6.000e-10  moles
@@ -1514,10 +1547,15 @@ Sub
 
 	Sub               6.000e-10       1.000   6.000e-10      -9.222
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            4 
 
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -1588,7 +1626,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1618,7 +1656,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1020e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1629,6 +1667,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            1 
@@ -1742,7 +1781,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1018e-12
+	H             	  2.1022e-12
 	Na            	  9.9900e-09
 	O             	  1.0592e-12
 
@@ -1772,7 +1811,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1018e-12
+	H             	  2.1022e-12
 	Na            	  9.9900e-09
 	O             	  1.0592e-12
 
@@ -1783,6 +1822,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            2 
@@ -1896,7 +1936,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9800e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1926,7 +1966,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9801e-12
 	Cl            	  1.0010e-08
-	H             	  2.1019e-12
+	H             	  2.1023e-12
 	Na            	  9.9900e-09
 	O             	  1.0593e-12
 
@@ -1937,6 +1977,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            3 
@@ -1946,7 +1987,7 @@ Adapting surface in            3
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.108e-15  Surface + diffuse layer charge, eq
+	 -1.110e-15  Surface + diffuse layer charge, eq
 	  8.340e-07  Surface charge, eq
 	  6.096e-03  sigma, C/m²
 	  6.531e-02  psi, V
@@ -1989,7 +2030,7 @@ Hfo_w
 	Hfo_wOCa+         2.078e-10       0.000   2.078e-10      -9.682
 
 Sorbedhfo     
-	 -6.723e-22  Surface + diffuse layer charge, eq
+	 -6.738e-22  Surface + diffuse layer charge, eq
 	  5.004e-13  Surface charge, eq
 	  6.096e-03  sigma, C/m²
 	  6.531e-02  psi, V
@@ -2032,7 +2073,7 @@ Sorbedhfo_w
 	Sorbedhfo_wOCa+   1.247e-16       0.000   1.247e-16     -15.904
 
 Sua           
-	 -8.949e-19  Surface + diffuse layer charge, eq
+	 -8.950e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	  2.786e-16  psi, V
@@ -2050,7 +2091,7 @@ Sua
 	Element       	     Moles
 	Ca            	  9.9683e-12
 	Cl            	  9.9980e-09
-	H             	  2.1006e-12
+	H             	  2.1010e-12
 	Na            	  9.9781e-09
 	O             	  1.0581e-12
 
@@ -2062,7 +2103,7 @@ Sua
 	Sua               9.994e-04       1.000   9.994e-04      -3.000
 
 Sub           
-	 -8.954e-19  Surface + diffuse layer charge, eq
+	 -8.956e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
 	  2.786e-16  psi, V
@@ -2080,7 +2121,7 @@ Sub
 	Element       	     Moles
 	Ca            	  9.9743e-12
 	Cl            	  1.0004e-08
-	H             	  2.1018e-12
+	H             	  2.1022e-12
 	Na            	  9.9840e-09
 	O             	  1.0587e-12
 
@@ -2091,6 +2132,7 @@ Sub
 
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            4 
@@ -2100,7 +2142,7 @@ Adapting surface in            4
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  3.985e-22  Surface + diffuse layer charge, eq
+	  3.987e-22  Surface + diffuse layer charge, eq
 	  5.056e-15  Surface charge, eq
 	  6.160e-05  sigma, C/m²
 	  6.566e-02  psi, V
@@ -2119,7 +2161,7 @@ Hfo
 	Ca            	  8.8926e-42
 	Cl            	  1.6274e-19
 	H             	  5.0562e-15
-	Na            	  3.7673e-33
+	Na            	  3.7672e-33
 	O             	  5.0562e-15
 
 Hfo_s         
@@ -2143,11 +2185,11 @@ Hfo_w
 	Hfo_wOCa+         4.790e-25       0.000   4.790e-25     -24.320
 
 Sua           
-	 -6.903e-31  Surface + diffuse layer charge, eq
+	  1.183e-30  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.896e-23  psi, V
-	 -7.382e-22  -F*psi/RT
+	 -2.289e-23  psi, V
+	  8.911e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  5.998e+00  m² for   5.998e-04 g
@@ -2173,11 +2215,11 @@ Sua
 	Sua               5.998e-07       1.000   5.998e-07      -6.222
 
 Sub           
-	 -5.778e-34  Surface + diffuse layer charge, eq
+	  7.704e-34  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.970e-23  psi, V
-	 -7.670e-22  -F*psi/RT
+	 -1.328e-23  psi, V
+	  5.171e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  6.000e-03  m² for   6.000e-07 g
