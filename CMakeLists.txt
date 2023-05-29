@@ -253,7 +253,7 @@ configure_file(ex16 ex16 COPYONLY)
 add_test(NAME examples.ex16
   COMMAND $<TARGET_FILE:phreeqc> ../examples/ex16 ex16.out ../database/phreeqc.dat ex16.log
 )
-	
+
 # ex17
 configure_file(ex17 ex17 COPYONLY)
 add_test(NAME examples.ex17
