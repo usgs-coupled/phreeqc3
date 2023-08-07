@@ -1,6 +1,6 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required(VERSION 3.3)
 
-project (phreeqc)
+project(phreeqc)
 
 # overide docdir on windows
 if(WIN32 AND NOT CMAKE_INSTALL_DOCDIR)
@@ -10,21 +10,7 @@ endif()
 
 include(GNUInstallDirs)
 
-# Disable deprecation warnings for standard C and STL functions in VS2005
-# and later
-IF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
-  ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
-  ADD_DEFINITIONS(-D_SCL_SECURE_NO_WARNINGS)
-ENDIF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400) 
-
-# define DOS
-IF(WIN32)
-  ADD_DEFINITIONS(-DDOS)
-  ADD_DEFINITIONS(-D_CONSOLE)
-ENDIF(WIN32)
-
-
-SET(phreeqc_SOURCES
+set(phreeqc_SOURCES
 src/ChartHandler.cpp
 src/ChartObject.cpp
 src/CurveObject.cpp
@@ -161,27 +147,23 @@ src/transport.cpp
 src/utilities.cpp
 )
 
-include_directories("${PROJECT_SOURCE_DIR}/src")
-include_directories("${PROJECT_SOURCE_DIR}/src/common")
-include_directories("${PROJECT_SOURCE_DIR}/src/PhreeqcKeywords")
-
-
-option(PHRQC_USE_GMP "Use GNU Multiple Precision library" "OFF")
-if (PHRQC_USE_GMP)
+option(PHRQC_USE_GMP "Use GNU Multiple Precision library" OFF)
+if(PHRQC_USE_GMP)
   find_path(GMP_INCLUDE_PATH gmp.h)
   find_library(GMP_LIBRARY gmp)
-else (PHRQC_USE_GMP)
+else()
   mark_as_advanced(FORCE GMP_INCLUDE_PATH GMP_LIBRARY)
-endif (PHRQC_USE_GMP)
+endif()
 
+if(PHRQC_USE_GMP)
+  if(GMP_INCLUDE_PATH)
+    set(phreeqc_SOURCES ${phreeqc_SOURCES} src/cl1mp.cpp)
+  endif()
+endif()
 
-if (PHRQC_USE_GMP)
-  if (GMP_INCLUDE_PATH)
-    SET(phreeqc_SOURCES ${phreeqc_SOURCES} src/cl1mp.cpp)
-  endif (GMP_INCLUDE_PATH)
-endif (PHRQC_USE_GMP)
+option(PHRQC_TESTING "Set TESTING preprocessor definition" OFF)
 
-if (MSVC)
+if(MSVC)
 
   # Copy Release to ClrRelease
   SET(CMAKE_CXX_FLAGS_CLRRELEASE ${CMAKE_CXX_FLAGS_RELEASE} CACHE STRING
@@ -272,27 +254,52 @@ if (MSVC)
   SET(CMAKE_CONFIGURATION_TYPES "Debug;Release;ClrDebug;ClrRelease" CACHE STRING 
   "Semicolon separated list of supported configuration types."
   FORCE)
-endif (MSVC)
+endif()
 
 add_executable(phreeqc ${phreeqc_SOURCES})
 set_target_properties(phreeqc PROPERTIES DEBUG_POSTFIX "d")
 
+# Add '#define TESTING'
+if(PHRQC_TESTING)
+  target_compile_definitions(phreeqc PRIVATE TESTING)
+endif()
 
-if (PHRQC_USE_GMP)
-  if (GMP_INCLUDE_PATH)
-    ADD_DEFINITIONS(-DINVERSE_CL1MP)
-    include_directories(${GMP_INCLUDE_PATH})
-  endif (GMP_INCLUDE_PATH)
-  if (GMP_LIBRARY)
+# force utf-8
+target_compile_options(phreeqc PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+target_compile_options(phreeqc PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
+# Disable deprecation warnings for standard C and STL functions in VS2005
+# and later
+if(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
+  target_compile_definitions(phreeqc PRIVATE _CRT_SECURE_NO_DEPRECATE)
+  target_compile_definitions(phreeqc PRIVATE _SCL_SECURE_NO_WARNINGS)
+endif() 
+
+# define DOS
+if(WIN32)
+  target_compile_definitions(phreeqc PRIVATE DOS)
+  target_compile_definitions(phreeqc PRIVATE _CONSOLE)
+endif()
+
+target_include_directories(phreeqc PRIVATE "${PROJECT_SOURCE_DIR}/src")
+target_include_directories(phreeqc PRIVATE "${PROJECT_SOURCE_DIR}/src/common")
+target_include_directories(phreeqc PRIVATE "${PROJECT_SOURCE_DIR}/src/PhreeqcKeywords")
+
+if(PHRQC_USE_GMP)
+  if(GMP_INCLUDE_PATH)
+    target_compile_definitions(phreeqc PRIVATE INVERSE_CL1MP)
+    target_include_directories(phreeqc PRIVATE "${GMP_INCLUDE_PATH}")
+  endif()
+  if(GMP_LIBRARY)
     target_link_libraries(phreeqc ${GMP_LIBRARY})
-  endif(GMP_LIBRARY)
-endif (PHRQC_USE_GMP)
+  endif()
+endif()
 
-if (WIN32)
-  install (TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}/Release" CONFIGURATIONS Debug Release)
-  install (TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}/ClrRelease" CONFIGURATIONS ClrDebug ClrRelease)
+if(WIN32)
+  install(TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}/Release" CONFIGURATIONS Debug Release)
+  install(TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}/ClrRelease" CONFIGURATIONS ClrDebug ClrRelease)
 else()
-  install (TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}")
+  install(TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
 
 # tests
@@ -302,12 +309,12 @@ include(CTest)
 add_subdirectory(database)
 add_subdirectory(doc)
 add_subdirectory(examples)
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/mytest/CMakeLists.txt)
+if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/mytest/CMakeLists.txt)
   add_subdirectory(mytest)
 endif()
 
 
 # Setup references for /CLR
-if (MSVC)
+if(MSVC)
   set_target_properties(phreeqc PROPERTIES VS_DOTNET_REFERENCES "System;System.Drawing;System.Windows.Forms;${CMAKE_CURRENT_SOURCE_DIR}/src/ZedGraph.dll")  
-endif (MSVC)
+endif()

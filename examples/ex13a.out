@@ -54,16 +54,15 @@ Initial solution 0.
 
                                        pH  =   7.000    
                                        pe  =  13.622      Equilibrium with O2(g)
-      Specific Conductance (µS/cm,  25°C)  = 191
-                          Density (g/cm³)  =   0.99712
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 191
+                          Density (g/cmÂ³)  =   0.99712
                                Volume (L)  =   1.00302
+                        Viscosity (mPa s)  =   0.89024
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.500e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.549e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
-                         Temperature (°C)  =  25.00
+                 Total alkalinity (eq/kg)  =   1.516e-09
+                         Temperature (Â°C)  =  25.00
                   Electrical balance (eq)  =  -1.000e-03
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -33.33
                                Iterations  =   3
@@ -73,13 +72,14 @@ Initial solution 0.
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
    OH-             1.057e-07   1.012e-07    -6.976    -6.995    -0.019     -4.10
    H+              1.042e-07   1.000e-07    -6.982    -7.000    -0.018      0.00
    H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
 Cl            1.000e-03
    Cl-             1.000e-03   9.576e-04    -3.000    -3.019    -0.019     18.08
+   HCl             3.294e-11   3.299e-11   -10.482   -10.482     0.001     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -44.394   -44.394     0.000     28.61
 N(5)          1.000e-03
@@ -141,16 +141,15 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =  13.622      Equilibrium with O2(g)
-      Specific Conductance (µS/cm,  25°C)  = 140
-                          Density (g/cm³)  =   0.99711
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 140
+                          Density (g/cmÂ³)  =   0.99711
                                Volume (L)  =   1.00301
+                        Viscosity (mPa s)  =   0.89011
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
-                         Temperature (°C)  =  25.00
+                         Temperature (Â°C)  =  25.00
                   Electrical balance (eq)  =  -1.450e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
@@ -160,7 +159,7 @@ Initial solution 1.
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
    OH-             1.049e-07   1.012e-07    -6.979    -6.995    -0.016     -4.11
    H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
@@ -228,16 +227,15 @@ X                1.000e-03 mol
 
                                        pH  =   7.000      Charge balance
                                        pe  =  13.622      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 140
-                          Density (g/cm³)  =   0.99711
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 140
+                          Density (g/cmÂ³)  =   0.99711
                                Volume (L)  =   1.00301
+                        Viscosity (mPa s)  =   0.89011
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
-                         Temperature (°C)  =  25.00
+                         Temperature (Â°C)  =  25.00
                   Electrical balance (eq)  =  -1.450e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
@@ -247,7 +245,7 @@ X                1.000e-03 mol
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
    OH-             1.049e-07   1.012e-07    -6.979    -6.995    -0.016     -4.11
    H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
@@ -305,6 +303,10 @@ Reading input data for simulation 3.
 	END
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
 WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
+WARNING: 
+Calculating transport: 20 (mobile) cells, 5 shifts, 1 mixruns...
+
+
 	SOLUTION 0  # Original solution with KNO3 reenters
 	   units   mmol/l
 	   pH       7.0
@@ -336,7 +338,7 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
 	  -end
 	END
--------------------------------
-End of Run after 0.107 Seconds.
--------------------------------
+WARNING: 
+Calculating transport: 20 (mobile) cells, 10 shifts, 1 mixruns...
+
 
