@@ -1,5 +1,19 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 
+
+  	-----------------
+	June 1, 2023
+  	-----------------	
+	Finalizing a Python version of PhreeqcRM that includes the BMI capabilities.
+	Methods are documented in Python style and two test cases are available, one
+	of which uses every Python method that is available. 
+
+  	-----------------
+	May 22, 2023
+  	-----------------
+	PhreeqcRM: Revised all F90 methods that return arrays to use allocatable arrays,
+	so that, getter arrays are automatically dimensioned to the correct sizes
+		
   	-----------------
 	May 22, 2023
   	-----------------
@@ -9,6 +23,9 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	Actually, it gives the contribution of the species to the B and D terms in the Jones-Dole 
 	eqution, assuming that the A term is small. The fractional contribution can be negative, for 
 	example f_visc("K+") is usually smaller than zero.
+	
+	Bug-fix: High T/P water phi became too small. Now limit how small phi of water can be
+	so that gas phase has reasonable H2O(g). 
 
 	Bug-fix: When -Vm parameters of SOLUTION_SPECIES were read after -viscosity parameters, the 
 	first viscosity parameter was set to 0.
@@ -205,26 +222,6 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	RM_InitialSolutions2Module(id, solutions);
 	RM_InitialSolidSolutions2Module(id, solid_solutions);
 	RM_InitialSurfaces2Module(id, surfaces);
-	
-  	-----------------
-	April 3, 2023
-  	-----------------
-	The viscosity of multi-species solutions is calculated with a (modified) 
-	Jones-Dole equation:
-	
-    viscos / viscos_0 = 1 + A Sum(0.5 z_i m_i) + fan (B_i m_i + D_i m_i n_i)
-
-    Parameters SOLUTION_SPECIES definitions are for calculating the B and D terms:
-    -viscosity 9.35e-2 -8.31e-2 2.487e-2 4.49e-4 2.01e-2 1.570    0
-               b0      b1       b2       d1      d2      d3       tan
-			   
-    z_i is absolute charge number, m_i is molality of i
-    B_i = b0 + b1 exp(-b2 * tc)
-    fan = (2 - tan V_i / V_Cl-), corrects for the volume of anions
-    D_i = d1 + exp(-d2 tc)
-    n_i = ((1 + fI)^d3 + ((z_i^2 + z_i) / 2 · m_i)d^3 / (2 + fI), fI is an ionic strength term.
-    For details, consult 
-    Appelo and Parkhurst in prep., for details see subroutine viscosity in transport.cpp
 
   	-----------------
 	February 28, 2023
