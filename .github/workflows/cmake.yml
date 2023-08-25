@@ -143,15 +143,15 @@ jobs:
 
     - name: CTest (Non-macOS)
       if: runner.os != 'macOS'
-      run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 2
+      run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: CTest (macOS)
       if: runner.os == 'macOS'
-      run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 3
+      run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: CMemCheck (Linux)
       if: runner.os == 'Linux'
-      run: ctest -S cmemcheck.cmake -V --output-on-failure -j 2
+      run: ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: Upload results
       uses: actions/upload-artifact@v3
