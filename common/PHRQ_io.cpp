@@ -63,6 +63,7 @@ ofstream_open(std::ostream **os, const char *file_name, std::ios_base::openmode 
 	std::ofstream *ofs = new std::ofstream(file_name, mode);
 	if (ofs && ofs->is_open())
 	{
+		safe_close(os);
 		*os = ofs;
 		return true;
 	}
