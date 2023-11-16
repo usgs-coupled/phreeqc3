@@ -20,7 +20,8 @@ namespace Utilities
 	void str_toupper(std::string & str);
 	std::string pad_right(const std::string & str, size_t l);
 	bool replace(const char *str1, const char *str2, std::string & str);
-
+	size_t strcat_safe(char* dest, size_t max, const char* src);
+	size_t strcpy_safe(char* dest, size_t max, const char* src);
 	void squeeze_white(std::string & s_l);
 	double convert_time(double t, std::string in, std::string out);
 	LDBLE safe_exp(LDBLE t);

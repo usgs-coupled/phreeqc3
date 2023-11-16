@@ -1,5 +1,6 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
+#include "Utils.h"
 
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
@@ -133,7 +134,7 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 	 *   Get elements in species or mineral formula
 	 */
 	count_elts = 0;
-	strcpy(token, trxn.token[0].name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, trxn.token[0].name);
 	replace("(s)", "", token);
 	replace("(S)", "", token);
 	replace("(g)", "", token);

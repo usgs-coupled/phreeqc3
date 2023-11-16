@@ -406,7 +406,7 @@ cxxNameDouble::add(const char *token, LDBLE total)
 //
 {
 	char key[MAX_LENGTH];
-	strcpy(key, token);
+	Utilities::strcpy_safe(key, MAX_LENGTH, token);
 
 	cxxNameDouble::iterator current = (*this).find(key);
 	if (current != (*this).end())

@@ -884,7 +884,6 @@ int Phreeqc::gammas_a_f(int i1)
 	{
 		if (s_x[i]->rxn_x.token[j].s->type == EX)
 		{
-			//strcpy(name, s_x[i]->rxn_x.token[j].s->name);
 			name = s_x[i]->rxn_x.token[j].s->name;
 			//m_ptr = s_x[i]->rxn_x.token[j].s->primary->elt->master; // appt debug
 			break;

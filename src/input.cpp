@@ -4,6 +4,9 @@
 #include <istream>
 #include <fstream>
 #include "phqalloc.h"
+#include "string.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
@@ -124,7 +127,7 @@ get_line(void)
 		if (line == NULL)
 			malloc_error();
 	}
-	strcpy(line, phrq_io->Get_m_line().c_str());
-	strcpy(line_save, phrq_io->Get_m_line_save().c_str());
+	Utilities::strcpy_safe(line, max_line, phrq_io->Get_m_line().c_str());
+	Utilities::strcpy_safe(line_save, max_line, phrq_io->Get_m_line_save().c_str());
 	return j;
 }

@@ -14,6 +14,7 @@
 #include "PBasic.h"
 #include "Temperature.h"
 #include "SSassemblage.h"
+#include "Utils.h"
 
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
@@ -173,7 +174,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		if (it->first == "Charge") continue;
 		char string[MAX_LENGTH];
-		strcpy(string, it->first.c_str());
+		Utilities::strcpy_safe(string, MAX_LENGTH, it->first.c_str());
 		class master *master_ptr = master_bsearch_primary(string);
 		if (master_ptr == NULL) continue;
 		if (master_ptr->type != AQ) continue;
