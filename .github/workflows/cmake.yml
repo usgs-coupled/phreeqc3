@@ -69,7 +69,7 @@ jobs:
       run: |
         mkdir _build
         cd _build
-        ../configure --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
+        ../configure --disable-nls --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
         make -j2
         make install
         # cp $(which libgmp-10.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
@@ -78,7 +78,7 @@ jobs:
         ldd $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/numdiff.exe
         cp $(which msys-2.0.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
         ldd $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/msys-2.0.dll
-        
+
     - name: 'Upload artifact'
       uses: actions/upload-artifact@v3
       with:
