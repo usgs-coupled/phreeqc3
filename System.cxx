@@ -14,7 +14,7 @@
 #include "cxxMix.h"
 #include "Reaction.h"
 #include "Temperature.h"
-
+#include "Utils.h"
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -66,11 +66,11 @@ cxxSystem::totalize(Phreeqc * phreeqc_ptr)
 	if (this->solution != NULL)
 	{
 		char token[MAX_LENGTH];
-		strcpy(token, "O");
+		Utilities::strcpy_safe(token, MAX_LENGTH, "O");
 		this->totals[token] = this->solution->Get_total_o();
-		strcpy(token, "H");
+		Utilities::strcpy_safe(token, MAX_LENGTH, "H");
 		this->totals[token] = this->solution->Get_total_h();
-		strcpy(token, "Charge");
+		Utilities::strcpy_safe(token, MAX_LENGTH, "Charge");
 		this->totals[token] = this->solution->Get_cb();
 		this->totals.add_extensive(this->solution->Get_totals(), 1.0);
 	}

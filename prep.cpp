@@ -5413,8 +5413,15 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
  *  Calculates log k's for all species and pure_phases
  */
 
-	if (tc == current_tc && pa == current_pa && ((fabs(mu_x - current_mu) < 1e-3 * mu_x) || !mu_terms_in_logk))
-		return OK;
+	// if (tc == current_tc && pa == current_pa && ((fabs(mu_x - current_mu) < 1e-3 * mu_x) || !mu_terms_in_logk))
+	// 	return OK;
+	if (tc != current_tc) goto proceed;
+	if (pa != current_pa) goto proceed;
+	if (fabs(mu_x - current_mu) > 1e-3 * mu_x) goto proceed;
+	if (mu_terms_in_logk) goto proceed;
+	return OK;
+
+proceed:
 
 	int i;
 	LDBLE tempk = tc + 273.15;

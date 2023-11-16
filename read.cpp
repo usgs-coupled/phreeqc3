@@ -1097,7 +1097,7 @@ read_exchange_master_species(void)
 		   if (token[0] == '[') {
 		   cptr1 = token;
 		   get_elt(&cptr, element, &l);
-		   strcpy(token, element);
+		   Utilities::strcpy_safe(token, MAX_LENGTH, element);
 		   }
 		 */
 		replace("(+", "(", token);
@@ -1752,7 +1752,7 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 		j = copy_token(token, &cptr, &l);
 		if (j == EMPTY)
 			break;
-		strcpy(token1, token);
+		Utilities::strcpy_safe(token1, MAX_LENGTH, token);
 		str_tolower(token1);
 		if (token1[0] == 'p')
 		{
@@ -3107,7 +3107,7 @@ read_master_species(void)
 		   if (token[0] == '[') {
 		   cptr1 = token;
 		   get_elt(&cptr, element, &l);
-		   strcpy(token, element);
+		   Utilities::strcpy_safe(token, MAX_LENGTH, element);
 		   }
 		 */
 		replace("(+", "(", token);
@@ -3726,7 +3726,7 @@ read_phases(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			strcpy(token1, trxn.token[0].name);
+			Utilities::strcpy_safe(token1, MAX_LENGTH, trxn.token[0].name);
 			replace("(g)", "", token1);
 			replace("(s)", "", token1);
 			replace("(G)", "", token1);
@@ -3739,7 +3739,7 @@ read_phases(void)
 					(strstr(trxn.token[i].name, "(S)") == NULL) &&
 					(strstr(trxn.token[i].name, "(G)") == NULL))
 				{
-					strcpy(token1, trxn.token[i].name);
+					Utilities::strcpy_safe(token1, MAX_LENGTH, trxn.token[i].name);
 					replace("(aq)", "", token1);
 					replace("(AQ)", "", token1);
 					replace("H2O(l)", "H2O", token1);
@@ -5737,7 +5737,7 @@ read_use(void)
 /*
  *   Read number
  */
-	strcpy(token1, token);
+	Utilities::strcpy_safe(token1, MAX_LENGTH, token);
 	for (;;)
 	{
 		i = copy_token(token, &cptr, &l);
@@ -7013,16 +7013,16 @@ read_surface_master_species(void)
 				master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
 			}
 			master[count_master]->primary = TRUE;
-			strcpy(token, master[count_master]->elt->name);
+			 Utilities::strcpy_safe(token, MAX_LENGTH, master[count_master]->elt->name);
 			count_master++;
 			/*
 			 *   Save values in master and species structure for surface psi
 			 */
-			strcpy(token1, token);
+			Utilities::strcpy_safe(token1, MAX_LENGTH, token);
 			replace("_", " ", token1);
 			cptr1 = token1;
 			copy_token(token, &cptr1, &l);
-			strcat(token, "_psi");
+			Utilities::strcat_safe(token, MAX_LENGTH, "_psi");
 			add_psi_master_species(token);
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -7041,10 +7041,9 @@ add_psi_master_species(char *token)
 	class species *s_ptr;
 	class master *master_ptr;
 	const char* cptr;
-	char token1[MAX_LENGTH];
+	char token1[MAX_LENGTH] = "";
 	int i, n, plane;
-
-	strcpy(token1, token);
+	Utilities::strcpy_safe(token1, MAX_LENGTH, token);
 	for (plane = SURF_PSI; plane <= SURF_PSI2; plane++)
 	{
 		strcpy(token, token1);
@@ -9481,7 +9480,7 @@ read_copy(void)
 	switch (next_keyword)
 	{
 	case Keywords::KEY_NONE:					/* Have not read line with keyword */
-		strcpy(nonkeyword, token);
+		Utilities::strcpy_safe(nonkeyword, MAX_LENGTH, token);
 		break;
 	case Keywords::KEY_SOLUTION:				/* Solution */
 	case Keywords::KEY_EQUILIBRIUM_PHASES:		/* Pure phases */
@@ -9508,7 +9507,7 @@ read_copy(void)
 /*
  *   Read source index
  */
-	strcpy(token1, token);
+	Utilities::strcpy_safe(token1, MAX_LENGTH, token);
 	i = copy_token(token, &cptr, &l);
 	if (i == DIGIT)
 	{
@@ -9728,8 +9727,8 @@ cleanup_after_parser(CParser &parser)
 	// check_key sets next_keyword
 	if (parser.get_m_line_type() == PHRQ_io::LT_EOF)
 	{
-		strcpy(line, "");
-		strcpy(line_save, "");
+		Utilities::strcpy_safe(line, max_line, "");
+		Utilities::strcpy_safe(line_save, max_line, "");
 		next_keyword = Keywords::KEY_END;
 		return(TRUE); 
 	}
@@ -9751,8 +9750,8 @@ cleanup_after_parser(CParser &parser)
 		if (line == NULL)
 			malloc_error();
 	}
-	strcpy(line, parser.line().c_str());
-	strcpy(line_save, parser.line_save().c_str());
+	Utilities::strcpy_safe(line, max_line, parser.line().c_str());
+	Utilities::strcpy_safe(line_save, max_line, parser.line_save().c_str());
 	return return_value;
 }
 /* ---------------------------------------------------------------------- */

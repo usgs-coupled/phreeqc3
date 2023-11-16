@@ -67,6 +67,7 @@
 #include "nvector_serial.h"
 #include "sundialstypes.h"
 #include "sundialsmath.h"
+#include "Utils.h"
 
 /* WARNING don`t include any headers below here */
 
@@ -173,7 +174,7 @@ M_EnvInit_Serial(integertype vec_length)
 	me->ops->nvprint = N_VPrint_Serial;
 
 	/* Attach ID tag */
-	strcpy(me->tag, ID_TAG_S);
+	Utilities::strcpy_safe(me->tag, 8, ID_TAG_S);
 
 	return (me);
 

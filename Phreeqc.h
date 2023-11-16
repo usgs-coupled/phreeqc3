@@ -1036,7 +1036,6 @@ public:
 	int get_token(const char** eqnaddr, std::string& string, LDBLE* z, int* l);
 	int islegit(const char c);
 	void malloc_error(void);
-	int parse_couple(char* token);
 	int print_centered(const char* string);
 	static int replace(const char* str1, const char* str2, char* str);
 	static void replace(std::string &stds, const char* str1, const char* str2);
