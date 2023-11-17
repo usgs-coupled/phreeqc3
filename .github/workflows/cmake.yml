@@ -3,8 +3,22 @@ name: CMake
 on:
   push:
     branches: [master, develop]
+    paths-ignore:
+      - 'doc/**'
+      - '!doc/CMakeLists.txt'
+      - '!doc/Makefile.am'
+      - 'HTMLversion/**'
+      - 'Version3/**'
+      - 'README.md'
   pull_request:
     branches: [master, develop]
+    paths-ignore:
+      - 'doc/**'
+      - '!doc/CMakeLists.txt'
+      - '!doc/Makefile.am'
+      - 'HTMLversion/**'
+      - 'Version3/**'
+      - 'README.md'
   schedule:
     - cron: '1 2 2/7 * *'
   workflow_dispatch:
