@@ -181,6 +181,57 @@ Utilities::safe_exp(LDBLE t)
 	}
 	return exp(t);
 }
+size_t Utilities::
+strcpy_safe(char* dest, size_t max, const char* src)
+{
+	size_t lsrc = 0;
+	try
+	{
+		if (dest == nullptr || src == nullptr)
+		{
+			std::cerr << "nullptr in Utilities::strcpy_safe." << std::endl;
+			throw;
+		}
+		lsrc = strlen(src);
+		if (lsrc + 1 > max)
+		{
+			std::cerr << "Buffer overrun in Utilities::strcpy_safe." << std::endl;
+			throw;
+		}
+		memcpy(dest, src, (lsrc + 1) * sizeof(char));
+	}
+	catch (...)
+	{
+		throw;
+	}
+	return lsrc;
+}
+size_t Utilities::
+strcat_safe(char* dest, size_t max, const char* src)
+{
+	size_t ldest = 0, lsrc = 0;
+	try
+	{
+		if (dest == nullptr || src == nullptr)
+		{
+			std::cerr << "nullptr in Utilities::strcat_safe." << std::endl;
+			throw;
+		}
+		lsrc = strlen(src);
+		ldest = strlen(dest);
+		if (ldest + lsrc + 1 > max)
+		{
+			std::cerr << "Buffer overrun in Utilities::strcat_safe." << std::endl;
+			throw;
+		}
+		memcpy(&dest[ldest], src, (lsrc + 1) * sizeof(char));
+	}
+	catch (...)
+	{
+		throw;
+	}
+	return ldest + lsrc;
+}
 //+NAN LDBLE: 7ff8000000000000
 //-NAN LDBLE: fff8000000000000
 /*

@@ -705,7 +705,7 @@ calc_logk_n(const char* name)
 	{
 		l_logk[i] = 0.0;
 	}
-	strcpy(token, name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	logk_ptr = logk_search(token);
 	if (logk_ptr != NULL)
 	{
@@ -730,7 +730,7 @@ calc_logk_p(const char* name)
 	LDBLE lk = -999.9;
 	LDBLE l_logk[MAX_LOG_K_INDICES];
 
-	strcpy(token, name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	phase_ptr = phase_bsearch(token, &j, FALSE);
 
 	if (phase_ptr != NULL)
@@ -769,7 +769,7 @@ calc_logk_s(const char* name)
 	class species* s_ptr;
 	LDBLE lk, l_logk[MAX_LOG_K_INDICES];
 
-	strcpy(token, name);
+	 Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
@@ -797,7 +797,7 @@ dh_a0(const char* name)
 	class species* s_ptr;
 	double a = -999.99;
 
-	strcpy(token, name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
@@ -819,7 +819,7 @@ dh_bdot(const char* name)
 	}
 	else
 	{
-		strcpy(token, name);
+		Utilities::strcpy_safe(token, MAX_LENGTH, name);
 		s_ptr = s_search(token);
 		if (s_ptr != NULL)
 		{
@@ -839,7 +839,7 @@ calc_deltah_p(const char* name)
 	LDBLE lkm, lkp;
 	LDBLE l_logk[MAX_LOG_K_INDICES];
 	double dh = -999.99;
-	strcpy(token, name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	phase_ptr = phase_bsearch(token, &j, FALSE);
 
 	if (phase_ptr != NULL)
@@ -879,7 +879,7 @@ calc_deltah_s(const char* name)
 	class species* s_ptr;
 	LDBLE lkm, lkp, l_logk[MAX_LOG_K_INDICES];
 	double dh = -999.99;
-	strcpy(token, name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
@@ -929,7 +929,7 @@ calc_surface_charge(const char* surface_name)
 			if (token_ptr->s->type != SURF)
 				continue;
 			master_ptr = trxn.token[i].s->primary;
-			strcpy(token, master_ptr->elt->name);
+			Utilities::strcpy_safe(token, MAX_LENGTH, master_ptr->elt->name);
 			replace("_", " ", token);
 			cptr = token;
 			copy_token(token1, &cptr, &j);
@@ -1237,7 +1237,7 @@ calc_t_sc(const char* name)
 	char token[MAX_LENGTH];
 	class species* s_ptr;
 
-	strcpy(token, name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	s_ptr = s_search(token);
 	if (s_ptr != NULL && s_ptr->in)
 	{
@@ -1262,7 +1262,7 @@ calc_f_visc(const char* name)
 
 	if (print_viscosity)
 	{
-		strcpy(token, name);
+		Utilities::strcpy_safe(token, MAX_LENGTH, name);
 		s_ptr = s_search(token);
 		if (s_ptr != NULL && s_ptr->in)
 			return s_ptr->dw_t_visc;
@@ -2111,7 +2111,7 @@ match_elts_in_species(const char* name, const char* mytemplate)
 	char token1[MAX_LENGTH], template1[MAX_LENGTH], equal_list1[MAX_LENGTH];
 	char str[2];
 
-	strcpy(token, name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, name);
 	squeeze_white(token);
 	replace("(+", "(", token);
 	if (strstr("token", "++") != NULL)
@@ -2168,7 +2168,7 @@ match_elts_in_species(const char* name, const char* mytemplate)
 	/*
 	 *  Replace elements with first of equivalent elements
 	 */
-	strcpy(template1, mytemplate);
+	Utilities::strcpy_safe(template1, MAX_LENGTH, mytemplate);
 	squeeze_white(template1);
 	cptr = template1;
 	while (extract_bracket(&cptr, equal_list) == TRUE)
@@ -2229,22 +2229,22 @@ match_elts_in_species(const char* name, const char* mytemplate)
 	token[0] = '\0';
 	for (i = 0; i < count_match_tokens; i++)
 	{
-		strcat(token, match_vector[i].first.c_str());
+		Utilities::strcat_safe(token, MAX_LENGTH, match_vector[i].first.c_str());
 		if (match_vector[i].second != 1.0)
 		{
 			snprintf(token1, sizeof(token1), "%g", (double)match_vector[i].second);
-			strcat(token, token1);
+			Utilities::strcat_safe(token, MAX_LENGTH, token1);
 		}
 	}
 	/*
 	 *  Write a template name using first of equivalent elements
 	 */
-	strcpy(template1, mytemplate);
+	Utilities::strcpy_safe(template1, MAX_LENGTH, mytemplate);
 	squeeze_white(template1);
 	cptr = template1;
 	while (extract_bracket(&cptr, equal_list) == TRUE)
 	{
-		strcpy(equal_list1, equal_list);
+		Utilities::strcpy_safe(equal_list1, MAX_LENGTH, equal_list);
 		replace("{", "", equal_list);
 		replace("}", "", equal_list);
 		while (replace(",", " ", equal_list) == TRUE);
@@ -2410,10 +2410,6 @@ surf_total(const char* total_name, const char* surface_name)
 		{
 			if (s_x[j]->next_elt[i].elt->master->type != SURF) continue;
 
-			//strcpy(token, s_x[j]->next_elt[i].elt->name);
-			//replace("_", " ", token);
-			//cptr = token;
-			//copy_token(name, &cptr, &k);
 			token = s_x[j]->next_elt[i].elt->name;
 			replace("_", " ", token);
 			std::string::iterator b = token.begin();
@@ -2512,7 +2508,7 @@ surf_total_no_redox(const char* total_name, const char* surface_name)
 	{
 		if (x[j]->type != SURFACE)
 			continue;
-		strcpy(token, x[j]->master[0]->elt->name);
+		Utilities::strcpy_safe(token, MAX_LENGTH, x[j]->master[0]->elt->name);
 		replace("_", " ", token);
 		cptr = token;
 		copy_token(name, &cptr, &k);
@@ -2528,7 +2524,7 @@ surf_total_no_redox(const char* total_name, const char* surface_name)
 	}
 	if (j >= count_unknowns)
 		return (0);
-	strcpy(surface_name_local, name);
+	Utilities::strcpy_safe(surface_name_local, MAX_LENGTH, name);
 	/*
 	 *   find total moles of each element in diffuse layer...
 	 */
@@ -2542,7 +2538,7 @@ surf_total_no_redox(const char* total_name, const char* surface_name)
 		{
 			if (s_x[j]->next_elt[i].elt->master->type != SURF) continue;
 
-			strcpy(token, s_x[j]->next_elt[i].elt->name);
+			Utilities::strcpy_safe(token, MAX_LENGTH, s_x[j]->next_elt[i].elt->name);
 			replace("_", " ", token);
 			cptr = token;
 			copy_token(name, &cptr, &k);
@@ -2792,7 +2788,7 @@ edl_species(const char* surf_name, LDBLE * count, char*** names, LDBLE * *moles,
 	if (names == NULL)
 		malloc_error();
 	*moles = (LDBLE*)PHRQ_malloc((sys.size() + 1) * sizeof(LDBLE));
-	if (moles == NULL)
+	if (*moles == NULL)
 		malloc_error();
 
 	(*names)[0] = NULL;
@@ -2886,13 +2882,13 @@ system_total(const char* total_name, LDBLE * count, char*** names,
 	 */
 	size_t count_sys = sys.size();
 	*names = (char**)PHRQ_malloc((count_sys + 1) * sizeof(char*));
-	if (names == NULL)
+	if (*names == NULL)
 		malloc_error();
 	*types = (char**)PHRQ_malloc((count_sys + 1) * sizeof(char*));
-	if (types == NULL)
+	if (*types == NULL)
 		malloc_error();
 	*moles = (LDBLE*)PHRQ_malloc((count_sys + 1) * sizeof(LDBLE));
-	if (moles == NULL)
+	if (*moles == NULL)
 		malloc_error();
 
 	(*names)[0] = NULL;
@@ -3126,7 +3122,7 @@ system_total_elements(void)
 		{
 			t = master_ptr->total;
 		}
-		strcpy(name, master[i]->elt->name);
+		Utilities::strcpy_safe(name, MAX_LENGTH, master[i]->elt->name);
 		count_sys = sys.size();
 		sys.resize(count_sys + 1);
 		sys[count_sys].name = string_duplicate(name);
@@ -3173,7 +3169,7 @@ system_total_si(void)
 			iap += rxn_ptr->s->la * rxn_ptr->coef;
 		}
 		si = -phases[i]->lk + iap;
-		strcpy(name, phases[i]->name);
+		Utilities::strcpy_safe(name, MAX_LENGTH, phases[i]->name);
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);
 		sys[count_sys].name = string_duplicate(name);
@@ -3491,7 +3487,7 @@ system_total_elt(const char* total_name)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
-					strcpy(name, x[k]->master[0]->elt->name);
+					Utilities::strcpy_safe(name, MAX_LENGTH, x[k]->master[0]->elt->name);
 					replace("_psi", "", name);
 					sys[count_sys].name = string_duplicate(name);
 					sys[count_sys].moles = elt_list[j].coef;
@@ -3736,7 +3732,7 @@ system_total_elt_secondary(const char* total_name)
 				}
 				if (l >= count_elts)
 					continue;
-				strcpy(name, x[k]->master[0]->elt->name);
+				Utilities::strcpy_safe(name, MAX_LENGTH, x[k]->master[0]->elt->name);
 				replace("_psi", "", name);
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
@@ -4051,8 +4047,8 @@ iso_value(const char* total_name)
 	int j;
 	char token[MAX_LENGTH];
 	char my_total_name[MAX_LENGTH];
-	strcpy(token, "");
-	strcpy(my_total_name, total_name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, "");
+	Utilities::strcpy_safe(my_total_name, MAX_LENGTH, total_name);
 	while (replace(" ", "_", my_total_name));
 	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
@@ -4062,12 +4058,12 @@ iso_value(const char* total_name)
 			continue;
 		return (isotope_ratio[j]->converted_ratio);
 	}
-	strcpy(my_total_name, total_name);
+	Utilities::strcpy_safe(my_total_name, MAX_LENGTH, total_name);
 	while (replace("[", "", my_total_name));
 	while (replace("]", "", my_total_name));
-	strcat(token, "R(");
-	strcat(token, my_total_name);
-	strcat(token, ")");
+	Utilities::strcat_safe(token, MAX_LENGTH, "R(");
+	Utilities::strcat_safe(token, MAX_LENGTH, my_total_name);
+	Utilities::strcat_safe(token, MAX_LENGTH, ")");
 	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
@@ -4086,10 +4082,10 @@ iso_unit(const char* total_name)
 	char token[MAX_LENGTH], unit[MAX_LENGTH];
 	class master_isotope* master_isotope_ptr;
 	char my_total_name[MAX_LENGTH];
-	strcpy(token, "");
-	strcpy(my_total_name, total_name);
+	Utilities::strcpy_safe(token, MAX_LENGTH, "");
+	Utilities::strcpy_safe(my_total_name, MAX_LENGTH, total_name);
 	while (replace(" ", "_", my_total_name));
-	strcpy(unit, "unknown");
+	Utilities::strcpy_safe(unit, MAX_LENGTH, "unknown");
 	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
@@ -4099,16 +4095,16 @@ iso_unit(const char* total_name)
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)
 		{
-			strcpy(unit, master_isotope_ptr->units);
+			Utilities::strcpy_safe(unit, MAX_LENGTH, master_isotope_ptr->units);
 		}
 		return string_duplicate(unit);
 	}
-	strcpy(my_total_name, total_name);
+	Utilities::strcpy_safe(my_total_name, MAX_LENGTH, total_name);
 	while (replace("[", "", my_total_name));
 	while (replace("]", "", my_total_name));
-	strcat(token, "R(");
-	strcat(token, my_total_name);
-	strcat(token, ")");
+	Utilities::strcat_safe(token, MAX_LENGTH, "R(");
+	Utilities::strcat_safe(token, MAX_LENGTH, my_total_name);
+	Utilities::strcat_safe(token, MAX_LENGTH, ")");
 	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
@@ -4118,7 +4114,7 @@ iso_unit(const char* total_name)
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)
 		{
-			strcpy(unit, master_isotope_ptr->units);
+			Utilities::strcpy_safe(unit, MAX_LENGTH, master_isotope_ptr->units);
 		}
 		return string_duplicate(unit);
 	}

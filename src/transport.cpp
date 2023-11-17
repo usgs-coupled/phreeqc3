@@ -1784,7 +1784,7 @@ set_initial_moles(int i)
 		cxxExchComp comp;
 		count_elts = 0;
 		paren_count = 0;
-		strcpy(token, "X");
+		Utilities::strcpy_safe(token, MAX_LENGTH, "X");
 		cptr = token;
 		get_elts_in_species(&cptr, 2e-10);
 		cptr = token;

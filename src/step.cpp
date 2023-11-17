@@ -707,13 +707,13 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 		comp_ptr->Set_delta(0.0);
 		if (comp_ptr->Get_add_formula().size() > 0)
 		{
-			strcpy(token, comp_ptr->Get_add_formula().c_str());
+			Utilities::strcpy_safe(token, MAX_LENGTH, comp_ptr->Get_add_formula().c_str());
 			cptr = &(token[0]);
 			get_elts_in_species(&cptr, 1.0);
 		}
 		else
 		{
-			strcpy(token, phase_ptr->formula);
+			Utilities::strcpy_safe(token, MAX_LENGTH, phase_ptr->formula);
 			add_elt_list(phase_ptr->next_elt, 1.0);
 		}
 		if (comp_ptr->Get_moles() > 0.0)
