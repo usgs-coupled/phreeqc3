@@ -208,7 +208,7 @@ if(MSVC)
       CMAKE_EXE_LINKER_FLAGS_CLRDEBUG
       CMAKE_SHARED_LINKER_FLAGS_CLRDEBUG )
 
-      
+
   # Remove /EHsc from CMAKE_CXX_FLAGS
   STRING(REPLACE " /EHsc" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
   STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
@@ -216,14 +216,14 @@ if(MSVC)
       "${CMAKE_CXX_FLAGS}" CACHE STRING
       "Flags used by the compiler during all build types."
       FORCE)
-  
+
   # Add /EHsc to CMAKE_CXX_FLAGS_RELEASE
   STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
   STRING(REPLACE " /EHsc" "" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
   SET(CMAKE_CXX_FLAGS_RELEASE
       "/EHsc ${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING
       "Flags used by the compiler during Release build types."
-      FORCE)      
+      FORCE)
 
   # Add /EHsc to CMAKE_CXX_FLAGS_DEBUG
   STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
@@ -251,13 +251,15 @@ if(MSVC)
       "Flags used by the compiler during ClrDebug builds."
       FORCE)
 
-  SET(CMAKE_CONFIGURATION_TYPES "Debug;Release;ClrDebug;ClrRelease" CACHE STRING 
+  SET(CMAKE_CONFIGURATION_TYPES "Debug;Release;ClrDebug;ClrRelease" CACHE STRING
   "Semicolon separated list of supported configuration types."
   FORCE)
 endif()
 
 add_executable(phreeqc ${phreeqc_SOURCES})
 set_target_properties(phreeqc PROPERTIES DEBUG_POSTFIX "d")
+
+target_compile_features(phreeqc PUBLIC cxx_std_11)
 
 # Add '#define TESTING'
 if(PHRQC_TESTING)
@@ -276,7 +278,7 @@ endif()
 if(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
   target_compile_definitions(phreeqc PRIVATE _CRT_SECURE_NO_DEPRECATE)
   target_compile_definitions(phreeqc PRIVATE _SCL_SECURE_NO_WARNINGS)
-endif() 
+endif()
 
 # define DOS
 if(WIN32)
@@ -319,5 +321,5 @@ endif()
 
 # Setup references for /CLR
 if(MSVC)
-  set_target_properties(phreeqc PROPERTIES VS_DOTNET_REFERENCES "System;System.Drawing;System.Windows.Forms;${CMAKE_CURRENT_SOURCE_DIR}/src/ZedGraph.dll")  
+  set_target_properties(phreeqc PROPERTIES VS_DOTNET_REFERENCES "System;System.Drawing;System.Windows.Forms;${CMAKE_CURRENT_SOURCE_DIR}/src/ZedGraph.dll")
 endif()
