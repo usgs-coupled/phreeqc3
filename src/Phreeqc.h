@@ -6,6 +6,7 @@
 #      define WINVER 0x0400
 #    endif
 #    include <afx.h>
+// #    define nullptr NULL
 #  endif
 #  include <windows.h>
 #  if defined(PHREEQCI_GUI)
@@ -2095,11 +2096,21 @@ char* _string_duplicate(const char* token, const char* szFileName, int nLine);
 // https://stackoverflow.com/questions/2915672/snprintf-and-visual-studio-2010
 
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
-
+#if (_MSC_VER == 1400) // VS2005
+namespace std {
+	__inline bool isnan(double num) {
+		return _isnan(num) != 0;
+	}
+}
+#endif
 #include <stdarg.h>
 
 #define snprintf c99_snprintf
 #define vsnprintf c99_vsnprintf
+
+#pragma warning( push )
+// warning C4793: 'vararg' : causes native code generation
+#pragma warning( disable : 4793 )
 
 __inline int c99_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap)
 {
@@ -2124,6 +2135,7 @@ __inline int c99_snprintf(char *outBuf, size_t size, const char *format, ...)
 
     return count;
 }
+#pragma warning( pop )
 #endif // defined(_MSC_VER) && (_MSC_VER < 1900)
 
 #endif //_INC_MISSING_SNPRINTF_H
