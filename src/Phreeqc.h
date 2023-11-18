@@ -6,7 +6,6 @@
 #      define WINVER 0x0400
 #    endif
 #    include <afx.h>
-// #    define nullptr NULL
 #  endif
 #  include <windows.h>
 #  if defined(PHREEQCI_GUI)
@@ -2096,7 +2095,7 @@ char* _string_duplicate(const char* token, const char* szFileName, int nLine);
 // https://stackoverflow.com/questions/2915672/snprintf-and-visual-studio-2010
 
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
-#if (_MSC_VER == 1400) // VS2005
+#if (_MSC_VER <= 1700) // VS2012
 namespace std {
 	__inline bool isnan(double num) {
 		return _isnan(num) != 0;

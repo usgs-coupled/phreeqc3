@@ -6,7 +6,8 @@
  *   #define DEFINITIONS
  * ---------------------------------------------------------------------- */
 #if !defined(NAN)
-#  if defined(_MSC_VER) && (_MSC_VER <= 1400) // VS2005
+#  if defined(_MSC_VER) && (_MSC_VER <= 1700) // VS2012
+//   https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-170     
 #    include <limits>
 #    define NAN std::numeric_limits<double>::signaling_NaN()
 #  else

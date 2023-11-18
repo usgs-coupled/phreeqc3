@@ -264,9 +264,12 @@ if(PHRQC_TESTING)
   target_compile_definitions(phreeqc PRIVATE TESTING)
 endif()
 
-# force utf-8
-target_compile_options(phreeqc PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-target_compile_options(phreeqc PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+# force utf-8 on VS2015 and later
+if(MSVC_VERSION GREATER_EQUAL 1900)
+  # https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-170
+  target_compile_options(phreeqc PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+  target_compile_options(phreeqc PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+endif()
 
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later
