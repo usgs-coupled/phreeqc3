@@ -1,0 +1,66 @@
+SOLUTION_MASTER_SPECIES
+H		H+	-1.0	H		1.008
+H(0)		H2	0	H
+H(1)		H+	-1.0	0           1
+E		e-	0	0.0		0
+O		H2O	0	O		16.0
+O(0)		O2	0	O
+O(-2)		H2O	0	0
+C		CO3-2	2.0	HCO3		12.0111       60                12
+Ca          Ca+2            0        40.08             40.08
+Al          Al+3             0        27               27
+Si          H4SiO4             0      SiO2      28.0843
+SOLUTION_SPECIES
+H+ = H+
+	-gamma	9.0	0
+	-dw	9.31e-9  1000  0.46  1e-10 # The dw parameters are defined in ref. 3.
+# Dw(TK) = 9.31e-9 * exp(1000 / TK - 1000 / 298.15) * viscos_0_25 / viscos_0_tc
+# Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
+e- = e-
+H2O = H2O
+# H2O + 0.01e- = H2O-0.01; -log_k -9 # aids convergence
+Ca+2 = Ca+2
+	-gamma	5.0	0.1650
+	-dw	0.793e-9  97  3.4  24.6
+	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # The apparent volume parameters are defined in ref. 1 & 2
+Al+3 = Al+3
+	-gamma	9.0	0
+	-dw	 0.559e-9
+	-Vm   -2.28  -17.1  10.9  -2.07  2.87  9  0  0  5.5e-3  1 # ref. 2 and Barta and Hepler, 1986, Can. J.C. 64, 353.
+H4SiO4 = H4SiO4
+	-dw	 1.10e-9
+	-Vm  10.5  1.7  20  -2.7  0.1291 # supcrt + 2*H2O in a1
+H2O = OH- + H+
+	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
+	-gamma	3.5	0
+	-dw	 5.27e-9  548  0.52  1e-10
+	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1
+2 H2O = O2 + 4 H+ + 4 e-
+	-log_k	-86.08
+	-delta_h 134.79 kcal
+	-dw	 2.35e-9
+	-Vm  5.7889  6.3536  3.2528  -3.0417  -0.3943 # supcrt
+2 H+ + 2 e- = H2
+	-log_k	-3.15
+	-delta_h -1.759 kcal
+	-dw	 5.13e-9
+	-Vm 6.52  0.78  0.12 # supcrt
+CO3-2 = CO3-2
+	-gamma	5.4	0
+        -dw	0.955e-9  28.9  14.3  98.1
+	-Vm  8.69  -10.2  -20.31  -0.131  4.65  0  3.75  0  -4.04e-2  0.678
+CO3-2 + H+ = HCO3-
+	-log_k	10.329
+	-delta_h -3.561	kcal
+	-analytic  107.8871  0.03252849  -5151.79  -38.92561  563713.9
+	-gamma	5.4      0
+	-dw	1.18e-9  -182  0.351  -4.94
+	-Vm  9.03  -7.03e-2  -13.38  0  2.05  0  0  128  0  0.8242
+CO3-2 + 2 H+ = CO2 + H2O
+	-log_k	16.681
+	-delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9  -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
+	-Vm   7.29  0.92  2.07  -1.23  -1.60 # McBride et al. 2015, JCED 60, 171
+	-gamma 0 0.066 # Rumpf et al. 1994, J. Sol. Chem. 23, 431
+END
