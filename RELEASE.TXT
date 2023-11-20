@@ -1,5 +1,28 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+  	-----------------
+	November 15, 2023
+  	-----------------
+	PHREEQC programs: Fixed a couple malloc checks, some compiler warnings, and removed
+	some deprecated calls to strcpy and strcat.
+	
+  	-----------------
+	November 5, 2023
+  	-----------------
+	PHREEQC programs: Automatic testing was expanded to include MPI and additional compilers.
 
+  	-----------------
+	November 1, 2023
+  	-----------------
+	PHREEQC: Logical statement in k_temp was modified to work with Intel optimization.
+	The statement at the beginning of the routine was not handled correctly when some 
+	values were NaN. 
+
+  	-----------------
+	August 29, 2023
+  	-----------------
+	PhreeqcRM: Fixed bug in memory allocation for selected output. One array accumulated lines 
+	indefinitely, leading to ever increasing memory use. Memory use should now be relatively
+	constant once all selected output has been defined and used. 
 
   	-----------------
 	June 1, 2023
@@ -135,8 +158,10 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	May 19, 2023
   	-----------------
 	PhreeqcRM:
-	Renamed GetDensity and related functions to GetDensityCalculated.
-	Renamed SetDensity and related functions to SetDensityUser.
+	Changed documentation of GetDensity and related functions to GetDensityCalculated. 
+		(GetDensity still exists for backward compatibility.)
+	Changed documentation of SetDensity and related functions to SetDensityUser. 
+		(SetDensity still exists for backward compatibility.)
 	
 	Density is used to convert user-model concentrations to module solution definitions only if the
 	units of the user-model concentrations are specified to be parts per million. The density specified by 
@@ -150,10 +175,12 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	The change in method names is intended to emphasize the difference between the user-specified densities
 	and the module-calculated densities. 
 	
-	Renamed GetSaturation and related functions to GetSaturationCalculated.
-	Renamed SetSaturation and related functions to SetSaturationUser.
+	Changed documentation of GetSaturation and related functions to GetSaturationCalculated.
+		(GetSaturation still exists for backward compatibility.)
+	Changed documentation of SetSaturation and related functions to SetSaturationUser.
+		(SetSaturation still exists for backward compatibility.)
 	
-	The values specified by SetSaturation are used to convert user-model concentrations to module solution definitions.
+	The values specified by SetSaturationUser are used to convert user-model concentrations to module solution definitions.
 	For SetConcentrations, the volume of solution is calculated to be the user-specified saturation * porosity * 
 	representative volume. For GetConcentrations, two options are available to determine the solution volume, depending 
 	on the value specified for SetUseSolutionDensityVolume: (1) the solution volume is calculated by the reaction module 
@@ -164,7 +191,6 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 		
 	The change in method names is intended to emphasize the difference between the user-specified saturations and 
 	and the module-calculated saturations.
-	
 	
   	-----------------
 	April 16, 2023
