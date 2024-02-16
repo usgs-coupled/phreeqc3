@@ -1,0 +1,182 @@
+database ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 Tn_M_M2Cl_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT; -reset false
+SOLUTION_SPREAD
+-units mol/kgw
+Number	Cl	pH
+1	0.005	3 charge
+2	0.01	3 charge
+3	0.02	3 charge
+4	0.05	3 charge
+5	0.1	3 charge
+6  	0.2	3 charge
+7  	0.5	3 charge
+8  	1	1 charge
+9  	2	1 charge
+10 	3	1 charge
+11 	4	1 charge
+12 	5	1 charge
+13 	6	1 charge
+14 	7	1 charge
+15 	8	1 charge
+16 	9	1 charge
+17 	10	1 charge
+USER_GRAPH 1
+-initial_solutions true
+-axis_titles "Cl / mol/kgw" "cation transport number (-)"
+-headings H+
+
+360 plot_xy tot("Cl"), L_H(cell_no ), line_width = 0
+362 plot_xy tot("Cl"), t_sc("H+"), color = Red, symbol_size = 0
+
+ # eqns from Hamer & DeWane for L_H
+41 dim l_H(50) : mcl = tot("Cl")
+42 L_H(cell_no) = 0.821 + 0.0457 * mcl^0.5 - 2.476e-2 * mcl - 1.90e-4 * mcl^2 - 1.45e-5 *  mmcl^3
+
+290 dev = 1 - L_H(cell_no ) / t_sc("H+")
+310 if cell_no = 1 then put(0, 3) : put(0, 4)
+322 put(dev^2 + get(3), 3) : put(1 + get(4), 4)
+330 if cell_no = 17 then print 's.d. for t_sc of H+ ' + str_f$((get(3) / get(4) )^0.5 * 1e2, 0, 2) + '% for '+ str_f$(get(4), 0, 0) + ' samples.'
+END
+
+SOLUTION_SPREAD
+-units mol/kgw
+number	Cl	Na	pH	#	NaCl	Cl mol/L
+1 	0.01	0.01	7 charge	#	0.3918
+2 	0.02	0.02	7 charge	#	0.3902
+3 	0.05	0.05	7 charge	#	0.3876
+4 	0.1	0.1	7 charge	#	0.3854
+5 	0.2	0.2	7 charge	#	0.3821
+6 	0.25	0.25	7 charge	#	0.379
+7 	0.5	0.5	7 charge	#	0.372
+8 	0.75	0.75	7 charge	#	0.369
+9 	1	1	7 charge	#	0.366
+10	1.25	1.25	7 charge	#	0.364
+11	1.5	1.5	7 charge	#	0.363
+12	1.75	1.75	7 charge	#	0.362
+13	2	2	7 charge	#	0.360
+14	2.25	2.25	7 charge	#	0.359
+15	2.5	2.5	7 charge	#	0.358
+16	2.75	2.75	7 charge	#	0.357
+17	3	3	7 charge	#	0.356
+18	3.5	3.5	7 charge	#	0.354
+19	4	4	7 charge	#	0.353
+20	4.5	4.5	7 charge	#	0.353
+21	5	5	7 charge	#	0.353
+22	5.5	5.5	7 charge	#	0.352
+23	6	6	7 charge	#	0.352
+USER_GRAPH 1
+-headings Na+
+360 plot_xy tot("Cl"), HB(cell_no), line_width = 0
+362 plot_xy tot("Cl"), t_sc("Na+"), color = Green, symbol_size = 0
+
+# t_Na, R&S, Panopoulos
+10 DATA 0.3918, 0.3902, 0.3876, 0.3854, 0.3821, 0.379, 0.372, 0.369, 0.366, 0.364, 0.363, 0.362, 0.360, 0.359, 0.358, 0.357, 0.356, 0.354, 0.353, 0.353, 0.353, 0.352, 0.352
+20 restore 10 : dim HB(100) : for i = 1 to cell_no : READ HB(i) : next i
+
+292 dev = 1 - HB(cell_no) / t_sc("Na+")
+310 if cell_no = 1 then put(0, 3) : put(0, 4)
+322 put(dev^2 + get(3), 3) : put(1 + get(4), 4)
+332 if cell_no = 23 then print 's.d. for t_sc of Na+ ' + str_f$((get(3) / get(4) )^0.5 * 1e2, 0, 2) + '% for '+ str_f$(get(4), 0, 0) + ' samples.'
+END
+
+
+SOLUTION_SPREAD
+-units mol/kgw
+number	Cl	K	pH
+1 	0.00100	0.00100	7 charge
+2 	0.00201	0.00201	7 charge
+3 	0.00502	0.00502	7 charge
+4 	0.01003	0.01003	7 charge
+5 	0.02007	0.02007	7 charge
+6 	0.05022	0.05022	7 charge
+7 	0.10058	0.10058	7 charge
+8 	0.20172	0.20172	7 charge
+9 	0.50869	0.50869	7 charge
+10	1.03280	1.03280	7 charge
+11	3.313	3.313	7 charge
+
+USER_GRAPH 1
+-headings K+
+360 plot_xy tot("Cl"), HB(cell_no), line_width = 0
+362 plot_xy tot("Cl"), t_sc("K+"), color = Blue, symbol_size = 0
+
+# transport nrs from R&S and King_MCl
+10 DATA  0.4903, 0.4903, 0.4905, 0.4902, 0.4901, 0.490, 0.4898, 0.4892, 0.4887, 0.4875, 0.4857
+20 restore 10 : dim HB(70) : for i = 1 to cell_no : READ HB(i) : next i
+
+292 dev = 1 - HB(cell_no) / t_sc("K+")
+310 if cell_no = 1 then put(0, 3) : put(0, 4)
+322 put(dev^2 + get(3), 3) : put(1 + get(4), 4)
+332 if cell_no = 11 then print 's.d. for t_sc of K+ ' + str_f$((get(3) / get(4) )^0.5 * 1e2, 0, 2) + '% for '+ str_f$(get(4), 0, 0) + ' samples.'
+END
+
+
+SOLUTION_SPREAD
+-units mol/kgw
+number	pH	Mg	Cl
+1 	7 charge	0.10037 	0.20074
+2 	7 charge	0.201415	0.40283
+3 	7 charge	0.40391 	0.80782
+4 	7 charge	0.5066	1.0132
+5 	7 charge	0.5066	1.0132
+6 	7 charge	1.0268	2.0536
+7 	7 charge	1.34705 	2.6941
+8 	7 charge	2.1016	4.2032
+9 	7 charge	2.43315 	4.8663
+10	7 charge	3.3725	6.7450
+11	7 charge	3.7371	7.4742
+
+USER_GRAPH 1
+-headings Mg+2
+360 plot_xy tot("Cl"), (1 - HB(cell_no)), line_width = 0
+362 plot_xy tot("Cl"), t_sc("Mg+2"), color = Orange, symbol_size = 0
+
+# t_Cl from Schoenert...
+10 DATA 0.6410, 0.6610, 0.6809, 0.6878, 0.6860, 0.7166, 0.7309, 0.7549, 0.7771, 0.7905, 0.8014
+20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+
+292 dev = 1 - (1 - HB(cell_no)) / t_sc("Mg+2")
+310 if cell_no = 1 then put(0, 3) : put(0, 4)
+322 put(dev^2 + get(3), 3) : put(1 + get(4), 4)
+332 if cell_no = 11 then print 's.d. for t_sc of Mg+2 ' + str_f$((get(3) / get(4) )^0.5 * 1e2, 0, 2) + '% for '+ str_f$(get(4), 0, 0) + ' samples.'
+END
+
+SOLUTION_SPREAD
+-units mol/kgw
+number	Ca	Cl
+1 	2.51E-03	5.02E-03
+2 	5.02E-03	1.00E-02
+3 	5.02E-03	1.00E-02
+4 	1.00E-02	2.01E-02
+5 	1.00E-02	2.01E-02
+6 	1.51E-02	3.01E-02
+7 	2.51E-02	5.02E-02
+8 	2.51E-02	5.02E-02
+9 	3.51E-02	7.03E-02
+10	5.02E-02	1.00E-01
+11	5.02E-02	1.00E-01
+12	7.53E-02	1.51E-01
+13	1.01E-01	2.01E-01
+
+USER_GRAPH 1
+-headings Ca+2
+360 plot_xy tot("Cl"), HB(cell_no), line_width = 0
+362 plot_xy tot("Cl"), t_sc("Ca+2"), color = Magenta, symbol_size = 0
+
+# tCa from Shedlovsky; Keenan
+10 DATA 0.4307, 0.4264, 0.4277, 0.422, 0.4234, 0.4202, 0.414, 0.4151, 0.4113, 0.406, 0.407, 0.401, 0.3953
+20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+
+292 dev = 1 - HB(cell_no) / t_sc("Ca+2")
+310 if cell_no = 1 then put(0, 3) : put(0, 4)
+322 put(dev^2 + get(3), 3) : put(1 + get(4), 4)
+332 if cell_no = 13 then print 's.d. for t_sc of Ca+2 ' + str_f$((get(3) / get(4) )^0.5 * 1e2, 0, 2) + '% for '+ str_f$(get(4), 0, 0) + ' samples.'
+END

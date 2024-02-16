@@ -283,7 +283,7 @@ public:
 	int sum_diffuse_layer(cxxSurfaceCharge* surface_charge_ptr1);
 	int calc_all_donnan(void);
 	int calc_init_donnan(void);
-	LDBLE calc_psi_avg(cxxSurfaceCharge * charge_ptr, LDBLE surf_chrg_eq, LDBLE nDbl, std::vector<LDBLE> &zcorr);
+	LDBLE calc_psi_avg(cxxSurfaceCharge * charge_ptr, LDBLE surf_chrg_eq, LDBLE nDbl, LDBLE f_free, std::vector<LDBLE> &zcorr);
 	LDBLE g_function(LDBLE x_value);
 	LDBLE midpnt(LDBLE x1, LDBLE x2, int n);
 	void polint(LDBLE* xa, LDBLE* ya, int n, LDBLE xv, LDBLE* yv,
@@ -555,6 +555,7 @@ public:
 	LDBLE calc_PR(std::vector<class phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int calc_vm(LDBLE tc, LDBLE pa);
+	LDBLE calc_vm0(const char *species_name, LDBLE tc, LDBLE pa, LDBLE mu);
 	int clear(void);
 	int convert_units(cxxSolution* solution_ptr);
 	class unknown* find_surface_charge_unknown(std::string& str_ptr, int plane);
@@ -995,7 +996,7 @@ public:
 		LDBLE new_Dw);
 	int reformat_surf(const char* comp_name, LDBLE fraction, const char* new_comp_name,
 		LDBLE new_Dw, int cell);
-	LDBLE viscosity(void);
+	LDBLE viscosity(cxxSurface *surf_ptr);
 	LDBLE calc_f_visc(const char *name);
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);

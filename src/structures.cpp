@@ -1561,6 +1561,7 @@ s_init(class species *s_ptr)
 	s_ptr->dw_t = 0.0;
 	s_ptr->dw_a = 0.0;
 	s_ptr->dw_a2 = 0.0;
+	s_ptr->dw_a3 = 0.0;
 	s_ptr->erm_ddl = 1.0;
 	s_ptr->equiv = 0;
 	s_ptr->alk = 0.0;

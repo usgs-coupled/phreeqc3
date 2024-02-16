@@ -1,0 +1,51 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 NaKCl_visc_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+# Lang, Jun, 1996, JCED 41, 516
+#PRINT; -reset false
+
+SOLUTION 1
+INCREMENTAL_REACTIONS true
+REACTION 1
+Na0.4Cl0.4 1
+10*1e-3 9*1e-2 9*0.1 11*1.3
+USER_GRAPH 1
+-axis_scale x_axis 0 6.1
+-axis_scale y_axis 0.8 1.8
+-axis_titles "Cl / (mol/kgw)" "viscosity / (mPa s)"
+-plot_tsv_file NaKCl.dat
+-connect_simulations false
+10 graph_x tot("Cl")
+# 20 graph_y rho
+30 graph_y viscos 
+END
+
+USE solution 1
+REACTION 1
+Na0.2987K0.1Cl0.4 1
+10*1e-3 9*1e-2 9*0.1 11*1.3
+END
+
+USE solution 1
+REACTION 1
+Na0.2002K0.2Cl0.4 1
+10*1e-3 9*1e-2 9*0.1 11*1.1
+END
+
+USE solution 1
+REACTION 1
+Na0.1K0.30075Cl0.4 1
+10*1e-3 9*1e-2 9*0.1 11*1.1
+END
+
+USE solution 1
+REACTION 1
+Na0.0K0.4Cl0.4 1
+10*1e-3 9*1e-2 9*0.1 11*1.1
+END

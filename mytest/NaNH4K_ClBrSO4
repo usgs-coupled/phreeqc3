@@ -45,6 +45,7 @@ number	Na	K	Amm	Cl	Br	S(6)	pH
 29	0.5	1.00	1	0.5	1.00	0.5	7 charge
 30	0.5	1.00	3	0.5	1.00	1.5	7 charge
 USER_GRAPH 1
+-chart_title "Viscosities"
 -headings NaKCl KBr-NaCl (NH4-Na)2SO4 (NH4)2SO4-KCl (NH4)2SO4-NaCl-KBr
 -axis_titles "viscosity / (mPa·s)" calculated
 -axis_scale x_axis 0.8 2.2
@@ -58,12 +59,13 @@ USER_GRAPH 1
 32 if cell_no >= 13 and cell_no < 19 then plot_xy vs(cell_no ), viscos , line_width = 0, color = Blue else plot_xy vs(0), vs(0) 
 33 if cell_no >= 19 and cell_no < 25 then plot_xy vs(cell_no ), viscos , line_width = 0, color = Orange else plot_xy vs(0), vs(0) 
 34 if cell_no >= 25 and cell_no < 31 then plot_xy vs(cell_no ), viscos , line_width = 0, color = Aqua else plot_xy vs(0), vs(0) 
-36 print cell_no , 'SI_Arcanite ', SI("Arcanite")
+# 36 print cell_no , 'SI_Arcanite ', SI("Arcanite")
 40 if cell_no > 2 then end 
 50 if cell_no = 1 then xy = 0.89 else xy = 2.02
 60 plot_xy xy, xy, symbol = None, color = Black 
 -end 
 USER_GRAPH 2
+-chart_title "Densities"
 -headings NaKCl KBr-NaCl (NH4-Na)2SO4 (NH4)2SO4-KCl (NH4)2SO4-NaCl-KBr
 -axis_titles "density / (kg/L)" calculated
 -axis_scale x_axis 1.0 1.25

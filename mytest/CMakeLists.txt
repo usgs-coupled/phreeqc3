@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.9)
 
 set(TESTS
+  NH4_2_SO4
   14C_isotopes
   a_e_t2
   adapted_minteq
@@ -105,6 +106,7 @@ set(TESTS
   edl_species
   eq_EC
   eq_phase_mod
+  Equiv_Conduct
   erm
   evap
   evap_sea
@@ -186,6 +188,7 @@ set(TESTS
   Hebach
   high_mu
   HighTPwaterGas
+  hittorf1
   HNaK_Cl
   homo
   i2
@@ -229,6 +232,7 @@ set(TESTS
   local_min_pz
   low_p
   low_t
+  M_M2Cl_SC
   mahoney
   MassWater
   McBride_rho
@@ -260,6 +264,7 @@ set(TESTS
   N2_conc_PR_IS
   N2_ideal
   n3
+  Na_MgCl
   Na2SO4
   Na2SO4_phr
   NaCl
@@ -364,6 +369,7 @@ set(TESTS
   seaw_0_200C
   seaw_anhyd
   seaw_Fabuss
+  seaw_SC
   sit_edl
   sit_redox
   solid_solution
@@ -406,6 +412,8 @@ set(TESTS
   t922
   ternary
   test_sit
+  tn_KBr
+  Tn_M_M2Cl
   toner
   TonyLitharge2a
   TotalPlus
@@ -423,6 +431,7 @@ set(TESTS
   variable_cell_diffusion
   visc_MgSO4
   visc_NaK2SO4
+  visc_NaKCl
   Vm_BaCl2_sol
   Vm_CaCl2_sol
   Vm_HCl_sol
@@ -484,9 +493,12 @@ set(mytest_MISC
   Apelbl_Na2CO3.dat
   Barite_NaCl.dat
   Barite_tc.dat
+  Ca_K2SO4.csv
   Carnallite.csv
   casf_na.csv
   cc_1barCO2.dat
+  cc_Ellis.dat
+  cc_Malin.dat
   cc_p_CO2.dat
   cc_P.dat
   cc_tc100.dat
@@ -521,6 +533,9 @@ set(mytest_MISC
   gyps_Na2SO4.csv
   gyps_NaCl.csv
   H_K.tsv
+  H2S.dat
+  H2S_NaCl.dat
+  H2S_71C.dat
   halite.dat
   Hebach.dat
   include2
@@ -530,6 +545,7 @@ set(mytest_MISC
   kinetic_rates.dat
   LangmuirAs_wateq4f.dat
   mahoney.dat
+  McCleskey.phr
   McBride_rho.tsv
   McBride_rho2.tsv
   McBride_rho3.tsv
@@ -540,6 +556,8 @@ set(mytest_MISC
   n2_25C.dat
   na2so4.csv
   nakcl.csv
+  NaKCl.dat
+  NaKCl_lang.dat
   Nardi.dat
   O2_27.dat
   p_CO2_Na2SO4.dat
@@ -551,6 +569,7 @@ set(mytest_MISC
   Qin_CH4.dat
   Qin_CO2.dat
   sar.dat
+  seaw.dat
   srso4_P.dat
   THEREDA_PIT_PHRC_r04.dat
   Tipping&Hurley.dat
@@ -558,6 +577,9 @@ set(mytest_MISC
   wateq4fhao.dat
   y_H2O.dat
   zeta.tsv
+  Zhang_CaCl.dat
+  Zhang_KCaCl.dat
+  Zhang_NaCaCl.dat
 )
 
 # label H2S_files

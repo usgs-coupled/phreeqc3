@@ -5499,9 +5499,17 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			s_ptr->dw_t = 0;  s_ptr->dw_a = 0; s_ptr->dw_a2 = 0; s_ptr->dw_a_visc = 0;
-			i = sscanf(next_char, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT, &s_ptr->dw, &s_ptr->dw_t,
-				&s_ptr->dw_a, &s_ptr->dw_a2, &s_ptr->dw_a_visc);
+			s_ptr->dw_t = 0;  s_ptr->dw_a = 0; s_ptr->dw_a2 = 0; s_ptr->dw_a3 = 0; s_ptr->dw_a_visc = 0;
+			i = sscanf(next_char, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT, 
+				&s_ptr->dw, &s_ptr->dw_t, &s_ptr->dw_a, &s_ptr->dw_a2, &s_ptr->dw_a_visc, &s_ptr->dw_a3);
+			if (i < 1)
+			{
+				input_error++;
+				error_msg("Expecting numeric values for the diffusion coefficient, its temperature dependence, and coefficients for the SC calculation.",
+					CONTINUE);
+				return (ERROR);
+			}
+
 			s_ptr->dw_corr = s_ptr->dw;
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -6414,7 +6422,7 @@ read_surface(void)
 							if (thickness != 0)
 							{
 								error_msg
-									("You must enter EITHER thickness OR Debye lengths (1/k),\n	   and relative DDL viscosity, DDL limit.\nCorrect is (for example): -donnan 1e-8 viscosity 0.5 limit 0.9 correct_GC true\n or (default values):     -donnan debye_lengths 1 viscosity 1 limit 0.8 correct_GC false",
+									("You must enter EITHER thickness OR Debye lengths (1/k),\n	   and relative DDL viscosity, DDL limit.\nCorrect is (for example): -donnan 1e-8 viscosity 0.5 limit 0.9 correct_D true\n or (default values):     -donnan debye_lengths 1 viscosity 1 limit 0.8 correct_D false",
 									CONTINUE);
 								error_msg(line_save, CONTINUE);
 								input_error++;
@@ -6442,12 +6450,12 @@ read_surface(void)
 							copy_token(token1, &next_char);
 							if (token1[0] == 'T' || token1[0] == 't' || token1[0] == 'F' || token1[0] == 'f')
 							{
-								temp_surface.Set_correct_GC(get_true_false(token1.c_str(), TRUE) == TRUE);
+								temp_surface.Set_correct_D(get_true_false(token1.c_str(), TRUE) == TRUE);
 								continue;
 							} else
 							{
 								error_msg
-									("Expected True or False for correct_GC (which brings co-ion concentrations closer to their integrated double layer value).",
+									("Expected True or False for correct_D (which brings co-ion concentrations closer to their integrated double layer value).",
 									CONTINUE);
 								error_msg(line_save, CONTINUE);
 								input_error++;
@@ -6460,7 +6468,17 @@ read_surface(void)
 							if (j == DIGIT)
 							{
 								(void)sscanf(token1.c_str(), SCANFORMAT, &dummy);
+								if(dummy == 0)
+								{
+									dummy = 1; temp_surface.Calc_DDL_viscosity(true);
+								}
 								temp_surface.Set_DDL_viscosity(dummy);
+								continue;
+							}
+							else if (token1[0] == 'C' || token1[0] == 'c' )
+							{
+								temp_surface.Calc_DDL_viscosity(true);
+								temp_surface.Set_DDL_viscosity(1.0);
 								continue;
 							}
 							else if (j != EMPTY)
@@ -6601,10 +6619,10 @@ read_surface(void)
 					i1++;
 					continue;
 				}
-				else if (i != EMPTY || i1 > 8)
+				else if (i != EMPTY || i1 > 4)
 				{
 					error_msg
-					("Expected at most 8 numbers for the Donnan_factors for co- and counter-ions,\n 	z *= cgc[0] * (mu_x**(cgc[1] * nDbl**cgc[2] * (abs(surf_chrg_eq / A_surf / 1e-6)**cgc[3] * mu_x**(cgc[4])",
+					("Expected 4 numbers for the Donnan_factors of single and double-charged coounter- and co-ions,\n 	z1, z2, z_1, z_2",
 						CONTINUE);
 					error_msg(line_save, CONTINUE);
 					input_error++;
