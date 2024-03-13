@@ -15,6 +15,7 @@ DATABASE=\
 	llnl.dat\
 	minteq.dat\
 	minteq.v4.dat\
+	PHREEQC_ThermoddemV1.10_15Dec2020.dat\
 	phreeqc.dat\
 	pitzer.dat\
 	sit.dat\
