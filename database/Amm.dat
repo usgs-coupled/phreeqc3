@@ -1,4 +1,3 @@
-# with Falkenhage, a in ka from change in vm with T, P, I
 # PHREEQC.DAT for calculating temperature and pressure dependence of reactions, and the specific conductance and viscosity of the solution. Based on:
 #   diffusion coefficients and molal volumina of aqueous species, solubility and volume of minerals, and critical temperatures and pressures of gases in Peng-Robinson's EOS.
 # Details are given at the end of this file.
@@ -62,59 +61,58 @@ Ntg	     Ntg	 0	 Ntg		  28.0134 # N2 gas
 
 SOLUTION_SPECIES
 H+ = H+
-	-gamma  9.0	0
+	-gamma	9.0     0
 	-viscosity  9.35e-2  -8.31e-2  2.487e-2  4.49e-4  2.01e-2  1.570 # for viscosity parameters see ref. 4
-	-dw	9.31e-9  742  15.0  1  2.353  24.01 # The dw parameters are defined in ref. 3.
+	-dw	9.31e-9  838  16.315  0.809  2.376  24.01 # The dw parameters are defined in ref. 3.
 #		Dw(25 C) dw_T  a    a2  visc   a3
-# Dw(TK) = 9.31e-9 * exp(742 / TK - 742 / 298.15) * viscos_0_25 / viscos_0_tc * (viscos_0_tc / viscos)^2.353
+# Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc * (viscos_0_tc / viscos)^2.353
 
 # a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024
-# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0) / 5.2)^a2 * mu^0.5  (a3 = 5.2 = default, can be changed) in Falkenhagen's eqn.
-# a3 = -10 ? ka = DH_B * a * mu^a2 in Falkenhagen's eqn.  (Define a3 = -10), in CO3-2 and HCO3-, SO4-2 + cplxs
-# -5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))
+# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn.
+# a3 = -10 ? ka = DH_B * a * mu^a2  (Define a3 = -10) (not used in this database.)
+# -3 < a3 < 4 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka)) (Sr+2 in this database)
 e- = e-
 H2O = H2O
 	-dw	2.299e-9  -254
 # H2O + 0.01e- = H2O-0.01; -log_k -9 # aids convergence
 Li+ = Li+
-	-gamma  6.0	0 # The apparent volume parameters for Vm are defined in ref. 1 & 2
+	-gamma	6.0     0 # The apparent volume parameters are defined in ref. 1 & 2
 	-Vm	-0.419  -0.069  13.16  -2.78  0.416  0  0.296  -12.4  -2.74e-3  1.26 # ref. 2 and Ellis, 1968, J. Chem. Soc. A, 1138
 	-viscosity  0.162  -2.45e-2  3.73e-2  9.7e-4  8.1e-4  2.087 # < 10 M LiCl
-	-dw	1.03e-9  -23  4.063  5.488  3.0
+	-dw	1.03e-9  -14  4.03  0.8341  1.679
 Na+ = Na+
-	-gamma  4.0	0.075
-	-gamma  4.08 0.082 # halite solubility
+	-gamma	4.0     0.075
+	-gamma	4.08 0.082 # halite solubility
 	-Vm	2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566
-# for calculating densities (rho) when I > 3...
-	# -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.45
+	# -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.45 # for densities (rho) when I > 3.
 	-viscosity  0.1387  -8.66e-2  1.25e-2  1.45e-2  7.5e-3  1.062
-	-dw	1.33e-9  -121  4.383  -2.798  0.6215
+	-dw	1.33e-9  75  3.627  0  0.7037
 K+ = K+
-	-gamma  3.5	0.015
+	-gamma	3.5     0.015
 	-Vm	3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.7  0  1
 	-viscosity  0.116  -0.191  1.52e-2  1.40e-2  2.59e-2  0.9028
-	-dw	1.96e-9  252  3.054  1.729  0.4706
+	-dw	1.96e-9  254  3.484  0  0.1964
 Mg+2 = Mg+2
-	-gamma  5.5	0.20
+	-gamma	5.5     0.20
 	-Vm	-1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1
 	-viscosity  0.426  0  0  1.66e-3  4.32e-3  2.461
-	-dw	0.705e-9  35  11.92  -2.922  0.9631
+	-dw	0.705e-9  -4  5.569  0  1.047
 Ca+2 = Ca+2
-	-gamma  5.0	0.1650
-	-Vm	-0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1
+	-gamma	5.0     0.1650
+	-Vm     -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1
 	-viscosity  0.359  -0.158  4.2e-2  1.5e-3  8.04e-3  2.30 # ref. 4, CaCl2 < 6 M
-	-dw	0.792e-9  -198  11.80  -2.745  0.9735
+	-dw	0.792e-9  34  5.411  0  1.046
 Sr+2 = Sr+2
-	-gamma  5.260   0.121
+	-gamma	5.260	0.121
 	-Vm	-1.57e-2  -10.15  10.18  -2.36  0.860  5.26  0.859  -27.0  -4.1e-3  1.97
 	-viscosity  0.472  -0.252  5.51e-3  3.67e-3  0  1.876
-	-dw	0.794e-9  66  25  -2.336  3.0
+	-dw	0.794e-9  160  0.680  0.767  1e-9  0.912
 Ba+2 = Ba+2
-	-gamma  5.0  0
-	-gamma  4.0  0.153 # Barite solubility
+	-gamma	5.0  0
+	-gamma	4.0  0.153 # Barite solubility
 	-Vm	2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1
 	-viscosity  0.338  -0.227  1.39e-2  3.07e-2  0  0.768
-	-dw	0.848e-9  -47  22.67  -2.543  3.0
+	-dw	0.848e-9  174  10.53  0  3.0
 Fe+2 = Fe+2
 	-gamma  6.0	0
 	-Vm	-0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1
@@ -131,31 +129,31 @@ H4SiO4 = H4SiO4
 	-Vm	10.5  1.7  20  -2.7  0.1291 # supcrt + 2*H2O in a1
 	-dw	1.10e-9
 Cl- = Cl-
-	-gamma  3.5	0.015
-	-gamma  3.63  0.017 # cf. pitzer.dat
+	-gamma	3.5     0.015
+	-gamma	3.63  0.017 # cf. pitzer.dat
 	-Vm	4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1
-	-viscosity   0  0  0  0  0  0  1 # the reference solute
-	-dw	2.033e-9  164  3.214  0.6814  0.7554
+	-viscosity  0  0  0  0  0  0  1 # the reference solute
+	-dw	2.033e-9  216  3.160  0.2071  0.7432
 CO3-2 = CO3-2
-	-gamma  5.4	0
-	-Vm	5.65  -0.413  4.32e-2  -5.68  5.56  0  -0.97  150  -7.3e-3  0.866
-	-viscosity -0.307  0.461  6.91e-3  2.6e-4  -2.02e-2  1.666  -2.215
-	-dw	0.955e-9  -21  4.372  0.4288  0.7542  -10
+	-gamma	5.4	0
+	-Vm	6.09  -2.78  -0.405  -5.30  5.02  0  0.169  101  -1.38e-2  0.9316
+	-viscosity  -0.5  0.6521  5.44e-3  1.06e-3  -2.18e-2  1.208  -2.147
+	-dw	0.955e-9  -103  2.246  7.13e-2  0.3686
 SO4-2 = SO4-2
 	-gamma  5.0	-0.04
 	-Vm	-7.77  43.17  141.1  -42.45  3.794  1.40e-2  0  100.9  -5.713e-2  1.011e-4 # with analytical_expressions for log K of NaSO4-, KSO4- & MgSO4, 0 - 200 oC
 	-viscosity  -0.7887  0.813  1.86e-3   1.27e-3   -1.38e-2  4.668  -9.86e-2
-	-dw	1.07e-9  -3  35  0.3063  1e-9  -10
+	-dw	1.07e-9  -109  17
 NO3- = NO3-
-	-gamma  3.0	0
+	-gamma	3.0	0
 	-Vm	6.32  6.78  0  -3.06  0.346  0  0.93  0  -0.012  1
 	-viscosity  8.37e-2  -0.458  1.54e-2  0.340  1.79e-2  5.02e-2  0.7381
-	-dw	1.90e-9  150  1.281  0.3876  1e-9  -10
+	-dw	1.90e-9  104  1.11
 AmmH+ = AmmH+
-	-gamma  2.5	0
-	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
+	-gamma	2.5	0
+	-Vm	4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
 	-viscosity  9.9e-2  -0.159  1.36e-2  6.51e-3  3.21e-2  0.972
-	-dw	1.98e-9  -81  6.274  -4.118  -0.270
+	-dw	1.98e-9  178  3.747  0  1.220
 H3BO3 = H3BO3
 	-Vm 7.0643  8.8547  3.5844  -3.1451  -0.20  # supcrt
 	-dw	1.1e-9
@@ -164,15 +162,15 @@ PO4-3 = PO4-3
 	-Vm	1.24  -9.07  9.31  -2.4  5.61  0  0  0  -1.41e-2  1
 	-dw	0.612e-9
 F- = F-
-	-gamma  3.5	0
+	-gamma	3.5     0
 	-Vm	0.928  1.36  6.27  -2.84  1.84  0  0  -0.318  0  1
 	-viscosity  0  2.85e-2  1.35e-2  6.11e-2  4.38e-3  1.384  0.586
-	-dw	1.46e-9  11  4.659  -0.176  1e-9
+	-dw	1.46e-9  -36  4.352
 Br- = Br-
 	-gamma  3.0	0
 	-Vm	6.72  2.85  4.21  -3.14  1.38  0  -9.56e-2  7.08  -1.56e-3  1
 	-viscosity  -1.15e-2  -5.75e-2  5.72e-2  1.46e-2  0.116  0.9295  0.820
-	-dw	2.01e-9  121  5.939  -2.588  1e-9
+	-dw	2.01e-9  139  2.94  0  1.304
 Zn+2 = Zn+2
 	-gamma  5.0	0
 	-Vm	-1.96  -10.4  14.3  -2.35  1.46  5  -1.43  24  1.67e-2  1.11
@@ -206,10 +204,10 @@ H2Sg = H2Sg # H2S
 # aqueous species
 H2O = OH- + H+
 	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
-	-gamma  3.5	0
+	-gamma	3.5	0
 	-Vm	-9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1
 	-viscosity  -1.02e-1  0.189  9.4e-3  -4e-5  0  3.281  -2.053 # < 5 M Li,Na,KOH
-	-dw	5.27e-9  470  1.837  0.4096  0.3330
+	-dw	5.27e-9  478  0.8695
 2 H2O = O2 + 4 H+ + 4 e-
 	-log_k  -86.08
 	-delta_h 134.79 kcal
@@ -226,13 +224,12 @@ H+ + Cl- = HCl
 	-gamma  0  0.4256
 	-viscosity  0.921  -0.765  8.32e-3  8.25e-4  2.53e-3 4.223
 CO3-2 + H+ = HCO3-
-	-log_k  10.329; -delta_h  -3.561 kcal
+	-log_k  10.329;  -delta_h  -3.561 kcal
 	-analytic  107.8871  0.03252849  -5151.79  -38.92561  563713.9
-	-gamma  5.4	0
-	-Vm	6.64  4.47  7.27  -4.78  1.51  0  -2.91  202  3.33e-2  0.895
-	-viscosity  -1  1.059  -1.32e-2  8.98e-2  3.10e-2  -0.974  0.986
-	-dw	1.18e-9  -133  3.421  0.2629  1e-9  -10
-	# -dw	1.18e-9  -216  3.397  -9.20e-2  -0.5492  -10
+	-gamma  5.4  0
+	-Vm	10.26  -2.92  -12.58  -0.241  2.23  0  -5.49  320  2.83e-2  1.144
+	-viscosity  -0.6  1.366  -1.216e-2  0e-2  3.139e-2  -1.135  1.253
+	-dw	1.18e-9  -190  11.386
 CO3-2 + 2 H+ = CO2 + H2O
 	-log_k  16.681
 	-delta_h -5.738 kcal
@@ -251,10 +248,11 @@ CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	-Vm	.01  -1.11  0  -1.85  -1.50 # Hnedkovsky et al., 1996, JCT 28, 125
 	-dw	1.85e-9
 SO4-2 + H+ = HSO4-
-	-log_k  1.988; -delta_h 3.85    kcal
+	-log_k	1.988;  -delta_h 3.85	kcal
 	-analytic  -56.889  0.006473  2307.9  19.8858
-	-Vm	8.2  9.2590  2.1108  -3.1618  1.1748  0  -0.3  15  0  1
-	-dw	1.2e-9  1027  25  1.681  1e-9  -10 # a (=25) * mu^1.681
+	-Vm	8.2 9.2590  2.1108  -3.1618 1.1748  0 -0.3 15 0 1
+	-viscosity  0.5  -6.97e-2  6.07e-2  1e-5  -0.1333  0.4865  0.7987
+	-dw	1.22e-9  1000  15.0  2.861
 HS- = S-2 + H+
 	-log_k  -12.918
 	-delta_h 12.1   kcal
@@ -309,11 +307,11 @@ AmmH+ = Amm + H+
 #	  -gamma  2.5	0
 #	  -Vm	4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
 AmmH+ + SO4-2 = AmmHSO4-
-	-gamma	6.0  -0.27
-	-log_k	1.27; 	-delta_h  4.9 kcal
-	-Vm	10.45  0  -12.26  0  2.578  0  12.67  0  -2.60e-2  0.3516
-	-viscosity  0.139  0  0  7.95e-3  2.73e-2  1.38  0.127
-	-dw	1.35e-9  500  25  3  1e-9  -10
+	-gamma	6.54	-0.08
+	-log_k	1.106;	-delta_h  4.30 kcal # 1.1311278E+01 kcal
+	-Vm	11.35  0  -7.6971  0  3.531  0  7.608  0  0  0.410
+	-viscosity  0.424  -0.641  0.108  7.3e-3  -3.39e-2  1.724  0.758
+	-dw	1.35e-9  500  12.50  3.0
 H3BO3 = H2BO3- + H+
 	-log_k  -9.24
 	-delta_h 3.224  kcal
@@ -420,7 +418,7 @@ SO4-2 + MgSO4 = Mg(SO4)2-2
 	-analytical_expression  0  -1.51e-3  0  0  8.604e4 # mean salt gamma from Pitzer.dat and epsomite/hexahydrite/kieserite solubilities, 0 - 200 oC
 	-Vm	27.34  -30  -26.79  0  1.75e-2  0  0.4148  -0.6003  0  0
 	-viscosity  -6.34e-2  5e-4  -5.09e-2  0.1974  1.65e-2  1.568  0
-	-dw	0.69e-9  -661  35  -0.7452  0.4817  -10
+	-dw	0.99e-9  -200  17  4  1.1758
 Mg+2 + PO4-3 = MgPO4-
 	-log_k  6.589
 	-delta_h 3.10   kcal
@@ -439,26 +437,19 @@ Mg+2 + F- = MgF+
 	-Vm	.6494  -6.1958  8.1852  -2.5229  .9706 4.5 # supcrt
 Na+ + OH- = NaOH
 	-log_k  -10 # remove this complex
-# Na+ + CO3-2 = NaCO3- # the CO3-2 cmplx is not necessary for the SC
-	# -log_k	1.27
-	# -delta_h 8.91 kcal
-	# -dw   1.2e-9  -400  1e-10  1e-10
-	# -Vm   3.812  0.196  20.0  -9.60  3.02  1e-5  2.65  0  2.54e-2  1
-	# -viscosity  0.104  -1.65  0.169  8.66e-2  2.60e-2  1.76  -0.90
 Na+ + HCO3- = NaHCO3
-	-log_k  -0.18; -delta_h  23 kJ
-	# -analytical_expression  0.1  -6.111e-3  -1600  2.794 # optimized with data in Appelo, 2015, Appl. Geochem. 55, 62–71.
-	-gamma  0  0.23
-	-Vm	11.58  0  0  0  1.894
-	-viscosity  1  -1.035  -4.78e-2  0.274  -6.27e-2  -4.17e-2  1.0
-	-dw	6.73e-10  -400  1e-10  1e-10
+	-log_k  -0.06; -delta_h  23 kJ
+	-gamma	0  0.1
+	-Vm	7.95  0  0  0  0.609
+	-viscosity  -4e-2  -2.717  1.67e-5
+	-dw	6.73e-10
 Na+ + SO4-2 = NaSO4-
-	-gamma 5.5 0
+	-gamma 5.5  0
 	-log_k	0.6; -delta_h -14.4 kJ
 	-analytical_expression  255.903  0.10057  0  -1.11138e2  -8.5983e5 # mirabilite/thenardite solubilities, 0 - 200 oC
 	-Vm	1e-5  20.45  0  -3.75  2.433  0  6.106  0  -1.05e-2  0.6604
 	-viscosity  -1.045  1.215  2.32e-4  4.82e-2  2.67e-2  1.634  0
-	-dw  0.85e-9  -100  35  2.643  0.4323  -10
+	-dw	1.13e-9  -98  13.13  0.627  0.6047
 Na+ + HPO4-2 = NaHPO4-
 	-log_k  0.29
 	-gamma  5.4	0
@@ -466,13 +457,18 @@ Na+ + HPO4-2 = NaHPO4-
 Na+ + F- = NaF
 	-log_k  -0.24
 	-Vm	2.7483  -1.0708  6.1709  -2.7347  -.030 # supcrt
+K+ + HCO3- = KHCO3
+	-log_k  -0.35;  -delta_h  12 kJ
+	-gamma	0  9.4e-3
+	-Vm	9.48  0  0  0  -0.542
+	-viscosity  0.7  -1.289  9e-2
 K+ + SO4-2 = KSO4-
 	-gamma	5.4  0.19
 	-log_k	0.6; -delta_h -10.4 kJ
 	-analytical_expression  -3.0246  9.986e-3  0  0   1.093e5 # arcanite solubility, 0 - 200 oC
 	-Vm	1e-5  -30  -113.5  21.88  1.5  0  114.0  0  -0.1241  2.281e-2
 	-viscosity  -0.4572  0.7833  7e-4  -1.014  4.60e-3  0.5757  -0.224
-	-dw	0.52e-9  300  35  1.110  0.8  -10
+	-dw	0.85e-9  200  10.66  0  1.80
 K+ + HPO4-2 = KHPO4-
 	-log_k  0.29
 	-gamma  5.4	0
@@ -1587,6 +1583,192 @@ Quartz
 #			  Integrate...
 50 SAVE moles * TIME
   -end
+
+#INCLUDE$ \phreeqc\database\kinetic_rates.dat
+# Loads subroutines for calculating mineral dissolution rates compiled by Palandri and Kharaka (2004), Sverdrup et al. (2019), and Hermanska et al., 2022, 2023.
+# Numbers can be copied from the tables in the publications; when unavailable enter -30 for log_k, 0 for exponents and 1 for other parameters.
+
+  # The data are entered in a KINETICS block with -parms, the 'parms' are stored in memory by the RATES block, and used by Calc_value("name").
+  # For example:
+
+    # KINETICS 1
+    # Albite_PK
+    # -formula NaAlSi3O8
+
+    # # parms affinity_factor m^2/mol roughness, lgkH  e_H  nH, lgkH2O e_H2O, lgkOH e_OH nOH
+    # # parm number        1       2          3,    4    5   6,      7     8,   9     10  11
+
+    # -parms    0 1 1,    -10.16 65.0 0.457,   -12.56 69.8,   -15.60 71.0 -0.572  # parms 4-11 from TABLE 13
+
+    # In the RATES block, the parms are stored in memory (put(parm(i), -99, i)), and retrieved by the subroutine calc_value("Palandri_rate"), as e.g. roughness = get(-99, 3).
+
+    # RATES
+    # Albite_PK # Palandri and Kharaka, 2004
+    # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+    # 20 put(affinity, -99, 1) # store number in memory
+    # 30 for i = 2 to 11 : put(parm(i), -99, i) : next i
+    # 40 SAVE calc_value("Palandri_rate")
+    # -end 
+
+# For an example file using the rates, see: kinetic_rates.phr from https://www.hydrochemistry.eu/exmpls/kin_silicates.html
+
+# References
+# Palandri, J.L. and Kharaka, J.K. (2004). A compilation of rate parameters of water-mineral interaction kinetics for application to geochemical modeling. USGS Open-File Report 2004-1068.
+# Sverdrup, H.U., Oelkers, E., Erlandsson Lampa, M., Belyazid, S., Kurz, D. and Akselsson, C. (2019). Reviews and Syntheses: weathering of silicate minerals in soils and watersheds: parameterization of the weathering kinetics module in the PROFILE and ForSAFE models. Biogeosciences Discuss. 1-58.
+# Hermanská, M., Voigt, M.J., Marieni, C., Declercq, J. and Oelkers, E.H., 2022. A comprehensive and internally consistent mineral dissolution rate database: Part I: Primary silicate minerals and glasses. Chemical Geology, 597, p.120807
+# Hermanská, M., Voigt, M.J., Marieni, C., Declercq, J. and Oelkers, E.H., 2023. A comprehensive and consistent mineral dissolution rate database: Part II: Secondary silicate minerals. Chemical Geology, p.121632.
+# Subroutines for calculating mineral dissolution rates from compilations by Palandri and Kharaka (2004), Sverdrup et al. (2019), and Hermanska et al., 2022, 2023.
+# Numbers can be copied from the tables in the publications; when unavailable enter -30 for log_k, 0 for exponents and 1 for other parameters.
+  # The data are entered in a KINETICS block with -parms. For example for the Albite rate of Palandri and Kharaka, Table 13:
+
+    # KINETICS 1
+    # Albite_PK
+    # -formula NaAlSi3O8
+
+    # # parms affinity_factor m^2/mol roughness, lgkH  e_H  nH, lgkH2O e_H2O, lgkOH e_OH nOH
+    # # parm number        1       2          3,    4    5   6,      7     8,   9     10  11
+
+    # -parms    0 1 1,    -10.16 65.0 0.457,   -12.56 69.8,   -15.60 71.0 -0.572  # parms 4-11 from TABLE 13
+
+    # In the RATES block, they are stored in memory, and retrieved by the subroutine calc_value("Palandri_rate").
+
+    # RATES
+    # Albite_PK # Palandri and Kharaka, 2004
+    # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+    # 20 put(affinity, -99, 1) # store value in memory
+    # 30 for i = 2 to 11 : put(parm(i), -99, i) : next i
+    # 40 SAVE calc_value("Palandri_rate")
+    # -end 
+
+# For an example file using the rates, see: kinetic_rates.phr in https://www.hydrochemistry.eu/exmpls/kin_silicates.html
+
+# References
+# Palandri, J.L. and Kharaka, J.K. (2004). A compilation of rate parameters of water-mineral interaction kinetics for application to geochemical modeling. USGS Open-File Report 2004-1068.
+# Sverdrup, H.U., Oelkers, E., Erlandsson Lampa, M., Belyazid, S., Kurz, D. and Akselsson, C. (2019). Reviews and Syntheses: weathering of silicate minerals in soils and watersheds: parameterization of the weathering kinetics module in the PROFILE and ForSAFE models. Biogeosciences Discuss. 1-58.
+# Hermanská, M., Voigt, M.J., Marieni, C., Declercq, J. and Oelkers, E.H., 2022. A comprehensive and internally consistent mineral dissolution rate database: Part I: Primary silicate minerals and glasses. Chemical Geology, 597, p.120807
+# Hermanská, M., Voigt, M.J., Marieni, C., Declercq, J. and Oelkers, E.H., 2023. A comprehensive and consistent mineral dissolution rate database: Part II: Secondary silicate minerals. Chemical Geology, p.121632.
+
+CALCULATE_VALUES
+Palandri_rate
+# in KINETICS, define 11 parms:
+# affinity_factor m^2/mol roughness, lgkH  e_H  nH, lgkH2O e_H2O, lgkOH e_OH nOH
+# parm number  1       2          3,    4    5   6,      7     8,   9     10  11
+10  affinity = get(-99, 1) # retrieve number from memory
+20 
+30  REM # specific area m2/mol, surface roughness
+40  sp_area  = get(-99, 2) : roughness = get(-99, 3) 
+50 
+60  REM # temperature factor, gas constant
+70  dif_temp = 1 / TK - 1 / 298 : R = 2.303 * 8.314e-3 : dT_R = dif_temp / R
+80  
+90  REM # rate by H+
+100 lgk_H    = get(-99, 4) : e_H = get(-99, 5) : nH = get(-99, 6)
+110 rate_H   = 10^(lgk_H - e_H * dT_R) * ACT("H+")^nH 
+120 
+130 REM # rate by hydrolysis
+140 lgk_H2O  = get(-99, 7) : e_H2O = get(-99, 8)
+150 rate_H2O = 10^(lgk_H2O - e_H2O * dT_R)
+160 
+170 REM # rate by OH-
+180 lgk_OH   = get(-99, 9) : e_OH = get(-99, 10) : nOH = get(-99, 11)
+190 rate_OH  = 10^(lgk_OH - e_OH * dT_R) * ACT("H+")^nOH
+200 
+210 rate     = rate_H + rate_H2O + rate_OH
+220 area     = sp_area * M0 * (M / M0)^0.67
+230 
+240 rate     = area * roughness * rate * affinity
+250 SAVE rate * TIME
+-end
+
+Sverdrup_rate
+# in KINETICS, define 34 parms:
+#          affinity m^2/mol roughness, temperature_factors (TABLE 4): e_H e_H2O e_CO2 e_OA e_OH,\
+# (TABLE 3): pkH  nH yAl CAl xBC CBC,   pKH2O yAl CAl xBC CBC zSi CSi,  pKCO2 nCO2  pkOrg nOrg COrg, pkOH wOH yAl CAl xBC CBC zSi CSi
+10  affinity = get(-99, 1)
+20 
+30  REM # specific area m2/mol, surface roughness
+40  sp_area = get(-99, 2) : roughness = get(-99, 3) 
+50 
+60  REM # temperature factors
+70  dif_temp = 1 / TK - 1 / 281
+80  e_H = get(-99, 4) : e_H2O = get(-99, 5) : e_CO2 = get(-99, 6) : e_OA = get(-99, 7) : e_OH = get(-99, 8) 
+90  
+100 BC       = ACT("Na+") + ACT("K+") + ACT("Mg+2") + ACT("Ca+2")
+110 aAl      = act("Al+3")
+120 aSi      = act("H4SiO4")
+130 R        = tot("OrganicMatter")
+140 
+150 REM # rate by H+
+160 pkH = get(-99, 9) : nH = get(-99, 10) : yAl = get(-99, 11) : CAl = get(-99, 12) : xBC = get(-99, 13) : CBC = get(-99, 14)
+170 pk_H     = pkH - 3 + e_H * dif_temp
+180 CAl      = CAl * 1e-6
+190 CBC      = CBC * 1e-6
+200 rate_H   = 10^-pk_H * ACT("H+")^nH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC)
+210 
+220 REM # rate by hydrolysis
+230 pkH2O = get(-99, 15) : yAl = get(-99, 16) : CAl = get(-99, 17) : xBC = get(-99, 18) : CBC = get(-99, 19) : zSi = get(-99, 20) : CSi = get(-99, 21)
+240 CAl      = CAl * 1e-6
+250 CBC      = CBC * 1e-6
+260 CSi      = CSi * 1e-6
+270 pk_H2O   = pkH2O - 3 + e_H2O * dif_temp
+280 rate_H2O = 10^-pk_H2O / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)
+290 
+300 REM # rate by CO2
+310 pKCO2 = get(-99, 22) : nCO2 = get(-99, 23)
+320 pk_CO2   = pkCO2 - 3 + e_CO2 * dif_temp
+330 rate_CO2 = 10^-pk_CO2 * SR("CO2(g)")^nCO2
+340 
+350 REM # rate by Organic Acids
+360 pkOrg = get(-99, 24) : nOrg = get(-99, 25) : COrg = get(-99, 26)
+370 COrg     = COrg * 1e-6
+380 pk_Org   = pkOrg - 3 + e_OA * dif_temp
+390 rate_Org = 10^-pk_Org * (R / (1 + R / COrg))^nOrg
+400 
+410 REM # rate by OH-
+420 pkOH = get(-99, 27) : wOH = get(-99, 28) : yAl = get(-99, 29) : CAl = get(-99, 30) : xBC = get(-99, 31) : CBC = get(-99, 32) : zSi = get(-99, 33) : CSi = get(-99, 34)
+430 CAl      = CAl * 1e-6
+440 CBC      = CBC * 1e-6
+450 CSi      = CSi * 1e-6
+460 pk_OH    = pkOH - 3 + e_OH * dif_temp
+470 rate_OH  = 10^-pk_OH * ACT("OH-")^wOH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)# : print rate_OH
+480 
+490 rate     = rate_H + rate_H2O + rate_CO2 + rate_Org + rate_OH
+500 area     = sp_area * M0 * (M / M0)^0.67
+510 
+520 rate     = roughness * area * rate * affinity
+530 SAVE rate * TIME
+-end
+
+Hermanska_rate
+# in KINETICS, define 14 parms:
+# parms affinity m^2/mol roughness, (TABLE 2): (acid)logk25 Aa Ea na (neutral)logk25 Ab Eb (basic)logk25 Ac Ec nc
+# (Note that logk25 values are not used, they were transformed to A's.)
+10  affinity = get(-99, 1) # retrieve number from memory
+20 
+30  REM # specific area m2/mol, surface roughness
+40  sp_area  = get(-99, 2) : roughness = get(-99, 3) 
+50 
+60  REM # gas constant * Tk, act("H+")
+70  RT = 8.314e-3 * TK     : aH = act("H+")
+80  
+90  REM # rate by H+
+100 lgk_H    = get(-99, 4) : Aa = get(-99, 5) : e_H = get(-99, 6) : nH = get(-99, 7)
+110 rate_H   = Aa * exp(- e_H / RT) * aH^nH 
+120 
+130 REM # rate by hydrolysis
+140 lgk_H2O  = get(-99, 8) : Ab = get(-99, 9) : e_H2O = get(-99, 10)
+150 rate_H2O = Ab * exp(- e_H2O / RT)
+160 
+170 REM # rate by OH-
+180 lgk_OH   = get(-99, 11) : Ac = get(-99, 12) : e_OH = get(-99, 13) : nOH = get(-99, 14)
+190 rate_OH  = Ac * exp(- e_OH / RT) * aH^nOH
+200 
+210 rate     = rate_H + rate_H2O + rate_OH
+220 area     = sp_area * M0 * (M / M0)^0.67
+230 
+240 rate     = area * roughness * rate * affinity
+250 SAVE rate * TIME
+-end
 
 ###########
 #K-feldspar
