@@ -380,6 +380,7 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 	mu_x += solution_ptr->Get_mu() * intensive;
 	ah2o_x += solution_ptr->Get_ah2o() * intensive;
 	density_x += solution_ptr->Get_density() * intensive;
+	viscos_x += solution_ptr->Get_viscosity() * intensive;
 
 	total_h_x += solution_ptr->Get_total_h() * extensive;
 	total_o_x += solution_ptr->Get_total_o() * extensive;

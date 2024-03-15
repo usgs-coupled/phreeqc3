@@ -5940,7 +5940,7 @@ viscosity(cxxSurface *surf_ptr)
 	//		  0.000836 * (tc_x - 20) * (tc_x - 20)) / (109 + tc_x));
 	/* Huber et al., 2009, J. Phys. Chem. Ref. Data, Vol. 38, 101-125 */
 	LDBLE H[4] = { 1.67752, 2.20462, 0.6366564, -0.241605 };
-	LDBLE Tb = tk_x / 647.096, denom = H[0], mu0;
+	LDBLE Tb = (tc_x + 273.15) / 647.096, denom = H[0], mu0;
 	int i, j, i1;
 	for (i = 1; i < 4; i++)
 		denom += H[i] / pow(Tb, i);
@@ -6188,6 +6188,8 @@ viscosity(cxxSurface *surf_ptr)
 			fan = 2 - V_an / V_Cl;
 		//else
 		//	fan = 1;
+		if (Dc < 0) 
+			Dc = 0; // provisional...
 		viscos += viscos_0 * fan * (Bc + Dc);
 		if (viscos < 0)
 		{

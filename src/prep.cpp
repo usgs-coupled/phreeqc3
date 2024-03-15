@@ -5441,9 +5441,9 @@ LDBLE Phreeqc::calc_vm0(const char * species_name, LDBLE tc, LDBLE pa, LDBLE mu)
 			{
 				LDBLE bi = s_ptr->logk[vmi1] + s_ptr->logk[vmi2] / TK_s + s_ptr->logk[vmi3] * TK_s;
 				if (s_ptr->logk[vmi4] == 1.0)
-					g += bi * mu_x;
+					g += bi * mu;
 				else
-					g += bi * pow(mu_x, s_ptr->logk[vmi4]);
+					g += bi * pow(mu, s_ptr->logk[vmi4]);
 			}
 		}
 	}
@@ -5465,7 +5465,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	if (pa != current_pa) goto proceed;
 	if (fabs(mu_x - current_mu) > 1e-3 * mu_x) goto proceed;
 	if (mu_terms_in_logk) goto proceed;
-	return OK;
+		return OK;
 
 proceed:
 
