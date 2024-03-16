@@ -1263,10 +1263,8 @@ xsolution_save(int n_user)
 	temp_solution.Set_mu(mu_x);
 	temp_solution.Set_ah2o(ah2o_x);
 	// the subroutine is called at the start of a new simulation, and the following 2 go wrong since s_x is not updated 
-	//temp_solution.Set_density(calc_dens());
-	//temp_solution.Set_viscosity(viscosity(NULL));
-	temp_solution.Set_density(density_x);
-	temp_solution.Set_viscosity(viscos_x);
+	temp_solution.Set_density(calc_dens());
+	temp_solution.Set_viscosity(viscos);
 	temp_solution.Set_total_h(total_h_x);
 	temp_solution.Set_total_o(total_o_x);
 	temp_solution.Set_cb(cb_x);	/* cb_x does not include surface charge after sum_species */

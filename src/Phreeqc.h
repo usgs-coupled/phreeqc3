@@ -1275,8 +1275,6 @@ protected:
 	LDBLE solution_pe_x;
 	LDBLE mu_x;
 	LDBLE ah2o_x;
-	LDBLE density_x;
-	LDBLE viscos_x;
 	LDBLE total_h_x;
 	LDBLE total_o_x;
 	LDBLE cb_x;
