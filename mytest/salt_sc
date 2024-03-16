@@ -37,8 +37,8 @@ USER_GRAPH
   50 next i
   60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
   61 if cell_no = 1 then put(0, 1) : put(0, 2)
-  62 put(1 + get(2), 2) : put(get(1) + (1 - SC / EC_meas(cell_no))^2, 1)
-  64 if cell_no = 12 then print 'KCl, relative s.d.: ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 12 then print 'KCl, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
   270 if cell_no = 1 then plot_xy 0, 0, color = Black, symbol = None
   280 if cell_no = 2 then plot_xy 110, 110
 END
@@ -68,8 +68,8 @@ USER_GRAPH
   50 next i
   60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
   61 if cell_no = 1 then put(0, 1) : put(0, 2)
-  62 put(1 + get(2), 2) : put(get(1) + (1 - SC / EC_meas(cell_no))^2, 1)
-  64 if cell_no = 12 then print 'NaCl, relative s.d.: ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 12 then print 'NaCl, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
 SOLUTION_SPREAD
  -temp 20
@@ -97,8 +97,8 @@ USER_GRAPH
   50 next i
   60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
   61 if cell_no = 1 then put(0, 1) : put(0, 2)
-  62 put(1 + get(2), 2) : put(get(1) + (1 - SC / EC_meas(cell_no))^2, 1)
-  64 if cell_no = 12 then print 'CaCl2, relative s.d.: ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 12 then print 'CaCl2, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
 
 SOLUTION_SPREAD
@@ -125,8 +125,8 @@ USER_GRAPH
   50 next i
   60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
   61 if cell_no = 1 then put(0, 1) : put(0, 2)
-  62 put(1 + get(2), 2) : put(get(1) + (1 - SC / EC_meas(cell_no))^2, 1)
-  64 if cell_no = 10 then print 'MgCl2, relative s.d.: ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 10 then print 'MgCl2, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
 PRINT; -user_print true
 
@@ -163,18 +163,16 @@ USER_GRAPH
 50 if vc(cell_no) < lim then scc = SC else scc = SC * lim / vc(cell_no)
 60 plot_xy EC_meas(cell_no) / 1e3, sc / 1e3, line_width = 0
 61 if cell_no = 1 then put(0, 1) : put(0, 2)
-62 put(1 + get(2), 2) : put(get(1) + (1 - SC / EC_meas(cell_no))^2, 1)
-64 if cell_no = 19 then print 'MgSO4, relative s.d.: ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+64 if cell_no = 19 then print 'MgSO4, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
 
 SOLUTION_MASTER_SPECIES
 La	La+3    0.0     La	138.9055
 SOLUTION_SPECIES
 SOLUTION_SPECIES
-La+3 = La+3; -gamma 20.0 0.0
- -Vm  3  5  75  2  1  20  0  0  7e-3  5
- -viscosity  0.4
- -dw  0.619e-9  0  20  1  2.1
+La+3 = La+3
+ -dw  0.619e-9  0  4.9
 SOLUTION 1; temp 20
 reaction 1
  La(NO3)3 1; 0.0311     0.0625  0.0945  0.1268  0.1600  0.1936  0.2277  0.2625  0.2979
@@ -188,8 +186,8 @@ USER_GRAPH
   50 next i
   60 plot_xy EC_meas(step_no) / 1e3, SC / 1e3, line_width = 0, color = red
   61 if step_no = 1 then put(0, 1) : put(0, 2)
-  62 put(1 + get(2), 2) : put(get(1) + (1 - SC / EC_meas(step_no))^2, 1)
-  64 if step_no = 9 then print 'La(NO3)3, relative s.d.: ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(step_no))^2, 1)
+  64 if step_no = 9 then print 'La(NO3)3, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
   70 if step_no = 1 then xy = 0 else xy = 120
   80 if step_no < 3 then plot_xy xy, xy, color = black, symbol = None
   

@@ -38,13 +38,13 @@ EQUILIBRIUM_PHASES 0; AgMetal; Cerargyrite
 SOLUTION 0 cathode
 -water 18e-3
 pH 7 charge; Cl 592; Na 592
-# pH 7 charge; Cl 3660; Na 3660
+pH 7 charge; Cl 3660; Na 3660
 SAVE solution 0
 END
 
 SOLUTION 1-100
 -water 1e-3
-# pH 7 charge; Cl 592; Na 592
+pH 7 charge; Cl 592; Na 592
 pH 7 charge; Cl 3660; Na 3660
 END
 
@@ -52,22 +52,22 @@ EQUILIBRIUM_PHASES 101; AgMetal; Cerargyrite
 SOLUTION 101 anode
 -water 18e-3
 pH 7 charge; Cl 592; Na 592
-# pH 7 charge; Cl 3660; Na 3660
+pH 7 charge; Cl 3660; Na 3660
 potential 1.8
 SAVE solution 101
 END
 
 MIX 1000 conc`s in the cathode cell
 0  1
-# uncomment the next line to include 100 mm column
-1  1; 2  1; 3  1; 4  1; 5  1; 6  1; 7  1; 8  1; 9  1; 10 1; 11  1; 12  1; 13  1; 14  1; 15  1; 16  1; 17  1; 18  1; 19  1; 20  1;
+# uncomment the next line to include 100 mm column, note how the transport numbers now are stable
+# 1  1; 2  1; 3  1; 4  1; 5  1; 6  1; 7  1; 8  1; 9  1; 10 1; 11  1; 12  1; 13  1; 14  1; 15  1; 16  1; 17  1; 18  1; 19  1; 20  1;
 USER_PRINT
 10 put(sys("Na"), 1) : put(sys("Cl"), 2) : put(10, 3)
 END
 
 MIX 1001 conc`s in the anode cell
 101  1
-79  1; 80  1; 81  1; 82  1; 83  1; 84   1; 85   1; 86   1; 87   1; 88   1; 89   1; 90   1; 91   1; 92   1; 93   1; 94   1; 95   1; 96   1; 97   1; 98   1; 99   1; 100  1 
+# 79  1; 80  1; 81  1; 82  1; 83  1; 84   1; 85   1; 86   1; 87   1; 88   1; 89   1; 90   1; 91   1; 92   1; 93   1; 94   1; 95   1; 96   1; 97   1; 98   1; 99   1; 100  1 
 USER_PRINT
 10 put(sys("Na"), 11) : put(sys("Cl"), 21)
 END
@@ -80,7 +80,8 @@ TRANSPORT
 -boundary_conditions 1 1
 -multi_d true 1e-9 1 0.0 1 true
 -flow_direction diffusion_only
--time_step 1
+-time 1
+# -implicit true 1 # the pH is unstable...
 -punch_cells 0-101
 -fix_current 15.8e-3
 

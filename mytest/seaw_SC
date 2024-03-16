@@ -10,6 +10,8 @@ USER_PUNCH 101
     -end
 #KNOBS; -tolerance 1e-15
 
+#KNOBS; -tolerance 1e-15
+
 #PRINT; -reset false
 SOLUTION 1  SEAWATER FROM NORDSTROM AND OTHERS (1979)
         units   ppm
@@ -44,12 +46,12 @@ USER_GRAPH
 40 ss= 0.00290
 50 h = 0.1243
 60 ff= 0.000978
-70 S  = 34.7 # salinity / (0/00)
+70 S  = 34.9 # salinity / (0/00)
 72 xx = 0.0000165
 # 72 xx = 0.00165
 80 K = (A + B * tc^(1 + kk) / (1 + tc^kk) * exp(ss * tc)) * S / (1 + S^h) * exp(-ff * S) * exp(-xx * (S -35) * (tc - 20))
 90 plot_xy tc, K, line_width = 0, color = Red
-100 plot_xy tc, SC / 1e3, symbol = None , color = Red 
+100 plot_xy tc, SC / 1e3, symbol = None , color = Red
 
 110 dif = sc/1e3/K -1
 120 if step_no = 0 then put(0, 1) : put(0, 2)

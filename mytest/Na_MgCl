@@ -46,6 +46,7 @@ Number	Na	Cl	pH	#	S.cm2/eq, abs/int Ohm corrected
 31	5.6092E+00	5.6092E+00	7 charge	#	49.44
 32	6.0587E+00	6.0587E+00	7 charge	#	46.84
 USER_GRAPH
+-axis_scale x_axis au au au au log
 -headings NaCl
 -initial_solutions true
 -axis_titles '((NaCl + MgCl2) / (mol/L))^0.5' 'Equivalent Conductance / (S.cm^2/eq)'
@@ -56,8 +57,8 @@ USER_GRAPH
 
 40 dev = (1 - SC / 1e3 / (tot("Cl")) * soln_vol / HB(cell_no))
 45 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
-50 put(dev^2 + get(1), 1) : put(1 + get(2), 2)
-60 if cell_no = 26 then print 's.d. for SC of NaCl  ', (get(1) / (get(2) - 1))^0.5 * 1e2 , '% for', get(2), 'samples'
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+60 if cell_no = 26 then print 'AARD for SC of NaCl  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
 END
 
 SOLUTION_SPREAD
@@ -65,7 +66,7 @@ SOLUTION_SPREAD
  -temp 25
  -units mol/L
  -density 1 calculate
-number	Na	Mg	Cl	pH	
+number	Na	Mg	Cl	pH
 1  	0.375	0.125	0.625	7 charge
 2  	0.75	0.25	1.25	7 charge
 3  	1.5	0.5	2.5	7 charge
@@ -81,11 +82,11 @@ number	Na	Mg	Cl	pH
 # 13 	0.5	1.5	3.5	7 charge
 # 14 	0.75	2.25	5.25	7 charge
 # 15 	0.9	2.7	6.3	7 charge
-                
-USER_GRAPH 1	
+
+USER_GRAPH 1
 -initial_solutions true
  -headings NaCl:MgCl2
-360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green  
+360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green
 364 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, SC / 1e3 / (tot("Cl") / soln_vol) , color = Green, symbol_size = 0
 368 end
 
@@ -93,8 +94,8 @@ USER_GRAPH 1
 20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
 30 dev = (1 - SC / 1e3 / (tot("Cl") / soln_vol) / HB(cell_no))
 40 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
-50 put(dev^2 + get(1), 1) : put(1 + get(2), 2)
-# 60 if cell_no = 15 then print 's.d. for SC of NaCl:MgCl2  ', (get(1) / (get(2) - 1))^0.5 * 1e2 , '% for', get(2), 'samples'
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+# 60 if cell_no = 15 then print 'AARD for SC of NaCl:MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
 END
 
 SOLUTION_SPREAD
@@ -102,17 +103,17 @@ SOLUTION_SPREAD
  -temp 25
  -units mol/L
  -density 1 calculate
-number	Na	Mg	Cl	pH	
+number	Na	Mg	Cl	pH
 6  	0.25	0.25	0.75	7 charge
 7  	0.5	0.5	1.5	7 charge
 8  	1	1	3	7 charge
 9  	1.5	1.5	4.5	7 charge
 10 	1.86	1.86	5.58	7 charge
-                
-USER_GRAPH 1	
+
+USER_GRAPH 1
 -initial_solutions true
  # -headings NaCl:MgCl2
-360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green  
+360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green
 364 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, SC / 1e3 / (tot("Cl") / soln_vol) , color = Green, symbol_size = 0
 368 end
 
@@ -120,8 +121,8 @@ USER_GRAPH 1
 20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
 30 dev = (1 - SC / 1e3 / (tot("Cl") / soln_vol) / HB(cell_no))
 # 40 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
-50 put(dev^2 + get(1), 1) : put(1 + get(2), 2)
-# 60 if cell_no = 15 then print 's.d. for SC of NaCl:MgCl2  ', (get(1) / (get(2) - 1))^0.5 * 1e2 , '% for', get(2), 'samples'
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+# 60 if cell_no = 15 then print 'AARD for SC of NaCl:MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
 END
 
 SOLUTION_SPREAD
@@ -129,17 +130,17 @@ SOLUTION_SPREAD
  -temp 25
  -units mol/L
  -density 1 calculate
-number	Na	Mg	Cl	pH	
+number	Na	Mg	Cl	pH
 11 	0.125	0.375	0.875	7 charge
 12 	0.25	0.75	1.75	7 charge
 13 	0.5	1.5	3.5	7 charge
 14 	0.75	2.25	5.25	7 charge
 15 	0.9	2.7	6.3	7 charge
-                
-USER_GRAPH 1	
+
+USER_GRAPH 1
 -initial_solutions true
  # -headings NaCl:MgCl2
-360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green  
+360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green
 364 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, SC / 1e3 / (tot("Cl") / soln_vol) , color = Green, symbol_size = 0
 368 end
 
@@ -147,8 +148,8 @@ USER_GRAPH 1
 20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
 30 dev = (1 - SC / 1e3 / (tot("Cl") / soln_vol) / HB(cell_no))
 # 40 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
-50 put(dev^2 + get(1), 1) : put(1 + get(2), 2)
-60 if cell_no = 15 then print 's.d. for SC of NaCl:MgCl2  ', (get(1) / (get(2) - 1))^0.5 * 1e2 , '% for', get(2), 'samples'
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+60 if cell_no = 15 then print 'AARD for SC of NaCl:MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
 END
 
 SOLUTION_SPREAD
@@ -197,11 +198,11 @@ USER_GRAPH
 #  S.cm2/mol(MgCl2)
 10 DATA 254.602, 252.546, 250.796, 247.856, 243.944, 241.298, 238.27, 235.984, 234.276, 231.176, 229.25, 219.5, 207.26, 207.09, 206.17, 196.61, 188.45, 186.46, 183.41, 182.9, 176.85, 168.95, 168.82, 164.42, 163.25, 155.63, 149.78, 149.52, 133.77, 117.79, 94.74, 73.95, 57.67, 44.68, 34.59, 27.25, 21.42,
 20 dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
-30 plot_xy tot("Cl")^0.5, HB(cell_no) / 2 , line_width = 0, color = Blue, symbol = Circle  
+30 plot_xy tot("Cl")^0.5, HB(cell_no) / 2 , line_width = 0, color = Blue, symbol = Circle
 35 plot_xy tot("Cl")^0.5,  SC / (tot("Cl") * tot("water") / soln_vol ) / 1e3, symbol = None, color = Blue
 
 40 dev = (1 - SC / 1e3 / (tot("Cl")) / (HB(cell_no) / 2))
 45 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
-50 put(dev^2 + get(1), 1) : put(1 + get(2), 2)
-60 if cell_no = 27 then print 's.d. for SC of MgCl2  ', (get(1) / (get(2) - 1))^0.5 * 1e2 , '% for', get(2), 'samples'
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+60 if cell_no = 27 then print 'AARD for SC of MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
 END
