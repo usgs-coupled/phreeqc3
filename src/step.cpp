@@ -328,6 +328,7 @@ xsolution_zero(void)
 	mu_x = 0.0;
 	ah2o_x = 0.0;
 	viscos = 0.0;
+	density_x = 0.0;
 	total_h_x = 0.0;
 	total_o_x = 0.0;
 	cb_x = 0.0;
@@ -380,6 +381,7 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 	mu_x += solution_ptr->Get_mu() * intensive;
 	ah2o_x += solution_ptr->Get_ah2o() * intensive;
 	viscos += solution_ptr->Get_viscosity() * intensive;
+	density_x += solution_ptr->Get_density() * intensive;
 
 	total_h_x += solution_ptr->Get_total_h() * extensive;
 	total_o_x += solution_ptr->Get_total_o() * extensive;

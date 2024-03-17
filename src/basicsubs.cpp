@@ -634,12 +634,12 @@ calc_dens(void)
 		V_solutes += s_x[i]->moles * s_x[i]->logk[vm_tc];
 	}
 	/* If pure water then return rho_0 */
-	double rho = rho_0;
+	density_x = rho_0;
 	if (M_T > 0.0)
 	{
-		rho = rho_0 * (1e3 + M_T / mass_water_aq_x) / (rho_0 * V_solutes / mass_water_aq_x + 1e3);
+		density_x = rho_0 * (1e3 + M_T / mass_water_aq_x) / (rho_0 * V_solutes / mass_water_aq_x + 1e3);
 	}
-	return rho;
+	return density_x;
 	//M_T /= 1e3;
 	//solution_mass =  mass_water_aq_x + M_T;
 	//V_solutes = M_T - rho_0 * V_solutes / 1e3;

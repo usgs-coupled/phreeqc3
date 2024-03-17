@@ -1,0 +1,29 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 xsoln_visc_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+SOLUTION 2
+pH 7 charge
+#SAVE solution 2
+# when defining density_x = rho_0 * ..., return density_x in calc_dens(), and similar for viscos_x in viscosity()
+# with calc_dens() && viscosity(NULL) in xsolution_save:
+# tc_x = 25, density_x = 0.997, viscos_x = 0.8900, this->s_x(size = 5)
+END
+
+USE solution 2 
+REACTION 1; Na2SO4 0.10560138   
+REACTION_TEMPERATURE
+         197.55       
+# xsolution_save has tc_x = 197.55, density_x = 0.997, viscos_x = 0.1928, this->s_x(size = 5)
+END     
+USE solution 2 
+REACTION 1; Na2SO4 0
+REACTION_TEMPERATURE
+         25.00 
+# xsolution_save has tc_x = 25, density_x = 0.881, viscos_x = 1.0202, this->s_x(size = 14)
+END   

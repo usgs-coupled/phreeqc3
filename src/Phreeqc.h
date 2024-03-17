@@ -1614,6 +1614,7 @@ protected:
 
 	int print_viscosity;
 	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
+	LDBLE density_x;
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
