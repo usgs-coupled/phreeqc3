@@ -454,6 +454,7 @@ set(TESTS
   water_vp
   water_vp1
   wjAs2
+  xsoln_visc
   y_H2O
   Yang_mix
   zero_modify
@@ -534,6 +535,7 @@ set(mytest_MISC
   gyps_NaCl.csv
   H_K.tsv
   H2S.dat
+  H2S_Na2SO4.dat
   H2S_NaCl.dat
   H2S_71C.dat
   halite.dat
