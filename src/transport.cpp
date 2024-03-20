@@ -6121,6 +6121,8 @@ viscosity(cxxSurface *surf_ptr)
 					t2 = -1;
 				t3 = (s_x[i]->Jones_Dole[3] * exp(-s_x[i]->Jones_Dole[4] * tc)) *
 					t1 * (pow(l_mu_x, s_x[i]->Jones_Dole[5])*(1 + t2) + pow(t1 * f_z, s_x[i]->Jones_Dole[5])) / (2 + t2);
+				if (t3 < -1e-5) // add this check
+					t3 = 0;
 				Dc += t3;
 				if (!surf_ptr) s_x[i]->dw_t_visc = dw_t_visc + t3;
 				//output_msg(sformatf("\t%s\t%e\t%e\t%e\n", s_x[i]->name, t1, Bc, Dc ));
