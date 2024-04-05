@@ -20,6 +20,9 @@ AC_LANG(C++)
 
 # Checks for libraries.
 
+# c++11 is required
+AX_CXX_COMPILE_STDCXX(11, [ext], [mandatory])
+
 # Checks for header files.
 AC_CHECK_HEADERS([float.h limits.h memory.h stddef.h stdlib.h])
 

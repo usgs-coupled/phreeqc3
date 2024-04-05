@@ -6,9 +6,15 @@
  *   #define DEFINITIONS
  * ---------------------------------------------------------------------- */
 #if !defined(NAN)
-#define NAN nan("1")
+#  if defined(_MSC_VER) && (_MSC_VER <= 1700) // VS2012
+//   https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-170     
+#    include <limits>
+#    define NAN std::numeric_limits<double>::signaling_NaN()
+#  else
+#    define NAN nan("1")
+#  endif
 #endif
-#define MISSING -9999.999            
+#define MISSING -9999.999
 #include "NA.h"   /* NA = not available */
 
 #define F_C_MOL 96493.5			/* C/mol or joule/volt-eq */
