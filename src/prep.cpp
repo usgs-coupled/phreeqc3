@@ -3996,17 +3996,16 @@ calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
 				log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
-			//phi = (phi > 4.44 ? 4.44 : (phi < -3 ? -3 : phi));
 			phi = (phi > 4.44 ? 4.44 : (phi < -4.6 ? -4.6 : phi));
 			//if (phi > 4.44)
 			//	phi = 4.44;
 		}
 		else
-			phi = -3.0; // fugacity coefficient = 0.05
-		//if (/*!strcmp(phase_ptr->name, "H2O(g)") && */phi < -3)
+			phi = -4.6; // fugacity coefficient = 0.01
+		//if (!strcmp(phase_ptr->name, "H2O(g)") && phi < -4.6)
 		//{
 		////	 avoid such phi...
-		//	phi = -3;
+		//	phi = -4.6;
 		//}
 		phase_ptr->pr_phi = exp(phi);
 		phase_ptr->pr_si_f = phi / LOG_10;
@@ -5404,6 +5403,53 @@ calc_vm(LDBLE tc, LDBLE pa)
 	return OK;
 }
 
+LDBLE Phreeqc::calc_vm0(const char * species_name, LDBLE tc, LDBLE pa, LDBLE mu)
+{
+	/*
+	 *  Calculate molar volume of an aqueous species at tc, pa and mu
+	 */
+	if (llnl_temp.size() > 0) return OK;
+	class species *s_ptr;
+	LDBLE g = 0;
+	s_ptr = s_search(species_name);
+	if (s_ptr == s_h2o)
+		return 18.016 / rho_0;
+	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS && s_ptr->logk[vma1])
+	{
+		LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu);
+		/* supcrt volume at I = 0... */
+		g = s_ptr->logk[vma1] + s_ptr->logk[vma2] / pb_s +
+			(s_ptr->logk[vma3] + s_ptr->logk[vma4] / pb_s) / TK_s -
+			s_ptr->logk[wref] * QBrn;
+		if (s_ptr->z)
+		{
+			/* the ionic strength term * I^0.5... */
+			if (s_ptr->logk[b_Av] < 1e-5)
+				g += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
+			else
+			{
+				/* limit the Debye-Hueckel slope by b... */
+				/* pitzer... */
+				//s_ptr->rxn_x.logk[vm_tc] += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
+				//	log(1 + s_ptr->logk[b_Av] * sqrt(mu_x)) / s_ptr->logk[b_Av];
+				/* extended DH... */
+				g += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
+					sqrt_mu / (1 + s_ptr->logk[b_Av] * DH_B * sqrt_mu);
+			}
+			/* plus the volume terms * I... */
+			if (s_ptr->logk[vmi1] != 0.0 || s_ptr->logk[vmi2] != 0.0 || s_ptr->logk[vmi3] != 0.0)
+			{
+				LDBLE bi = s_ptr->logk[vmi1] + s_ptr->logk[vmi2] / TK_s + s_ptr->logk[vmi3] * TK_s;
+				if (s_ptr->logk[vmi4] == 1.0)
+					g += bi * mu;
+				else
+					g += bi * pow(mu, s_ptr->logk[vmi4]);
+			}
+		}
+	}
+	return g;
+}
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
@@ -5419,7 +5465,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	if (pa != current_pa) goto proceed;
 	if (fabs(mu_x - current_mu) > 1e-3 * mu_x) goto proceed;
 	if (mu_terms_in_logk) goto proceed;
-	return OK;
+		return OK;
 
 proceed:
 

@@ -1,0 +1,503 @@
+# DATABASE c:\phreeqc\database\pitzer.dat
+#PRINT; -reset false; 
+database ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 Equiv_Conduct_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION_SPREAD
+# Chambers et al., 1956, JPC 60, 985.; Robinson & Stokes
+-units mol/kgw
+Number	Na	Cl	pH
+1	5.0149E-04	5.0149E-04	7 charge
+2	1.0030E-03	1.0030E-03	7 charge
+3	5.0152E-03	5.0152E-03	7 charge
+4	1.0031E-02	1.0031E-02	7 charge
+5	2.0066E-02	2.0066E-02	7 charge
+6	5.0191E-02	5.0191E-02	7 charge
+7	1.0047E-01	1.0047E-01	7 charge
+8	1.2564E-01	1.2564E-01	7 charge
+9	1.5084E-01	1.5084E-01	7 charge
+10	1.7606E-01	1.7606E-01	7 charge
+11	2.0131E-01	2.0131E-01	7 charge
+12	2.5184E-01	2.5184E-01	7 charge
+13	3.0249E-01	3.0249E-01	7 charge
+14	4.0407E-01	4.0407E-01	7 charge
+15	5.0603E-01	5.0603E-01	7 charge
+16	6.0844E-01	6.0844E-01	7 charge
+17	7.1117E-01	7.1117E-01	7 charge
+18	8.1438E-01	8.1438E-01	7 charge
+19	9.1799E-01	9.1799E-01	7 charge
+20	1.0220E+00	1.0220E+00	7 charge
+21	1.2314E+00	1.2314E+00	7 charge
+22	1.4426E+00	1.4426E+00	7 charge
+23	1.6556E+00	1.6556E+00	7 charge
+24	1.8705E+00	1.8705E+00	7 charge
+25	2.0872E+00	2.0872E+00	7 charge
+26	2.6383E+00	2.6383E+00	7 charge
+27	3.2025E+00	3.2025E+00	7 charge
+28	3.7807E+00	3.7807E+00	7 charge
+29	4.3738E+00	4.3738E+00	7 charge
+30	4.9828E+00	4.9828E+00	7 charge
+31	5.6092E+00	5.6092E+00	7 charge
+32	6.0587E+00	6.0587E+00	7 charge
+USER_GRAPH
+-axis_scale x_axis 7e-5 au au au log
+-initial_solutions true
+-axis_titles "mol/kgw" "Equivalent Conductance / (S.cm^2/eq)"
+-headings NaCl
+  # S.cm2/eq
+10 DATA 124.45, 123.68, 120.58, 118.47, 115.70, 111.01, 106.69, 105.21, 103.92, 102.74, 101.71, 99.89, 98.37, 95.77, 93.62, 91.73, 90.04, 88.51, 87.09, 85.76, 83.26, 80.95, 78.77, 76.7, 74.71, 70.02, 65.57, 61.33, 57.23, 53.28, 49.46, 46.86, 
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 Cl = tot("Cl")
+32 plot_xy Cl, EC_meas(cell_no) , line_width = 0
+40 plot_xy Cl,  SC / 1e3 / (Cl / soln_vol), symbol = None, color = Red 
+50 if cell_no = 1 then put(0, 1) : put(0, 2) :  put(0, 11) : put(0, 12) : put(Cl, 3)
+60 dev = (1 - SC / 1e3 / (Cl / soln_vol) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 32 then print 'AARD for SC of NaCl   ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(Cl, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+END
+
+SOLUTION_SPREAD
+# Chambers et al., 1956, JPC, Robinson & Stokes, Shedlovsky, 1932
+-units mol/kgw
+Number	K	Cl	pH
+1	5.0148E-04	5.0148E-04	7 charge
+2	1.0030E-03	1.0030E-03	7 charge
+3	5.0147E-03	5.0147E-03	7 charge
+4	1.0029E-02	1.0029E-02	7 charge
+5	2.0058E-02	2.0058E-02	7 charge
+6	5.0145E-02	5.0145E-02	7 charge
+7	1.0058E-01	1.0058E-01	7 charge
+8	1.2581E-01	1.2581E-01	7 charge
+9	1.5107E-01	1.5107E-01	7 charge
+10	1.7638E-01	1.7638E-01	7 charge
+11	2.0172E-01	2.0172E-01	7 charge
+12	2.5251E-01	2.5251E-01	7 charge
+13	3.0345E-01	3.0345E-01	7 charge
+14	4.0577E-01	4.0577E-01	7 charge
+15	5.0869E-01	5.0869E-01	7 charge
+16	6.1220E-01	6.1220E-01	7 charge
+17	7.1640E-01	7.1640E-01	7 charge
+18	8.2114E-01	8.2114E-01	7 charge
+19	9.2659E-01	9.2659E-01	7 charge
+20	1.0327E+00	1.0327E+00	7 charge
+21	1.2470E+00	1.2470E+00	7 charge
+22	1.4639E+00	1.4639E+00	7 charge
+23	1.6838E+00	1.6838E+00	7 charge
+24	1.9068E+00	1.9068E+00	7 charge
+25	2.1327E+00	2.1327E+00	7 charge
+26	2.7117E+00	2.7117E+00	7 charge
+27	3.3126E+00	3.3126E+00	7 charge
+28	3.9371E+00	3.9371E+00	7 charge
+29	4.5877E+00	4.5877E+00	7 charge
+USER_GRAPH
+-headings KCl
+# S.cm2/eq
+10 DATA 147.81, 146.95, 143.55, 141.27, 138.34, 133.37, 128.96, 127.40, 126.11, 125.01, 124.08, 122.43, 121.09, 118.96, 117.27, 115.88, 114.69, 113.65, 112.72, 111.87, 110.30, 108.92, 107.64, 106.43, 105.23, 102.38, 99.46, 96.54, 93.46
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 Cl = tot("Cl")
+32 plot_xy Cl, EC_meas(cell_no) , line_width = 0
+40 plot_xy Cl,  SC / 1e3 / (Cl / soln_vol), symbol = None, color = Green
+50 if cell_no = 1 then put(0, 1) : put(0, 2) : put(Cl, 3)
+60 dev = (1 - SC / 1e3 / (Cl / soln_vol) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 29 then print 'AARD for SC of KCl    ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(Cl, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+END
+
+SOLUTION_SPREAD
+# Shedlovsky and Brown, 1934, Phang & Stokes (recalc'd to int. ohm)
+-units mol/kgw 
+Number	Mg	Cl	pH#     S.cm2/eq
+1	7.5473e-05	1.5095e-04	7 charge#	254.602
+2	1.7025e-04	3.4051e-04	7 charge#	252.546
+3	2.8003e-04	5.6006e-04	7 charge#	250.796
+4	5.3539e-04	1.0708e-03	7 charge#	247.856
+5	1.0205e-03	2.0410e-03	7 charge#	243.944
+6	1.4230e-03	2.8461e-03	7 charge#	241.298
+7	2.0951e-03	4.1902e-03	7 charge#	238.27
+8	2.6244e-03	5.2487e-03	7 charge#	235.984
+9	3.1646e-03	6.3291e-03	7 charge#	234.276
+10	4.2062e-03	8.4124e-03	7 charge#	231.176
+11	0.005015	0.010030	7 charge#       229.36
+12	0.010563	0.021126	7 charge#       219.61
+13	0.023643	0.047286	7 charge#       207.36
+14	0.023961	0.047922	7 charge#       207.19
+15	0.025384	0.050768	7 charge#       206.27
+16	0.04431	0.08862	7 charge#       196.71
+17	0.06917	0.13834	7 charge#       188.54
+18	0.07717	0.15434	7 charge#       186.55
+19	0.09069	0.18138	7 charge#       183.50
+20	0.09268	0.18536	7 charge#       182.99
+21	0.12599	0.25198	7 charge#       176.94
+22	0.18253	0.36506	7 charge#       169.03
+23	0.18335	0.3667 	7 charge#       168.90
+24	0.22271	0.44542	7 charge#       164.50
+25	0.23418	0.46836	7 charge#       163.33
+26	0.3176 	0.6352 	7 charge#       155.71
+27	0.3943 	0.7886 	7 charge#       149.85
+28	0.3982 	0.7964 	7 charge#       149.59
+29	0.6556 	1.3112 	7 charge#       133.84
+30	0.9895 	1.979  	7 charge#       117.85
+31	1.5982 	3.1964 	7 charge#       94.79
+32	2.2912 	4.5824 	7 charge#       73.99
+33	2.96   	5.92   	7 charge#       57.70
+34	3.608  	7.216  	7 charge#       44.70
+35	4.216  	8.432  	7 charge#       34.61
+36	4.746  	9.492  	7 charge#       27.26
+37	5.243  	10.486 	7 charge#       21.43
+USER_GRAPH
+-headings MgCl2
+10 DATA 127.301, 126.273, 125.398, 123.928, 121.972, 120.649, 119.135, 117.992, 117.138, 115.588,      114.68, 109.80, 103.68, 103.60, 103.14, 98.35, 94.27, 93.28, 91.75, 91.50, 88.47, 84.52, 84.45, 82.25, 81.67, 77.85, 74.93, 74.80, 66.92, 58.92, 47.39, 36.99, 28.85, 22.35, 17.30, 13.63, 10.72
+ 
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 Cl = tot("Cl")
+32 plot_xy Cl / 2, EC_meas(cell_no) , line_width = 0
+40 plot_xy Cl / 2,  SC / 1e3 / (Cl / soln_vol), symbol = None, color = Blue
+50 if cell_no = 1 then put(0, 1) : put(0, 2) : put(Cl, 3)
+60 dev = (1 - SC / 1e3 / (Cl / soln_vol) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 37 then print 'AARD for SC of MgCl2  ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3) / 2, 0, 2) + ' - ' + str_e$(Cl / 2, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+END
+
+SOLUTION_SPREAD
+# Shedlovsky and Brown, 1934; McCleskey, 2011, JCED 56, 317; Isono, 1984, JCED 29, 45.
+-units mol/kgw
+Number	Ca	Cl	pH 7 charge#		S.cm2/equi
+1	0.000076	0.000152	7 charge	#	131.84
+2	2.507E-04	0.0005014	7 charge	#	131.92
+3	5.015E-04	0.001003	7 charge	#	130.30
+4	0.000755	0.00151	7 charge	#	129.19
+5	1.003E-03	0.002006	7 charge	#	128.20
+6	1.505E-03	0.00301	7 charge	#	126.56
+7	2.508E-03	0.005016	7 charge	#	124.21
+8	3.511E-03	0.007022	7 charge	#	122.49
+9	4.031E-03	8.062E-03	7 charge	#	121.66
+10	5.015E-03	0.01003	7 charge	#	120.41
+11	0.00755	0.0151	7 charge	#	119.05
+12	1.003E-02	0.02006	7 charge	#	115.67
+13	1.440E-02	2.880E-02	7 charge	#	112.96
+14	2.101E-02	4.202E-02	7 charge	#	109.94
+15	2.509E-02	0.05018	7 charge	#	108.48
+16	2.635E-02	5.270E-02	7 charge	#	108.06
+17	3.215E-02	6.430E-02	7 charge	#	106.37
+18	3.846E-02	7.692E-02	7 charge	#	104.82
+19	3.991E-02	7.982E-02	7 charge	#	104.48
+20	4.347E-02	8.6944E-02	7 charge	#	103.74
+21	4.842E-02	9.684E-02	7 charge	#	102.78
+22	4.875E-02	9.750E-02	7 charge	#	102.70
+23	4.969E-02	9.938E-02	7 charge	#	102.54
+24	0.05	0.1	7 charge	#	102.80
+25	5.020E-02	0.1004	7 charge	#	102.49
+26	5.450E-02	1.090E-01	7 charge	#	101.72
+27	0.0755	0.151	7 charge	#	99.51
+28	0.1	0.2	7 charge	#	96.38
+# 29	0.3773	0.7546	7 charge	#	87.51
+30	0.5	1	7 charge	#	78.61
+31	1	2	7 charge	#	66.88
+32	2	4	7 charge	#	50.23
+33	3	6	7 charge	#	37.05
+34	4	8	7 charge	#	26.54
+35	6	12	7 charge	#	12.54
+USER_GRAPH
+-headings CaCl2
+10 DATA 131.84, 131.92, 130.30, 129.19, 128.20, 126.56, 124.21, 122.49, 121.66, 120.41, 119.05, 115.67, 112.96, 109.94, 108.48, 108.06, 106.37, 104.82, 104.48, 103.74, 102.78, 102.70, 102.54, 102.80, 102.49, 101.72, 99.51, 96.38, 87.51, 78.61, 66.88, 50.23, 37.05, 26.54, 12.54, 
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 Cl = tot("Cl")
+32 plot_xy Cl / 2, EC_meas(cell_no) , line_width = 0
+40 plot_xy Cl / 2,  SC / 1e3 / (Cl / soln_vol), symbol = None, color = Orange
+50 if cell_no = 1 then put(0, 1) : put(0, 2) : put(Cl, 3)
+60 dev = (1 - SC / 1e3 / (Cl / soln_vol) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 35 then print 'AARD for SC of CaCl2  ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3) / 2, 0, 2) + ' - ' + str_e$(Cl / 2, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+90 if cell_no = 35 then print 'AARD for SC of Na, K, Mg, Ca Cl  ' + str_f$((get(11) / (get(12) )) * 1e2, 0, 2) + ' % for', get(12), 'samples. '# + str_e$(get(3) / 2, 0, 2) + ' - ' + str_e$(Cl / 2, 0, 2) + ' mol/kgw'
+END
+
+SOLUTION_SPREAD
+# HB data
+-units mol/kgw
+-temp 20
+number	Na	C(4)	pH	#	SC_20/mS.cm^2/eq
+1	6.019E-02	6.019E-02	7 charge	#	70.00
+2	1.206E-01	1.206E-01	7 charge	#	68.33
+3	1.811E-01	1.811E-01	7 charge	#	65.00
+4	2.428E-01	2.428E-01	7 charge	#	62.24
+5	3.048E-01	3.048E-01	7 charge	#	59.60
+6	3.679E-01	3.679E-01	7 charge	#	57.14
+7	4.313E-01	4.313E-01	7 charge	#	55.16
+8	4.959E-01	4.959E-01	7 charge	#	53.37
+9	5.607E-01	5.607E-01	7 charge	#	51.99
+10	6.258E-01	6.258E-01	7 charge	#	51.06
+11	6.922E-01	6.922E-01	7 charge	#	50.37
+12	7.588E-01	7.588E-01	7 charge	#	50.20
+USER_GRAPH 1; -active false
+USER_GRAPH 2
+-axis_scale x_axis 3e-2 4 au au log
+-initial_solutions true
+-axis_titles "mol/kgw" "Equivalent Conductance / (mS.cm^2/eq)"
+-headings NaHCO3(HB,20C)
+10 DATA 70.00, 68.33, 65.00, 62.24, 59.60, 57.14, 55.16, 53.37, 51.99, 51.06, 50.37, 50.20,  
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 CO3 = tot("C") : kgw_v = tot("water") / soln_vol
+32 plot_xy CO3, EC_meas(cell_no) , line_width = 0
+40 plot_xy CO3,  SC / 1e3 / (CO3 * 1 * kgw_v), symbol = None, color = Red
+50 if cell_no = 1 then put(0, 1) : put(0, 2) :  put(0, 11) : put(0, 12) : put(CO3, 3)
+60 dev = (1 - SC / 1e3 / (CO3 * 1 * kgw_v) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 12 then print 'AARD for SC of NaHCO3  ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(CO3, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+END
+
+SOLUTION_SPREAD
+# HB data
+-units mol/kgw
+-temp 20
+number	Na	C(4)	pH	#	SC_20/mS.cm^2/eq
+1	9.42E-02	4.71E-02	7 charge	74.47
+2	1.90E-01	9.51E-02	7 charge	68.95
+3	2.86E-01	1.43E-01	7 charge	64.34
+4	3.85E-01	1.92E-01	7 charge	60.68
+5	4.85E-01	2.42E-01	7 charge	57.44
+6	5.83E-01	2.91E-01	7 charge	54.98
+7	6.85E-01	3.43E-01	7 charge	52.63
+8	7.86E-01	3.93E-01	7 charge	50.77
+9	8.90E-01	4.45E-01	7 charge	48.99
+10	9.93E-01	4.96E-01	7 charge	47.47
+11	1.10E+00	5.50E-01	7 charge	45.99
+12	1.20E+00	6.02E-01	7 charge	44.67
+13	1.31E+00	6.56E-01	7 charge	43.35
+14	1.42E+00	7.10E-01	7 charge	42.22
+15	1.53E+00	7.66E-01	7 charge	40.94
+16	1.64E+00	8.20E-01	7 charge	39.89
+17	1.75E+00	8.77E-01	7 charge	38.76
+18	1.87E+00	9.33E-01	7 charge	37.76
+19	1.98E+00	9.91E-01	7 charge	36.69
+20	2.10E+00	1.05E+00	7 charge	35.77
+21	2.33E+00	1.17E+00	7 charge	33.87
+22	2.57E+00	1.29E+00	7 charge	32.09
+23	2.82E+00	1.41E+00	7 charge	30.39
+24	3.08E+00	1.54E+00	7 charge	28.70
+25	3.34E+00	1.67E+00	7 charge	27.05
+
+USER_GRAPH 2
+-headings Na2CO3
+10 DATA 74.47, 68.95, 64.34, 60.68, 57.44, 54.98, 52.63, 50.77, 48.99, 47.47, 45.99, 44.67, 43.35, 42.22, 40.94, 39.89, 38.76, 37.76, 36.69, 35.77, 33.87, 32.09, 30.39, 28.70, 27.05
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 CO3 = tot("C") : kgw_v = tot("water") / soln_vol
+32 plot_xy CO3, EC_meas(cell_no) , line_width = 0
+40 plot_xy CO3,  SC / 1e3 / (CO3 * 2 * kgw_v), symbol = None, color = Green
+50 if cell_no = 1 then put(0, 1) : put(0, 2) :  put(0, 21) : put(0, 22) : put(CO3, 3)
+60 dev = (1 - SC / 1e3 / (CO3 * 2 * kgw_v) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 12 then print 'AARD for SC of Na2CO3  ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(CO3, 0, 2) + ' mol/kgw' : put(get(1) + get(21), 21) : put(get(2) + get(22), 22)
+END
+
+SOLUTION_SPREAD
+# HB data
+-units mol/kgw
+-temp 20
+number	K	C(4)	pH
+1	5.018E-02	5.018E-02	7 charge
+2	1.005E-01	1.005E-01	7 charge
+3	2.038E-01	2.038E-01	7 charge
+4	3.088E-01	3.088E-01	7 charge
+5	4.157E-01	4.157E-01	7 charge
+6	5.254E-01	5.254E-01	7 charge
+7	6.372E-01	6.372E-01	7 charge
+8	7.510E-01	7.510E-01	7 charge
+9	8.680E-01	8.680E-01	7 charge
+10	9.870E-01	9.870E-01	7 charge
+11	1.110E+00	1.110E+00	7 charge
+12	1.362E+00	1.362E+00	7 charge
+13	1.626E+00	1.626E+00	7 charge
+14	1.905E+00	1.905E+00	7 charge
+15	2.198E+00	2.198E+00	7 charge
+16	2.509E+00	2.509E+00	7 charge
+17	2.838E+00	2.838E+00	7 charge
+18	3.187E+00	3.187E+00	7 charge
+
+USER_GRAPH 2
+  -headings KHCO3
+10 DATA 92.00, 89.00, 84.16, 80.66, 77.51, 75.34, 73.63, 72.19, 70.71, 69.30, 68.05, 65.35, 62.76, 60.45, 58.50, 56.34, 54.09, 51.77, 
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 CO3 = tot("C(4)") : kgw_v = tot("water") / soln_vol
+32 plot_xy CO3, EC_meas(cell_no) , line_width = 0
+40 plot_xy CO3,  SC / 1e3 / (CO3 * kgw_v), symbol = None, color = Blue
+50 if cell_no = 1 then put(0, 1) : put(0, 2) : put(CO3, 3)
+60 dev = (1 - SC / 1e3 / (CO3 * kgw_v) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 18 then print 'AARD for SC of KHCO3  ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(CO3, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+90 if cell_no = 18 then print 'AARD for SC of Na, K HCO3  ' + str_f$((get(11) / (get(12) )) * 1e2, 0, 2) + ' % for', get(12), 'samples '# + str_e$(get(3), 0, 2) + ' - ' + str_e$(CO3, 0, 2) + ' mol/kgw'
+END
+
+SOLUTION_SPREAD
+# HB data
+-units mol/kgw
+-temp 20
+number	K	C(4)	pH
+1	7.22E-02	3.61E-02	7 charge
+2	1.46E-01	7.32E-02	7 charge
+3	2.95E-01	1.48E-01	7 charge
+4	4.49E-01	2.24E-01	7 charge
+5	6.02E-01	3.01E-01	7 charge
+6	7.63E-01	3.81E-01	7 charge
+7	9.24E-01	4.62E-01	7 charge
+8	1.09E+00	5.45E-01	7 charge
+9	1.26E+00	6.30E-01	7 charge
+10	1.43E+00	7.17E-01	7 charge
+11	1.61E+00	8.05E-01	7 charge
+12	1.98E+00	9.88E-01	7 charge
+13	2.36E+00	1.18E+00	7 charge
+14	2.77E+00	1.38E+00	7 charge
+15	3.20E+00	1.60E+00	7 charge
+16	3.65E+00	1.82E+00	7 charge
+17	4.63E+00	2.32E+00	7 charge
+
+USER_GRAPH 2
+  -headings K2CO3
+10 DATA 97.22, 93.15, 86.39, 82.29, 79.26, 76.72, 74.95, 73.23, 71.69, 70.17, 69.07, 65.94, 62.94, 60.15, 57.45, 54.59, 49.30, 
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 CO3 = tot("C(4)") : kgw_v = tot("water") / soln_vol
+32 plot_xy CO3, EC_meas(cell_no) , line_width = 0
+40 plot_xy CO3,  SC / 1e3 / (CO3 * 2 * kgw_v), symbol = None, color = Orange 
+50 if cell_no = 1 then put(0, 1) : put(0, 2) : put(CO3, 3)
+60 dev = (1 - SC / 1e3 / (CO3 * 2 * kgw_v) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 17 then print 'AARD for SC of K2CO3  ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(CO3, 0, 2) + ' mol/kgw' : put(get(1) + get(21), 21) : put(get(2) + get(22), 22)
+90 if cell_no = 17 then print 'AARD for SC of Na, K CO3  ' + str_f$((get(21) / (get(22) )) * 1e2, 0, 2) + ' % for', get(22), 'samples. '# + str_e$(get(3), 0, 2) + ' - ' + str_e$(CO3, 0, 2) + ' mol/kgw'
+END
+
+SOLUTION_SPREAD
+# McCleskey 2011, JCED 56, 317; Buchner et al., 1999, JPC B 103, 1185
+-units mol/kgw	
+number	Na	S(6)	pH#	mS/cm
+1	2.000E-04	1.000E-04	7 charge	0.02576
+2	2.000E-03	1.000E-03	7 charge	0.2415
+3	2.000E-02	1.000E-02	7 charge	2.128
+4	5.016E-02	2.508E-02	7 charge	4.78
+5	1.006E-01	5.028E-02	7 charge	8.86
+6	2.002E-01	1.001E-01	7 charge	16.39
+7	2.027E-01	1.014E-01	7 charge	16.2
+8	3.020E-01	1.510E-01	7 charge	22.56
+9	3.978E-01	1.989E-01	7 charge	28.82
+10	4.064E-01	2.032E-01	7 charge	28.9
+11	5.043E-01	2.522E-01	7 charge	34.24
+12	6.108E-01	3.054E-01	7 charge	40.1
+13	8.143E-01	4.072E-01	7 charge	49.6
+14	8.164E-01	4.082E-01	7 charge	50
+15	9.998E-01	4.999E-01	7 charge	54.7
+16	1.020E+00	5.102E-01	7 charge	58.7
+17	1.023E+00	5.115E-01	7 charge	59
+18	1.228E+00	6.139E-01	7 charge	66.8
+19	1.231E+00	6.154E-01	7 charge	66.9
+20	1.436E+00	7.181E-01	7 charge	74.5
+21	1.638E+00	8.190E-01	7 charge	81.2
+22	1.646E+00	8.230E-01	7 charge	81.4
+23	1.857E+00	9.286E-01	7 charge	87.2
+24	2.058E+00	1.029E+00	7 charge	93.1
+25	2.067E+00	1.034E+00	7 charge	93.4
+26	2.269E+00	1.135E+00	7 charge	98.2
+27	2.484E+00	1.242E+00	7 charge	102.9
+28	2.918E+00	1.459E+00	7 charge	110.3
+29	3.364E+00	1.682E+00	7 charge	115.8
+USER_GRAPH 2; -active false
+USER_GRAPH 3
+-axis_scale x_axis 1e-3 4 au au log
+-initial_solutions true
+-axis_titles "mol/kgw" "Equivalent Conductance / (mS.cm^2/eq)"
+  -headings Na2SO4
+10 DATA 0.02576, 0.2415, 2.128, 4.78, 8.86, 16.39, 16.2, 22.56, 28.82, 28.9, 34.24, 40.1, 49.6, 50, 54.7, 58.7, 59, 66.8, 66.9, 74.5, 81.2, 81.4, 87.2, 93.1, 93.4, 98.2, 102.9, 110.3, 115.8, 
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 SO4 = tot("S(6)")
+32 plot_xy SO4, EC_meas(cell_no) / (SO4 * 2 / soln_vol), line_width = 0
+40 plot_xy SO4,  SC / 1e3 / (SO4 * 2 / soln_vol), symbol = None, color = Red
+50 if cell_no = 1 then put(0, 1) : put(0, 2) :  put(0, 11) : put(0, 12) : put(SO4, 3)
+60 dev = SC / 1e3 / EC_meas(cell_no)  -1
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 29 then print 'AARD for SC of Na2SO4  ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(SO4, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+END
+
+SOLUTION_SPREAD
+# HB data
+-temp 20
+-units mol/kgw
+number	K	S(6)	pH#	S.cm^2/eq
+# 1	5.816E-02	2.908E-02	7 charge	100.00
+2	1.164E-01	5.822E-02	7 charge	96.55
+3	1.748E-01	8.742E-02	7 charge	93.10
+4	2.334E-01	1.167E-01	7 charge	90.52
+5	2.941E-01	1.470E-01	7 charge	87.67
+6	3.549E-01	1.775E-01	7 charge	85.80
+7	4.159E-01	2.079E-01	7 charge	84.22
+8	4.790E-01	2.395E-01	7 charge	82.70
+9	5.403E-01	2.702E-01	7 charge	81.84
+10	6.039E-01	3.019E-01	7 charge	80.54
+11	6.676E-01	3.338E-01	7 charge	79.48
+12	7.334E-01	3.667E-01	7 charge	78.39
+13	7.975E-01	3.987E-01	7 charge	77.55
+14	8.638E-01	4.319E-01	7 charge	76.53
+15	9.304E-01	4.652E-01	7 charge	75.66
+16	9.971E-01	4.985E-01	7 charge	74.90
+17	1.066E+00	5.330E-01	7 charge	73.90
+18	1.135E+00	5.677E-01	7 charge	73.01
+19	1.205E+00	6.024E-01	7 charge	72.23
+20	1.275E+00	6.373E-01	7 charge	71.45
+USER_GRAPH 3
+-initial_solutions true
+-headings K2SO4(HB,20C)
+10 DATA 100.00, 96.55, 93.10, 90.52, 87.67, 85.80, 84.22, 82.70, 81.84, 80.54, 79.48, 78.39, 77.55, 76.53, 75.66, 74.90, 73.90, 73.01, 72.23, 71.45
+20 dim EC_meas(50) : restore 10 : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 SO4 = tot("S(6)") : put(SO4, 3)
+32 plot_xy SO4, EC_meas(cell_no) , line_width = 0
+40 plot_xy SO4,  SC / 1e3 / (SO4 * 2 / soln_vol), symbol = None, color = Green
+50 if cell_no = 1 then put(0, 1) : put(0, 2) : put(SO4, 3)
+60 dev = (1 - SC / 1e3 / (SO4 * 2 / soln_vol) / EC_meas(cell_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if cell_no = 20 then print 'AARD for SC of K2SO4   ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(SO4, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+END
+
+SOLUTION 1; pH 7 charge
+REACTION 1
+# Tomsic et al.
+MgSO4 1
+2.619e-04, 5.187e-04, 7.693e-04, 1.029e-03, 1.293e-03, 1.567e-03, 1.881e-03, 2.176e-03, 2.479e-03, 3.138e-03, 7.112e-03, 2.545e-02, 5.378e-02, 9.358e-02, 1.885e-01, 3.837e-01, 6.043e-01, 9.130e-01, 1.242e+00, 1.781e+00, 2.299e+00,
+USER_GRAPH 3
+-initial_solutions false
+-headings MgSO4
+  # -axis_scale x_axis 0 2
+10 DATA 121.35, 116.05, 112.41, 109.23, 106.58, 104.23, 101.93, 100.03, 98.280, 95.009, 83.579, 65.515, 56.474, 50.379, 43.937, 36.350, 31.242, 26.196, 22.051, 16.677, 12.580 
+20 dim EC_meas(50) : restore 10 : for i = 1 to step_no : READ EC_meas(i) : next i
+30 SO4 = tot("S(6)")
+32 plot_xy SO4, EC_meas(step_no), line_width = 0
+40 plot_xy SO4,  SC / 1e3 / (SO4 * 2 * tot("water") / soln_vol), symbol = None, color = Blue
+50 if step_no = 1 then put(0, 1) : put(0, 2) : put(SO4, 3)
+60 dev = (1 - SC / 1e3 / (SO4 * 2 / soln_vol) / EC_meas(step_no))
+70 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+80 if step_no = 21 then print 'AARD for SC of MgSO4   ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(SO4, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+90 if step_no = 21 then print 'AARD for SC of Na, K, Mg SO4   ' + str_f$((get(11) / (get(12) )) * 1e2, 0, 2) + ' % for', get(12), 'samples. '# + str_e$(get(3), 0, 2) + ' - ' + str_e$(SO4, 0, 2) + ' mol/kgw'
+END
+
+USE solution 1
+REACTION_TEMPERATURE 1; 20
+REACTION 1
+MgSO4 1e-0
+4.207E-02, 8.412E-02, 1.692E-01, 2.564E-01, 3.456E-01, 4.369E-01, 5.294E-01, 6.251E-01, 7.219E-01, 8.211E-01, 9.225E-01, 1.132E+00, 1.351E+00, 1.581E+00, 1.823E+00, 2.077E+00, 2.347E+00, 2.630E+00, 2.930E+00 # HB
+USER_GRAPH 3
+-headings MgSO4(HB,20C)
+# USER_PUNCH
+  # -headings MgSO4
+10 DATA 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 40000, 42700, 48400, 53300, 55200, 53700, 51100, 48800, 45900, 42300 # HB, 19 samples
+20 dim HB(50) : for i = 1 to step_no  : READ HB(i) : next i
+30 SO4 = tot("S(6)")
+40 plot_xy SO4, HB(step_no) / 1e3 / (2 * SO4 * tot("water") / soln_vol), line_width = 0, color = Orange
+50 plot_xy SO4, SC / 1e3 / (2 * SO4 * tot("water") / soln_vol),   , color = Orange  , symbol_size = 0
+290 dev = 1 - HB(step_no)  / (SC)
+292 if step_no = 1 then put(0, 1) : put(0, 2) : put(SO4, 3)
+320 if step_no < 20 then put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+330 if step_no = 19 then print 'AARD for SC of MgSO4   ' + str_f$((get(1) / (get(2) )) * 1e2, 0, 2) + ' % for', get(2), 'samples, ' + str_e$(get(3), 0, 2) + ' - ' + str_e$(SO4, 0, 2) + ' mol/kgw' : put(get(1) + get(11), 11) : put(get(2) + get(12), 12)
+# 340 if step_no = 19 then print 'AARD for SC of Na, K, Mg SO4   ' + str_f$((get(11) / (get(12) )) * 1e2, 0, 2) + ' % for', get(12), 'samples. '# + str_e$(get(3), 0, 2) + ' - ' + str_e$(SO4, 0, 2) + ' mol/kgw'
+# obs = 19
+END

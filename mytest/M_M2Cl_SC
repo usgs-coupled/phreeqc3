@@ -1,0 +1,276 @@
+# DATABASE c:\phreeqc\database\pitzer.dat
+# DATABASE c:\phreeqc\database\phreeqc.dat
+database ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 M_M2Cl_SC_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT; -reset false;
+
+
+SOLUTION_SPREAD
+# Goldsack 2011, CJC 54, 2953, McCleskey 2011, JCED 56, 317
+-units mol/kgw					
+Number	Li	Cl	pH	#	mS/cm
+1	9.52E-4	9.52E-4	7 charge	#	0.1069
+2	0.00845	0.00845	7 charge	#	0.9167
+3	0.09523	0.09523	7 charge	#	9.019
+4	0.5047	0.5047	7 charge	#	40.93
+5	0.9613	0.9613	7 charge	#	71.3
+6	1.0216	1.0216	7 charge	#	73
+7	2.0917	2.0917	7 charge	#	123.48
+8	3.2112	3.2112	7 charge	#	157.53
+9	4.3815	4.3815	7 charge	#	178.12
+10	5.6051	5.6051	7 charge	#	188.25
+11	6.8851	6.8851	7 charge	#	190.2
+
+USER_GRAPH
+-axis_scale x_axis au au au au log
+-axis_scale y_axis au au au au log
+# -axis_scale y_axis 0 400
+-initial_solutions true
+-axis_titles "mol/kgw" "Specific Conductance / (mS / cm)"
+-headings LiCl
+10 DATA 0.1069, 0.9167, 9.019, 40.93, 71.3, 73, 123.48, 157.53, 178.12, 188.25, 190.2
+20  dim EC_meas(50) : for i = 1 to cell_no : READ EC_meas(i) : next i
+30  last = 11 : mx = tot("Cl")
+# 32 EC_meas(cell_no)  = EC_meas(cell_no) * mx * tot("water") / soln_vol 
+40  if cell_no = 1 then put(mx, -1) : put(0, 1) : put(0, 2)
+50  if cell_no = last then put(mx, -2)
+60  scp = SC /1e3
+70  plot_xy mx, EC_meas(cell_no) , line_width = 0
+80  plot_xy mx,  scp, symbol = None, color = Red
+90  dev = abs(1 - scp / EC_meas(cell_no))
+100 put(dev + get(1), 1) : put(1 + get(2), 2)
+110 if cell_no < last then end 
+120 sd$ = str_f$((get(1) / (get(2)) ) * 1e2, 0, 2)
+130 print 'LiCl : RAAD in SC = ' + sd$ + ' % for ' + str_f$(get(2), 0, 0) + ' samples, ' + str_e$(get(-1), 0, 2) + ' - ' + str_e$(get(-2), 0, 2) + ' mol/kgw'
+END
+
+SOLUTION_SPREAD
+# Chambers et al., 1956, JPC, Robinson & Stokes
+-units mol/kgw
+Number	Na	Cl	pH	#	mS/cm
+1	5.0149E-04	5.0149E-04	7 charge	#	0.06
+2	1.0030E-03	1.0030E-03	7 charge	#	0.12
+3	5.0152E-03	5.0152E-03	7 charge	#	0.60
+4	1.0031E-02	1.0031E-02	7 charge	#	1.18
+5	2.0066E-02	2.0066E-02	7 charge	#	2.31
+6	5.0191E-02	5.0191E-02	7 charge	#	5.55
+7	1.0047E-01	1.0047E-01	7 charge	#	10.67
+8	1.2564E-01	1.2564E-01	7 charge	#	13.14
+9	1.5084E-01	1.5084E-01	7 charge	#	15.58
+10	1.7606E-01	1.7606E-01	7 charge	#	17.97
+11	2.0131E-01	2.0131E-01	7 charge	#	20.33
+12	2.5184E-01	2.5184E-01	7 charge	#	24.96
+13	3.0249E-01	3.0249E-01	7 charge	#	29.50
+14	4.0407E-01	4.0407E-01	7 charge	#	38.29
+15	5.0603E-01	5.0603E-01	7 charge	#	46.79
+16	6.0844E-01	6.0844E-01	7 charge	#	55.01
+17	7.1117E-01	7.1117E-01	7 charge	#	63.00
+18	8.1438E-01	8.1438E-01	7 charge	#	70.77
+19	9.1799E-01	9.1799E-01	7 charge	#	78.34
+20	1.0220E+00	1.0220E+00	7 charge	#	85.72
+21	1.2314E+00	1.2314E+00	7 charge	#	99.86
+22	1.4426E+00	1.4426E+00	7 charge	#	113.27
+23	1.6556E+00	1.6556E+00	7 charge	#	125.97
+24	1.8705E+00	1.8705E+00	7 charge	#	137.99
+25	2.0872E+00	2.0872E+00	7 charge	#	149.35
+26	2.6383E+00	2.6383E+00	7 charge	#	174.96
+27	3.2025E+00	3.2025E+00	7 charge	#	196.61
+28	3.7807E+00	3.7807E+00	7 charge	#	214.55
+29	4.3738E+00	4.3738E+00	7 charge	#	228.81
+30	4.9828E+00	4.9828E+00	7 charge	#	239.64
+31	5.6092E+00	5.6092E+00	7 charge	#	247.18
+32	6.0587E+00	6.0587E+00	7 charge	#	250.58
+
+USER_GRAPH
+  -headings NaCl
+10 DATA 0.06, 0.12, 0.60, 1.18, 2.31, 5.55, 10.67, 13.14, 15.58, 17.97, 20.33, 24.96, 29.50, 38.29, 46.79, 55.01, 63.00, 70.77, 78.34, 85.72, 99.86, 113.27, 125.97, 137.99, 149.35, 174.96, 196.61, 214.55, 228.81, 239.64, 247.18, 250.58
+20 dim EC_meas(50) : for i = 1 to cell_no : READ EC_meas(i) : next i
+30  last = 32 : mx = tot("Cl")
+40  if cell_no = 1 then put(mx, -1) : put(0, 1) : put(0, 2)
+50  if cell_no = last then put(mx, -2)
+60  scp = SC /1e3
+70  plot_xy mx, EC_meas(cell_no) , line_width = 0
+80  plot_xy mx,  scp, symbol = None, color = Green
+90  dev = abs(1 - scp / EC_meas(cell_no))
+100 put(dev + get(1), 1) : put(1 + get(2), 2)
+110 if cell_no < last then end 
+120 sd$ = str_f$((get(1) / (get(2)) ) * 1e2, 0, 2)
+130 print 'NaCl : RAAD in SC = ' + sd$ + ' % for ' + str_f$(get(2), 0, 0) + ' samples, ' + str_e$(get(-1), 0, 2) + ' - ' + str_e$(get(-2), 0, 2) + ' mol/kgw'
+END
+
+
+SOLUTION_SPREAD
+# Chambers et al., 1956, JPC, Robinson & Stokes, Shedlovsky
+-units mol/kgw
+Number	K	Cl	pH	#	mS/cm
+1	5.0148E-04	5.0148E-04	7 charge	#	0.07
+2	1.0030E-03	1.0030E-03	7 charge	#	0.15
+3	5.0147E-03	5.0147E-03	7 charge	#	0.72
+4	1.0029E-02	1.0029E-02	7 charge	#	1.41
+5	2.0058E-02	2.0058E-02	7 charge	#	2.77
+6	5.0145E-02	5.0145E-02	7 charge	#	6.67
+7	1.0058E-01	1.0058E-01	7 charge	#	12.89
+8	1.2581E-01	1.2581E-01	7 charge	#	15.92
+9	1.5107E-01	1.5107E-01	7 charge	#	18.91
+10	1.7638E-01	1.7638E-01	7 charge	#	21.87
+11	2.0172E-01	2.0172E-01	7 charge	#	24.80
+12	2.5251E-01	2.5251E-01	7 charge	#	30.59
+13	3.0345E-01	3.0345E-01	7 charge	#	36.31
+14	4.0577E-01	4.0577E-01	7 charge	#	47.56
+15	5.0869E-01	5.0869E-01	7 charge	#	58.61
+16	6.1220E-01	6.1220E-01	7 charge	#	69.49
+17	7.1640E-01	7.1640E-01	7 charge	#	80.24
+18	8.2114E-01	8.2114E-01	7 charge	#	90.87
+19	9.2659E-01	9.2659E-01	7 charge	#	101.40
+20	1.0327E+00	1.0327E+00	7 charge	#	111.81
+21	1.2470E+00	1.2470E+00	7 charge	#	132.29
+22	1.4639E+00	1.4639E+00	7 charge	#	152.41
+23	1.6838E+00	1.6838E+00	7 charge	#	172.14
+24	1.9068E+00	1.9068E+00	7 charge	#	191.48
+25	2.1327E+00	2.1327E+00	7 charge	#	210.36
+26	2.7117E+00	2.7117E+00	7 charge	#	255.82
+27	3.3126E+00	3.3126E+00	7 charge	#	298.23
+28	3.9371E+00	3.9371E+00	7 charge	#	337.72
+29	4.5877E+00	4.5877E+00	7 charge	#	373.65
+
+USER_GRAPH
+-headings KCl
+10 DATA 0.074, 0.147, 0.717, 1.41, 2.77, 6.67, 12.89, 15.92, 18.91, 21.87, 24.80, 30.59, 36.31, 47.56, 58.61, 69.49, 80.24, 90.87, 101.40, 111.81, 132.29, 152.41, 172.14, 191.48, 210.36, 255.82, 298.23, 337.72, 373.65
+20  dim EC_meas(50) : for i = 1 to cell_no : READ EC_meas(i) : next i
+30  last = 29 : mx = tot("Cl")
+40  if cell_no = 1 then put(mx, -1) : put(0, 1) : put(0, 2)
+50  if cell_no = last then put(mx, -2)
+60  scp = SC /1e3
+70  plot_xy mx, EC_meas(cell_no) , line_width = 0
+80  plot_xy mx,  scp, symbol = None, color = Blue
+90  dev = abs(1 - scp / EC_meas(cell_no))
+100 put(dev + get(1), 1) : put(1 + get(2), 2)
+110 if cell_no < last then end 
+120 sd$ = str_f$((get(1) / (get(2)) ) * 1e2, 0, 2)
+130 print 'KCl  : RAAD in SC = ' + sd$ + ' % for ' + str_f$(get(2), 0, 0) + ' samples, ' + str_e$(get(-1), 0, 2) + ' - ' + str_e$(get(-2), 0, 2) + ' mol/kgw'
+END
+
+SOLUTION_SPREAD
+# Shedlovsky 1934, JACS 56, 1066, Phang & Stokes, 1980, JSC 9, 497.
+ -temp 25
+ -units mol/kgw
+number	Mg	Cl	pH#	mS/cm
+1	7.5473E-05	1.5096E-04	7 charge	0.0192
+2	1.7025E-04	3.4050E-04	7 charge	0.0429
+3	2.8003E-04	5.6006E-04	7 charge	0.0700
+4	5.3539E-04	1.0708E-03	7 charge	0.132
+5	1.0205E-03	2.0410E-03	7 charge	0.248
+6	1.4230E-03	2.8460E-03	7 charge	0.342
+7	2.0951E-03	4.1902E-03	7 charge	0.498
+8	2.6244E-03	5.2488E-03	7 charge	0.617
+9	3.1646E-03	6.3292E-03	7 charge	0.739
+10	4.2062E-03	8.4124E-03	7 charge	0.969
+11	5.0150E-03	1.0030E-02	7 charge	1.15
+12	1.0563E-02	2.1126E-02	7 charge	2.31
+13	2.3643E-02	4.7286E-02	7 charge	4.88
+14	2.3961E-02	4.7922E-02	7 charge	4.95
+15	2.5384E-02	5.0768E-02	7 charge	5.22
+16	4.4310E-02	8.8620E-02	7 charge	8.68
+17	6.9170E-02	1.3834E-01	7 charge	12.98
+18	7.7170E-02	1.5434E-01	7 charge	14.33
+19	9.0690E-02	1.8138E-01	7 charge	16.56
+20	9.2680E-02	1.8536E-01	7 charge	16.88
+21	1.2599E-01	2.5198E-01	7 charge	22.17
+22	1.8253E-01	3.6506E-01	7 charge	30.65
+23	1.8335E-01	3.6670E-01	7 charge	30.77
+24	2.2271E-01	4.4542E-01	7 charge	36.37
+25	2.3418E-01	4.6836E-01	7 charge	37.96
+26	3.1760E-01	6.3520E-01	7 charge	49.01
+27	3.9430E-01	7.8860E-01	7 charge	58.47
+28	3.9820E-01	7.9640E-01	7 charge	58.94
+29	6.5560E-01	1.3112E+00	7 charge	86.37
+30	9.8950E-01	1.9790E+00	7 charge	113.97
+31	1.5982E+00	3.1964E+00	7 charge	145.97
+32	2.2912E+00	4.5824E+00	7 charge	160.49
+33	2.9600E+00	5.9200E+00	7 charge	158.76
+34	3.6080E+00	7.2160E+00	7 charge	147.15
+35	4.2160E+00	8.4320E+00	7 charge	130.70
+36	4.7460E+00	9.4920E+00	7 charge	114.01
+37	5.2430E+00	1.0486E+01	7 charge	97.43
+ 
+USER_GRAPH
+  -headings MgCl2
+10 DATA 0.0192, 0.0429, 0.0700, 0.132, 0.248, 0.342, 0.498, 0.617, 0.739, 0.969, 1.15, 2.31, 4.88, 4.95, 5.22, 8.68, 12.98, 14.33, 16.56, 16.88, 22.17, 30.65, 30.77, 36.37, 37.96, 49.01, 58.47, 58.94, 86.37, 113.97, 145.97, 160.49, 158.76, 147.15, 130.70, 114.01, 97.43
+20 dim EC_meas(50) : for i = 1 to cell_no : READ EC_meas(i) : next i
+30  last = 37 : mx = tot("Cl") / 2
+40  if cell_no = 1 then put(mx, -1) : put(0, 1) : put(0, 2)
+50  if cell_no = last then put(mx, -2)
+60  scp = SC / 1e3
+70  plot_xy mx, EC_meas(cell_no) , line_width = 0
+80  plot_xy mx,  scp, symbol = None, color = Orange 
+90  dev = abs(1 - scp / EC_meas(cell_no))
+100 put(dev + get(1), 1) : put(1 + get(2), 2)
+110 if cell_no < last then end 
+120 sd$ = str_f$((get(1) / (get(2)) ) * 1e2, 0, 2)
+130 print 'MgCl2: RAAD in SC = ' + sd$ + ' % for ' + str_f$(get(2), 0, 0) + ' samples, ' + str_e$(get(-1), 0, 2) + ' - ' + str_e$(get(-2), 0, 2) + ' mol/kgw'
+END
+
+
+SOLUTION_SPREAD
+# McCleskey, 2011, JCED 56, 317; Isono, 1984, JCED 29, 45, Shedlovsky & Brown, 1934
+-units mol/kgw
+Number	Ca	Cl	pH 7 charge#		mS/cm
+1	0.000076	0.000152	7 charge	#	0.01998
+2	2.507E-04	0.0005014	7 charge	#	0.06595
+3	5.015E-04	0.001003	7 charge	#	0.1303
+4	0.000755	0.00151	7 charge	#	0.1945
+5	1.003E-03	0.002006	7 charge	#	0.2564
+6	1.505E-03	0.00301	7 charge	#	0.3798
+7	2.508E-03	0.005016	7 charge	#	0.62115
+8	3.511E-03	0.007022	7 charge	#	0.8575
+9	4.031E-03	8.062E-03	7 charge	#	0.978
+10	5.015E-03	0.01003	7 charge	#	1.204
+11	0.00755	0.0151	7 charge	#	1.792
+12	1.003E-02	0.02006	7 charge	#	2.313
+13	1.440E-02	2.880E-02	7 charge	#	3.242
+14	2.101E-02	4.202E-02	7 charge	#	4.604
+15	2.509E-02	0.05018	7 charge	#	5.425
+16	2.635E-02	5.270E-02	7 charge	#	5.675
+17	3.215E-02	6.430E-02	7 charge	#	6.814
+18	3.846E-02	7.692E-02	7 charge	#	8.033
+19	3.991E-02	7.982E-02	7 charge	#	8.310
+20	4.347E-02	8.6944E-02	7 charge	#	8.984
+21	4.842E-02	9.684E-02	7 charge	#	9.915
+22	4.875E-02	9.750E-02	7 charge	#	9.975
+23	4.969E-02	9.938E-02	7 charge	#	10.150
+24	0.05	0.1	7 charge	#	10.24
+25	5.020E-02	0.1004	7 charge	#	10.25
+26	5.450E-02	1.090E-01	7 charge	#	11.041
+27	0.0755	0.151	7 charge	#	14.96
+28	0.1	0.2	7 charge	#	19.18
+29	0.3773	0.7546	7 charge	#	65.31
+30	0.5	1	7 charge	#	77.52
+31	1	2	7 charge	#	130.3
+32	2	4	7 charge	#	190.5
+33	3	6	7 charge	#	204.6
+34	4	8	7 charge	#	189.4
+35	6	12	7 charge	#	125.5
+
+USER_GRAPH
+-headings CaCl2
+10 DATA 0.01998, 0.06595, 0.1303, 0.1945, 0.2564, 0.3798, 0.62115, 0.8575, 0.978, 1.204, 1.792, 2.313, 3.242, 4.604, 5.425, 5.675, 6.814, 8.033, 8.310, 8.984, 9.915, 9.975, 10.150, 10.24, 10.25, 11.041, 14.96, 19.18, 65.31, 77.52, 130.3, 190.5, 204.6, 189.4, 125.5
+20 dim EC_meas(50) : for i = 1 to cell_no : READ EC_meas(i) : next i
+30  last = 35 : mx = tot("Cl") / 2
+40  if cell_no = 1 then put(mx, -1) : put(0, 1) : put(0, 2)
+50  if cell_no = last then put(mx, -2)
+60  scp = SC / 1e3
+70  plot_xy mx, EC_meas(cell_no) , line_width = 0
+80  plot_xy mx,  scp, symbol = None, color = Magenta
+90  dev = abs(1 - scp / EC_meas(cell_no))
+100 put(dev + get(1), 1) : put(1 + get(2), 2)
+110 if cell_no < last then end 
+120 sd$ = str_f$((get(1) / (get(2)) ) * 1e2, 0, 2)
+130 print 'CaCl2: RAAD in SC = ' + sd$ + ' % for ' + str_f$(get(2), 0, 0) + ' samples, ' + str_e$(get(-1), 0, 2) + ' - ' + str_e$(get(-2), 0, 2) + ' mol/kgw'
+END

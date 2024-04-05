@@ -36,6 +36,8 @@ PHRQ_base(io)
 	grams = 0.0;
 	charge_balance = 0.0;
 	mass_water = 0.0;
+	DDL_viscosity = 0.0;
+	f_free = 0.0;
 	la_psi = 0.0;
 	capacitance[0] = 1.0;
 	capacitance[1] = 5.0;
@@ -68,6 +70,7 @@ cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 		charge_balance << "\"" << "\n";
 	s_oss << indent0 << "mass_water=\"" << this->
 		mass_water << "\"" << "\n";
+	s_oss << indent0 << "f_free=\"" << this->f_free << "\"" << "\n";
 	s_oss << indent0 << "la_psi=\"" << this->la_psi << "\"" << "\n";
 	s_oss << indent0 << "capacitance=\"" << this->
 		capacitance[0] << " " << this->capacitance[0] << "\"" << "\n";
@@ -98,6 +101,8 @@ cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent0 << "-grams                   " << this->grams << "\n";
 	s_oss << indent0 << "-charge_balance          " << this->charge_balance << "\n";
 	s_oss << indent0 << "-mass_water              " << this->mass_water << "\n";
+	s_oss << indent0 << "-f_free                  " << this->f_free << "\n";
+	s_oss << indent0 << "-ddl_viscosity           " << this->DDL_viscosity << "\n";
 	s_oss << indent0 << "-la_psi                  " << this->la_psi << "\n";
 	s_oss << indent0 << "-capacitance0            " << this->capacitance[0] << "\n";
 	s_oss << indent0 << "-capacitance1            " << this->capacitance[1] << "\n";
@@ -155,6 +160,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 	bool capacitance0_defined(false);
 	bool capacitance1_defined(false);
 	bool g_map_first(true);
+	bool DDL_viscosity_defined(false);
 
 	for (;;)
 	{
@@ -224,7 +230,6 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 			}
 			mass_water_defined = true;
 			break;
-
 
 		case 5:				// la_psi
 			if (!(parser.get_iss() >> this->la_psi))
@@ -366,10 +371,27 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				}
 			}
 			opt_save = 16;
-
-
-
 			break;
+		case 17:				// f_free of water
+			if (!(parser.get_iss() >> this->f_free))
+			{
+				this->f_free = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for f_free of mass_water.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+		case 18:				// DDL_viscosity
+			if (!(parser.get_iss() >> this->DDL_viscosity))
+			{
+				this->DDL_viscosity = 1.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for DDL_viscosity.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			DDL_viscosity_defined = true;
+			break;
+
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -454,9 +476,11 @@ cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, LDBLE extensive)
 	this->mass_water += addee.mass_water * extensive;
 	this->la_psi = this->la_psi * f1 + addee.la_psi * f2;
 	this->capacitance[0] =
-		this->capacitance[0] * f1 + this->capacitance[0] * f2;
+		this->capacitance[0] * f1 + addee.capacitance[0] * f2;
 	this->capacitance[1] =
-		this->capacitance[1] * f1 + this->capacitance[1] * f2;
+		this->capacitance[1] * f1 + addee.capacitance[1] * f2;
+	this->f_free = this->f_free * f1 + addee.f_free * f2;
+	this->DDL_viscosity = this->DDL_viscosity * f1 + addee.DDL_viscosity * f2;
 	this->diffuse_layer_totals.add_extensive(addee.diffuse_layer_totals, extensive);
 }
 
@@ -486,6 +510,8 @@ cxxSurfaceCharge::Serialize(Dictionary & dictionary, std::vector < int >&ints,
 	doubles.push_back(this->sigma1);
 	doubles.push_back(this->sigma2);
 	doubles.push_back(this->sigmaddl);
+	doubles.push_back(this->f_free);
+	doubles.push_back(this->DDL_viscosity);
 	ints.push_back((int) this->g_map.size());
 	{
 		std::map<LDBLE, cxxSurfDL>::iterator it;
@@ -523,6 +549,8 @@ cxxSurfaceCharge::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 	this->sigma1 = doubles[dd++];
 	this->sigma2 = doubles[dd++];
 	this->sigmaddl = doubles[dd++];
+	this->f_free = doubles[dd++];
+	this->DDL_viscosity = doubles[dd++];
 	{
 		this->g_map.clear();
 		int count = ints[ii++];
@@ -581,6 +609,9 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("sigma2"),	            // 13 
 	std::vector< std::string >::value_type("sigmaddl"),	            // 14
 	std::vector< std::string >::value_type("g_map"),	            // 15
-	std::vector< std::string >::value_type("diffuse_layer_species") // 16
+	std::vector< std::string >::value_type("diffuse_layer_species"),// 16
+	std::vector< std::string >::value_type("f_free"),               // 17
+	std::vector< std::string >::value_type("ddl_viscosity")         // 18
+
 };									   
 const std::vector< std::string > cxxSurfaceCharge::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

@@ -9,149 +9,186 @@ USER_PUNCH 101
     -end
 SOLUTION_SPREAD
  -temp 20
- -units mol/L
-K	Cl#     HB_SC
-0.067069081	1 charge #     8200
-0.134138162	1 charge #     15700
-0.202548625	1 charge #     22700
-0.270959088	1 charge #     29500
-0.340710932	1 charge #     36500
-0.409121395	1 charge #     43600
-0.478873239	1 charge #     50600
-0.549966465	1 charge #     57600
-0.690811536	1 charge #     71900
-0.83433937	1 charge #     86200
-0.979208585	1 charge #     100000
-1.052984574	1 charge #     108000
-USER_GRAPH
+ -units mol/L; -density 1 calculate
+number	K	Cl#	density 	#     HB_SC
+1 	0.067	1 charge	1.0015	#     8200
+2 	0.134	1 charge	1.0047	#     15700
+3 	0.202	1 charge	1.0080	#     22700
+4 	0.270	1 charge	1.0113	#     29500
+5 	0.340	1 charge	1.0146	#     36500
+6 	0.409	1 charge	1.0178	#     43600
+7 	0.478	1 charge	1.0210	#     50600
+8 	0.549	1 charge	1.0243	#     57600
+9 	0.690	1 charge	1.0306	#     71900
+10	0.834	1 charge	1.0371	#     86200
+11	0.979	1 charge	1.0434	#     100000
+12	1.052	1 charge	1.0466	#     108000
+USER_GRAPH 
   -headings KCl
   -axis_titles "Handbook of Chemistry and Physics: SC / (mmho/cm)" "PHREEQC"
   -axis_scale x_axis 0 120
   -axis_scale y_axis 0 120
   -initial_solutions true
+#1 print cell_no, rho
   10 DATA 8200, 15700, 22700, 29500, 36500, 43600, 50600, 57600, 71900, 86200, 100000, 108000
-  20 dim HB(12)
+  20 dim EC_meas(12)
   30 for i = 1 to 12
-  40   READ HB(i)
+  40   READ EC_meas(i)
   50 next i
-  60 plot_xy HB(cell_no) / 1e3, SC / 1e3, line_width = 0
+  60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
+  61 if cell_no = 1 then put(0, 1) : put(0, 2)
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 12 then print 'KCl, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
+  270 if cell_no = 1 then plot_xy 0, 0, color = Black, symbol = None
+  280 if cell_no = 2 then plot_xy 110, 110
 END
 SOLUTION_SPREAD
  -temp 20
- -units mol/L
-Na	Cl#     HB_SC
-0.085557837	1 charge #     8200
-0.172826831	1 charge #     16000
-0.258384668	1 charge #     23200
-0.345653662	1 charge #     30200
-0.434633812	1 charge #     37100
-0.523613963	1 charge #     44000
-0.612594114	1 charge #     50700
-0.684462697	1 charge #     56000
-0.865845311	1 charge #     68900
-1.031827515	1 charge #     80000
-1.368925394	1 charge #     101000
-1.676933607	1 charge #     118000
-USER_GRAPH
+ -units mol/L; -density 1 calculate
+number	Na	Cl#	density 	#     HB_SC
+1 	0.085	1 charge	1.0019	#     8200
+2 	0.172	1 charge	1.0056	#     16000
+3 	0.258	1 charge	1.0091	#     23200
+4 	0.345	1 charge	1.0127	#     30200
+5 	0.434	1 charge	1.0164	#     37100
+6 	0.523	1 charge	1.0199	#     44000
+7 	0.612	1 charge	1.0235	#     50700
+8 	0.684	1 charge	1.0263	#     56000
+9 	0.866	1 charge	1.0333	#     68900
+10	1.032	1 charge	1.0396	#     80000
+11	1.369	1 charge	1.0522	#     101000
+12	1.677	1 charge	1.0632	#     118000
+USER_GRAPH 
   -headings NaCl
+#1 print cell_no, rho
   10 DATA 8200, 16000, 23200, 30200, 37100, 44000, 50700, 56000, 68900, 80000, 101000, 118000
-  20 dim HB(12)
+  20 dim EC_meas(12)
   30 for i = 1 to 12
-  40   READ HB(i)
+  40   READ EC_meas(i)
   50 next i
-  60 plot_xy HB(cell_no - 12) / 1e3, SC / 1e3, line_width = 0
+  60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
+  61 if cell_no = 1 then put(0, 1) : put(0, 2)
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 12 then print 'NaCl, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
 SOLUTION_SPREAD
  -temp 20
- -units mol/L
-Ca	Cl#     HB_SC
-4.50E-02	1 charge #     8100
-9.10E-02	1 charge #     15700
-1.37E-01	1 charge #     22700
-1.83E-01	1 charge #     29400
-2.30E-01	1 charge #     36100
-2.77E-01	1 charge #     42600
-3.24E-01	1 charge #     48900
-3.72E-01	1 charge #     55100
-4.69E-01	1 charge #     67000
-5.67E-01	1 charge #     78300
-6.67E-01	1 charge #     88700
-8.20E-01	1 charge #     103000
-USER_GRAPH
+ -units mol/L; -density 1 calculate
+number	Ca	Cl#	density 	#     HB_SC
+1 	4.50e-2	1 charge	1.0025	#     8100
+2 	9.10e-2	1 charge	1.0068	#     15700
+3 	1.37e-1	1 charge	1.0110	#     22700
+4 	1.83e-1	1 charge	1.0152	#     29400
+5 	2.30e-1	1 charge	1.0194	#     36100
+6 	2.77e-1	1 charge	1.0236	#     42600
+7 	3.24e-1	1 charge	1.0278	#     48900
+8 	3.72e-1	1 charge	1.0320	#     55100
+9 	4.69e-1	1 charge	1.0403	#     67000
+10	5.67e-1	1 charge	1.0486	#     78300
+11	6.67e-1	1 charge	1.0569	#     88700
+12	8.20e-1	1 charge	1.0693	#     103000
+USER_GRAPH 
   -headings CaCl2
+#1 print cell_no, rho
   10 DATA 8100, 15700, 22700, 29400, 36100, 42600, 48900, 55100, 67000, 78300, 88700, 103000
-  20 dim HB(12)
+  20 dim EC_meas(12)
   30 for i = 1 to 12
-  40   READ HB(i)
+  40   READ EC_meas(i)
   50 next i
-  60 plot_xy HB(cell_no - 24) / 1e3, SC / 1e3, line_width = 0
+  60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
+  61 if cell_no = 1 then put(0, 1) : put(0, 2)
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 12 then print 'CaCl2, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
+
 SOLUTION_SPREAD
  -temp 20
- -units mol/L
-Mg	Cl#     HB_SC
-0.052504463	1 charge #     8600
-0.106059015	1 charge #     16600
-0.213168119	1 charge #     31200
-0.322377402	1 charge #     44500
-0.432636774	1 charge #     56400
-0.546046414	1 charge #     66900
-0.660506143	1 charge #     77200
-0.777066051	1 charge #     86400
-0.894676047	1 charge #     94500
-1.014386223	1 charge #     102000
-USER_GRAPH
-  -headings MgCl2
+ -units mol/L; -density 1 calculate
+number	Mg	Cl#	density 	#     HB_SC
+1 	0.052	1 charge	1.0025	#     8600
+2 	0.106	1 charge	1.0068	#     16600
+3 	0.213	1 charge	1.0152	#     31200
+4 	0.322	1 charge	1.0236	#     44500
+5 	0.432	1 charge	1.0318	#     56400
+6 	0.546	1 charge	1.0401	#     66900
+7 	0.660	1 charge	1.0482	#     77200
+8 	0.777	1 charge	1.0563	#     86400
+9 	0.894	1 charge	1.0643	#     94500
+10	1.014	1 charge	1.0723	#     102000
+USER_GRAPH        
+  -headings MgCl2 
+#1 print cell_no, rho
   10 DATA 8600, 16600, 31200, 44500, 56400, 66900, 77200, 86400, 94500, 102000
-  20 dim HB(10)
+  20 dim EC_meas(10)
   30 for i = 1 to 10
-  40   READ HB(i)
+  40   READ EC_meas(i)
   50 next i
-  60 plot_xy HB(cell_no - 36) / 1e3, SC / 1e3, line_width = 0
+  60 plot_xy EC_meas(cell_no) / 1e3, SC / 1e3, line_width = 0
+  61 if cell_no = 1 then put(0, 1) : put(0, 2)
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+  64 if cell_no = 10 then print 'MgCl2, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
+PRINT; -user_print true
+
 SOLUTION_SPREAD
  -temp 20
- -units mol/L
-Mg	S(6)#   HB_SC
-0.041538589	1 charge #     4100
-0.08390795	1 charge #     7600
-0.169477445	1 charge #     13300
-0.256708482	1 charge #     18400
-0.345601063	1 charge #     23100
-0.436155188	1 charge #     27400
-0.528370857	1 charge #     31100
-0.62307884	1 charge #     34400
-0.718617596	1 charge #     37300
-0.916341281	1 charge #     42700
-USER_GRAPH
-  -headings MgSO4
-  10 DATA 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 42700
-  20 dim HB(10)
-  30 for i = 1 to 10
-  40   READ HB(i)
-  50 next i
-  60 plot_xy HB(cell_no - 46) / 1e3, SC / 1e3, line_width = 0
+ -units mol/L; -density 1 calculate
+number	Mg	S(6)	pH#	density	#	SC
+1	0.042	0.042	7 charge	1.0033	#	4100
+2	0.084	0.084	7 charge	1.0084	#	7600
+3	0.169	0.169	7 charge	1.0186	#	13300
+4	0.256	0.256	7 charge	1.0289	#	18400
+5	0.345	0.345	7 charge	1.0392	#	23100
+6	0.436	0.436	7 charge	1.0497	#	27400
+7	0.528	0.528	7 charge	1.0602	#	31100
+8	0.623	0.623	7 charge	1.0708	#	34400
+9	0.719	0.719	7 charge	1.0816	#	37300
+10	0.817	0.817	7 charge	1.0924	#	40000
+11	0.917	0.917	7 charge	1.1034	#	42700
+12	1.122	1.122	7 charge	1.1257	#	48400
+13	1.335	1.335	7 charge	1.1484	#	53300
+14	1.557	1.557	7 charge	1.1717	#	55200
+15	1.787	1.787	7 charge	1.1955	#	53700 # the viscosity increases markedly...
+16	2.026	2.026	7 charge	1.2198	#	51100
+17	2.275	2.275	7 charge	1.2447	#	48800
+18	2.532	2.532	7 charge	1.2701	#	45900
+19	2.799	2.799	7 charge	1.2961	#	42300
+USER_GRAPH       
+-headings MgSO4
+10 DATA 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 40000, 42700, 48400, 53300, 55200, 53700, 51100, 48800, 45900, 42300
+20 restore 10 : dim EC_meas(50) : for i = 1 to cell_no : READ EC_meas(i) : next i
+30 data  1.0, 1.025, 1.052, 1.110, 1.175, 1.247, 1.325, 1.408, 1.495, 1.590, 1.699, 1.825, 2.100, 2.407, 2.803, 3.353, 4.139, 5.189, 6.485, 8.050 # viscosities
+40 restore 30 : dim vc(50) : for i = 1 to cell_no : READ vc(i) : next i
+42 lim = 2.7
+50 if vc(cell_no) < lim then scc = SC else scc = SC * lim / vc(cell_no)
+60 plot_xy EC_meas(cell_no) / 1e3, sc / 1e3, line_width = 0
+61 if cell_no = 1 then put(0, 1) : put(0, 2)
+62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(cell_no)), 1)
+64 if cell_no = 19 then print 'MgSO4, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
 END
+
 SOLUTION_MASTER_SPECIES
 La	La+3    0.0     La	138.9055
-N		NO3-	0	N		14.0067
 SOLUTION_SPECIES
-La+3 = La+3; -gamma 9.0 0.0
- -dw 6.36e-10  0  1.5  12
-NO3- = NO3-;	-gamma	3.0	0
-	-dw	1.9e-9  184  1.85  3.85
+SOLUTION_SPECIES
+La+3 = La+3
+ -dw  0.619e-9  0  4.9
 SOLUTION 1; temp 20
 reaction 1
  La(NO3)3 1; 0.0311     0.0625  0.0945  0.1268  0.1600  0.1936  0.2277  0.2625  0.2979
-USER_GRAPH
+USER_GRAPH 
   -headings La(NO3)3
   -initial_solutions false
   10 DATA  7800,  14200, 20100, 25600, 31100, 36000, 40600, 45000, 49500
-  20 dim HB(9)
+  20 dim EC_meas(9)
   30 for i = 1 to 9
-  40   READ HB(i)
+  40   READ EC_meas(i)
   50 next i
-  60 plot_xy HB(step_no) / 1e3, SC / 1e3, line_width = 0, color = red
+  60 plot_xy EC_meas(step_no) / 1e3, SC / 1e3, line_width = 0, color = red
+  61 if step_no = 1 then put(0, 1) : put(0, 2)
+  62 put(1 + get(2), 2) : put(get(1) + abs(1 - SC / EC_meas(step_no))^2, 1)
+  64 if step_no = 9 then print 'La(NO3)3, AARD: ' + str_f$((get(1) / (get(2) )) * 100, 0, 2) + ' %'
   70 if step_no = 1 then xy = 0 else xy = 120
   80 if step_no < 3 then plot_xy xy, xy, color = black, symbol = None
+  
 END

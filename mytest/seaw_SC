@@ -1,0 +1,65 @@
+# DATABASE c:\phreeqc\database\pitzer.dat
+database ../database/Amm.dat
+SELECTED_OUTPUT 101
+    -file                 seaw_SC_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#KNOBS; -tolerance 1e-15
+
+#KNOBS; -tolerance 1e-15
+
+#PRINT; -reset false
+SOLUTION 1  SEAWATER FROM NORDSTROM AND OTHERS (1979)
+        units   ppm
+        pH      8.22
+        pe      8.451
+        density 1.023
+        temp    25.0
+        # redox   O(0)/O(-2)
+        Ca              412.3
+        Mg              1291.8
+        Na              10768.0
+        K               399.1
+        Fe              0.002
+        Mn              0.0002  pe
+        Si              4.28
+        Cl              19353.0
+        Alkalinity      141.682 as HCO3
+        S(6)            2712.0
+        N(5)            0.29    gfw   62.0
+        Amm            0.03    as    AmmH
+        # U               3.3     ppb   N(5)/N(-3)
+        # O(0)            1.0     O2(g) -0.7
+REACTION_TEMPERATURE
+ 0 40 in 9
+USER_GRAPH
+-axis_titles "temp / oC" "Conductance / mS/cm"
+-headings Miller`88 phreeqc McCleskey
+# Miller et al., 1988. USGS Water-Supply Paper 2311.
+10 A = 2.1923
+20 B = 0.12842
+30 kk= 0.0320
+40 ss= 0.00290
+50 h = 0.1243
+60 ff= 0.000978
+70 S  = 34.9 # salinity / (0/00)
+72 xx = 0.0000165
+# 72 xx = 0.00165
+80 K = (A + B * tc^(1 + kk) / (1 + tc^kk) * exp(ss * tc)) * S / (1 + S^h) * exp(-ff * S) * exp(-xx * (S -35) * (tc - 20))
+90 plot_xy tc, K, line_width = 0, color = Red
+100 plot_xy tc, SC / 1e3, symbol = None , color = Red
+
+110 dif = sc/1e3/K -1
+120 if step_no = 0 then put(0, 1) : put(0, 2)
+130 put(dif^2 + get(1), 1) : put(1 + get(2), 2)
+140 if tc = 40 then print 'relative s.d. ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+
+150 T = tc : sqrt_mu = mu^0.5
+160 gosub 2000
+180 plot_xy tc, m_sc, color = Green, symbol_size = 0
+
+INCLUDE$ ./McCleskey.phr

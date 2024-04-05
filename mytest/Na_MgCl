@@ -1,0 +1,208 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 Na_MgCl_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT; -reset false
+SOLUTION_SPREAD
+# Chambers et al., 1956, JPC, recalc'd from mol/L ==> mol/kgw
+-units mol/kgw
+# Chambers, Robinson & Stokes, Shedlovsky
+Number	Na	Cl	pH	#	S.cm2/eq, abs/int Ohm corrected
+1	5.0149E-04	5.0149E-04	7 charge	#	124.45
+2	1.0030E-03	1.0030E-03	7 charge	#	123.68
+3	5.0152E-03	5.0152E-03	7 charge	#	120.58
+4	1.0031E-02	1.0031E-02	7 charge	#	118.47
+5	2.0066E-02	2.0066E-02	7 charge	#	115.70
+6	5.0191E-02	5.0191E-02	7 charge	#	111.01
+7	1.0047E-01	1.0047E-01	7 charge	#	106.69
+8	1.2564E-01	1.2564E-01	7 charge	#	105.16
+9	1.5084E-01	1.5084E-01	7 charge	#	103.87
+10	1.7606E-01	1.7606E-01	7 charge	#	102.69
+11	2.0131E-01	2.0131E-01	7 charge	#	101.66
+12	2.5184E-01	2.5184E-01	7 charge	#	99.84
+13	3.0249E-01	3.0249E-01	7 charge	#	98.32
+14	4.0407E-01	4.0407E-01	7 charge	#	95.72
+15	5.0603E-01	5.0603E-01	7 charge	#	93.57
+16	6.0844E-01	6.0844E-01	7 charge	#	91.68
+17	7.1117E-01	7.1117E-01	7 charge	#	90.00
+18	8.1438E-01	8.1438E-01	7 charge	#	88.47
+19	9.1799E-01	9.1799E-01	7 charge	#	87.05
+20	1.0220E+00	1.0220E+00	7 charge	#	85.72
+21	1.2314E+00	1.2314E+00	7 charge	#	83.22
+22	1.4426E+00	1.4426E+00	7 charge	#	80.91
+23	1.6556E+00	1.6556E+00	7 charge	#	78.73
+24	1.8705E+00	1.8705E+00	7 charge	#	76.66
+25	2.0872E+00	2.0872E+00	7 charge	#	74.67
+26	2.6383E+00	2.6383E+00	7 charge	#	69.99
+27	3.2025E+00	3.2025E+00	7 charge	#	65.54
+28	3.7807E+00	3.7807E+00	7 charge	#	61.30
+29	4.3738E+00	4.3738E+00	7 charge	#	57.20
+30	4.9828E+00	4.9828E+00	7 charge	#	53.25
+31	5.6092E+00	5.6092E+00	7 charge	#	49.44
+32	6.0587E+00	6.0587E+00	7 charge	#	46.84
+USER_GRAPH
+-axis_scale x_axis au au au au log
+-headings NaCl
+-initial_solutions true
+-axis_titles '((NaCl + MgCl2) / (mol/L))^0.5' 'Equivalent Conductance / (S.cm^2/eq)'
+10 DATA 124.45, 123.68, 120.58, 118.47, 115.70, 111.01, 106.69, 105.16, 103.87, 102.69, 101.66, 99.84, 98.32, 95.72, 93.57, 91.68, 90.00, 88.47, 87.05, 85.72, 83.22, 80.91, 78.73, 76.66, 74.67, 69.99, 65.54, 61.30, 57.20, 53.25, 49.44, 46.84, 0.3918, 0.3902, 0.3876, 0.3854, 0.3821, 0.379, 0.372, 0.369, 0.366, 0.364, 0.363, 0.362, 0.360, 0.359, 0.358, 0.357, 0.356, 0.354, 0.353, 0.353, 0.353, 0.352, 0.352
+20 dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 plot_xy tot("Cl")^0.5, HB(cell_no) , line_width = 0
+35 plot_xy tot("Cl")^0.5,  SC / tot("Cl") / 1e3 * soln_vol, symbol = None, color = Red
+
+40 dev = (1 - SC / 1e3 / (tot("Cl")) * soln_vol / HB(cell_no))
+45 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+60 if cell_no = 26 then print 'AARD for SC of NaCl  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
+END
+
+SOLUTION_SPREAD
+# Bianchi et al. 89
+ -temp 25
+ -units mol/L
+ -density 1 calculate
+number	Na	Mg	Cl	pH
+1  	0.375	0.125	0.625	7 charge
+2  	0.75	0.25	1.25	7 charge
+3  	1.5	0.5	2.5	7 charge
+4  	2.25	0.75	3.75	7 charge
+5  	2.8455	0.9485	4.7425	7 charge
+# 6  	0.25	0.25	0.75	7 charge
+# 7  	0.5	0.5	1.5	7 charge
+# 8  	1	1	3	7 charge
+# 9  	1.5	1.5	4.5	7 charge
+# 10 	1.86	1.86	5.58	7 charge
+# 11 	0.125	0.375	0.875	7 charge
+# 12 	0.25	0.75	1.75	7 charge
+# 13 	0.5	1.5	3.5	7 charge
+# 14 	0.75	2.25	5.25	7 charge
+# 15 	0.9	2.7	6.3	7 charge
+
+USER_GRAPH 1
+-initial_solutions true
+ -headings NaCl:MgCl2
+360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green
+364 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, SC / 1e3 / (tot("Cl") / soln_vol) , color = Green, symbol_size = 0
+368 end
+
+10 DATA 85.69, 76.26, 62.72, 51.63, 43.785, 79.79, 69.00, 53.45, 40.990, 33.300, 75.07, 63.07, 45.85, 32.550, 25.890
+20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 dev = (1 - SC / 1e3 / (tot("Cl") / soln_vol) / HB(cell_no))
+40 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+# 60 if cell_no = 15 then print 'AARD for SC of NaCl:MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
+END
+
+SOLUTION_SPREAD
+# Bianchi et al. 89
+ -temp 25
+ -units mol/L
+ -density 1 calculate
+number	Na	Mg	Cl	pH
+6  	0.25	0.25	0.75	7 charge
+7  	0.5	0.5	1.5	7 charge
+8  	1	1	3	7 charge
+9  	1.5	1.5	4.5	7 charge
+10 	1.86	1.86	5.58	7 charge
+
+USER_GRAPH 1
+-initial_solutions true
+ # -headings NaCl:MgCl2
+360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green
+364 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, SC / 1e3 / (tot("Cl") / soln_vol) , color = Green, symbol_size = 0
+368 end
+
+10 DATA 85.69, 76.26, 62.72, 51.63, 43.785, 79.79, 69.00, 53.45, 40.990, 33.300, 75.07, 63.07, 45.85, 32.550, 25.890
+20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 dev = (1 - SC / 1e3 / (tot("Cl") / soln_vol) / HB(cell_no))
+# 40 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+# 60 if cell_no = 15 then print 'AARD for SC of NaCl:MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
+END
+
+SOLUTION_SPREAD
+# Bianchi et al. 89
+ -temp 25
+ -units mol/L
+ -density 1 calculate
+number	Na	Mg	Cl	pH
+11 	0.125	0.375	0.875	7 charge
+12 	0.25	0.75	1.75	7 charge
+13 	0.5	1.5	3.5	7 charge
+14 	0.75	2.25	5.25	7 charge
+15 	0.9	2.7	6.3	7 charge
+
+USER_GRAPH 1
+-initial_solutions true
+ # -headings NaCl:MgCl2
+360 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, HB(cell_no), line_width = 0, symbol = XCross, color = Green
+364 plot_xy ((tot("Na") + 2 * tot("Mg")) / soln_vol)^0.5, SC / 1e3 / (tot("Cl") / soln_vol) , color = Green, symbol_size = 0
+368 end
+
+10 DATA 85.69, 76.26, 62.72, 51.63, 43.785, 79.79, 69.00, 53.45, 40.990, 33.300, 75.07, 63.07, 45.85, 32.550, 25.890
+20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 dev = (1 - SC / 1e3 / (tot("Cl") / soln_vol) / HB(cell_no))
+# 40 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+60 if cell_no = 15 then print 'AARD for SC of NaCl:MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
+END
+
+SOLUTION_SPREAD
+-units mol/kgw # recalc from mol/L in 10* Shedlovsky, Phang & Stokes (Bianchi 88 significantly higher)
+# -density 1 calculate
+Number	Mg	Cl	pH#     S.cm2/molMgCl2
+1	7.5473e-05	1.5095e-04	7 charge#	254.602
+2	1.7025e-04	3.4051e-04	7 charge#	252.546
+3	2.8003e-04	5.6006e-04	7 charge#	250.796
+4	5.3539e-04	1.0708e-03	7 charge#	247.856
+5	1.0205e-03	2.0410e-03	7 charge#	243.944
+6	1.4230e-03	2.8461e-03	7 charge#	241.298
+7	2.0951e-03	4.1902e-03	7 charge#	238.27
+8	2.6244e-03	5.2487e-03	7 charge#	235.984
+9	3.1646e-03	6.3291e-03	7 charge#	234.276
+10	4.2062e-03	8.4124e-03	7 charge#	231.176
+11	0.005015	0.010030	7 charge#       229.25
+12	0.010563	0.021126	7 charge#       219.5
+13	0.023643	0.047286	7 charge#       207.26
+14	0.023961	0.047922	7 charge#       207.09
+15	0.025384	0.050768	7 charge#       206.17
+16	0.04431	0.08862	7 charge#       196.61
+17	0.06917	0.13834	7 charge#       188.45
+18	0.07717	0.15434	7 charge#       186.46
+19	0.09069	0.18138	7 charge#       183.41
+20	0.09268	0.18536	7 charge#       182.9
+21	0.12599	0.25198	7 charge#       176.85
+22	0.18253	0.36506	7 charge#       168.95
+23	0.18335	0.3667 	7 charge#       168.82
+24	0.22271	0.44542	7 charge#       164.42
+25	0.23418	0.46836	7 charge#       163.25
+26	0.3176 	0.6352 	7 charge#       155.63
+27	0.3943 	0.7886 	7 charge#       149.78
+28	0.3982 	0.7964 	7 charge#       149.52
+29	0.6556 	1.3112 	7 charge#       133.77
+30	0.9895 	1.979  	7 charge#       117.79
+31	1.5982 	3.1964 	7 charge#       94.74
+32	2.2912 	4.5824 	7 charge#       73.95
+33	2.96   	5.92   	7 charge#       57.67
+34	3.608  	7.216  	7 charge#       44.68
+35	4.216  	8.432  	7 charge#       34.59
+36	4.746  	9.492  	7 charge#       27.25
+37	5.243  	10.486 	7 charge#       21.42
+USER_GRAPH
+-headings MgCl2
+#  S.cm2/mol(MgCl2)
+10 DATA 254.602, 252.546, 250.796, 247.856, 243.944, 241.298, 238.27, 235.984, 234.276, 231.176, 229.25, 219.5, 207.26, 207.09, 206.17, 196.61, 188.45, 186.46, 183.41, 182.9, 176.85, 168.95, 168.82, 164.42, 163.25, 155.63, 149.78, 149.52, 133.77, 117.79, 94.74, 73.95, 57.67, 44.68, 34.59, 27.25, 21.42,
+20 dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 plot_xy tot("Cl")^0.5, HB(cell_no) / 2 , line_width = 0, color = Blue, symbol = Circle
+35 plot_xy tot("Cl")^0.5,  SC / (tot("Cl") * tot("water") / soln_vol ) / 1e3, symbol = None, color = Blue
+
+40 dev = (1 - SC / 1e3 / (tot("Cl")) / (HB(cell_no) / 2))
+45 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
+50 put(abs(dev) + get(1), 1) : put(1 + get(2), 2)
+60 if cell_no = 27 then print 'AARD for SC of MgCl2  ', str_f$((get(1) / (get(2) )) * 1e2, 0, 2) , '% for', get(2), 'samples'
+END

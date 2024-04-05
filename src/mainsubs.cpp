@@ -381,7 +381,7 @@ initial_solutions(int print)
 			}
 			if (print == TRUE)
 			{
-				snprintf(token, sizeof(token), "Initial solution %d.\t%.350s",
+				sprintf(token, "Initial solution %d.\t%.350s",
 						solution_ref.Get_n_user(), solution_ref.Get_description().c_str());
 				dup_print(token, FALSE);
 			}
@@ -434,7 +434,10 @@ initial_solutions(int print)
 			diagonal_scale = (diag) ? TRUE : FALSE;
 			converge1 = check_residuals();
 			sum_species();
-			viscosity();
+			viscos = viscosity(NULL);
+			use.Get_solution_ptr()->Set_viscosity(viscos);
+			if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL)
+				use.Get_surface_ptr()->Set_DDL_viscosity(viscosity(use.Get_surface_ptr()));
 			add_isotopes(solution_ref);
 			punch_all();
 			print_all();
@@ -518,7 +521,7 @@ initial_exchangers(int print)
 			}
 			if (print == TRUE)
 			{
-				snprintf(token, sizeof(token), "Exchange %d.\t%.350s",
+				sprintf(token, "Exchange %d.\t%.350s",
 						exchange_ptr->Get_n_user(), exchange_ptr->Get_description().c_str());
 				dup_print(token, FALSE);
 			}
@@ -537,7 +540,6 @@ initial_exchangers(int print)
 			converge = model();
 			converge1 = check_residuals();
 			sum_species();
-			viscosity();
 			species_list_sort();
 			print_exchange();
 			if (pr.user_print)
@@ -611,7 +613,7 @@ initial_gas_phases(int print)
 			}
 			if (print == TRUE)
 			{
-				snprintf(token, sizeof(token), "Gas_Phase %d.\t%.350s",
+				sprintf(token, "Gas_Phase %d.\t%.350s",
 						gas_phase_ptr->Get_n_user(), gas_phase_ptr->Get_description().c_str());
 				dup_print(token, FALSE);
 			}
@@ -662,7 +664,7 @@ initial_gas_phases(int print)
 			}
 			if (fabs(gas_phase_ptr->Get_total_p() - use.Get_solution_ptr()->Get_patm()) > 5)
 			{
-				snprintf(token, sizeof(token),
+				sprintf(token,
 					"WARNING: While initializing gas phase composition by equilibrating:\n%s (%.2f atm) %s (%.2f atm).\n%s.",
 					"         Gas phase pressure",
 					(double) gas_phase_ptr->Get_total_p(),
@@ -833,7 +835,7 @@ reactions(void)
 	for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
 	{
 		overall_iterations = 0;
-		snprintf(token, sizeof(token), "Reaction step %d.", reaction_step);
+		sprintf(token, "Reaction step %d.", reaction_step);
 		if (reaction_step > 1 && incremental_reactions == FALSE)
 		{
 			copy_use(-2);
@@ -939,7 +941,7 @@ saver(void)
 
 	if (save.solution == TRUE)
 	{
-		snprintf(token, sizeof(token), "Solution after simulation %d.", simulation);
+		sprintf(token, "Solution after simulation %d.", simulation);
 		description_x = token;
 		n = save.n_solution_user;
 		xsolution_save(n);
@@ -1030,7 +1032,7 @@ xexchange_save(int n_user)
 	temp_exchange.Set_n_user(n_user);
 	temp_exchange.Set_n_user_end(n_user);
 	temp_exchange.Set_new_def(false);
-	snprintf(token, sizeof(token), "Exchange assemblage after simulation %d.", simulation);
+	sprintf(token, "Exchange assemblage after simulation %d.", simulation);
 	temp_exchange.Set_description(token);
 	temp_exchange.Set_solution_equilibria(false);
 	temp_exchange.Set_n_solution(-999);
@@ -1113,7 +1115,7 @@ xgas_save(int n_user)
 	 */
 	temp_gas_phase.Set_n_user(n_user);
 	temp_gas_phase.Set_n_user_end(n_user);
-	snprintf(token, sizeof(token), "Gas phase after simulation %d.", simulation);
+	sprintf(token, "Gas phase after simulation %d.", simulation);
 	temp_gas_phase.Set_description(token);
 	temp_gas_phase.Set_new_def(false);
 	temp_gas_phase.Set_solution_equilibria(false);
@@ -1260,12 +1262,12 @@ xsolution_save(int n_user)
 	temp_solution.Set_pe(solution_pe_x);
 	temp_solution.Set_mu(mu_x);
 	temp_solution.Set_ah2o(ah2o_x);
-	//temp_solution.Set_density(density_x);
-	temp_solution.Set_density(calc_dens());
-	temp_solution.Set_viscosity(this->viscos);
+	// the subroutine is called at the start of a new simulation, and the following 2 go wrong since s_x is not updated 
+	temp_solution.Set_density(density_x);
+	temp_solution.Set_viscosity(viscos);
 	temp_solution.Set_total_h(total_h_x);
 	temp_solution.Set_total_o(total_o_x);
-	temp_solution.Set_cb(cb_x);	/* cb_x does not include surface charge sfter sum_species */
+	temp_solution.Set_cb(cb_x);	/* cb_x does not include surface charge after sum_species */
 								/* does include surface charge after step */
 	temp_solution.Set_mass_water(mass_water_aq_x);
 	temp_solution.Set_total_alkalinity(total_alkalinity);
@@ -2100,10 +2102,10 @@ run_simulations(void)
 #endif
 
 #if defined PHREEQCI_GUI
-			snprintf(token, sizeof(token), "\nSimulation %d\n", simulation);
+			sprintf(token, "\nSimulation %d\n", simulation);
 			screen_msg(token);
 #endif
-			snprintf(token, sizeof(token), "Reading input data for simulation %d.", simulation);
+			sprintf(token, "Reading input data for simulation %d.", simulation);
 
 			dup_print(token, TRUE);
 			if (read_input() == EOF)
@@ -2111,7 +2113,7 @@ run_simulations(void)
 
 			if (title_x.size() > 0)
 			{
-				snprintf(token, sizeof(token), "TITLE");
+				sprintf(token, "TITLE");
 				dup_print(token, TRUE);
 				if (pr.headings == TRUE)
 				{

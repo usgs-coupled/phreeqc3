@@ -1,0 +1,56 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 tn_KBr_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT; -reset false
+SOLUTION 1; pH 7 charge; K 0.1; Br 0.1; END
+
+USE solution 1
+REACTION_TEMPERATURE 1
+0, 5, 15, 18, 25, 35, 45, 55
+USER_GRAPH 
+-headings H+ OH- K+ Br-
+-axis_titles "temp / °C" "Limiting equivalent conductance / (uS cm^2 / mol"
+600 plot_xy tc, L_H(step_no),  color = Red,   line_width = 0
+605 plot_xy tc, L_OH(step_no), color = green, line_width = 0
+610 plot_xy tc, L_K(step_no),  color = Blue,   line_width = 0
+615 plot_xy tc, L_Br(step_no), color = Orange, line_width = 0
+620 plot_xy tc, calcH  ,  color = Red,   symbol_size= 0
+625 plot_xy tc, calcOH , color = green, symbol_size= 0
+630 plot_xy tc, calcK  ,  color = Blue,  symbol_size = 0
+635 plot_xy tc, calcBr , color = Orange,symbol_size = 0
+# USER_punch # data from Robinson & Stokes
+10 DATA  225, 250, 301, 315, 350, 397, 441, 483, 630
+15 restore 10 : dim L_H  (9) : for i = 1 to step_no : read L_H(i)  : next i
+20 DATA  105, 125, 166, 176, 199, 233, 267, 301, 450
+25 restore 20 : dim L_OH (9) : for i = 1 to step_no : read L_OH(i) : next i
+30 DATA  19.4, 22.8, 30.2, 32.8, 38.7, 48, 58, 68.7, 115
+35 restore 30 : dim L_Li (9) : for i = 1 to step_no : read L_Li(i) : next i
+40 DATA  26.5, 30.3, 39.8, 42.8, 50.1, 61.5, 73.7, 86.9, 145
+45 restore 40 : dim L_Na (9) : for i = 1 to step_no : read L_Na(i) : next i
+50 DATA  40.7, 46.8, 59.7, 63.9, 73.5, 88.2, 103.5, 119.3, 195
+55 restore 50 : dim L_K  (9) : for i = 1 to step_no : read L_K(i)  : next i
+60 DATA  42.6, 49.2, 63.2, 68, 78.1, 94, 110.7, 127.9
+65 restore 60 : dim L_Br (9) : for i = 1 to step_no : read L_Br(i) : next i
+
+100 s = SC : if step_no = 1 then put(0, 1) : put(0, 2)
+
+120 calcH   = s / mol("H+")  / soln_vol * 1e-3 * t_sc("H+")  
+125 calcOH  = s / mol("OH-") / soln_vol * 1e-3 * t_sc("OH-") 
+130 calcK   = s / mol("K+")  / soln_vol * 1e-3 * t_sc("K+")  
+135 calcBr  = s / mol("Br-") / soln_vol * 1e-3 * t_sc("Br-") 
+200 dev1 = 1 - calcH  / L_H(step_no)
+205 dev2 = 1 - calcOH / L_OH(step_no)
+210 dev3 = 1 - calcK  / L_K(step_no) 
+215 dev4 = 1 - calcBr / L_Br(step_no)
+320 put(dev1^2 + get(1), 1) : put(1 + get(2), 2)
+325 put(dev2^2 + get(1), 1) : put(1 + get(2), 2)
+330 put(dev3^2 + get(1), 1) : put(1 + get(2), 2)
+335 put(dev4^2 + get(1), 1) : put(1 + get(2), 2)
+340 if step_no = 8 then print "s.d. for LL_0 in KBr : " + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + " % (" + trim(str$(get(2))) + " samples)"
+END
