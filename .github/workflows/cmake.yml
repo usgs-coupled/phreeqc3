@@ -31,7 +31,7 @@ jobs:
   # check_files:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v3
+  #     - uses: actions/checkout@v4
   #       name: Check out repository
   #     - run: ./check_utf8.sh
   #       name: Run check_utf8.sh
@@ -53,7 +53,7 @@ jobs:
     steps:
 
     - name: '🧰 Checkout'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: usgs-coupled/numdiff
 
@@ -120,7 +120,7 @@ jobs:
       BUILD_TYPE: Release
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Configure
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -135,13 +135,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-2019, windows-latest]
 
     needs: [build, build-numdiff]
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install ninja numdiff valgrind (Linux)
       if: runner.os == 'Linux'
