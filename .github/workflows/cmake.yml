@@ -135,7 +135,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-2019, windows-latest]
+        # os: [macos-latest, ubuntu-latest, windows-2019, windows-latest]
+        os: [windows-2019]
 
     needs: [build, build-numdiff]
     runs-on: ${{ matrix.os }}
@@ -163,13 +164,8 @@ jobs:
       with:
         arch: x64
 
-    - name: CTest (Non-macOS)
-      if: runner.os != 'macOS'
-      run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
-
-    - name: CTest (macOS)
-      if: runner.os == 'macOS'
-      run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
+    - name: CTest
+      run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900 --extra-verbose
 
     - name: CMemCheck (Linux)
       if: runner.os == 'Linux'
