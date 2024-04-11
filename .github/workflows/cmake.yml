@@ -59,7 +59,7 @@ jobs:
 
     - name: Cache numdiff
       id: cache-numdiff
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ runner.workspace }}/${{ matrix.sys }}
         key: ${{ runner.workspace }}-${{ matrix.sys }}
@@ -98,7 +98,7 @@ jobs:
         ldd $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/msys-2.0.dll
 
     - name: 'Upload artifact'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.sys }}-artifact
         path: ${{ runner.workspace }}/${{ matrix.sys }}
@@ -153,7 +153,7 @@ jobs:
 
     - name: Download numdiff (Windows)
       if: runner.os == 'Windows'
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: mingw32-artifact
 
@@ -171,7 +171,7 @@ jobs:
       run: ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: Upload results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}-results
         path: ${{ github.workspace }}/_ctest/Testing/
