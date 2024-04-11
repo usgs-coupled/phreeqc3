@@ -31,7 +31,7 @@ jobs:
   # check_files:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v3
+  #     - uses: actions/checkout@v4
   #       name: Check out repository
   #     - run: ./check_utf8.sh
   #       name: Run check_utf8.sh
@@ -53,13 +53,13 @@ jobs:
     steps:
 
     - name: '🧰 Checkout'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: usgs-coupled/numdiff
 
     - name: Cache numdiff
       id: cache-numdiff
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ runner.workspace }}/${{ matrix.sys }}
         key: ${{ runner.workspace }}-${{ matrix.sys }}
@@ -98,7 +98,7 @@ jobs:
         ldd $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/msys-2.0.dll
 
     - name: 'Upload artifact'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.sys }}-artifact
         path: ${{ runner.workspace }}/${{ matrix.sys }}
@@ -120,7 +120,7 @@ jobs:
       BUILD_TYPE: Release
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Configure
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -141,7 +141,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install ninja numdiff valgrind (Linux)
       if: runner.os == 'Linux'
@@ -153,7 +153,7 @@ jobs:
 
     - name: Download numdiff (Windows)
       if: runner.os == 'Windows'
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: mingw32-artifact
 
@@ -163,12 +163,7 @@ jobs:
       with:
         arch: x64
 
-    - name: CTest (Non-macOS)
-      if: runner.os != 'macOS'
-      run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
-
-    - name: CTest (macOS)
-      if: runner.os == 'macOS'
+    - name: CTest
       run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: CMemCheck (Linux)
@@ -176,7 +171,7 @@ jobs:
       run: ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: Upload results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}-results
         path: ${{ github.workspace }}/_ctest/Testing/

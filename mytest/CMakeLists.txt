@@ -559,7 +559,7 @@ set(mytest_MISC
   na2so4.csv
   nakcl.csv
   NaKCl.dat
-  NaKCl_lang.dat
+  NaKCl_Lang.dat
   Nardi.dat
   O2_27.dat
   p_CO2_Na2SO4.dat
