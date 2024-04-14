@@ -63,14 +63,17 @@ SOLUTION_SPECIES
 H+ = H+
 	-gamma	9.0     0
 	-viscosity  9.35e-2  -8.31e-2  2.487e-2  4.49e-4  2.01e-2  1.570 # for viscosity parameters see ref. 4
-	-dw	9.31e-9  838  16.315  0.809  2.376  24.01 # The dw parameters are defined in ref. 3.
-#		Dw(25 C) dw_T  a    a2  visc   a3
-# Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc * (viscos_0_tc / viscos)^2.353
+	-dw	9.31e-9  838  16.315  0.809  2.376  24.01  0
+#		Dw(25 C) dw_T  a      a2      visc   a3    a_v_dif
+# Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc
+# a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
 
-# a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024
+# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^2.376
 # a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn.
 # a3 = -10 ? ka = DH_B * a * mu^a2  (Define a3 = -10) (not used in this database.)
 # -3 < a3 < 4 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka)) (Sr+2 in this database)
+
+# If a_v_dif <> 0, Dw(TK) *= (viscos_0_tc / viscos)^a_v_dif in TRANSPORT.
 e- = e-
 H2O = H2O
 	-dw	2.299e-9  -254
@@ -141,9 +144,9 @@ CO3-2 = CO3-2
 	-dw	0.955e-9  -103  2.246  7.13e-2  0.3686
 SO4-2 = SO4-2
 	-gamma  5.0	-0.04
-	-Vm	-7.77  43.17  141.1  -42.45  3.794  1.40e-2  0  100.9  -5.713e-2  1.011e-4 # with analytical_expressions for log K of NaSO4-, KSO4- & MgSO4, 0 - 200 oC
-	-viscosity  -0.7887  0.813  1.86e-3   1.27e-3   -1.38e-2  4.668  -9.86e-2
-	-dw	1.07e-9  -109  17
+	-Vm  -7.77  43.17  176  -51.45  3.794  0  42.99  -541  -0.145  0.45 # with analytical_expressions for log K of NaSO4-, KSO4- & MgSO4, 0 - 200 oC
+	-viscosity  -0.30  0.501  2.57e-3  0.195  3.14e-2  2.015  0.605
+	-dw	1.07e-9  -114  17  6.02e-2  4.94e-2
 NO3- = NO3-
 	-gamma	3.0	0
 	-Vm	6.32  6.78  0  -3.06  0.346  0  0.93  0  -0.012  1
@@ -151,7 +154,7 @@ NO3- = NO3-
 	-dw	1.90e-9  104  1.11
 AmmH+ = AmmH+
 	-gamma	2.5	0
-	-Vm	4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
+	-Vm	5.35  2.345  3.72  -2.88 1.55  2.5  -4.54  217  2.344e-2  0.569
 	-viscosity  9.9e-2  -0.159  1.36e-2  6.51e-3  3.21e-2  0.972
 	-dw	1.98e-9  178  3.747  0  1.220
 H3BO3 = H3BO3
@@ -245,7 +248,7 @@ CO3-2 + 2 H+ = CO2 + H2O
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	-log_k  41.071
 	-delta_h -61.039 kcal
-	-Vm	.01  -1.11  0  -1.85  -1.50 # Hnedkovsky et al., 1996, JCT 28, 125
+	-Vm	9.01  -1.11  0  -1.85  -1.50 # Hnedkovsky et al., 1996, JCT 28, 125
 	-dw	1.85e-9
 SO4-2 + H+ = HSO4-
 	-log_k	1.988;  -delta_h 3.85	kcal
@@ -308,10 +311,10 @@ AmmH+ = Amm + H+
 #	  -Vm	4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
 AmmH+ + SO4-2 = AmmHSO4-
 	-gamma	6.54	-0.08
-	-log_k	1.106;	-delta_h  4.30 kcal # 1.1311278E+01 kcal
-	-Vm	11.35  0  -7.6971  0  3.531  0  7.608  0  0  0.410
-	-viscosity  0.424  -0.641  0.108  7.3e-3  -3.39e-2  1.724  0.758
-	-dw	1.35e-9  500  12.50  3.0
+	-log_k	1.106;	-delta_h  4.30 kcal
+	-Vm	-3.23  0  -68.42  0  -14.27  0  68.51  0  -0.4099  0.2339
+	-viscosity  0.24  0  0  3.3e-3  -0.10  0.528  0.748
+	-dw	1.35e-9  500  12.50  3.0  -1
 H3BO3 = H2BO3- + H+
 	-log_k  -9.24
 	-delta_h 3.224  kcal
@@ -409,16 +412,16 @@ Mg+2 + SO4-2 = MgSO4
 	-gamma	0  0.20
 	-log_k	2.42; -delta_h  19.0 kJ
 	-analytical_expression  0  9.64e-3  -136 # mean salt gamma from Pitzer.dat and epsomite/hexahydrite/kieserite solubilities, 0 - 200 oC
-	-Vm	14.19  -24.43  -30.57  0  1.194  0  0  0  0  0
-	-viscosity  -0.5787  0.8305  0  0.2147  -1.06e-4  1.202  0
+	-Vm	8.65  -10.21  29.58  -18.60  1.061
+	-viscosity  0.318  -5.4e-4  -3.42e-2  0.708  3.70e-3  0.696
 	-dw	4.45e-10
 SO4-2 + MgSO4 = Mg(SO4)2-2
 	-gamma  7  0.047
 	-log_k  0.52; -delta_h  -13.6 kJ
 	-analytical_expression  0  -1.51e-3  0  0  8.604e4 # mean salt gamma from Pitzer.dat and epsomite/hexahydrite/kieserite solubilities, 0 - 200 oC
-	-Vm	27.34  -30  -26.79  0  1.75e-2  0  0.4148  -0.6003  0  0
-	-viscosity  -6.34e-2  5e-4  -5.09e-2  0.1974  1.65e-2  1.568  0
-	-dw	0.99e-9  -200  17  4  1.1758
+	-Vm	-8.14  -62.20  -15.96  3.29  -3.01  0  150  0  0.153  3.79e-2
+	-viscosity  -0.169  5e-4  -5.69e-2  0.110  2.03e-3  2.027  -1e-3
+	-dw	0.845e-9  -200  8.0  0  0.965
 Mg+2 + PO4-3 = MgPO4-
 	-log_k  6.589
 	-delta_h 3.10   kcal
@@ -438,8 +441,8 @@ Mg+2 + F- = MgF+
 Na+ + OH- = NaOH
 	-log_k  -10 # remove this complex
 Na+ + HCO3- = NaHCO3
-	-log_k  -0.06; -delta_h  23 kJ
-	-gamma	0  0.1
+	-log_k  -0.06; -delta_h  21 kJ
+	-gamma	0  0.2
 	-Vm	7.95  0  0  0  0.609
 	-viscosity  -4e-2  -2.717  1.67e-5
 	-dw	6.73e-10
@@ -447,9 +450,9 @@ Na+ + SO4-2 = NaSO4-
 	-gamma 5.5  0
 	-log_k	0.6; -delta_h -14.4 kJ
 	-analytical_expression  255.903  0.10057  0  -1.11138e2  -8.5983e5 # mirabilite/thenardite solubilities, 0 - 200 oC
-	-Vm	1e-5  20.45  0  -3.75  2.433  0  6.106  0  -1.05e-2  0.6604
-	-viscosity  -1.045  1.215  2.32e-4  4.82e-2  2.67e-2  1.634  0
-	-dw	1.13e-9  -98  13.13  0.627  0.6047
+	-Vm	1.99  -10.78  21.88  -12.70  1.601  5  32.38  501  1.565e-2  0.2325
+	-viscosity  0.20  -5.93e-2  -4.0e-4  8.46e-3  1.78e-3  2.308  -0.208
+	-dw	1.13e-9  -23  8.50  0.392  0.521
 Na+ + HPO4-2 = NaHPO4-
 	-log_k  0.29
 	-gamma  5.4	0
@@ -466,9 +469,9 @@ K+ + SO4-2 = KSO4-
 	-gamma	5.4  0.19
 	-log_k	0.6; -delta_h -10.4 kJ
 	-analytical_expression  -3.0246  9.986e-3  0  0   1.093e5 # arcanite solubility, 0 - 200 oC
-	-Vm	1e-5  -30  -113.5  21.88  1.5  0  114.0  0  -0.1241  2.281e-2
-	-viscosity  -0.4572  0.7833  7e-4  -1.014  4.60e-3  0.5757  -0.224
-	-dw	0.85e-9  200  10.66  0  1.80
+	-Vm	13.48  -18.03  61.74  -19.60  2.046  5.4  -17.32  0  0.1522  1.919
+	-viscosity  -1.0  1.06  1e-4  -0.464  3.78e-2  0.539  -0.690
+	-dw	0.90e-9  63  8.48  0  1.80
 K+ + HPO4-2 = KHPO4-
 	-log_k  0.29
 	-gamma  5.4	0
@@ -2014,7 +2017,7 @@ Pyrolusite
 110 moles = 2e-3 * 6.98e-5 * (1 - sr_pl) * TIME
 200 SAVE moles * SOLN_VOL
   -end
-  
+
 Albite_PK # Palandri and Kharaka, 2004
 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
 20 put(affinity, -99, 1) # store value in memory
