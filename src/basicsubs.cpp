@@ -247,14 +247,15 @@ calc_SC(void)
 	class species *s_ptr;
 	int i;
 	LDBLE ka, l_z, Dw, ff, sqrt_mu, a, a2, a3, av, v_Cl = 1;
+	SC = 0;
 	sqrt_mu = sqrt(mu_x);
 	bool Falk = false;
 	s_ptr = s_search("H+");
+	if (s_ptr == NULL) s_ptr = s_h3oplus;
 	if (s_ptr == NULL)
 		return(0);
 	else if (s_ptr->dw_a3 > 24) Falk = true;
 
-	SC = 0;
 	//LDBLE ta1, ta2, ta3, ta4;
 	//for (i = 0; i < (int)this->s_x.size(); i++)
 	//{
