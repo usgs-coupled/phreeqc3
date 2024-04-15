@@ -58,8 +58,9 @@ jobs:
         cmd /c start /wait .\tmp\setup.exe
         Remove-Item -Recurse -Force .\tmp
         Remove-Item -Recurse -Force .\htmlhelp.exe
-        # set path
-        Write-Output 'C:\Program Files (x86)\HTML Help Workshop' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: add htmlhelp to path
+      run: Write-Output 'C:\Program Files (x86)\HTML Help Workshop' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
     - name: compile chm
       shell: bash
