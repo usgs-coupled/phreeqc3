@@ -36,7 +36,7 @@ jobs:
 
     - name: 'update html'
       shell: bash
-      working-directory: ${{ github.workspace }}/HTMLversion/HTML
+      working-directory: ${{ github.workspace }}/HTMLversion
       run: tar czf ../HTML.tar.gz HTML/*.htm HTML/*.png HTML/*.css
 
     - uses: actions/upload-artifact@v4
