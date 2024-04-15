@@ -58,10 +58,27 @@ jobs:
         cmd /c start /wait .\tmp\setup.exe
         Remove-Item -Recurse -Force .\tmp
         Remove-Item -Recurse -Force .\htmlhelp.exe
-        # the next line doesn't seem to work (supposed to set the path)
-        # echo 'C:\Program Files (x86)\HTML Help Workshop' >> $GITHUB_PATH
+        # set path
         Write-Output 'C:\Program Files (x86)\HTML Help Workshop' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-    - name: 'hhc'
+    - name: compile chm
+      shell: bash
       working-directory: ${{ github.workspace }}/HTMLversion
-      run: Get-Command hhc
+      run: |
+        # hhc returns 1 on success
+        set +e
+        hhc phreeqc3.hhp | tee hhc.out
+        status=${PIPESTATUS[0]}
+        set -e
+        if [ "$status" -eq 1 ]; then
+          echo "[OK]"
+          exit 0
+        else
+          echo "[FAILED]"
+          exit 1
+        fi
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: chm
+        path: ${{github.workspace}}/HTMLversion/phreeqc3.chm
