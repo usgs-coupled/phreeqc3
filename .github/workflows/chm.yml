@@ -31,5 +31,37 @@ jobs:
 
     - name: 'fixup_html'
       shell: bash
-      working-directory: ./HTMLversion/HTML
+      working-directory: ${{ github.workspace }}/HTMLversion/HTML
       run: ./fixup_html.bash
+
+    - name: cache htmlhelp
+      id: cache-htmlhelp
+      uses: actions/cache@v4
+      with:
+        path: "C:/Program Files (x86)/HTML Help Workshop"
+        key: ${{ runner.os }}-htmlhelp
+
+    - name: install htmlhelp
+      if: steps.cache-htmlhelp.outputs.cache-hit != 'true'
+      timeout-minutes: 5
+      run: |
+        curl -L -O --max-time 120 http://web.archive.org/web/20160201063255/http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe
+        cmd /c start /wait .\htmlhelp.exe /q /c /t:$(Get-Location)\tmp
+        $file = "$(Get-Location)\tmp\htmlhelp.inf"
+        (Get-Content $file) | Foreach-Object { $_ `
+          -replace '^BeginPrompt',                                               ';;BeginPrompt' `
+          -replace '^EndPrompt',                                                 ';;EndPrompt' `
+          -replace '^49000=CustomLDID49000, 1',                                  '49000=CustomLDID49000, 5' `
+          -replace '^"hhupd.exe',                                                ';;hhupd.exe' `
+          -replace '^DefaultInstallDir="C:\\Program Files\\HTML Help Workshop"', 'DefaultInstallDir="%ProgramFiles%\\HTML Help Workshop"'
+        } | Set-Content $file
+        cmd /c start /wait .\tmp\setup.exe
+        Remove-Item -Recurse -Force .\tmp
+        Remove-Item -Recurse -Force .\htmlhelp.exe
+        # the next line doesn't seem to work (supposed to set the path)
+        # echo 'C:\Program Files (x86)\HTML Help Workshop' >> $GITHUB_PATH
+        Write-Output 'C:\Program Files (x86)\HTML Help Workshop' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: 'hhc'
+      working-directory: ${{ github.workspace }}/HTMLversion
+      run: Get-Command hhc
