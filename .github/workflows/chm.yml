@@ -102,8 +102,7 @@ jobs:
           echo DATE="${{ needs.init.outputs.DATE }}"
           echo DATE_RFC_3339="${{ needs.init.outputs.DATE_RFC_3339 }}"
           echo DATE_FULL="${{ needs.init.outputs.DATE_FULL }}"
-          # echo TARBALL="${{ needs.init.outputs.NAME_LOWERCASE }}-${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}.tar.gz"
-          echo TARBALL="phreeqcrm-${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}.tar.gz"
+          echo TARBALL="phreeqc-${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}.tar.gz"
 
   build-chm:
     runs-on: windows-latest
