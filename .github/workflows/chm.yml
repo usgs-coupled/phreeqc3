@@ -34,6 +34,16 @@ jobs:
       working-directory: ${{ github.workspace }}/HTMLversion/HTML
       run: ./fixup_html.bash
 
+    - name: 'update html'
+      shell: bash
+      working-directory: ${{ github.workspace }}/HTMLversion/HTML
+      run: tar czf ../HTML.tar.gz HTML/*.htm HTML/*.png HTML/*.css
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: HTML
+        path: ${{github.workspace}}/HTMLversion/HTML.tar.gz
+
     - name: cache htmlhelp
       id: cache-htmlhelp
       uses: actions/cache@v4
