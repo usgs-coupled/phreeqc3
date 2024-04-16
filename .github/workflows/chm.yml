@@ -190,6 +190,10 @@ jobs:
         name: chm
         path: ${{github.workspace}}/HTMLversion
 
+    - uses: actions/download-artifact@v4
+      with:
+        name: HTML
+
     - name: install dos2unix
       run: sudo apt-get -y install dos2unix
 
@@ -227,8 +231,8 @@ jobs:
       with:
         name: tarball
         path: |
-          **/_build/*.tar.gz
-          **/_build/*.zip
+          **/*.tar.gz
+          **/*.zip
           **/PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
           **/Phreeqc_ReleaseNotes.txt
           **/HTML.tar.gz
