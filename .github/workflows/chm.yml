@@ -227,12 +227,22 @@ jobs:
       working-directory: ${{github.workspace}}/_build
       run: make dist-zip
 
+    - name: mv files
+      working-directory: ${{github.workspace}}/_build
+      run: mv *.tar.gz *.zip ../.
+
     - uses: actions/upload-artifact@v4
       with:
         name: tarball
         path: |
-          **/*.tar.gz
-          **/*.zip
-          **/PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
-          **/Phreeqc_ReleaseNotes.txt
-          **/HTML.tar.gz
+          *.tar.gz
+          *.zip
+          PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
+          Phreeqc_ReleaseNotes.txt
+          HTML.tar.gz
+
+    - uses: geekyeggo/delete-artifact@v5
+      with:
+        name: |
+          chm
+          HTML
