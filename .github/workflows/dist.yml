@@ -1,4 +1,4 @@
-name: chm
+name: dist
 
 on:
   push:
@@ -233,10 +233,10 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: tarball
+        name: phreeqc-artifacts
         path: |
-          *.tar.gz
-          *.zip
+          phreeqc-*.tar.gz
+          phreeqc-*.zip
           PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
           Phreeqc_ReleaseNotes.txt
           HTML.tar.gz
