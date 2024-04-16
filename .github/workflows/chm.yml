@@ -175,3 +175,57 @@ jobs:
       with:
         name: chm
         path: ${{github.workspace}}/HTMLversion/phreeqc3.chm
+
+  distcheck:
+    # if: ${{ false }}
+    name: make distcheck
+    needs: init
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: chm
+        path: ${{github.workspace}}/HTMLversion/phreeqc3.chm
+
+    - name: versioning
+      run: ./jenkins-phreeqc-dist.sh -v ${{ needs.init.outputs.VER }} -r ${{ needs.init.outputs.REL }} -d ${{ needs.init.outputs.DATE }}
+
+    - name: bootstrap
+      run: ./bootstrap
+
+    - name: mkdir
+      run: mkdir ${{github.workspace}}/_build
+
+    - name: configure
+      working-directory: ${{github.workspace}}/_build
+      run: ../configure --prefix=$(pwd)/INSTALL
+
+    - name: make distcheck
+      working-directory: ${{github.workspace}}/_build
+      run: DISTCHECK_CONFIGURE_FLAGS="" make -j2 distcheck
+
+    - name: copy README
+      run: cp doc/README PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
+
+    - name: convert line endings
+      run: unix2dos doc/RELEASE doc/README
+
+    - name: copy RELEASE
+      run: cp doc/RELEASE Phreeqc_ReleaseNotes.txt
+
+    - name: make dist-zip
+      working-directory: ${{github.workspace}}/_build
+      run: make dist-zip
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: tarball
+        path: |
+          **/_build/*.tar.gz
+          **/_build/*.zip
+          **/PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
+          **/Phreeqc_ReleaseNotes.txt
+          **/HTML.tar.gz
