@@ -179,7 +179,7 @@ jobs:
   distcheck:
     # if: ${{ false }}
     name: make distcheck
-    needs: init
+    needs: [init, build-chm]
     runs-on: ubuntu-latest
 
     steps:
