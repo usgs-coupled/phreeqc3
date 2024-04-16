@@ -188,7 +188,7 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: chm
-        path: ${{github.workspace}}/HTMLversion/phreeqc3.chm
+        path: ${{github.workspace}}/HTMLversion
 
     - name: versioning
       run: ./jenkins-phreeqc-dist.sh -v ${{ needs.init.outputs.VER }} -r ${{ needs.init.outputs.REL }} -d ${{ needs.init.outputs.DATE }}
