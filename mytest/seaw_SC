@@ -37,29 +37,45 @@ SOLUTION 1  SEAWATER FROM NORDSTROM AND OTHERS (1979)
 REACTION_TEMPERATURE
  0 40 in 9
 USER_GRAPH
--axis_titles "temp / oC" "Conductance / mS/cm"
--headings Miller`88 phreeqc McCleskey
+# -connect_simulations false
+-axis_titles "temp / oC" "Conductance / mS/cm" "viscosity / mPa.s"
+-headings Miller`88 phreeqc McCleskey x viscos_0  viscos
 # Miller et al., 1988. USGS Water-Supply Paper 2311.
-10 A = 2.1923
-20 B = 0.12842
-30 kk= 0.0320
-40 ss= 0.00290
-50 h = 0.1243
-60 ff= 0.000978
-70 S  = 34.9 # salinity / (0/00)
-72 xx = 0.0000165
-# 72 xx = 0.00165
-80 K = (A + B * tc^(1 + kk) / (1 + tc^kk) * exp(ss * tc)) * S / (1 + S^h) * exp(-ff * S) * exp(-xx * (S -35) * (tc - 20))
-90 plot_xy tc, K, line_width = 0, color = Red
-100 plot_xy tc, SC / 1e3, symbol = None , color = Red
+10 A = 2.1923 : B = 0.12842 : kk= 0.0320 : ss= 0.00290 : h = 0.1243 : ff= 0.000978
+20 S  = 35.08 # salinity / (0/00): select the column of ppm's, TextFX -> Tools -> Add up numbers
+30 xx = 0.0000165 : T = tc
+40 K = (A + B * T^(1 + kk) / (1 + T^kk) * exp(ss * T)) * S / (1 + S^h) * exp(-ff * S) * exp(-xx * (S -35) * (T - 20))
+# pressure effect, Bradshaw and Schleicher, 1980, IEEE Journal 5, 50-62 (-1 - 30 oC)
+50 A1 = 2.070e-5 : A2 = -6.370e-10 : A3 = 3.989e-15
+60 B1 = 3.426e-2 : B2 = 4.464e-4 : B3 = 4.215e-1 : B4 =-3.107e-3
+70 p = pressure / 1.01325 * 10 : R = S / 35.009
+80 aa = (A1 * p + A2 * p^2 + A3 * p^3) / (1 + B1 * T + B2 *T^2 + B3 * R + B4 * R * T)
+90 K = K * (1 + aa) #: print tc, aa
+92 if pressure > 100 and tc > 31 then end
+
+100 plot_xy tc, K, line_width = 0, color = Red
+102 plot_xy tc, SC / 1e3, symbol = None , color = Red
 
 110 dif = sc/1e3/K -1
-120 if step_no = 0 then put(0, 1) : put(0, 2)
+120 if step_no = 1 then put(0, 1) : put(0, 2)
 130 put(dif^2 + get(1), 1) : put(1 + get(2), 2)
-140 if tc = 40 then print 'relative s.d. ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+140 if T = 40 then print 'relative s.d. ' + str_f$((get(1) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
 
-150 T = tc : sqrt_mu = mu^0.5
+150 sqrt_mu = mu^0.5
 160 gosub 2000
-180 plot_xy tc, m_sc, color = Green, symbol_size = 0
 
-INCLUDE$ ./McCleskey.phr
+180 if pressure < 100 then plot_xy tc, m_sc, color = Blue, symbol_size = 0
+
+190 dif2 = m_sc/ k - 1 : put(dif2^2 + get(3), 3)
+200 if tc = 40 then print 'relative s.d. MsCleskey: ' + str_f$((get(3) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+# 210 graph_x tc : graph_sy viscos_0, viscos
+
+INCLUDE$ McCleskey.phr
+END
+
+USE solution 1; USE reaction_temperature 1
+REACTION_PRESSURE 1
+1e3
+USER_GRAPH 1; -connect_simulations false
+-headings P=1000 phr McC x v_0 v
+

@@ -5499,9 +5499,9 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			s_ptr->dw_t = 0;  s_ptr->dw_a = 0; s_ptr->dw_a2 = 0; s_ptr->dw_a3 = 0; s_ptr->dw_a_visc = 0;
-			i = sscanf(next_char, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT, 
-				&s_ptr->dw, &s_ptr->dw_t, &s_ptr->dw_a, &s_ptr->dw_a2, &s_ptr->dw_a_visc, &s_ptr->dw_a3);
+			s_ptr->dw_t = 0;  s_ptr->dw_a = 0; s_ptr->dw_a2 = 0; s_ptr->dw_a3 = 0; s_ptr->dw_a_visc = 0; s_ptr->dw_a_v_dif = 0;
+			i = sscanf(next_char, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT, 
+				&s_ptr->dw, &s_ptr->dw_t, &s_ptr->dw_a, &s_ptr->dw_a2, &s_ptr->dw_a_visc, &s_ptr->dw_a3, &s_ptr->dw_a_v_dif);
 			if (i < 1)
 			{
 				input_error++;

@@ -14,7 +14,7 @@
 #    define NAN nan("1")
 #  endif
 #endif
-#define MISSING -9999.999
+#define MISSING -9999.999            
 #include "NA.h"   /* NA = not available */
 
 #define F_C_MOL 96493.5			/* C/mol or joule/volt-eq */
@@ -712,18 +712,18 @@ public:
 		secondary = NULL;
 		gfw = 0;              // gram formula wt of species
 		z = 0;                // charge of species
-		// tracer diffusion coefficient in water at 25oC, m2/s
-		dw = 0;
-		// correct Dw for temperature: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15)
-		dw_t = 0;
+		dw = 0;		// tracer diffusion coefficient in water at 25oC, m2/s
+		dw_t = 0;	// correct Dw for temperature: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15)
 		// parms for calc'ng SC = SC0 * exp(-dw_a * z * mu^0.5 / (1 + DH_B * dw_a2 * mu^0.5) / (1 + mu^dw_a3))
+		// with DHO: ka = DH_B * dw_a * (1 + DD(V_apparent)^dw_a2 * sqrt_mu, dw_a3 is a switch, see calc_SC in PBasic
 		dw_a = 0;
 		dw_a2 = 0;
 		dw_a3 = 0;
-		dw_a_visc = 0;   // viscosity correction of SC
+		dw_a_visc = 0;   // exponent in viscosity correction of SC
+		dw_a_v_dif = 0;  // exponent in viscosity correction of D, the diffusion coefficient of the species
 		dw_t_SC = 0;     // contribution to SC, for calc'ng transport number with BASIC
 		dw_t_visc = 0;   // contribution to viscosity
-		dw_corr = 0;	 // dw corrected for TK and mu
+		dw_corr = 0;	 // dw corrected for mu and TK
 		erm_ddl = 0;     // enrichment factor in DDL
 		equiv = 0;       // equivalents in exchange species
 		alk = 0;	     // alkalinity of species, used for cec in exchange
@@ -784,6 +784,7 @@ public:
 	LDBLE dw_a2;
 	LDBLE dw_a3;
 	LDBLE dw_a_visc;
+	LDBLE dw_a_v_dif;
 	LDBLE dw_t_SC;
 	LDBLE dw_t_visc;
 	LDBLE dw_corr;
@@ -1489,6 +1490,8 @@ public:
 		Dwt = 0;
 		// temperature factor for Dw
 		dw_t = 0;
+		// viscosity factor for Dw
+		dw_a_v_dif = 0;
 		// enrichment factor in ddl
 		erm_ddl = 0;
 	}
@@ -1502,6 +1505,7 @@ public:
 	LDBLE z;
 	LDBLE Dwt;
 	LDBLE dw_t;
+	LDBLE dw_a_v_dif;
 	LDBLE erm_ddl;
 };
 
@@ -1517,7 +1521,9 @@ public:
 		count_exch_spec = 0;
 		// total moles of X-, max X- in transport step in sol_D[1], tk
 		exch_total = 0, x_max = 0, tk_x = 0;
-		// (tk_x * viscos_0_25) / (298 * viscos) 
+		// (tk_x * viscos_0_25) / (298 * viscos_0) 
+		viscos_f0 = 0;
+		// (viscos_0) / (298 * viscos) 
 		viscos_f = 0;
 		spec = NULL;
 		spec_size = 0;
@@ -1525,7 +1531,7 @@ public:
 	int count_spec;
 	int count_exch_spec;
 	LDBLE exch_total, x_max, tk_x;
-	LDBLE viscos_f;
+	LDBLE viscos_f0, viscos_f;
 	class spec* spec;
 	int spec_size;
 };

@@ -3380,20 +3380,22 @@ factor(struct LOC_exec * LINK)
 
 	case toksetdiff_c:
 	{
-		double d;
+		double d, d_v_d = 0;
 
 		require(toklp, LINK);
 
 		const char* str = stringfactor(STR1, LINK);
 		require(tokcomma, LINK);
 
-		// double arugument
 		d = realexpr(LINK);
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		{
+			LINK->t = LINK->t->next;
+			d_v_d = realexpr(LINK);
+		}
 		require(tokrp, LINK);
 
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->setdiff_c(str, d);
-
-		//PhreeqcPtr->PHRQ_free((void *) str);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->setdiff_c(str, d, d_v_d);
 	}
 	break;
 
