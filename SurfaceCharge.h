@@ -87,6 +87,10 @@ public:
 	void Set_charge_balance(LDBLE d) {this->charge_balance = d;}
 	LDBLE Get_mass_water() const {return this->mass_water;}
 	void Set_mass_water(LDBLE d) {this->mass_water = d;}
+	LDBLE Get_DDL_viscosity(void) const { return DDL_viscosity; }
+	void Set_DDL_viscosity(LDBLE t) { DDL_viscosity = t; }
+	LDBLE Get_f_free() const {return this->f_free;}
+	void Set_f_free(LDBLE d) {this->f_free = d;}
 	LDBLE Get_la_psi() const {return this->la_psi;}
 	void Set_la_psi(LDBLE d) {this->la_psi = d;}
 	LDBLE Get_capacitance0() const {return this->capacitance[0];}
@@ -117,6 +121,8 @@ protected:
 	LDBLE grams;
 	LDBLE charge_balance;
 	LDBLE mass_water;
+	LDBLE DDL_viscosity;
+	LDBLE f_free;
 	LDBLE la_psi;
 	LDBLE capacitance[2];
 	cxxNameDouble diffuse_layer_totals;

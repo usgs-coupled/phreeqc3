@@ -270,6 +270,16 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	output_msg(sformatf(
 			   "\tWater in diffuse layer: %8.3e kg, %4.1f%% of total DDL-water.\n",
 			   (double) charge_ptr->Get_mass_water(), (double) d));
+	if (charge_ptr->Get_DDL_viscosity())
+	{
+		if (d == 100)
+		output_msg(sformatf(
+			"\t\t      viscosity: %7.5f mPa s.\n", (double)charge_ptr->Get_DDL_viscosity()));
+		else
+		output_msg(sformatf(
+			"\t\t      viscosity: %7.5f mPa s for this DDL water. (%7.5f mPa s for total DDL-water.)\n", (double)charge_ptr->Get_DDL_viscosity(), (double)use.Get_surface_ptr()->Get_DDL_viscosity()));
+	}
+
 	if (use.Get_surface_ptr()->Get_debye_lengths() > 0 && d > 0)
 	{
 		sum_surfs = 0.0;
@@ -279,8 +289,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 				continue;
 			cxxSurfaceCharge * charge_ptr_search = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 			sum_surfs +=
-				charge_ptr_search->Get_specific_area() *
-				charge_ptr_search->Get_grams();
+				charge_ptr_search->Get_specific_area() * charge_ptr_search->Get_grams();
 		}
 		r = 0.002 * mass_water_bulk_x / sum_surfs;
 		output_msg(sformatf(
@@ -304,10 +313,8 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 			if (s_x[j]->type > HPLUS)
 				continue;
 			molality = under(s_x[j]->lm);
-			moles_excess = mass_water_aq_x * molality * (charge_ptr->Get_g_map()[s_x[j]->z].Get_g() *
-				s_x[j]->erm_ddl +
-				mass_water_surface /
-				mass_water_aq_x * (s_x[j]->erm_ddl - 1));
+			moles_excess = mass_water_aq_x * molality * (charge_ptr->Get_g_map()[s_x[j]->z].Get_g() * s_x[j]->erm_ddl +
+				mass_water_surface / mass_water_aq_x * (s_x[j]->erm_ddl - 1));
 			moles_surface = mass_water_surface * molality + moles_excess;
 			if (debug_diffuse_layer == TRUE)
 			{
@@ -336,17 +343,26 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 		}
 		else
 		{
-			LDBLE exp_g = charge_ptr->Get_g_map()[1].Get_g() * mass_water_aq_x / mass_water_surface + 1;
+			LDBLE exp_g = charge_ptr->Get_g_map()[1].Get_g() * mass_water_aq_x / ((1 - charge_ptr->Get_f_free()) * mass_water_surface) + 1;
 			LDBLE psi_DL = -log(exp_g) * R_KJ_DEG_MOL * tk_x / F_KJ_V_EQ;
-			if (use.Get_surface_ptr()->Get_correct_GC())
+			if (use.Get_surface_ptr()->Get_correct_D())
+			{
 				output_msg(sformatf(
 					"\n\tTotal moles in diffuse layer (excluding water), Donnan corrected to match Poisson-Boltzmann."));
+				output_msg(sformatf(
+					"\n\tDonnan Layer potential, psi_DL = %10.3e V, for (1 - f_free) of DL water = %10.3e kg (f_free = %5.3f).\n\tBoltzmann factor, exp(-psi_DL * z * z_corr * F / RT) = %9.3e (= c_DL / c_free if z is +1)",
+					psi_DL, (1 - charge_ptr->Get_f_free()) * mass_water_surface, charge_ptr->Get_f_free(), exp_g));
+				output_msg(sformatf(
+					"\n\t\tThus: Moles of Na+ = (c_DL * (1 - f_free) + f_free) * c_free * kg DDL-water\n\n"));
+			}
 			else
+			{
 				output_msg(sformatf(
 					"\n\tTotal moles in diffuse layer (excluding water), Donnan calculation."));
-			output_msg(sformatf(
-				"\n\tDonnan Layer potential, psi_DL = %10.3e V.\n\tBoltzmann factor, exp(-psi_DL * F / RT) = %9.3e (= c_DL / c_free if z is +1).\n\n",
-				psi_DL, exp_g));
+				output_msg(sformatf(
+					"\n\tDonnan Layer potential, psi_DL = %10.3e V.\n\tBoltzmann factor, exp(-psi_DL * F / RT) = %9.3e (= c_DL / c_free if z is +1).\n\n",
+					psi_DL, exp_g));
+			}
 		}
 		output_msg(sformatf("\tElement       \t     Moles\n"));
 		for (j = 0; j < count_elts; j++)

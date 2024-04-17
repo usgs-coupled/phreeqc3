@@ -4891,7 +4891,6 @@ sum_species(void)
 	solution_pe_x = -s_eminus->la;
 	ah2o_x = exp(s_h2o->la * LOG_10);
 
-	density_x = 1.0;
 	if (s_o2 != NULL)
 		s_o2->moles = under(s_o2->lm) * mass_water_aq_x;
 	if (s_h2 != NULL)

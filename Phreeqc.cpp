@@ -583,7 +583,6 @@ void Phreeqc::init(void)
 	solution_pe_x           = 0;
 	mu_x                    = 0;
 	ah2o_x                  = 1.0;
-	density_x               = 0;
 	total_h_x               = 0;
 	total_o_x               = 0;
 	cb_x                    = 0;
@@ -898,6 +897,7 @@ void Phreeqc::init(void)
 	viscos                  = 0.0;
 	viscos_0                = 0.0;
 	viscos_0_25             = 0.0;
+	density_x               = 0.0;
 	rho_0                   = 0.0;
 	kappa_0                 = 0.0;
 	p_sat                   = 0.0;
@@ -1714,6 +1714,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	viscos = pSrc->viscos;
 	viscos_0 = pSrc->viscos_0;
 	viscos_0_25 = pSrc->viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
+	density_x = pSrc->density_x;
 	cell_pore_volume = pSrc->cell_pore_volume;;
 	cell_porosity = pSrc->cell_porosity;
 	cell_volume = pSrc->cell_volume;
@@ -1722,9 +1723,6 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	sys_tot = pSrc->sys_tot;
 	// solution properties
 	V_solutes = pSrc->V_solutes;
-	viscos = pSrc->viscos;
-	viscos_0 = pSrc->viscos_0;
-	viscos_0_25 = pSrc->viscos_0_25;
 	rho_0 = pSrc->rho_0;
 	kappa_0 = pSrc->kappa_0;
 	p_sat = pSrc->p_sat;

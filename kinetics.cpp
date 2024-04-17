@@ -1579,7 +1579,10 @@ set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 		converge = model();
 	}
 	sum_species();
-	viscosity();
+	viscos = viscosity(NULL);
+	use.Get_solution_ptr()->Set_viscosity(viscos);
+	if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL)
+		use.Get_surface_ptr()->Set_DDL_viscosity(viscosity(use.Get_surface_ptr()));
 	return (converge);
 }
 

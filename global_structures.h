@@ -716,9 +716,10 @@ public:
 		dw = 0;
 		// correct Dw for temperature: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15)
 		dw_t = 0;
-		// parms for calc'ng SC = SC0 * exp(-dw_a * z * mu^0.5 / (1 + DH_B * dw_a2 * mu^0.5))
+		// parms for calc'ng SC = SC0 * exp(-dw_a * z * mu^0.5 / (1 + DH_B * dw_a2 * mu^0.5) / (1 + mu^dw_a3))
 		dw_a = 0;
 		dw_a2 = 0;
+		dw_a3 = 0;
 		dw_a_visc = 0;   // viscosity correction of SC
 		dw_t_SC = 0;     // contribution to SC, for calc'ng transport number with BASIC
 		dw_t_visc = 0;   // contribution to viscosity
@@ -781,6 +782,7 @@ public:
 	LDBLE dw_t;
 	LDBLE dw_a;
 	LDBLE dw_a2;
+	LDBLE dw_a3;
 	LDBLE dw_a_visc;
 	LDBLE dw_t_SC;
 	LDBLE dw_t_visc;
