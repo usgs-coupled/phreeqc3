@@ -3,187 +3,190 @@
 # Details are given at the end of this file.
 
 SOLUTION_MASTER_SPECIES
-Alkalinity	CO3-2	 1	Ca0.5(CO3)0.5	50.05
-B		B(OH)3	 0	B		10.81
-Ba		Ba+2	 0	Ba		137.33
-Br		Br-	 0	Br		79.904
-C		CO3-2	 2	HCO3		12.0111
-C(4)		CO3-2	 2	HCO3		12.0111
-Ca		Ca+2	 0	Ca		40.08
-Cl		Cl-	 0	Cl		35.453
-E		e-	 0	0.0		0.0
-Fe		Fe+2	 0	Fe		55.847
+Alkalinity	CO3-2	1	Ca0.5(CO3)0.5	50.05
+B		B(OH)3	0	B		10.81
+Ba		Ba+2	0	Ba		137.33
+Br		Br-	0	Br		79.904
+C		CO3-2	2	HCO3		12.0111
+C(4)		CO3-2	2	HCO3		12.0111
+Ca		Ca+2	0	Ca		40.08
+Cl		Cl-	0	Cl		35.453
+E		e-	0	0.0		0.0
+Fe		Fe+2	0	Fe		55.847
 H		H+	-1	H		1.008
 H(1)		H+	-1	0.0
-K		K+	 0	K		39.0983
-Li		Li+	 0	Li		6.941
-Mg		Mg+2	 0	Mg		24.305
-Mn		Mn+2	 0	Mn		54.938
-Na		Na+	 0	Na		22.9898
-O		H2O	 0	O		16.00
-O(-2)		H2O	 0	0.0
-S		SO4-2	 0	SO4		32.064
-S(6)		SO4-2	 0	SO4
-Si		H4SiO4	 0	SiO2		28.0843
-Sr		Sr+2	 0	Sr		87.62
+K		K+	0	K		39.0983
+Li		Li+	0	Li		6.941
+Mg		Mg+2	0	Mg		24.305
+Mn		Mn+2	0	Mn		54.938
+Na		Na+	0	Na		22.9898
+O		H2O	0	O		16.00
+O(-2)		H2O	0	0.0
+S		SO4-2	0	SO4		32.064
+S(6)		SO4-2	0	SO4
+Si		H4SiO4	0	SiO2		28.0843
+Sr		Sr+2	0	Sr		87.62
 # redox-uncoupled gases	
-Hdg		Hdg	 0	Hdg		2.016 # H2 gas
-Oxg		Oxg	 0	Oxg		32 # Oxygen gas
-Mtg		Mtg	 0.0	Mtg		16.032 # CH4 gas
+Hdg		Hdg	0	Hdg		2.016 # H2 gas
+Oxg		Oxg	0	Oxg		32 # Oxygen gas
+Mtg		Mtg	0.0	Mtg		16.032 # CH4 gas
 Sg		H2Sg	 0.0	H2Sg		32.064 # H2S gas
-Ntg		Ntg	 0	Ntg		28.0134 # N2 gas
+Ntg		Ntg	0	Ntg		28.0134 # N2 gas
 
 SOLUTION_SPECIES
 H+ = H+
-	-dw	 9.31e-9  1000  0.46  1e-10 # The dw parameters are defined in ref. 4.
-# Dw(TK) = 9.31e-9 * exp(1000 / TK - 1000 / 298.15) * viscos_0_25 / viscos_0_tc
-# Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
-	-viscosity  9.35e-2  -7.87e-2  2.89e-2  2.7e-4  3.42e-2  1.704 # for viscosity parameters see ref. 5
+	-viscosity  9.35e-2  -8.31e-2  2.487e-2  4.49e-4  2.01e-2  1.570 # for viscosity parameters see ref. 4
+	-dw	9.31e-9  823  5.314  0  3.0  24.01 # The dw parameters are # Dw(TK) = 9.31e-9 * exp(823 / TK - 823 / 298.15) * viscos_0_25 / viscos_0_tc * (viscos_0_tc / viscos)^3.0
+
+# a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024
+# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5 in DHO eqn.
+# a3 = -10 ? ka = DH_B * a * mu^a2 in DHO.  (Define a3 = -10.)
+# -5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))
 e- = e-
 H2O = H2O
+	-dw	2.299e-9  -254
 Li+ = Li+
-	-dw	 1.03e-9  80
-	-Vm  -0.419  -0.069  13.16  -2.78  0.416  0  0.296  -12.4  -2.74e-3  1.26 # The apparent volume parameters are defined in ref. 1 & 2. For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138
-	-viscosity  0.162  -2.41e-2  3.91e-2  9.6e-4  6.3e-4  2.094
+	-Vm	-0.419  -0.069  13.16  -2.78  0.416  0  0.296  -12.4  -2.74e-3  1.26 # The apparent volume parameters are defined in ref. 1 & 2. For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138
+	-viscosity  0.162  -2.45e-2  3.73e-2  9.7e-4  8.1e-4  2.087 # < 10 M LiCl
+	-dw	1.03e-9  -14  4.03  0.8341  1.679
 Na+ = Na+
-	-dw	 1.33e-9  122  1.52  3.70
-	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566
+	-Vm	2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566
 # for calculating densities (rho) when I > 3...
 	# -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.45
-        -viscosity  0.139  -8.71e-2  1.24e-2  1.45e-2  7.5e-3  1.062
+	-viscosity  0.1387  -8.66e-2  1.25e-2  1.45e-2  7.5e-3  1.062
+	-dw	1.33e-9  75  3.627  0  0.7037
 K+ = K+
-	-dw	 1.96e-9  395  2.5  21
-	-Vm  3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.70  0  1
-        -viscosity  0.114  -0.203  1.60e-2  2.42e-2  2.53e-2  0.682
+	-Vm     3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.7  0  1
+	-viscosity  0.116  -0.191  1.52e-2  1.40e-2  2.59e-2  0.9028
+	-dw	1.96e-9  254  3.484  0  0.1964
 Mg+2 = Mg+2
-	-dw	 0.705e-9  111  2.4  13.7
-	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1
-	-viscosity  0.423  0  0  1.67e-3  8.1e-3  2.50
+	-Vm     -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1
+	-viscosity  0.426  0  0  1.66e-3  4.32e-3  2.461
+	-dw	0.705e-9  -4  5.569  0  1.047
 Ca+2 = Ca+2
-	-dw	0.793e-9  97  3.4  24.6
-	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1
-	-viscosity  0.379  -0.171  3.59e-2  1.55e-3  9.0e-3  2.282
+	-Vm     -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # The apparent volume parameters are defined in ref. 1 & 2
+	-viscosity  0.359  -0.158  4.2e-2  1.5e-3  8.04e-3  2.30 # ref. 4, CaCl2 < 6 M
+	-dw	0.792e-9  34  5.411  0  1.046
 Sr+2 = Sr+2
-	-dw	 0.794e-9  161
 	-Vm  -1.57e-2  -10.15  10.18  -2.36  0.860  5.26  0.859  -27.0  -4.1e-3  1.97
 	-viscosity  0.472  -0.252  5.51e-3  3.67e-3  0  1.876
+	-dw	0.794e-9  160  0.680  0.767  1e-9  0.912
 Ba+2 = Ba+2
-	-dw	 0.848e-9  46
-	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1
-	-viscosity  0.339  -0.226  1.38e-2  3.06e-2  0  0.768
+	-Vm	2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1
+	-viscosity  0.338  -0.227  1.39e-2  3.07e-2  0  0.768
+	-dw	0.848e-9  174  10.53  0  3.0
 Mn+2 = Mn+2
-	-dw	 0.688e-9
-	-Vm  -1.10  -8.03  4.08  -2.45  1.4  6  8.07  0  -1.51e-2  0.118 # ref. 2
+	-Vm	-1.10  -8.03  4.08  -2.45  1.4  6  8.07  0  -1.51e-2  0.118 # ref. 2
+	-dw	0.688e-9
 Fe+2 = Fe+2
-	-dw	 0.719e-9
-	-Vm  -0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1
+	-Vm	-0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1
+	-dw	0.719e-9
 Cl- = Cl-
-	-dw	 2.03e-9  194  1.6  6.9
-	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1
+	-Vm     4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1
 	-viscosity   0  0  0  0  0  0  1 # the reference solute
+	-dw	2.033e-9  216  3.160  0.2071  0.7432
 CO3-2 = CO3-2
-        -dw     0.955e-9   225  1.002  3.96
-	-Vm  8.569  -10.40  -19.38  3e-4  4.61  0  2.99  0  -3.23e-2  0.872
+	-Vm	8.569  -10.40  -19.38  3e-4  4.61  0  2.99  0  -3.23e-2  0.872
 	-viscosity  0  0.296  3.63e-2  2e-4  -1.90e-2  1.881  -1.754
+	-dw  0.955e-9  -60  2.257  0.1022  0.4136
 SO4-2 = SO4-2
-	-dw	1.07e-9  138  3.95  25.9
-	-Vm  8.75  5.48  0  -6.41   3.32  0  0  0  -9.33E-2  0
-	-viscosity  -7.63e-2  0.229  1.34e-2   1.76e-3   -1.52e-3  2.079  0.271
+	-Vm  -7.77  43.17  141.1  -42.45  3.794  0.3377  -2.6556  352.2  1.647e-3  0.3786
+	-viscosity  -1.11e-2  0.1534  1.72e-2  4.45e-4  2.03e-2  2.986  0.248
+	-dw	1.07e-9  -68  0.3946  0.9106  0.8941
 B(OH)3 = B(OH)3
+	-Vm	7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
 	-dw	1.1e-9
-	-Vm 7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
 Br- = Br-
-	-dw	 2.01e-9  258
-	-Vm   6.72  2.85  4.21  -3.14  1.38  0  -9.56e-2  7.08  -1.56e-3  1 # ref. 2
+	-Vm	6.72  2.85  4.21  -3.14  1.38  0  -9.56e-2  7.08  -1.56e-3  1
 	-viscosity  -1.16e-2  -5.23e-2  5.54e-2  1.22e-2  0.119  0.9969  0.818
+	-dw	 2.01e-9  139  2.949  0  1.321
 H4SiO4 = H4SiO4
-	-dw  1.10e-9
-	-Vm  10.5  1.7  20  -2.7  0.1291 # supcrt + 2*H2O in a1
+	-Vm	10.5  1.7  20  -2.7  0.1291 # supcrt + 2*H2O in a1
+	-dw	1.10e-9
 # redox-uncoupled gases
 Hdg = Hdg # H2
-	-dw	 5.13e-9
-	-Vm 6.52  0.78  0.12 # supcrt
+	-Vm	6.52  0.78  0.12 # supcrt
+	-dw	5.13e-9
 Oxg = Oxg # O2
-	-dw	 2.35e-9
-	-Vm   5.7889  6.3536  3.2528  -3.0417   -0.3943 # supcrt
+	-Vm	5.7889  6.3536  3.2528  -3.0417   -0.3943 # supcrt
+	-dw	2.35e-9
 Mtg = Mtg # CH4
-	-dw   1.85e-9
-	-Vm   9.01  -1.11  0  -1.85  -1.50 # Hnedkovsky et al., 1996, JCT 28, 125
+	-Vm	9.01  -1.11  0  -1.85  -1.50 # Hnedkovsky et al., 1996, JCT 28, 125
+	-dw	1.85e-9
 Ntg = Ntg # N2
-	-dw   1.96e-9  -90 # Cadogan et al. 2014, JCED 59, 519
-	-Vm 7 # Pray et al., 1952, IEC 44. 1146
+	-Vm	7 # Pray et al., 1952, IEC 44. 1146
+	-dw	1.96e-9  -90 # Cadogan et al. 2014, JCED 59, 519
 H2Sg = H2Sg # H2S
-	-dw	 2.1e-9
-        -Vm  1.39  28.3  0  -7.22  -0.59 # Hnedkovsky et al., 1996, JCT 28, 125
+        -Vm	1.39  28.3  0  -7.22  -0.59 # Hnedkovsky et al., 1996, JCT 28, 125
+	-dw	2.1e-9
 # aqueous species
 H2O = OH- + H+
 	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
-	-dw	 5.27e-9  548  0.52  1e-10
-	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1
+	-Vm	-9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1
 	-viscosity  -5.45e-2  0.142  1.45e-2  -3e-5  0  3.231  -1.791 # < 5 M Li,Na,KOH
+ 	-dw  5.27e-9  491  1.851  0  0.3256
 CO3-2 + H+ = HCO3-
-	log_k	   10.3393
-	delta_h -3.561  kcal
+	log_k	10.3393;  delta_h -3.561  kcal
 	-analytic    107.8975    0.03252849  -5151.79   -38.92561    563713.9
-	-dw	1.18e-9  -79.0  0.956  -3.29
-	-Vm  9.463  -2.49  -11.92  0  1.63  0  0  130  0  0.691
+	-Vm	9.463  -2.49  -11.92  0  1.63  0  0  130  0  0.691
 	-viscosity  0  0.633  7.2e-3  0  0  0  1.087
+	-dw	1.18e-9  -108  9.955  0  1.4928
 CO3-2 + 2 H+ = CO2 + H2O
-	log_k	   16.6767
-	delta_h	 -5.738  kcal
+	log_k	16.6767
+	delta_h	-5.738  kcal
 	-analytic    464.1965    0.09344813  -26986.16	-165.75951   2248628.9
-	-dw	 1.92e-9  -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
-	-Vm   7.29  0.92  2.07  -1.23  -1.60 # McBride et al. 2015, JCED 60, 171
+	-Vm	7.29  0.92  2.07  -1.23  -1.60 # McBride et al. 2015, JCED 60, 171
+	-dw	1.92e-9  -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
 SO4-2 + H+ = HSO4-
-	log_k	   1.979
-	delta_h 4.91    kcal
-	-analytic   -5.3585   0.0183412   557.2461
-	-dw	 1.33e-9
-	-Vm 8.2 9.2590   2.1108   -3.1618 1.1748  0 -0.3 15 0 1
+	-log_k	1.988;  -delta_h 3.85	kcal
+	-analytic   -56.889	0.006473	2307.9	19.8858
+	-Vm	8.2 9.2590  2.1108  -3.1618 1.1748  0 -0.3 15 0 1
+	-viscosity  3.29e-2  -4.86e-2  0.409  1e-5  4.23e-2  1.069  0.7371
+	-dw	0.731e-9  1e3  7.082  3.0  0.860
 H2Sg = HSg- + H+
 	log_k	-6.994
 	delta_h 5.30	kcal
 	-analytical  11.17   -0.02386  -3279.0
-	-dw	 1.73e-9
-	-Vm 5.0119   4.9799   3.4765   -2.9849 1.4410 # supcrt
+	-Vm	5.0119   4.9799   3.4765   -2.9849 1.4410 # supcrt
+	-dw	1.73e-9
 2H2Sg = (H2Sg)2 # activity correction for H2S solubility at high P, T
         -analytical   10.227  -0.01384  -2200
-	-dw	 2.1e-9
-	-Vm   36.41  -71.95  0  0  2.58
+	-Vm	36.41  -71.95  0  0  2.58
+	-dw	2.1e-9
 B(OH)3 + H2O = B(OH)4- + H+
-	log_k	   -9.239
+	log_k	-9.239
 	delta_h 0   kcal
 3B(OH)3 = B3O3(OH)4- + 2H2O + H+
-	log_k	   -7.528
+	log_k	-7.528
 	delta_h 0   kcal
 4B(OH)3 = B4O5(OH)4-2 + 3H2O + 2H+
-	log_k	   -16.134
+	log_k	-16.134
 	delta_h 0   kcal
 Ca+2 + B(OH)3 + H2O = CaB(OH)4+ + H+
-	log_k	   -7.589
+	log_k	-7.589
 	delta_h 0   kcal
 Mg+2 + B(OH)3 + H2O = MgB(OH)4+ + H+
-	log_k	   -7.840
+	log_k	-7.840
 	delta_h 0   kcal
 # Ca+2 + CO3-2 = CaCO3
-	# log_k	   3.151
+	# log_k	3.151
 	# delta_h 3.547   kcal
 	# -analytic    -1228.806   -0.299440    35512.75   485.818
-	# -dw 4.46e-10	# complexes: calc'd with the Pikal formula
-	# -Vm  -.2430   -8.3748   9.0417   -2.4328  -.0300 # supcrt
+	# -dw	4.46e-10	# complexes: calc'd with the Pikal formula
+	# -Vm	-.2430   -8.3748   9.0417   -2.4328  -.0300 # supcrt
 Mg+2 + H2O = MgOH+ + H+
-	log_k	   -11.809
+	log_k	-11.809
 	delta_h 15.419 kcal
 Mg+2 + CO3-2 = MgCO3
-	log_k	   2.928
+	log_k	2.928
 	delta_h 2.535   kcal
-	-analytic	-32.225   0.0	  1093.486    12.72433
-	-dw 4.21e-10
-	-Vm  -.5837   -9.2067   9.3687   -2.3984  -.0300 # supcrt
+	-analytic	-32.225   0.0	1093.486    12.72433
+	-dw	4.21e-10
+	-Vm	-.5837   -9.2067   9.3687   -2.3984  -.0300 # supcrt
 H4SiO4 = H3SiO4- + H+
 	-log_k  -9.83; -delta_h 6.12 kcal
 	-analytic	-302.3724	-0.050698	15669.69	108.18466	-1119669.0
-	-Vm  7.94  1.0881  5.3224  -2.8240  1.4767 # supcrt + H2O in a1
+	-Vm	7.94  1.0881  5.3224  -2.8240  1.4767 # supcrt + H2O in a1
 H4SiO4 = H2SiO4-2 + 2 H+
 	-log_k  -23.0;  -delta_h 17.6 kcal
 	-analytic	-294.0184	-0.072650	11204.49	108.18466	-1119669.0
@@ -191,22 +194,22 @@ H4SiO4 = H2SiO4-2 + 2 H+
 PHASES
 Akermanite
 	Ca2MgSi2O7 + 6 H+  =  Mg+2 + 2 Ca+2 + 2 H4SiO4 - H2O # llnl.dat
-	log_k	   45.23
+	log_k	45.23
 	-delta_H	-289	kJ/mol
 	Vm 92.6
 Anhydrite
 	CaSO4 = Ca+2 + SO4-2
 	log_k   -4.362
 	-analytical_expression  5.009  -2.21e-2  -796.4 # ref. 3
-	-Vm 46.1 # 136.14 / 2.95
+	-Vm	46.1 # 136.14 / 2.95
 Anthophyllite
 	Mg7Si8O22(OH)2 + 14 H+  =  7 Mg+2 - 8 H2O + 8 H4SiO4 # llnl.dat
-	log_k	   66.80
+	log_k	66.80
 	-delta_H	-483	kJ/mol
 	Vm 269
 Antigorite
 	Mg48Si34O85(OH)62 + 96 H+  =  34 H4SiO4 + 48 Mg+2 + 11 H2O # llnl.dat
-	log_k	   477.19
+	log_k	477.19
 	-delta_H	-3364	kJ/mol
 	Vm 1745
 Aragonite
@@ -214,48 +217,48 @@ Aragonite
 	log_k   -8.336
 	delta_h -2.589 kcal
 	-analytic     -171.8607   -.077993    2903.293    71.595
-	-Vm 34.04
+	-Vm	34.04
 Arcanite
 	K2SO4  =  SO4-2 + 2 K+
 	log_k   -1.776; -delta_h 5 kcal
 	-analytical_expression   674.142  0.30423  -18037  -280.236  0  -1.44055e-4 # ref. 3
 	# Note, the Linke and Seidell data may give subsaturation in other xpt's, SI = -0.06
-	-Vm 65.5
+	-Vm	65.5
 Artinite
 	Mg2CO3(OH)2:3H2O + 3 H+  =  HCO3- + 2 Mg+2 + 5 H2O # llnl.dat
-	log_k	   19.66
+	log_k	19.66
 	-delta_H	-130	kJ/mol
 	Vm 97.4
 Barite
 	BaSO4 = Ba+2 + SO4-2
 	log_k  -9.97; delta_h  6.35 kcal
 	-analytical_expression  -282.43  -8.972e-2  5822  113.08 # ref. 3
-	-Vm 52.9
+	-Vm	52.9
 Bischofite
 	MgCl2:6H2O  =  Mg+2 + 2 Cl- + 6 H2O
-	log_k	   4.455
+	log_k	4.455
 	-analytical_expression  7.526  -1.114e-2  115.7 # ref. 3
 	Vm 127.1
 Bloedite
 	Na2Mg(SO4)2:4H2O  = Mg++ + 2 Na+ + 2 SO4-- + 4 H2O
-	log_k	   -2.347
-	-delta_H	0	     # Not possible to calculate enthalpy of reaction	Bloedite
+	log_k	-2.347
+	-delta_H	0	# Not possible to calculate enthalpy of reaction	Bloedite
 	Vm 147
 Brucite
 	Mg(OH)2  = Mg++ + 2 OH-
-	log_k	   -10.88
+	log_k	-10.88
 	-delta_H	4.85    kcal/mol
 	Vm 24.6
 Burkeite
 	Na6CO3(SO4)2  = CO3-2 + 2 SO4-- + 6 Na+
-	log_k	   -0.772
+	log_k	-0.772
 	Vm 152
 Calcite
 	CaCO3 = CO3-2 + Ca+2
-	log_k	   -8.406
+	log_k	-8.406
 	delta_h -2.297 kcal
 	-analytic  8.481      -0.032644  -2133 # ref. 3 with data from Ellis, 1959, Plummer and Busenberg, 1982 
-	-Vm 36.9
+	-Vm	36.9
 Carnallite
 	KMgCl3:6H2O  =  K+ + Mg+2 + 3Cl- + 6H2O
 	log_k  4.35; -delta_h 1.17
@@ -263,105 +266,105 @@ Carnallite
 	Vm 173.7
 Celestite
 	SrSO4 = Sr+2 + SO4-2
-	log_k	   -6.630
+	log_k	-6.630
 	-analytic  -7.14 6.11E-03  75 0 0 -1.79E-05  # ref. 3
-	-Vm 46.4
+	-Vm	46.4
 Chalcedony
 	SiO2 + 2 H2O = H4SiO4
 	-log_k  -3.55;  -delta_h  4.720 kcal
-	-Vm 23.1
+	-Vm	23.1
 Chrysotile
 	Mg3Si2O5(OH)4 + 6 H+ = H2O + 2 H4SiO4 + 3 Mg+2 # phreeqc.dat
 	-log_k	32.2
 	-delta_h -46.800 kcal
 	-analytic	13.248	0.0	10217.1	-6.1894
-	-Vm 110
+	-Vm	110
 Diopside
 	CaMgSi2O6 + 4 H+  =  Ca+2 + Mg+2 - 2 H2O + 2 H4SiO4 # llnl.dat
-	log_k	   20.96
+	log_k	20.96
 	-delta_H	-134	kJ/mol
 	Vm 67.2
 Dolomite
 	CaMg(CO3)2 = Ca+2 + Mg+2 + 2 CO3-2
-	log_k	   -17.09
+	log_k	-17.09
 	delta_h -9.436 kcal
 	-analytic  -120.63  -0.1051  0  54.509 # 50–175°C, Bénézeth et al., 2018, GCA 224, 262-275.
-	-Vm 64.5
+	-Vm	64.5
 Enstatite
 	MgSiO3 + 2 H+  = - H2O + Mg+2 + H4SiO4 # llnl.dat
-	log_k	   11.33
+	log_k	11.33
 	-delta_H	-83	kJ/mol
 	Vm 31.3
 Epsomite
 	MgSO4:7H2O  =  Mg+2 + SO4-2 + 7 H2O
-	log_k	   -1.881
+	log_k	-1.881
 	-analytical_expression  4.479  -6.99e-3  -1.265e3 # ref. 3
 	Vm 147
 Forsterite
 	Mg2SiO4 + 4 H+  =  H4SiO4 + 2 Mg+2 # llnl.dat
-	log_k	   27.86
+	log_k	27.86
 	-delta_H	-206	kJ/mol
 	Vm 43.7
 Gaylussite
 	CaNa2(CO3)2:5H2O = Ca+2 + 2 CO3-2 + 2 Na+ + 5 H2O
-	log_k	   -9.421
+	log_k	-9.421
 Glaserite
 	NaK3(SO4)2 =  Na+ + 3K+ + 2SO4-2
 	log_k   -3.803;  -delta_h 25
-	-Vm 123
+	-Vm	123
 Glauberite
 	Na2Ca(SO4)2  =  Ca+2 + 2 Na+ + 2 SO4-2
-	log_k	   -5.31
+	log_k	-5.31
 	-analytical_expression  218.142  0  -9285  -77.735 # ref. 3
 	Vm 100.4
 Goergeyite
 	K2Ca5(SO4)6H2O = 2K+ + 5Ca+2 + 6SO4-2 + H2O
 	log_k -29.5
 	-analytical_expression  1056.787  0  -52300  -368.06 # ref. 3
-	-Vm  295.9
+	-Vm	295.9
 Gypsum
 	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
 	-log_k	-4.58;  -delta_h -0.109 kcal
 	-analytical_expression  82.381  0  -3804.5  -29.9952 # ref. 3
-	-Vm 73.9
+	-Vm	73.9
 Halite
 	NaCl  =  Cl- + Na+
-	log_k	   1.570
+	log_k	1.570
 	-analytical_expression 159.605  8.4294e-2  -3975.6  -66.857  0  -4.9364e-5 # ref. 3
-	-Vm 27.1
+	-Vm	27.1
 Hexahydrite
 	MgSO4:6H2O  =  Mg+2 + SO4-2 + 6 H2O
-	log_k	   -1.635
+	log_k	-1.635
 	-analytical_expression  -0.733  -2.80e-3  -8.57e-3 # ref. 3
 	Vm 132
 Huntite
 	CaMg3(CO3)4 + 4 H+  =  Ca+2 + 3 Mg+2 + 4 HCO3- # llnl.dat
-	log_k	   10.30
+	log_k	10.30
 	-analytical_expression  -1.145e3  -3.249e-1  3.941e4  4.526e2
 	Vm 130.8
 Kainite
 	KMgClSO4:3H2O  =  Cl- + K+ + Mg+2 + SO4-2 + 3 H2O
-	log_k	   -0.193
+	log_k	-0.193
 Kalicinite
 	KHCO3  =  K+ + H+ + CO3-2
-	log_k	   -9.94 # Harvie et al., 1984
+	log_k	-9.94 # Harvie et al., 1984
 Kieserite
 	MgSO4:H2O  =  Mg+2 + SO4-2 + H2O
-	log_k	   -0.123
+	log_k	-0.123
 	-analytical_expression  47.24  -0.12077  -5.356e3  0  0  7.272e-5 # ref. 3
 	Vm 53.8
 Labile_S
 	Na4Ca(SO4)3:2H2O = 4Na+ + Ca+2 + 3SO4-2 + 2H2O
-	log_k	   -5.672
+	log_k	-5.672
 Leonhardite
 	MgSO4:4H2O = Mg+2 + SO4-2 + 4H2O
-	log_k	   -0.887
+	log_k	-0.887
 Leonite
 	K2Mg(SO4)2:4H2O  =  Mg+2 + 2 K+ + 2 SO4-2 + 4 H2O
-	log_k	   -3.979
+	log_k	-3.979
 Magnesite
 	MgCO3 =  CO3-2 + Mg+2
-	log_k	  -7.834
+	log_k	-7.834
 	delta_h	-6.169
 	Vm 28.3
 MgCl2_2H2O
@@ -376,51 +379,51 @@ Mirabilite
 	Vm 216
 Misenite
 	K8H6(SO4)7  =  6 H+ + 7 SO4-2 + 8 K+
-	log_k	   -10.806
+	log_k	-10.806
 Nahcolite
 	NaHCO3  =  CO3-2 + H+ + Na+
-	log_k	   -10.742
+	log_k	-10.742
 	Vm 38.0
 Natron
 	Na2CO3:10H2O = CO3-2 + 2 Na+ + 10 H2O
-	log_k	   -0.825
+	log_k	-0.825
 Nesquehonite
 	MgCO3:3H2O =  CO3-2 + Mg+2 + 3 H2O
-	log_k	   -5.167
+	log_k	-5.167
 Pentahydrite
 	MgSO4:5H2O  =  Mg+2 + SO4-2 + 5 H2O
-	log_k	   -1.285
+	log_k	-1.285
 Pirssonite
 	Na2Ca(CO3)2:2H2O = 2Na+ + Ca+2 + 2CO3-2 + 2 H2O
-	log_k	   -9.234
+	log_k	-9.234
 Polyhalite
 	K2MgCa2(SO4)4:2H2O  = 2K+ +  Mg+2 + 2 Ca+2 + 4SO4-2 + 2 H2O
-	log_k	   -13.744
+	log_k	-13.744
 	Vm 218
 Portlandite
 	Ca(OH)2 =  Ca+2 + 2 OH-
-	log_k	   -5.190
+	log_k	-5.190
 Quartz
 	SiO2 + 2 H2O = H4SiO4
 	-log_k  -3.98;  -delta_h  5.990 kcal
-	-Vm 22.67
+	-Vm	22.67
 Schoenite
 	K2Mg(SO4)2:6H2O  =  2K+ + Mg+2 + 2 SO4-2 + 6H2O
-	log_k	   -4.328
+	log_k	-4.328
 Sepiolite(d)
 	Mg2Si3O7.5OH:3H2O + 4 H+ + 0.5H2O = 2 Mg+2 + 3 H4SiO4 # phreeqc.dat
 	-log_k	18.66
-	-Vm 162
+	-Vm	162
 Sepiolite
 	Mg2Si3O7.5OH:3H2O + 4 H+ + 0.5H2O = 2 Mg+2 + 3 H4SiO4 # phreeqc.dat
 	-log_k	15.760
 	-delta_h -10.700 kcal
-	-Vm 154
+	-Vm	154
 SiO2(a)
 	SiO2 + 2 H2O = H4SiO4
 	-log_k  -2.71;  -delta_h  3.340 kcal
 	-analytic  20.42  3.107e-3  -1492  -7.68 # ref. 3
-	-Vm 25.7
+	-Vm	25.7
 Sylvite
 	KCl  = K+ + Cl-
 	log_k   0.90;  -delta_h 8
@@ -429,42 +432,42 @@ Sylvite
 Syngenite
 	K2Ca(SO4)2:H2O  =  2K+ + Ca+2 + 2SO4-2 + H2O
 	log_k    -6.43;  -delta_h   -32.65 # ref. 3
-	-Vm  127.3
+	-Vm	127.3
 Talc
 	Mg3Si4O10(OH)2 + 4 H2O + 6 H+ = 3 Mg+2 + 4 H4SiO4 # phreeqc.dat
 	-log_k	21.399
 	-delta_h -46.352 kcal
-	-Vm 140
+	-Vm	140
 Thenardite
 	Na2SO4 = 2 Na+ + SO4-2
 	-analytical_expression  57.185  8.6024e-2  0  -30.8341  0  -7.6905e-5 # ref. 3
-	-Vm 52.9
+	-Vm	52.9
 Trona
 	Na3H(CO3)2:2H2O =  3 Na+ + H+ + 2CO3-2 + 2H2O
-	log_k	   -11.384
+	log_k	-11.384
 	Vm 106
 Borax
 	Na2(B4O5(OH)4):8H2O + 2 H+  =  4 B(OH)3 + 2 Na+ +  5 H2O
-	log_k	   12.464
+	log_k	12.464
 	Vm 223
 Boric_acid,s
 	B(OH)3  =  B(OH)3
-	log_k	   -0.030
+	log_k	-0.030
 KB5O8:4H2O
 	KB5O8:4H2O + 3H2O + H+ = 5B(OH)3 + K+
-	log_k	   4.671
+	log_k	4.671
 K2B4O7:4H2O
 	K2B4O7:4H2O + H2O + 2H+ = 4B(OH)3 + 2K+
-	log_k	   13.906
+	log_k	13.906
 NaBO2:4H2O
 	NaBO2:4H2O + H+ = B(OH)3 + Na+ + 3H2O
-	log_k	   9.568
+	log_k	9.568
 NaB5O8:5H2O
 	NaB5O8:5H2O + 2H2O + H+ = 5B(OH)3 + Na+
-	log_k	   5.895
+	log_k	5.895
 Teepleite
 	Na2B(OH)4Cl + H+ = B(OH)3 + 2Na+ + Cl- + H2O
-	log_k	   10.840
+	log_k	10.840
 CO2(g)
 	CO2 = CO2
 	log_k	-1.468
@@ -778,7 +781,7 @@ EXCHANGE_MASTER_SPECIES
 	X       X-
 EXCHANGE_SPECIES
 	X- = X-
-	log_k	   0.0
+	log_k	0.0
 
 	Na+ + X- = NaX
 	log_k   0.0
@@ -846,7 +849,7 @@ SURFACE_SPECIES
 	log_k  -8.93   # = -pKa2,int
 
 ###############################################
-#	     CATIONS			 #
+#	CATIONS			#
 ###############################################
 #
 #   Cations from table 10.1 or 10.5
@@ -871,7 +874,7 @@ SURFACE_SPECIES
 	log_k  5.46
 
 	Hfo_wOH + Ba+2 = Hfo_wOBa+ + H+
-	log_k  -7.2		     # table 10.5
+	log_k  -7.2		# table 10.5
 #
 #   Derived constants table 10.5
 #
@@ -880,10 +883,10 @@ SURFACE_SPECIES
 	log_k -4.6
 #   Manganese
 	Hfo_sOH + Mn+2 = Hfo_sOMn+ + H+
-	log_k  -0.4		     # table 10.5
+	log_k  -0.4		# table 10.5
 
 	Hfo_wOH + Mn+2 = Hfo_wOMn+ + H+
-	log_k -3.5		      # table 10.5
+	log_k -3.5		# table 10.5
 # Iron
 #	Hfo_sOH + Fe+2 = Hfo_sOFe+ + H+
 #	log_k   0.7     # LFER using table 10.5
@@ -892,17 +895,17 @@ SURFACE_SPECIES
 #	log_k -2.5      # LFER using table 10.5
 
 # Iron, strong site: Appelo, Van der Weiden, Tournassat & Charlet, subm.
-	 Hfo_sOH + Fe+2 = Hfo_sOFe+ + H+
-	 log_k   -0.95
+	Hfo_sOH + Fe+2 = Hfo_sOFe+ + H+
+	log_k   -0.95
 # Iron, weak site: Liger et al., GCA 63, 2939, re-optimized for D&M
-	 Hfo_wOH + Fe+2 = Hfo_wOFe+ + H+
-	 log_k -2.98
+	Hfo_wOH + Fe+2 = Hfo_wOFe+ + H+
+	log_k -2.98
 
-	 Hfo_wOH + Fe+2 + H2O = Hfo_wOFeOH + 2H+
-	 log_k -11.55
+	Hfo_wOH + Fe+2 + H2O = Hfo_wOFeOH + 2H+
+	log_k -11.55
 
 ###############################################
-#	     ANIONS			  #
+#	ANIONS			#
 ###############################################
 #
 #   Anions from table 10.6
@@ -975,14 +978,14 @@ END
 #    H2O    0.49   0.19   0.19   0.49
 # =============================================================================================
 # The molar volumes of solids are entered with
-#                         -Vm vm cm3/mol
+#                         -Vm	vm cm3/mol
 #    vm is the molar volume, cm3/mol (default), but dm3/mol and m3/mol are permitted.
 # Data for minerals' vm (= MW (g/mol) / rho (g/cm3)) are defined using rho from
 #   Deer, Howie and Zussman, The rock-forming minerals, Longman.
 #                           --------------------
 # Temperature- and pressure-dependent volumina of aqueous species are calculated with a Redlich-
 #   type equation (cf. Redlich and Meyer, Chem. Rev. 64, 221), from parameters entered with
-#                        -Vm a1 a2 a3 a4 W a0 i1 i2 i3 i4
+#                        -Vm	a1 a2 a3 a4 W a0 i1 i2 i3 i4
 # The volume (cm3/mol) is
 #    Vm(T, pb, I) = 41.84 * (a1 * 0.1 + a2 * 100 / (2600 + pb)  + a3 / (T - 228) +
 #                            a4 * 1e4 / (2600 + pb) / (T - 228) - W * QBrn)
