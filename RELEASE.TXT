@@ -1,5 +1,55 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
+	March 25, 2024
+  	-----------------
+	DATABASES phreeqc.dat and Amm.dat: Three CALCULATE_VALUES definitions for 
+	calculating the kinetic dissolution of silicate minerals have been defined 
+	that can be invoked by copying a line of numbers from tables in Palandri 
+	and Kharaka (2004), Sverdrup et al. (2019), or Hermanská et al. (2022, 
+	2023). The CALCULATE_VALUES definitions are included in the databases and 
+	can be used in RATES definitions. Rate definitions Albite_PK, Albite_Svd, 
+	and Albite_Hermanska in the databases use the CALCULATE_VALUES definitions. 
+	More details are available at https://hydrochemistry.eu/ph3/release.html.
+
+	DATABASES phreeqc.dat, Amm.dat, and pitzer.dat: The calculation of the 
+	specific conductance can now be done with a Debye-Hückel-Onsager equation 
+	that has both the electrophoretic and the relaxation term. (The standard 
+	phreeqc calculation uses a simple electrophoretic term only.) For 
+	individual ions, the equation can be multiplied with the viscosity ratio of 
+	the solvent and the solution, and the ion-size a in the Debye-Hückel term 
+	kappa_a can be made a function of the apparent molar volume of the ion. The 
+	options are described and used in the databases. The additions extend the 
+	applicability of the DHO equation to concentrations in the molar range, 
+	reducing AARD (average of the absolute relative deviations) for SC and 
+	transference numbers to less than 1% in many cases. For high KHCO3 
+	concentrations, the SCs indicate the presence of a KHCO3 complex that was 
+	added to phreeqc.dat and Amm.dat. The AARD's are 0.18 % for NaCl, 0.48 % 
+	for KCl, 0.51 % for MgCl2 and 0.89 % for CaCl2. More example files are 
+	available at http://hydrochemistry.eu.  
+	
+	PHREEQC Bug-fix: Option -density c[alculate] in SOLUTION_SPREAD was 
+	corrected to give the iterated density of the solutions. 
+	
+	PHREEQC: A new option has been added. The viscosity of the EDL 
+	layer on SURFACE(s) can now be calculated and will then be used to 
+	modify the diffusion coefficients. It is set by adding c(alculate) 
+	after viscosity, for example, "-donnan 1e-8 viscosity calc". 
+	
+	PHREEQC Bug-fix: Viscosity of the EDL layer on SURFACE(s), defined with, for 
+	example, "-donnan 1e-8 viscosity 3", was omitted in Version 3.4.2. It is 
+	now re-introduced in the calculations. 
+	
+	PHREEQC Bug-fix: Basic now returns the contributions to the specific conductance 
+	(t_sc("H+")) and the viscosity (f_visc("H+")) only when the species is present 
+	in the solution. In previous versions a dummy value was returned when the 
+	species was predefined, but absent in the actual solution calculation. 
+	
+	PHREEQC Bug-fix: Limits for fugacity coefficients were set to be 0.01 < phi < 85 in 
+	Peng-Robinson calculations. The limits were removed in version 3.7 (when calculating 
+	H2S(g) solubilities). However, without the limits, all water turned into H2O(g) in some 
+	cases and calculations failed. 
+	
+  	-----------------
 	November 15, 2023
   	-----------------
 	PHREEQC programs: Fixed a couple malloc checks, some compiler warnings, and removed
@@ -27,7 +77,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
 	June 1, 2023
   	-----------------	
-	Finalizing a Python version of PhreeqcRM that includes the BMI capabilities.
+	PhreeqcRM: Finalizing a Python version of PhreeqcRM that includes the BMI capabilities.
 	Methods are documented in Python style and two test cases are available, one
 	of which uses every Python method that is available. 
 
@@ -45,27 +95,26 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	viscosity of the solution when parameters are defined for the species with -viscosity. 
 	Actually, it gives the contribution of the species to the B and D terms in the Jones-Dole 
 	eqution, assuming that the A term is small. The fractional contribution can be negative, for 
-	example f_visc("K+") is usually smaller than zero.
+	example f_visc("K+") is usually less than zero.
 	
-	Bug-fix: High T/P water phi became too small. Now limit how small phi of water can be
-	so that gas phase has reasonable H2O(g). 
-
 	Bug-fix: When -Vm parameters of SOLUTION_SPECIES were read after -viscosity parameters, the 
 	first viscosity parameter was set to 0.
 
-	Defined -analytical_expression and -gamma for Na2SO4, K2SO4 and MgSO4 and Mg(SO4)22- species in 
-	PHREEQC.dat, fitting the activities from pitzer.dat from 0 - 200 °C, and the solubilities of 
+	Defined -analytical_expression and -gamma for Na2SO4, K2SO4 and MgSO4 and Mg(SO4)2-2 species in 
+	phreeqc.dat and Amm.dat, fitting the activities from pitzer.dat from 0-200 °C, and the solubilities of 
 	mirabilite/thenardite (Na2SO4), arcanite (K2SO4), and epsomite, hexahydrite, kieserite (MgSO4 
-	and new species Mg(SO4)22-). The parameters for calculating the apparent volume (-Vm) and the 
+	and new species Mg(SO4)2-2). The parameters for calculating the apparent volume (-Vm) and the 
 	diffusion coefficients (-Dw) of the species were adapted using measured data of density and 
-	conductance (SC).
+	conductance (SC). Example files are available at http://hydrochemistry.eu
 
-	Removed the NaCO3- species in PHREEQC.dat since they are not necessary for the calculation of 
-	the specific conductance (SC) and their origin is unknown. Defined parameters in the 
-	-analytical_expression, -gamma, -dw, -Vm and -viscosity for the NaHCO3 species in PHREEQC.dat, 
-	using the data in Appelo, 2015, Appl. Geochem. 55, 62-71. (These data were used for defining 
-	interaction parameters in pitzer.dat.) The parameters for the apparent volume (-Vm), the 
-	diffusion coefficient (-Dw) and the viscosity of CO32- and HCO3- were adapted using measured 
+	Removed the NaCO3- species in PHREEQC.dat since it is not necessary for the calculation of 
+	the specific conductance (SC) and its origin is unknown. 
+	
+	Defined parameters in the -analytical_expression, -gamma, -dw, -Vm and -viscosity for 
+	the NaHCO3 species in phreeqc.dat and Amm.dat, using the data in Appelo, 2015, Appl. Geochem. 
+	55, 62-71. (These data were used for defining interaction parameters in 
+	pitzer.dat.) The parameters for the apparent volume (-Vm), the 	diffusion 
+	coefficient (-Dw) and the viscosity of CO3-2 and HCO3- were adapted using measured 	
 	data of density, conductance and viscosity of binary solutions.
 
 	The viscosity of the solution at P, T is now calculated and printed in the output file, and can 
@@ -81,7 +130,9 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	temperature and pressure of the solution, mi is the molality of species i, made dimensionless 
 	by dividing by 1 molal, and zi is the absolute charge number. A is derived from Debye-Hückel 
 	theory, and fan, B, D and n are coefficients that incorporate volume, ionic strength and 
-	temperature effects. The coefficients are:
+	temperature effects. 
+	
+	The coefficients are:
 
 		B = b0 + b1 exp(-b2 tC)
 		
@@ -99,7 +150,8 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 
 		n = ((1 + fI)^d3 + ((zi^2 + zi) / 2 * mi)^d3 / (2 + fI)
 		
-	where fI averages ionic strength effects and d3 is a parameter.
+	where fI averages ionic strength effects and d3 is a coefficient.
+	
 	The coefficients are fitted on measured viscosities of binary solutions and entered 
 	with item -viscosity under keyword SOLUTION_SPECIES, for example for H+:
 
@@ -111,8 +163,10 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	When the solute concentrations are seawater-like or higher, the viscosity is different 
 	from pure water (see figure at). To obtain a valid model for natural waters with phreeqc.dat, 
 	the complexes of SO42- with the major cations were redefined, as noted above.
-	The A parameter in the Jones-Dole equation needs temperature dependent diffusion coefficients of the species, and therefore the parameters for calculating the I and T dependency of the diffusion coefficients (-dw parameters of SOLUTION_SPECIES) were refitted for SO42- and CO32- species.
-	Example files are in c:\phreeqc\viscosity. 	
+	The A parameter in the Jones-Dole equation needs temperature dependent diffusion coefficients 
+	of the species, and therefore the parameters for calculating the I and T dependency of the 
+	diffusion coefficients (-dw parameters of SOLUTION_SPECIES) were refitted for SO42- and CO32- 
+	species. Example files are available at http://hydrochemistry.eu.
 
 	Implicit calculations with option -fix_current will now account for changing concentrations in 
 	the boundary solutions of the column.
@@ -146,7 +200,8 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	The temperature correction is always applied in multicomponent, diffusive transport and for 
 	calculating the viscosity.
 
-	The ionic strength correction is for electromigration calculations (Appelo, 2017, CCR 101, 102). The correction is applied when the option is set true in TRANSPORT, item -multi_D:
+	The ionic strength correction is for electromigration calculations (Appelo, 2017, CCR 101, 102). 
+	The correction is applied when the option is set true in TRANSPORT, item -multi_D:
 		-multi_d true 1e-9 0.3 0.05 1.0 true # multicomponent diffusion
 		
 	# true/false, default tracer diffusion coefficient (Dw = 1e-9 m2/s) in water at 25 °C (used in 
