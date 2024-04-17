@@ -251,7 +251,6 @@ calc_SC(void)
 	sqrt_mu = sqrt(mu_x);
 	bool Falk = false;
 	s_ptr = s_search("H+");
-	if (s_ptr == NULL) s_ptr = s_h3oplus;
 	if (s_ptr == NULL)
 		return(0);
 	else if (s_ptr->dw_a3 > 24) Falk = true;
