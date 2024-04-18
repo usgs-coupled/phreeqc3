@@ -6089,8 +6089,8 @@ viscosity(cxxSurface *surf_ptr)
 				s_charge_p = surf_ptr->Get_surface_charges()[i1];
 				l_water = s_charge_p.Get_mass_water();
 				z_g_map.insert(s_charge_p.Get_z_gMCD_map().begin(), s_charge_p.Get_z_gMCD_map().end());
-				for (auto& x : z_g_map)
-					x.second *= ratio_surf_aq;
+				for (std::map<double, double>::iterator x = z_g_map.begin(); x != z_g_map.end(); ++x)
+					x->second *= ratio_surf_aq;
 			}
 			else
 			{
@@ -6099,11 +6099,11 @@ viscosity(cxxSurface *surf_ptr)
 				for (i = 1; i < i1_last - 1; i++)
 				{
 					s_charge_p = surf_ptr->Get_surface_charges()[i];
-					for (auto& x : z_g_map)
-						x.second += s_charge_p.Get_z_gMCD_map()[x.first];
+					for (std::map<double, double>::iterator x = z_g_map.begin(); x != z_g_map.end(); ++x)
+						x->second += s_charge_p.Get_z_gMCD_map()[x->first];
 				}
-				for (auto& x : z_g_map)
-					x.second *= ratio_surf_aq;
+				for (std::map<double, double>::iterator x = z_g_map.begin(); x != z_g_map.end(); ++x)
+					x->second *= ratio_surf_aq;
 				l_water = mass_water_surfaces_x;
 			}
 			l_mu_x = eq_plus = eq_min = 0;
