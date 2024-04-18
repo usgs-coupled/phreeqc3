@@ -1115,7 +1115,7 @@ calc_psi_avg(cxxSurfaceCharge *charge_ptr, LDBLE surf_chrg_eq, LDBLE nDbl, LDBLE
 		{
 			if (!surf_ptr->Donnan_factors.empty())
 			{
-				std::copy(std::begin(surf_ptr->Donnan_factors), std::end(surf_ptr->Donnan_factors), cgc);
+				std::copy(surf_ptr->Donnan_factors.begin(), surf_ptr->Donnan_factors.end(), cgc);
 				z1 = cgc[0];
 				z2 = cgc[1];
 				z_1 = cgc[2];
