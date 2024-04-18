@@ -36,12 +36,17 @@ Ntg		Ntg	0	Ntg		28.0134 # N2 gas
 SOLUTION_SPECIES
 H+ = H+
 	-viscosity  9.35e-2  -8.31e-2  2.487e-2  4.49e-4  2.01e-2  1.570 # for viscosity parameters see ref. 4
-	-dw	9.31e-9  823  5.314  0  3.0  24.01 # The dw parameters are # Dw(TK) = 9.31e-9 * exp(823 / TK - 823 / 298.15) * viscos_0_25 / viscos_0_tc * (viscos_0_tc / viscos)^3.0
+	-dw	9.31e-9  823  5.314  0  3.0  24.01  0
+#		Dw(25 C) dw_T  a     a2 visc  a3    a_v_dif
+# Dw(TK) = 9.31e-9 * exp(823 / TK - 823 / 298.15) * viscos_0_25 / viscos_0_tc
+# a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
 
-# a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024
+# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^3.0
 # a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5 in DHO eqn.
 # a3 = -10 ? ka = DH_B * a * mu^a2 in DHO.  (Define a3 = -10.)
 # -5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))
+
+# If a_v_dif <> 0, Dw(TK) *= (viscos_0_tc / viscos)^a_v_dif in TRANSPORT.
 e- = e-
 H2O = H2O
 	-dw	2.299e-9  -254
@@ -90,9 +95,9 @@ CO3-2 = CO3-2
 	-viscosity  0  0.296  3.63e-2  2e-4  -1.90e-2  1.881  -1.754
 	-dw  0.955e-9  -60  2.257  0.1022  0.4136
 SO4-2 = SO4-2
-	-Vm  -7.77  43.17  141.1  -42.45  3.794  0.3377  -2.6556  352.2  1.647e-3  0.3786
-	-viscosity  -1.11e-2  0.1534  1.72e-2  4.45e-4  2.03e-2  2.986  0.248
-	-dw	1.07e-9  -68  0.3946  0.9106  0.8941
+	-Vm  -7.77  43.17  176  -51.45  3.794  0  4.97  20.5  -5.77e-2  0.45
+	-viscosity  -4.10e-2  0.1735  1.308e-2  2.16e-4  2.83e-2  3.375  0.210
+	-dw	1.07e-9  -63  0.397  0.982  1.01
 B(OH)3 = B(OH)3
 	-Vm	7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
 	-dw	1.1e-9

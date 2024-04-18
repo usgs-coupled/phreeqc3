@@ -1,4 +1,4 @@
-   Input file: ../examples/ex21
+   Input file: ex21
   Output file: ex21.out
 Database file: ../database/phreeqc.dat
 
@@ -13,15 +13,18 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	CALCULATE_VALUES
 	RATES
 	END
 ------------------------------------
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	TITLE Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 2010, GCA 74, 1201
 	KNOBS
 	 tolerance 1e-16
+	 diagonal_scale true
 	SOLUTION_MASTER_SPECIES
 	  Hto       Hto       0.0   20        20
 	  Na_tr     Na_tr+    0.0   22        22
@@ -30,22 +33,22 @@ Reading input data for simulation 1.
 	SOLUTION_SPECIES
 	  Hto = Hto
 	        log_k 0
-	 gamma 1e6 0
-	     dw 2.236e-9
-	  Na_tr+ = Na_tr+
-	  log_k 0
-	 gamma 4.0 0.075
-	 dw 1.33e-9
-	 erm_ddl 1.6
+	 gamma 1e5   0
+	 dw 2.3e-9 0 0 0 0 0 0.5 # diffusion coefficient is multiplied by (viscos_0 /viscos)^0.5
 	  Cl_tr- = Cl_tr-
 	  log_k 0
 	 gamma 3.5 0.015
-	 dw 1.18e-9 # dw = dw(water) / 1.72 = 2.03e-9 / 1.72
+	 dw 1.17e-9  0 0 0 0 0 0.5 # increase tortuosity for anions: 2.03e-9 / 1.73
+	  Na_tr+ = Na_tr+
+	  log_k 0
+	 gamma 4.0 0.075
+	 dw 1.33e-9  0 0 0 0 0 0.5 
+	 erm_ddl 1.39 
 	  Cs+ = Cs+
 	        log_k 0
 	 gamma 3.5 0.015
-	 dw 2.07e-9
-	 erm_ddl 1.6
+	 dw 2.07e-9  0 0 0 0 0 0.5 
+	 erm_ddl 1.39
 	SURFACE_MASTER_SPECIES
 	  Su_fes Su_fes-   # Frayed Edge Sites
 	  Su_ii Su_ii-     # Type II sites of intermediate strength
@@ -107,15 +110,15 @@ Initial solution 0.	column with only cell 1, two boundary solutions 0 and 2.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 123
-                          Density (g/cm³)  =   0.99708
+     Specific Conductance (µS/cm,  25°C)  = 122
+                         Density (g/cm³)  =   0.99708
                                Volume (L)  =   1.00298
                         Viscosity (mPa s)  =   0.89026
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.417e-09
-                         Temperature (°C)  =  25.00
+                        Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.417e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
@@ -198,7 +201,8 @@ Reading input data for simulation 2.
 	120  por_clay = 0.159
 	130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
 	140  CEC = 0.09 * rho_b_eps   # CEC / (eq/L porewater)
-	150  A_por = 37e3 * rho_b_eps # pore surface area / (m²/L porewater)
+	150  A_por = 37e3 * rho_b_eps # pore surface area / (m�/L porewater)
+	151  correct_$  = ' false'
 	160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1$(4), profile_y2$(4)
 	170  DATA 'Hto', 'Cl_tr', 'Na_tr', 'Cs'
 	180  READ tracer$(1), tracer$(2), tracer$(3), tracer$(4)
@@ -212,18 +216,18 @@ Reading input data for simulation 2.
 	290  READ profile_y1$(1), profile_y1$(2), profile_y1$(3), profile_y1$(4)
 	300  DATA '0 1.2e-9', '0 2.5e-5', '0 6e-10', '0 auto'
 	310  READ profile_y2$(1), profile_y2$(2), profile_y2$(3), profile_y2$(4)
-	350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m²/s)
+	350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m�/s)
 	360  nfilt1 = 1               # number of cells in filter 1
 	370  nfilt2 = 1               # number of cells in filter 2
 	380  nclay = 11               # number of clay cells
-	390  f_free = 0.117           # fraction of free pore water (0.01 - 1)
+	390  f_free = 0.02           # fraction of free pore water (0.01 - 1)
 	400  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer
-	410  tort_n = -0.99           # exponent in Archie's law, -1.045 without filters
+	410  tort_n = -0.975           # exponent in Archie's law, found from HTO
 	420  G_clay = por_clay^tort_n # geometrical factor
-	430  interlayer_D$ = 'false'  # 'true' or 'false' for interlayer diffusion
-	440  G_IL = 1300               # geometrical factor for clay interlayers
+	430  interlayer_D$ = 'true'  # 'true' or 'false' for interlayer diffusion
+	440  G_IL = 1300               # geometrical factor for clay interlayers... the initial rise of Cs suggests stagnant water, see Appelo et al for the calculation
 	450  punch_time = 60 * 60 * 6 # punch time / seconds
-	460  profile$ = 'true'        # 'true' or 'false' for c/x profile visualization
+	460  profile$ = 'false'        # 'true' or 'false' for c/x profile visualization
 	470  IF nfilt1 = 0 THEN thickn_filter1 = 0
 	480  IF nfilt2 = 0 THEN thickn_filter2 = 0
 	490  IF tot("Hto") > 1e-10 THEN tracer = 1 ELSE      IF tot("Cl_tr") > 1e-10 THEN tracer = 2 ELSE tracer = 3
@@ -264,7 +268,7 @@ Reading input data for simulation 2.
 	900    punch nl$ + ' Su_ ' + TRIM(STR$(f_DL_charge * CEC * V_water)) + STR$(A_por) + ' ' + STR$(V_water)
 	910    punch nl$ + ' Su_ii ' + TRIM(STR$(7.88e-4 * rho_b_eps * V_water))
 	920    punch nl$ + ' Su_fes ' + TRIM(STR$(7.4e-5 * rho_b_eps * V_water))
-	930    IF f_free < 1 THEN punch nl$ + ' -Donnan ' + TRIM(STR$((1 - f_free) * 1e-3 / A_por))
+	930    IF f_free < 1 THEN punch nl$ + ' -Donnan ' + TRIM(STR$((1 - f_free) * 1e-3 / A_por)) + ' viscosity calc' + ' correct ' + correct_$
 	940    punch nl$ + 'EXCHANGE ' + num$ + ' -equil ' + num$
 	950    punch nl$ + ' X ' + TRIM(STR$((1 - f_DL_charge) * CEC * V_water)) + nl$
 	960    r1 = r1 + x
@@ -433,16 +437,16 @@ WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
                                        pH  =   7.600    
                                        pe  =  13.120      Equilibrium with O2(g)
-      Specific Conductance (µS/cm,  23°C)  = 28957
-                          Density (g/cm³)  =   1.01168
+     Specific Conductance (µS/cm,  23°C)  = 29068
+                         Density (g/cm³)  =   1.01168
                                Volume (L)  =   0.20146
-                        Viscosity (mPa s)  =   0.96825
+                        Viscosity (mPa s)  =   0.96933
                         Activity of water  =   0.990
-                 Ionic strength (mol/kgw)  =   3.653e-01
+                 Ionic strength (mol/kgw)  =   3.633e-01
                        Mass of water (kg)  =   2.000e-01
-                    Total carbon (mol/kg)  =   4.811e-04
-                       Total CO2 (mol/kg)  =   4.811e-04
-                         Temperature (°C)  =  23.00
+                    Total carbon (mol/kg)  =   4.808e-04
+                       Total CO2 (mol/kg)  =   4.808e-04
+                        Temperature (°C)  =  23.00
                   Electrical balance (eq)  =  -1.312e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.10
                                Iterations  =   6
@@ -454,92 +458,94 @@ WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             5.191e-07   3.419e-07    -6.285    -6.466    -0.181     -3.26
-   H+              3.238e-08   2.512e-08    -7.490    -7.600    -0.110      0.00
+   OH-             5.188e-07   3.419e-07    -6.285    -6.466    -0.181     -3.26
+   H+              3.237e-08   2.512e-08    -7.490    -7.600    -0.110      0.00
    H2O             5.551e+01   9.899e-01     1.744    -0.004     0.000     18.06
-C(4)          4.811e-04
-   HCO3-           3.809e-04   2.707e-04    -3.419    -3.568    -0.148     25.73
-   CaHCO3+         3.057e-05   2.214e-05    -4.515    -4.655    -0.140      9.84
-   NaHCO3          2.383e-05   2.891e-05    -4.623    -4.539     0.084     28.00
-   MgHCO3+         2.149e-05   1.449e-05    -4.668    -4.839    -0.171      5.70
-   CO2             1.499e-05   1.585e-05    -4.824    -4.800     0.024     34.33
-   CaCO3           4.767e-06   5.185e-06    -5.322    -5.285     0.037    -14.61
-   MgCO3           1.903e-06   2.070e-06    -5.721    -5.684     0.037    -17.09
-   CO3-2           1.901e-06   4.849e-07    -5.721    -6.314    -0.593     -1.67
-   SrHCO3+         6.993e-07   4.970e-07    -6.155    -6.304    -0.148     (0)  
-   SrCO3           3.448e-08   3.750e-08    -7.462    -7.426     0.037    -14.14
-   (CO2)2          3.964e-12   4.312e-12   -11.402   -11.365     0.037     68.67
+C(4)          4.808e-04
+   HCO3-           3.732e-04   2.653e-04    -3.428    -3.576    -0.148     25.30
+   NaHCO3          3.141e-05   3.713e-05    -4.503    -4.430     0.073     31.75
+   CaHCO3+         3.053e-05   2.211e-05    -4.515    -4.655    -0.140      9.84
+   MgHCO3+         2.162e-05   1.458e-05    -4.665    -4.836    -0.171      5.70
+   CO2             1.470e-05   1.553e-05    -4.833    -4.809     0.024     34.33
+   CaCO3           4.764e-06   5.180e-06    -5.322    -5.286     0.036    -14.61
+   MgCO3           1.916e-06   2.083e-06    -5.718    -5.681     0.036    -17.09
+   CO3-2           1.860e-06   4.753e-07    -5.731    -6.323    -0.593     -1.75
+   SrHCO3+         6.993e-07   4.972e-07    -6.155    -6.303    -0.148     (0)  
+   KHCO3           1.203e-07   1.212e-07    -6.920    -6.916     0.003     41.01
+   SrCO3           3.451e-08   3.752e-08    -7.462    -7.426     0.036    -14.14
+   (CO2)2          3.810e-12   4.142e-12   -11.419   -11.383     0.036     68.67
 Ca            2.580e-02
-   Ca+2            2.384e-02   6.616e-03    -1.623    -2.179    -0.557    -17.02
-   CaSO4           1.923e-03   2.092e-03    -2.716    -2.679     0.037      7.42
-   CaHCO3+         3.057e-05   2.214e-05    -4.515    -4.655    -0.140      9.84
-   CaCO3           4.767e-06   5.185e-06    -5.322    -5.285     0.037    -14.61
-   CaOH+           5.916e-08   4.327e-08    -7.228    -7.364    -0.136     (0)  
-   CaHSO4+         4.591e-10   3.358e-10    -9.338    -9.474    -0.136     (0)  
+   Ca+2            2.427e-02   6.744e-03    -1.615    -2.171    -0.556    -17.03
+   CaSO4           1.495e-03   1.625e-03    -2.825    -2.789     0.036      7.42
+   CaHCO3+         3.053e-05   2.211e-05    -4.515    -4.655    -0.140      9.84
+   CaCO3           4.764e-06   5.180e-06    -5.322    -5.286     0.036    -14.61
+   CaOH+           6.029e-08   4.411e-08    -7.220    -7.355    -0.136     (0)  
+   CaHSO4+         3.566e-10   2.609e-10    -9.448    -9.584    -0.136     (0)  
 Cl            3.000e-01
-   Cl-             3.000e-01   2.017e-01    -0.523    -0.695    -0.172     18.53
-   HCl             1.235e-09   1.767e-09    -8.908    -8.753     0.155     (0)  
+   Cl-             3.000e-01   2.018e-01    -0.523    -0.695    -0.172     18.53
+   HCl             1.239e-09   1.768e-09    -8.907    -8.752     0.155     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -44.617   -44.580     0.037     28.61
+   H2              0.000e+00   0.000e+00   -44.617   -44.580     0.036     28.61
 Hto           1.140e-09
    Hto             1.140e-09   1.140e-09    -8.943    -8.943     0.000     (0)  
 K             1.610e-03
-   K+              1.595e-03   1.064e-03    -2.797    -2.973    -0.176      9.40
-   KSO4-           1.464e-05   7.267e-06    -4.834    -5.139    -0.304     29.98
+   K+              1.584e-03   1.057e-03    -2.800    -2.976    -0.176      9.40
+   KSO4-           2.634e-05   2.196e-05    -4.579    -4.658    -0.079     13.22
+   KHCO3           1.203e-07   1.212e-07    -6.920    -6.916     0.003     41.01
 Mg            1.690e-02
-   Mg+2            1.509e-02   4.612e-03    -1.821    -2.336    -0.515    -20.64
-   MgSO4           1.750e-03   2.071e-03    -2.757    -2.684     0.073     -1.17
-   Mg(SO4)2-2      4.016e-05   1.278e-05    -4.396    -4.894    -0.497     46.11
-   MgHCO3+         2.149e-05   1.449e-05    -4.668    -4.839    -0.171      5.70
-   MgCO3           1.903e-06   2.070e-06    -5.721    -5.684     0.037    -17.09
-   MgOH+           7.495e-07   5.502e-07    -6.125    -6.259    -0.134     (0)  
+   Mg+2            1.548e-02   4.737e-03    -1.810    -2.324    -0.514    -20.64
+   MgSO4           1.371e-03   1.621e-03    -2.863    -2.790     0.073     -8.62
+   Mg(SO4)2-2      2.393e-05   7.622e-06    -4.621    -5.118    -0.497     27.97
+   MgHCO3+         2.162e-05   1.458e-05    -4.665    -4.836    -0.171      5.70
+   MgCO3           1.916e-06   2.083e-06    -5.718    -5.681     0.036    -17.09
+   MgOH+           7.695e-07   5.652e-07    -6.114    -6.248    -0.134     (0)  
 Na            2.400e-01
-   Na+             2.374e-01   1.721e-01    -0.624    -0.764    -0.140     -0.85
-   NaSO4-          2.562e-03   1.263e-03    -2.591    -2.899    -0.307     18.52
-   NaHCO3          2.383e-05   2.891e-05    -4.623    -4.539     0.084     28.00
-   NaOH            5.408e-18   5.883e-18   -17.267   -17.230     0.037     (0)  
-O(0)          2.437e-04
-   O2              1.218e-04   1.325e-04    -3.914    -3.878     0.037     30.24
+   Na+             2.347e-01   1.701e-01    -0.629    -0.769    -0.140     -0.85
+   NaSO4-          5.252e-03   3.746e-03    -2.280    -2.426    -0.147      2.97
+   NaHCO3          3.141e-05   3.713e-05    -4.503    -4.430     0.073     31.75
+   NaOH            5.351e-18   5.818e-18   -17.272   -17.235     0.036     (0)  
+O(0)          2.438e-04
+   O2              1.219e-04   1.325e-04    -3.914    -3.878     0.036     30.24
 S(6)          1.410e-02
-   SO4-2           7.729e-03   1.805e-03    -2.112    -2.743    -0.632     16.64
-   NaSO4-          2.562e-03   1.263e-03    -2.591    -2.899    -0.307     18.52
-   CaSO4           1.923e-03   2.092e-03    -2.716    -2.679     0.037      7.42
-   MgSO4           1.750e-03   2.071e-03    -2.757    -2.684     0.073     -1.17
-   SrSO4           4.061e-05   4.418e-05    -4.391    -4.355     0.037     24.16
-   Mg(SO4)2-2      4.016e-05   1.278e-05    -4.396    -4.894    -0.497     46.11
-   KSO4-           1.464e-05   7.267e-06    -4.834    -5.139    -0.304     29.98
-   HSO4-           5.771e-09   4.222e-09    -8.239    -8.374    -0.136     40.64
-   CaHSO4+         4.591e-10   3.358e-10    -9.338    -9.474    -0.136     (0)  
+   SO4-2           5.877e-03   1.376e-03    -2.231    -2.861    -0.631     32.28
+   NaSO4-          5.252e-03   3.746e-03    -2.280    -2.426    -0.147      2.97
+   CaSO4           1.495e-03   1.625e-03    -2.825    -2.789     0.036      7.42
+   MgSO4           1.371e-03   1.621e-03    -2.863    -2.790     0.073     -8.62
+   SrSO4           3.161e-05   3.437e-05    -4.500    -4.464     0.036     24.16
+   KSO4-           2.634e-05   2.196e-05    -4.579    -4.658    -0.079     13.22
+   Mg(SO4)2-2      2.393e-05   7.622e-06    -4.621    -5.118    -0.497     27.97
+   HSO4-           4.398e-09   3.217e-09    -8.357    -8.493    -0.136     40.64
+   CaHSO4+         3.566e-10   2.609e-10    -9.448    -9.584    -0.136     (0)  
 Sr            5.050e-04
-   Sr+2            4.637e-04   1.285e-04    -3.334    -3.891    -0.557    -16.73
-   SrSO4           4.061e-05   4.418e-05    -4.391    -4.355     0.037     24.16
-   SrHCO3+         6.993e-07   4.970e-07    -6.155    -6.304    -0.148     (0)  
-   SrCO3           3.448e-08   3.750e-08    -7.462    -7.426     0.037    -14.14
-   SrOH+           3.705e-10   2.598e-10    -9.431    -9.585    -0.154     (0)  
+   Sr+2            4.727e-04   1.312e-04    -3.325    -3.882    -0.557    -16.74
+   SrSO4           3.161e-05   3.437e-05    -4.500    -4.464     0.036     24.16
+   SrHCO3+         6.993e-07   4.972e-07    -6.155    -6.303    -0.148     (0)  
+   SrCO3           3.451e-08   3.752e-08    -7.462    -7.426     0.036    -14.14
+   SrOH+           3.781e-10   2.652e-10    -9.422    -9.576    -0.154     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(296 K,   1 atm)
 
-  Anhydrite        -0.67     -4.92   -4.26  CaSO4
+  Anhydrite        -0.78     -5.03   -4.26  CaSO4
   Aragonite        -0.17     -8.49   -8.32  CaCO3
-  Arcanite         -6.78     -8.69   -1.91  K2SO4
+  Arcanite         -6.91     -8.81   -1.91  K2SO4
   Calcite          -0.03     -8.49   -8.47  CaCO3
-  Celestite         0.01     -6.63   -6.65  SrSO4
-  CO2(g)           -3.36     -4.80   -1.44  CO2
+  Celestite        -0.10     -6.74   -6.65  SrSO4
+  CO2(g)           -3.36     -4.81   -1.44  CO2
   Dolomite         -0.09    -17.14  -17.05  CaMg(CO3)2
-  Epsomite         -3.36     -5.11   -1.75  MgSO4:7H2O
-  Gypsum           -0.35     -4.93   -4.58  CaSO4:2H2O
+  Epsomite         -3.47     -5.22   -1.75  MgSO4:7H2O
+  Gypsum           -0.46     -5.04   -4.58  CaSO4:2H2O
   H2(g)           -41.48    -44.58   -3.10  H2
   H2O(g)           -1.56     -0.00    1.55  H2O
   Halite           -3.03     -1.46    1.57  NaCl
-  Hexahydrite      -3.54     -5.11   -1.57  MgSO4:6H2O
-  Kieserite        -3.91     -5.08   -1.17  MgSO4:H2O
-  Mirabilite       -2.99     -4.32   -1.33  Na2SO4:10H2O
+  Hexahydrite      -3.64     -5.21   -1.57  MgSO4:6H2O
+  Kieserite        -4.02     -5.19   -1.17  MgSO4:H2O
+  Mirabilite       -3.12     -4.44   -1.33  Na2SO4:10H2O
   O2(g)            -1.00     -3.88   -2.88  O2	 Pressure   0.1 atm, phi 1.000
   Strontianite     -0.94    -10.21   -9.27  SrCO3
   Sylvite          -4.56     -3.67    0.89  KCl
-  Thenardite       -3.98     -4.27   -0.29  Na2SO4
+  Thenardite       -4.11     -4.40   -0.29  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -574,7 +580,7 @@ Reading input data for simulation 3.
 	 Fe(2) 0.0
 	 Alkalinity 0.476
 	SOLUTION 5
-	 water   7.7322e-05	
+	 water   1.3217e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -592,12 +598,12 @@ Reading input data for simulation 3.
 	 Su_ 3.8224e-04  5.2840e+05   6.6087e-04	
 	 Su_ii 7.4371e-06	
 	 Su_fes 6.9841e-07	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 5
 	 equilibrate 5
 	 X 4.6718e-04
 	SOLUTION 6
-	 water   9.5113e-05	
+	 water   1.6259e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -615,12 +621,12 @@ Reading input data for simulation 3.
 	 Su_ 4.7019e-04  5.2840e+05   8.1293e-04	
 	 Su_ii 9.1484e-06	
 	 Su_fes 8.5911e-07	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 6
 	 equilibrate 6
 	 X 5.7468e-04
 	SOLUTION 7
-	 water   1.1291e-04	
+	 water   1.9300e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -638,12 +644,12 @@ Reading input data for simulation 3.
 	 Su_ 5.5814e-04  5.2840e+05   9.6500e-04	
 	 Su_ii 1.0860e-05	
 	 Su_fes 1.0198e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 7
 	 equilibrate 7
 	 X 6.8218e-04
 	SOLUTION 8
-	 water   1.3070e-04	
+	 water   2.2341e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -661,12 +667,12 @@ Reading input data for simulation 3.
 	 Su_ 6.4610e-04  5.2840e+05   1.1171e-03	
 	 Su_ii 1.2571e-05	
 	 Su_fes 1.1805e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 8
 	 equilibrate 8
 	 X 7.8967e-04
 	SOLUTION 9
-	 water   1.4849e-04	
+	 water   2.5383e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -684,12 +690,12 @@ Reading input data for simulation 3.
 	 Su_ 7.3405e-04  5.2840e+05   1.2691e-03	
 	 Su_ii 1.4282e-05	
 	 Su_fes 1.3412e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 9
 	 equilibrate 9
 	 X 8.9717e-04
 	SOLUTION 10
-	 water   1.6628e-04	
+	 water   2.8424e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -707,12 +713,12 @@ Reading input data for simulation 3.
 	 Su_ 8.2200e-04  5.2840e+05   1.4212e-03	
 	 Su_ii 1.5994e-05	
 	 Su_fes 1.5019e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 10
 	 equilibrate 10
 	 X 1.0047e-03
 	SOLUTION 11
-	 water   1.8407e-04	
+	 water   3.1465e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -730,12 +736,12 @@ Reading input data for simulation 3.
 	 Su_ 9.0996e-04  5.2840e+05   1.5733e-03	
 	 Su_ii 1.7705e-05	
 	 Su_fes 1.6626e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 11
 	 equilibrate 11
 	 X 1.1122e-03
 	SOLUTION 12
-	 water   2.0186e-04	
+	 water   3.4507e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -753,12 +759,12 @@ Reading input data for simulation 3.
 	 Su_ 9.9791e-04  5.2840e+05   1.7253e-03	
 	 Su_ii 1.9416e-05	
 	 Su_fes 1.8233e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 12
 	 equilibrate 12
 	 X 1.2197e-03
 	SOLUTION 13
-	 water   2.1966e-04	
+	 water   3.7548e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -776,12 +782,12 @@ Reading input data for simulation 3.
 	 Su_ 1.0859e-03  5.2840e+05   1.8774e-03	
 	 Su_ii 2.1127e-05	
 	 Su_fes 1.9840e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 13
 	 equilibrate 13
 	 X 1.3272e-03
 	SOLUTION 14
-	 water   2.3745e-04	
+	 water   4.0589e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -799,12 +805,12 @@ Reading input data for simulation 3.
 	 Su_ 1.1738e-03  5.2840e+05   2.0295e-03	
 	 Su_ii 2.2839e-05	
 	 Su_fes 2.1448e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 14
 	 equilibrate 14
 	 X 1.4347e-03
 	SOLUTION 15
-	 water   2.5524e-04	
+	 water   4.3631e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -822,7 +828,7 @@ Reading input data for simulation 3.
 	 Su_ 1.2618e-03  5.2840e+05   2.1815e-03	
 	 Su_ii 2.4550e-05	
 	 Su_fes 2.3055e-06	
-	 donnan 1.6711e-09	
+	 donnan 1.8546e-09 viscosity calc correct  false	
 	EXCHANGE 15
 	 equilibrate 15
 	 X 1.5422e-03
@@ -874,29 +880,29 @@ Reading input data for simulation 3.
 	MIX 3
 	           4  6.6932e-04	
 	MIX 4
-	           5  1.9640e-04	
+	           5  2.0070e-04	
 	MIX 5
-	           6  1.5725e-04	
+	           6  1.6165e-04	
 	MIX 6
-	           7  1.8971e-04	
+	           7  1.9501e-04	
 	MIX 7
-	           8  2.2216e-04	
+	           8  2.2837e-04	
 	MIX 8
-	           9  2.5461e-04	
+	           9  2.6173e-04	
 	MIX 9
-	          10  2.8706e-04	
+	          10  2.9509e-04	
 	MIX 10
-	          11  3.1951e-04	
+	          11  3.2845e-04	
 	MIX 11
-	          12  3.5196e-04	
+	          12  3.6180e-04	
 	MIX 12
-	          13  3.8441e-04	
+	          13  3.9516e-04	
 	MIX 13
-	          14  4.1686e-04	
+	          14  4.2852e-04	
 	MIX 14
-	          15  4.4931e-04	
+	          15  4.6188e-04	
 	MIX 15
-	          16  7.7653e-04	
+	          16  7.9394e-04	
 	MIX 16
 	          17  4.2533e-03	        
 	END	  
@@ -908,8 +914,8 @@ Reading input data for simulation 3.
 	 bcond 1 2
 	 stagnant 15	
 	 timest   1.5429e+03	
-	 multi_d true   2.5000e-09  1.5900e-01 0.0 9.9000e-01	
-	 interlayer_d false 0.001 0.0 1300	
+	 multi_d true   2.5000e-09  1.5900e-01 0.0 9.7500e-01	
+	 interlayer_d true 0.001 0.0 1300	
 	 punch_frequency 14
 	 punch_cells 17	
 	USER_GRAPH 1 Example 21
@@ -928,245 +934,9 @@ WARNING: No porosities were read; used the value 1.59e-01 from -multi_D.
 	 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(2)) / dt /  8.2988e-03, color = Green, symbol = None	
 	 60 put(a, 2)	
 	 70 plot_xy days, equi("A_Hto"), y_axis = 2, color = Red, symbol = None	        
-	END	  
-WARNING: 
-Calculating transport: 1 (mobile) cells, 1120 shifts, 1 mixruns...
-
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-17 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-15 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-	TRANSPORT	 
-	 shifts 0	
-	 punch_frequency 2
-	 punch_cells 3-17	
-	USER_GRAPH 1
-WARNING: No porosities were read; used the value 1.59e-01 from -multi_D.
-	 -detach	
-	USER_GRAPH 5 Example 21
-	 -chart_title "Hto Concentration Profile: Filter1 | Clay | Filter2"	
-	 -axis_scale x_axis 0 2.2220e+01	
-	 -axis_scale y_axis 0 1.2e-9	
-	 -axis_scale sy_axis 0 1.2e-9	
-	 -axis_titles "DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"	
-	 -headings Hto_free Hto_tot	
-	 -plot_concentration_vs x	
-	 -initial_solutions true	
-	 10 IF cell_no = 3 THEN xval = 0 ELSE xval = get(14)	
-	 20 IF (1 = 0 OR cell_no > 4) THEN GOTO 60	
-	 30 IF (cell_no = 4) THEN xval = xval + 0.5 * 1.8000e-03	
-	 40 IF (cell_no > 4 AND cell_no < 5) THEN xval = xval + 1.8000e-03	
-	 50 GOTO 200	
-	 60 IF (cell_no = 5) THEN xval = xval + 0.5 * 1.8000e-03 + 0.5 * 1.7109e-03	
-	 70 IF (cell_no > 5 AND cell_no < 16) THEN xval = xval + 1.7109e-03 ELSE GOTO 90	
-	 80 GOTO 200	
-	 90 IF (cell_no = 16) THEN xval = xval + 0.5 * 1.7109e-03 + 0.5 * 1.6000e-03	
-	 100 IF (cell_no > 16 AND cell_no <= 16) THEN xval = xval + 1.6000e-03	
-	 110 IF (cell_no = 17) THEN xval = xval + 0.5 * 1.6000e-03	
-	 200 y1 = TOT("Hto")	
-	 210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus	
-	 220 IF cell_no = 3 THEN put(y1, 15)	
-	 230 IF (cell_no < 5 OR cell_no > 15) THEN GOTO 400	
-	 240 y2 = SYS("Hto") / (tot("water") + edl("water"))	
-	 250 REM y2 = y2 / 1.4281e+01# conc / kg solid	
-	 260 plot_xy xval * 1e3, y2, symbol = Circle, y_axis = 2	
-	 270 IF (cell_no > 6) THEN GOTO 400	
-	 280 IF 1 THEN plot_xy 1.8000e+00, get(15), color = Black, symbol = None	
-	 290 IF 1 THEN plot_xy 2.0620e+01, get(15), color = Black, symbol = None	
-	 300 put(0, 15)	
-	 400 put(xval, 14)	        
 	END	
 WARNING: 
-Calculating transport: 1 (mobile) cells, 0 shifts, 1 mixruns...
+Calculating transport: 1 (mobile) cells, 1120 shifts, 1 mixruns...
 
 
 	END

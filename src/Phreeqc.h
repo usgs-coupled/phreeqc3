@@ -110,7 +110,7 @@ public:
 	LDBLE aqueous_vm(const char* species_name);
 	LDBLE phase_vm(const char* phase_name);
 	LDBLE diff_c(const char* species_name);
-	LDBLE setdiff_c(const char* species_name, double d);
+	LDBLE setdiff_c(const char * species_name, double d, double d_v_d);
 	LDBLE flux_mcd(const char* species_name, int option);
 	LDBLE sa_declercq(double type, double sa, double d, double m, double m0, double gfw);
 	LDBLE calc_SC(void);
