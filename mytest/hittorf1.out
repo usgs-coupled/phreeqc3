@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: hittorf1
   Output file: hittorf1.out
 Database file: ../database/phreeqc.dat
@@ -13,6 +14,7 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	CALCULATE_VALUES
 	RATES
 	END
 ------------------------------------
@@ -49,6 +51,9 @@ Reading input data for simulation 1.
 	pH 7 charge
 	 Cl 592
 	 Na 592
+	pH 7 charge
+	 Cl 3660
+	 Na 3660
 	SAVE solution 0
 	END
 -------------------------------------------
@@ -61,23 +66,23 @@ Initial solution 0.	cathode
 
 	Elements           Molality       Moles
 
-	Cl                5.920e-01   1.066e-02
-	Na                5.920e-01   1.066e-02
+	Cl                3.660e+00   6.588e-02
+	Na                3.660e+00   6.588e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.969      Charge balance
+                                       pH  =   6.950      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 486
-                          Density (g/cm³)  =   1.02058
-                               Volume (L)  =   0.01825
-                        Viscosity (mPa s)  =   0.93753
-                        Activity of water  =   0.980
-                 Ionic strength (mol/kgw)  =   5.920e-01
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 210850
+                          Density (g/cmÂ³)  =   1.12659
+                               Volume (L)  =   0.01940
+                        Viscosity (mPa s)  =   1.30116
+                        Activity of water  =   0.876
+                 Ionic strength (mol/kgw)  =   3.660e+00
                        Mass of water (kg)  =   1.800e-02
-                 Total alkalinity (eq/kg)  =   1.873e-17
-                         Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.491e-15
+                 Total alkalinity (eq/kg)  =  -2.572e-16
+                         Temperature (Â°C)  =  25.00
+                  Electrical balance (eq)  =   2.356e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   4
                                   Total H  = 1.998224e+00
@@ -86,30 +91,30 @@ Initial solution 0.	cathode
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
-   OH-             1.493e-07   9.241e-08    -6.826    -7.034    -0.208     -2.77
-   H+              1.414e-07   1.073e-07    -6.849    -6.969    -0.120      0.00
-   H2O             5.551e+01   9.799e-01     1.744    -0.009     0.000     18.07
-Cl            5.920e-01
-   Cl-             5.920e-01   3.782e-01    -0.228    -0.422    -0.195     18.74
-   HCl             7.828e-09   1.398e-08    -8.106    -7.854     0.252     (0)  
-H(0)          1.423e-25
-   H2              7.116e-26   8.155e-26   -25.148   -25.089     0.059     28.61
-Na            5.920e-01
-   Na+             5.920e-01   4.243e-01    -0.228    -0.372    -0.145     -0.56
-   NaOH            3.421e-18   3.921e-18   -17.466   -17.407     0.059     (0)  
+   OH-             1.595e-07   7.901e-08    -6.797    -7.102    -0.305      1.66
+   H+              1.572e-07   1.122e-07    -6.804    -6.950    -0.147      0.00
+   H2O             5.551e+01   8.756e-01     1.744    -0.058     0.000     18.07
+Cl            3.660e+00
+   Cl-             3.660e+00   2.130e+00     0.563     0.328    -0.235     19.69
+   HCl             2.278e-09   8.229e-08    -8.642    -7.085     1.558     (0)  
+H(0)          7.668e-26
+   H2              3.834e-26   8.905e-26   -25.416   -25.050     0.366     28.61
+Na            3.660e+00
+   Na+             3.660e+00   3.889e+00     0.563     0.590     0.026      0.67
+   NaOH            1.323e-17   3.073e-17   -16.878   -16.512     0.366     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.280   -42.220     0.059     30.40
+   O2              0.000e+00   0.000e+00   -42.761   -42.395     0.366     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -21.99    -25.09   -3.10  H2
-  H2O(g)           -1.51     -0.01    1.50  H2O
-  Halite           -2.36     -0.79    1.57  NaCl
-  O2(g)           -39.33    -42.22   -2.89  O2
+  H2(g)           -21.95    -25.05   -3.10  H2
+  H2O(g)           -1.56     -0.06    1.50  H2O
+  Halite           -0.65      0.92    1.57  NaCl
+  O2(g)           -39.50    -42.39   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -128,67 +133,67 @@ Using pure phase assemblage 0.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-AgMetal          -0.00   -13.51    -13.51    1.000e+01   1.000e+01   8.274e-18
-Cerargyrite      -0.00    -9.75     -9.75    1.000e+01   1.000e+01  -1.145e-11
+AgMetal           0.00   -13.51    -13.51    1.000e+01   1.000e+01   8.274e-18
+Cerargyrite       0.00    -9.75     -9.75    1.000e+01   1.000e+01  -8.953e-13
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Ag                6.360e-10   1.145e-11
-	Cl                5.920e-01   1.066e-02
-	Na                5.920e-01   1.066e-02
+	Ag                4.973e-11   8.951e-13
+	Cl                3.660e+00   6.588e-02
+	Na                3.660e+00   6.588e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.969      Charge balance
-                                       pe  =   4.182      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 486
-                          Density (g/cm³)  =   1.02058
-                               Volume (L)  =   0.01825
-                        Viscosity (mPa s)  =   0.93753
-                        Activity of water  =   0.980
-                 Ionic strength (mol/kgw)  =   5.920e-01
+                                       pH  =   6.950      Charge balance
+                                       pe  =   3.432      Adjusted to redox equilibrium
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 210850
+                          Density (g/cmÂ³)  =   1.12659
+                               Volume (L)  =   0.01940
+                        Viscosity (mPa s)  =   1.30116
+                        Activity of water  =   0.876
+                 Ionic strength (mol/kgw)  =   3.660e+00
                        Mass of water (kg)  =   1.800e-02
-                 Total alkalinity (eq/kg)  =  -2.757e-22
-                         Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.493e-15
+                 Total alkalinity (eq/kg)  =  -1.234e-14
+                         Temperature (Â°C)  =  25.00
+                  Electrical balance (eq)  =   3.512e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   2
+                               Iterations  =   3
                                   Total H  = 1.998224e+00
                                   Total O  = 9.991119e-01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
-   OH-             1.493e-07   9.241e-08    -6.826    -7.034    -0.208     -2.77
-   H+              1.414e-07   1.073e-07    -6.849    -6.969    -0.120      0.00
-   H2O             5.551e+01   9.799e-01     1.744    -0.009     0.000     18.07
-Ag            6.360e-10
-   Ag+             6.360e-10   4.702e-10    -9.197    -9.328    -0.131     (0)  
-Cl            5.920e-01
-   Cl-             5.920e-01   3.782e-01    -0.228    -0.422    -0.195     18.74
-   HCl             7.828e-09   1.398e-08    -8.106    -7.854     0.252     (0)  
-H(0)          6.148e-26
-   H2              3.074e-26   3.523e-26   -25.512   -25.453     0.059     28.61
-Na            5.920e-01
-   Na+             5.920e-01   4.243e-01    -0.228    -0.372    -0.145     -0.56
-   NaOH            3.421e-18   3.921e-18   -17.466   -17.407     0.059     (0)  
+   OH-             1.595e-07   7.901e-08    -6.797    -7.102    -0.305      1.66
+   H+              1.572e-07   1.122e-07    -6.804    -6.950    -0.147      0.00
+   H2O             5.551e+01   8.756e-01     1.744    -0.058     0.000     18.07
+Ag            4.973e-11
+   Ag+             4.973e-11   8.350e-11   -10.303   -10.078     0.225     (0)  
+Cl            3.660e+00
+   Cl-             3.660e+00   2.130e+00     0.563     0.328    -0.235     19.69
+   HCl             2.278e-09   8.229e-08    -8.642    -7.085     1.558     (0)  
+H(0)          1.050e-24
+   H2              5.252e-25   1.220e-24   -24.280   -23.914     0.366     28.61
+Na            3.660e+00
+   Na+             3.660e+00   3.889e+00     0.563     0.590     0.026      0.67
+   NaOH            1.323e-17   3.073e-17   -16.878   -16.512     0.366     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -41.551   -41.491     0.059     30.40
+   O2              0.000e+00   0.000e+00   -45.034   -44.668     0.366     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  AgMetal          -0.00    -13.51  -13.51  Ag
-  Cerargyrite      -0.00     -9.75   -9.75  AgCl
-  H2(g)           -22.35    -25.45   -3.10  H2
-  H2O(g)           -1.51     -0.01    1.50  H2O
-  Halite           -2.36     -0.79    1.57  NaCl
-  O2(g)           -38.60    -41.49   -2.89  O2
+  AgMetal           0.00    -13.51  -13.51  Ag
+  Cerargyrite       0.00     -9.75   -9.75  AgCl
+  H2(g)           -20.81    -23.91   -3.10  H2
+  H2O(g)           -1.56     -0.06    1.50  H2O
+  Halite           -0.65      0.92    1.57  NaCl
+  O2(g)           -41.78    -44.67   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -203,6 +208,9 @@ Reading input data for simulation 2.
 
 	SOLUTION 1-100
 	water 1e-3
+	pH 7 charge
+	 Cl 592
+	 Na 592
 	pH 7 charge
 	 Cl 3660
 	 Na 3660
@@ -224,16 +232,16 @@ Initial solution 1.
 
                                        pH  =   6.950      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 105
-                          Density (g/cm³)  =   1.12659
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 210850
+                          Density (g/cmÂ³)  =   1.12659
                                Volume (L)  =   0.00108
                         Viscosity (mPa s)  =   1.30116
                         Activity of water  =   0.876
                  Ionic strength (mol/kgw)  =   3.660e+00
                        Mass of water (kg)  =   1.000e-03
-                 Total alkalinity (eq/kg)  =  -2.306e-16
-                         Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.488e-18
+                 Total alkalinity (eq/kg)  =   7.419e-17
+                         Temperature (Â°C)  =  25.00
+                  Electrical balance (eq)  =   1.770e-18
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   4
                                   Total H  = 1.110124e-01
@@ -242,7 +250,7 @@ Initial solution 1.
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
    OH-             1.595e-07   7.901e-08    -6.797    -7.102    -0.305      1.66
    H+              1.572e-07   1.122e-07    -6.804    -6.950    -0.147      0.00
@@ -286,6 +294,9 @@ Reading input data for simulation 3.
 	pH 7 charge
 	 Cl 592
 	 Na 592
+	pH 7 charge
+	 Cl 3660
+	 Na 3660
 	potential 1.8
 	SAVE solution 101
 	END
@@ -299,24 +310,24 @@ Initial solution 101.	anode
 
 	Elements           Molality       Moles
 
-	Cl                5.920e-01   1.066e-02
-	Na                5.920e-01   1.066e-02
+	Cl                3.660e+00   6.588e-02
+	Na                3.660e+00   6.588e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.969      Charge balance
+                                       pH  =   6.950      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 486
-                          Density (g/cm³)  =   1.02058
-                               Volume (L)  =   0.01825
-                        Viscosity (mPa s)  =   0.93753
-                        Activity of water  =   0.980
-                 Ionic strength (mol/kgw)  =   5.920e-01
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 210850
+                          Density (g/cmÂ³)  =   1.12659
+                               Volume (L)  =   0.01940
+                        Viscosity (mPa s)  =   1.30116
+                        Activity of water  =   0.876
+                 Ionic strength (mol/kgw)  =   3.660e+00
                        Mass of water (kg)  =   1.800e-02
-                 Total alkalinity (eq/kg)  =   1.024e-17
-                         Temperature (°C)  =  25.00
+                 Total alkalinity (eq/kg)  =  -1.674e-16
+                         Temperature (Â°C)  =  25.00
               Electrical Potential (Volt)  =  1.80
-                  Electrical balance (eq)  =   1.491e-15
+                  Electrical balance (eq)  =   3.663e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   4
                                   Total H  = 1.998224e+00
@@ -325,30 +336,30 @@ Initial solution 101.	anode
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
-   OH-             1.493e-07   9.241e-08    -6.826    -7.034    -0.208     -2.77
-   H+              1.414e-07   1.073e-07    -6.849    -6.969    -0.120      0.00
-   H2O             5.551e+01   9.799e-01     1.744    -0.009     0.000     18.07
-Cl            5.920e-01
-   Cl-             5.920e-01   3.782e-01    -0.228    -0.422    -0.195     18.74
-   HCl             7.828e-09   1.398e-08    -8.106    -7.854     0.252     (0)  
-H(0)          1.423e-25
-   H2              7.116e-26   8.155e-26   -25.148   -25.089     0.059     28.61
-Na            5.920e-01
-   Na+             5.920e-01   4.243e-01    -0.228    -0.372    -0.145     -0.56
-   NaOH            3.421e-18   3.921e-18   -17.466   -17.407     0.059     (0)  
+   OH-             1.595e-07   7.901e-08    -6.797    -7.102    -0.305      1.66
+   H+              1.572e-07   1.122e-07    -6.804    -6.950    -0.147      0.00
+   H2O             5.551e+01   8.756e-01     1.744    -0.058     0.000     18.07
+Cl            3.660e+00
+   Cl-             3.660e+00   2.130e+00     0.563     0.328    -0.235     19.69
+   HCl             2.278e-09   8.229e-08    -8.642    -7.085     1.558     (0)  
+H(0)          7.668e-26
+   H2              3.834e-26   8.905e-26   -25.416   -25.050     0.366     28.61
+Na            3.660e+00
+   Na+             3.660e+00   3.889e+00     0.563     0.590     0.026      0.67
+   NaOH            1.323e-17   3.073e-17   -16.878   -16.512     0.366     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.280   -42.220     0.059     30.40
+   O2              0.000e+00   0.000e+00   -42.761   -42.395     0.366     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -21.99    -25.09   -3.10  H2
-  H2O(g)           -1.51     -0.01    1.50  H2O
-  Halite           -2.36     -0.79    1.57  NaCl
-  O2(g)           -39.33    -42.22   -2.89  O2
+  H2(g)           -21.95    -25.05   -3.10  H2
+  H2O(g)           -1.56     -0.06    1.50  H2O
+  Halite           -0.65      0.92    1.57  NaCl
+  O2(g)           -39.50    -42.39   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -368,56 +379,56 @@ Using pure phase assemblage 101.
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
 AgMetal           0.00   -13.51    -13.51    1.000e+01   1.000e+01   8.274e-18
-Cerargyrite       0.00    -9.75     -9.75    1.000e+01   1.000e+01  -1.145e-11
+Cerargyrite       0.00    -9.75     -9.75    1.000e+01   1.000e+01  -8.953e-13
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Ag                6.360e-10   1.145e-11
-	Cl                5.920e-01   1.066e-02
-	Na                5.920e-01   1.066e-02
+	Ag                4.973e-11   8.951e-13
+	Cl                3.660e+00   6.588e-02
+	Na                3.660e+00   6.588e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.969      Charge balance
-                                       pe  =   4.182      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 486
-                          Density (g/cm³)  =   1.02058
-                               Volume (L)  =   0.01825
-                        Viscosity (mPa s)  =   0.93753
-                        Activity of water  =   0.980
-                 Ionic strength (mol/kgw)  =   5.920e-01
+                                       pH  =   6.950      Charge balance
+                                       pe  =   3.432      Adjusted to redox equilibrium
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 210850
+                          Density (g/cmÂ³)  =   1.12659
+                               Volume (L)  =   0.01940
+                        Viscosity (mPa s)  =   1.30116
+                        Activity of water  =   0.876
+                 Ionic strength (mol/kgw)  =   3.660e+00
                        Mass of water (kg)  =   1.800e-02
-                 Total alkalinity (eq/kg)  =  -2.757e-22
-                         Temperature (°C)  =  25.00
+                 Total alkalinity (eq/kg)  =  -1.234e-14
+                         Temperature (Â°C)  =  25.00
               Electrical Potential (Volt)  =  1.80
-                  Electrical balance (eq)  =   1.493e-15
+                  Electrical balance (eq)  =   4.900e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   2
+                               Iterations  =   3
                                   Total H  = 1.998224e+00
                                   Total O  = 9.991119e-01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
-   OH-             1.493e-07   9.241e-08    -6.826    -7.034    -0.208     -2.77
-   H+              1.414e-07   1.073e-07    -6.849    -6.969    -0.120      0.00
-   H2O             5.551e+01   9.799e-01     1.744    -0.009     0.000     18.07
-Ag            6.360e-10
-   Ag+             6.360e-10   4.702e-10    -9.197    -9.328    -0.131     (0)  
-Cl            5.920e-01
-   Cl-             5.920e-01   3.782e-01    -0.228    -0.422    -0.195     18.74
-   HCl             7.828e-09   1.398e-08    -8.106    -7.854     0.252     (0)  
-H(0)          6.148e-26
-   H2              3.074e-26   3.523e-26   -25.512   -25.453     0.059     28.61
-Na            5.920e-01
-   Na+             5.920e-01   4.243e-01    -0.228    -0.372    -0.145     -0.56
-   NaOH            3.421e-18   3.921e-18   -17.466   -17.407     0.059     (0)  
+   OH-             1.595e-07   7.901e-08    -6.797    -7.102    -0.305      1.66
+   H+              1.572e-07   1.122e-07    -6.804    -6.950    -0.147      0.00
+   H2O             5.551e+01   8.756e-01     1.744    -0.058     0.000     18.07
+Ag            4.973e-11
+   Ag+             4.973e-11   8.350e-11   -10.303   -10.078     0.225     (0)  
+Cl            3.660e+00
+   Cl-             3.660e+00   2.130e+00     0.563     0.328    -0.235     19.69
+   HCl             2.278e-09   8.229e-08    -8.642    -7.085     1.558     (0)  
+H(0)          1.050e-24
+   H2              5.252e-25   1.220e-24   -24.280   -23.914     0.366     28.61
+Na            3.660e+00
+   Na+             3.660e+00   3.889e+00     0.563     0.590     0.026      0.67
+   NaOH            1.323e-17   3.073e-17   -16.878   -16.512     0.366     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -41.551   -41.491     0.059     30.40
+   O2              0.000e+00   0.000e+00   -45.034   -44.668     0.366     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -425,10 +436,10 @@ O(0)          0.000e+00
 
   AgMetal           0.00    -13.51  -13.51  Ag
   Cerargyrite       0.00     -9.75   -9.75  AgCl
-  H2(g)           -22.35    -25.45   -3.10  H2
-  H2O(g)           -1.51     -0.01    1.50  H2O
-  Halite           -2.36     -0.79    1.57  NaCl
-  O2(g)           -38.60    -41.49   -2.89  O2
+  H2(g)           -20.81    -23.91   -3.10  H2
+  H2O(g)           -1.56     -0.06    1.50  H2O
+  Halite           -0.65      0.92    1.57  NaCl
+  O2(g)           -41.78    -44.67   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -443,26 +454,6 @@ Reading input data for simulation 4.
 
 	MIX 1000 conc`s in the cathode cell
 	0  1
-	1  1
-	 2  1
-	 3  1
-	 4  1
-	 5  1
-	 6  1
-	 7  1
-	 8  1
-	 9  1
-	 10 1
-	 11  1
-	 12  1
-	 13  1
-	 14  1
-	 15  1
-	 16  1
-	 17  1
-	 18  1
-	 19  1
-	 20  1
 	USER_PRINT
 	10 put(sys("Na"), 1) : put(sys("Cl"), 2) : put(10, 3)
 	END
@@ -477,26 +468,6 @@ Using mix 1000.	conc`s in the cathode cell
 Mixture 1000.	conc`s in the cathode cell
 
 	  1.000e+00 Solution 0	Solution after simulation 1.                           
-	  1.000e+00 Solution 1	                                                       
-	  1.000e+00 Solution 2	                                                       
-	  1.000e+00 Solution 3	                                                       
-	  1.000e+00 Solution 4	                                                       
-	  1.000e+00 Solution 5	                                                       
-	  1.000e+00 Solution 6	                                                       
-	  1.000e+00 Solution 7	                                                       
-	  1.000e+00 Solution 8	                                                       
-	  1.000e+00 Solution 9	                                                       
-	  1.000e+00 Solution 10	                                                       
-	  1.000e+00 Solution 11	                                                       
-	  1.000e+00 Solution 12	                                                       
-	  1.000e+00 Solution 13	                                                       
-	  1.000e+00 Solution 14	                                                       
-	  1.000e+00 Solution 15	                                                       
-	  1.000e+00 Solution 16	                                                       
-	  1.000e+00 Solution 17	                                                       
-	  1.000e+00 Solution 18	                                                       
-	  1.000e+00 Solution 19	                                                       
-	  1.000e+00 Solution 20	                                                       
 
 ----------------------------------User print-----------------------------------
 
@@ -505,61 +476,60 @@ Mixture 1000.	conc`s in the cathode cell
 
 	Elements           Molality       Moles
 
-	Ag                3.013e-10   1.145e-11
-	Cl                2.207e+00   8.386e-02
-	Na                2.207e+00   8.386e-02
+	Ag                4.973e-11   8.951e-13
+	Cl                3.660e+00   6.588e-02
+	Na                3.660e+00   6.588e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.953      Charge balance
-                                       pe  =  -0.877      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 3009
-                          Density (g/cm³)  =   1.07917
-                               Volume (L)  =   0.03975
-                        Viscosity (mPa s)  =   1.10079
-                        Activity of water  =   0.925
-                 Ionic strength (mol/kgw)  =   2.207e+00
-                       Mass of water (kg)  =   3.800e-02
-                 Total alkalinity (eq/kg)  =   6.012e-16
-                         Temperature (°C)  =  25.00
-                           Pressure (atm)  =  1.00
-                  Electrical balance (eq)  =   1.487e-15
+                                       pH  =   6.950      Charge balance
+                                       pe  =   3.432      Adjusted to redox equilibrium
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 210850
+                          Density (g/cmÂ³)  =   1.12659
+                               Volume (L)  =   0.01940
+                        Viscosity (mPa s)  =   1.30116
+                        Activity of water  =   0.876
+                 Ionic strength (mol/kgw)  =   3.660e+00
+                       Mass of water (kg)  =   1.800e-02
+                 Total alkalinity (eq/kg)  =  -1.234e-14
+                         Temperature (Â°C)  =  25.00
+                  Electrical balance (eq)  =   3.512e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   9
-                                  Total H  = 4.218472e+00
-                                  Total O  = 2.109236e+00
+                               Iterations  =   0
+                                  Total H  = 1.998224e+00
+                                  Total O  = 9.991119e-01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
-   OH-             1.598e-07   8.393e-08    -6.796    -7.076    -0.280     -0.33
-   H+              1.542e-07   1.116e-07    -6.812    -6.953    -0.141      0.00
-   H2O             5.551e+01   9.250e-01     1.744    -0.034     0.000     18.07
-Ag            3.013e-10
-   Ag+             3.013e-10   3.249e-10    -9.521    -9.488     0.033     (0)  
-Cl            2.207e+00
-   Cl-             2.207e+00   1.282e+00     0.344     0.108    -0.236     19.35
-   HCl             5.667e-09   4.926e-08    -8.247    -7.307     0.939     (0)  
-H(0)          6.014e-16
-   H2              3.007e-16   4.998e-16   -15.522   -15.301     0.221     28.61
-Na            2.207e+00
-   Na+             2.207e+00   1.868e+00     0.344     0.271    -0.072      0.22
-   NaOH            9.432e-18   1.568e-17   -17.025   -16.805     0.221     (0)  
+   OH-             1.595e-07   7.901e-08    -6.797    -7.102    -0.305      1.66
+   H+              1.572e-07   1.122e-07    -6.804    -6.950    -0.147      0.00
+   H2O             5.551e+01   8.756e-01     1.744    -0.058     0.000     18.07
+Ag            4.973e-11
+   Ag+             4.973e-11   8.350e-11   -10.303   -10.078     0.225     (0)  
+Cl            3.660e+00
+   Cl-             3.660e+00   2.130e+00     0.563     0.328    -0.235     19.69
+   HCl             2.278e-09   8.229e-08    -8.642    -7.085     1.558     (0)  
+H(0)          1.050e-24
+   H2              5.252e-25   1.220e-24   -24.280   -23.914     0.366     28.61
+Na            3.660e+00
+   Na+             3.660e+00   3.889e+00     0.563     0.590     0.026      0.67
+   NaOH            1.323e-17   3.073e-17   -16.878   -16.512     0.366     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -62.066   -61.845     0.221     30.40
+   O2              0.000e+00   0.000e+00   -45.034   -44.668     0.366     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  AgMetal           4.90     -8.61  -13.51  Ag
-  Cerargyrite       0.37     -9.38   -9.75  AgCl
-  H2(g)           -12.20    -15.30   -3.10  H2
-  H2O(g)           -1.54     -0.03    1.50  H2O
-  Halite           -1.19      0.38    1.57  NaCl
-  O2(g)           -58.95    -61.85   -2.89  O2
+  AgMetal           0.00    -13.51  -13.51  Ag
+  Cerargyrite       0.00     -9.75   -9.75  AgCl
+  H2(g)           -20.81    -23.91   -3.10  H2
+  H2O(g)           -1.56     -0.06    1.50  H2O
+  Halite           -0.65      0.92    1.57  NaCl
+  O2(g)           -41.78    -44.67   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -574,28 +544,6 @@ Reading input data for simulation 5.
 
 	MIX 1001 conc`s in the anode cell
 	101  1
-	79  1
-	 80  1
-	 81  1
-	 82  1
-	 83  1
-	 84   1
-	 85   1
-	 86   1
-	 87   1
-	 88   1
-	 89   1
-	 90   1
-	 91   1
-	 92   1
-	 93   1
-	 94   1
-	 95   1
-	 96   1
-	 97   1
-	 98   1
-	 99   1
-	 100  1 
 	USER_PRINT
 	10 put(sys("Na"), 11) : put(sys("Cl"), 21)
 	END
@@ -609,28 +557,6 @@ Using mix 1001.	conc`s in the anode cell
 
 Mixture 1001.	conc`s in the anode cell
 
-	  1.000e+00 Solution 79	                                                       
-	  1.000e+00 Solution 80	                                                       
-	  1.000e+00 Solution 81	                                                       
-	  1.000e+00 Solution 82	                                                       
-	  1.000e+00 Solution 83	                                                       
-	  1.000e+00 Solution 84	                                                       
-	  1.000e+00 Solution 85	                                                       
-	  1.000e+00 Solution 86	                                                       
-	  1.000e+00 Solution 87	                                                       
-	  1.000e+00 Solution 88	                                                       
-	  1.000e+00 Solution 89	                                                       
-	  1.000e+00 Solution 90	                                                       
-	  1.000e+00 Solution 91	                                                       
-	  1.000e+00 Solution 92	                                                       
-	  1.000e+00 Solution 93	                                                       
-	  1.000e+00 Solution 94	                                                       
-	  1.000e+00 Solution 95	                                                       
-	  1.000e+00 Solution 96	                                                       
-	  1.000e+00 Solution 97	                                                       
-	  1.000e+00 Solution 98	                                                       
-	  1.000e+00 Solution 99	                                                       
-	  1.000e+00 Solution 100	                                                       
 	  1.000e+00 Solution 101	Solution after simulation 3.                           
 
 ----------------------------------User print-----------------------------------
@@ -640,61 +566,60 @@ Mixture 1001.	conc`s in the anode cell
 
 	Elements           Molality       Moles
 
-	Ag                2.862e-10   1.145e-11
-	Cl                2.279e+00   9.118e-02
-	Na                2.279e+00   9.118e-02
+	Ag                4.973e-11   8.951e-13
+	Cl                3.660e+00   6.588e-02
+	Na                3.660e+00   6.588e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.952      Charge balance
-                                       pe  =  -0.949      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 3243
-                          Density (g/cm³)  =   1.08165
-                               Volume (L)  =   0.04191
-                        Viscosity (mPa s)  =   1.10957
-                        Activity of water  =   0.923
-                 Ionic strength (mol/kgw)  =   2.279e+00
-                       Mass of water (kg)  =   4.000e-02
-                 Total alkalinity (eq/kg)  =   7.700e-16
-                         Temperature (°C)  =  25.00
-                           Pressure (atm)  =  1.00
-                  Electrical balance (eq)  =   5.247e-14
+                                       pH  =   6.950      Charge balance
+                                       pe  =   3.432      Adjusted to redox equilibrium
+      Specific Conductance (ÂµS/cm,  25Â°C)  = 210850
+                          Density (g/cmÂ³)  =   1.12659
+                               Volume (L)  =   0.01940
+                        Viscosity (mPa s)  =   1.30116
+                        Activity of water  =   0.876
+                 Ionic strength (mol/kgw)  =   3.660e+00
+                       Mass of water (kg)  =   1.800e-02
+                 Total alkalinity (eq/kg)  =  -1.234e-14
+                         Temperature (Â°C)  =  25.00
+                  Electrical balance (eq)  =   4.900e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   9
-                                  Total H  = 4.440497e+00
-                                  Total O  = 2.220249e+00
+                               Iterations  =   0
+                                  Total H  = 1.998224e+00
+                                  Total O  = 9.991119e-01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+   Species          Molality    Activity  Molality  Activity     Gamma   cmÂ³/mol
 
-   OH-             1.599e-07   8.363e-08    -6.796    -7.078    -0.281     -0.23
-   H+              1.544e-07   1.116e-07    -6.811    -6.952    -0.141      0.00
-   H2O             5.551e+01   9.225e-01     1.744    -0.035     0.000     18.07
-Ag            2.862e-10
-   Ag+             2.862e-10   3.152e-10    -9.543    -9.501     0.042     (0)  
-Cl            2.279e+00
-   Cl-             2.279e+00   1.323e+00     0.358     0.122    -0.236     19.37
-   HCl             5.451e-09   5.089e-08    -8.264    -7.293     0.970     (0)  
-H(0)          8.259e-16
-   H2              4.130e-16   6.980e-16   -15.384   -15.156     0.228     28.61
-Na            2.279e+00
-   Na+             2.279e+00   1.950e+00     0.358     0.290    -0.068      0.24
-   NaOH            9.649e-18   1.631e-17   -17.016   -16.788     0.228     (0)  
+   OH-             1.595e-07   7.901e-08    -6.797    -7.102    -0.305      1.66
+   H+              1.572e-07   1.122e-07    -6.804    -6.950    -0.147      0.00
+   H2O             5.551e+01   8.756e-01     1.744    -0.058     0.000     18.07
+Ag            4.973e-11
+   Ag+             4.973e-11   8.350e-11   -10.303   -10.078     0.225     (0)  
+Cl            3.660e+00
+   Cl-             3.660e+00   2.130e+00     0.563     0.328    -0.235     19.69
+   HCl             2.278e-09   8.229e-08    -8.642    -7.085     1.558     (0)  
+H(0)          1.050e-24
+   H2              5.252e-25   1.220e-24   -24.280   -23.914     0.366     28.61
+Na            3.660e+00
+   Na+             3.660e+00   3.889e+00     0.563     0.590     0.026      0.67
+   NaOH            1.323e-17   3.073e-17   -16.878   -16.512     0.366     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -62.366   -62.138     0.228     30.40
+   O2              0.000e+00   0.000e+00   -45.034   -44.668     0.366     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  AgMetal           4.96     -8.55  -13.51  Ag
-  Cerargyrite       0.37     -9.38   -9.75  AgCl
-  H2(g)           -12.06    -15.16   -3.10  H2
-  H2O(g)           -1.54     -0.04    1.50  H2O
-  Halite           -1.16      0.41    1.57  NaCl
-  O2(g)           -59.25    -62.14   -2.89  O2
+  AgMetal           0.00    -13.51  -13.51  Ag
+  Cerargyrite       0.00     -9.75   -9.75  AgCl
+  H2(g)           -20.81    -23.91   -3.10  H2
+  H2O(g)           -1.56     -0.06    1.50  H2O
+  Halite           -0.65      0.92    1.57  NaCl
+  O2(g)           -41.78    -44.67   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -718,71 +643,71 @@ Calculating transport: 100 (mobile) cells, 1 shifts, 1 mixruns...
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 WARNING: 
-Calculating transport: 100 (mobile) cells, 1 shifts, 29 mixruns...
+Calculating transport: 100 (mobile) cells, 1 shifts, 17 mixruns...
 
 

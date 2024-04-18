@@ -29,14 +29,47 @@ Reading input data for simulation 1.
 	10 PUNCH STR_F$(MU, 20, 12)
 	20 PUNCH STR_F$(SC, 20, 10)
 	    end
+	PHASES
+	Arcanite
+		K2SO4  =  SO4-2 + 2 K+
+		log_k   -1.776
+	 delta_h 5 kcal
+		analytical_expression   674.142  0.30423  -18037  -280.236  0  -1.44055e-4 # ref. 3
+		vm 65.5
+	Mirabilite
+		Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
+		analytical_expression  -301.9326  -0.16232  0  141.078 # ref. 3
+		Vm 216
+	Thenardite
+		Na2SO4 = 2 Na+ + SO4-2
+		analytical_expression  57.185  8.6024e-2  0  -30.8341  0  -7.6905e-5 # ref. 3
+		vm 52.9
+	Epsomite
+		MgSO4:7H2O  =  Mg+2 + SO4-2 + 7 H2O
+		log_k	 -1.74
+	 delta_h 10.57 kJ
+		analytical_expression  -3.59  6.21e-3
+		Vm 147
+	Hexahydrite
+		MgSO4:6H2O  =  Mg+2 + SO4-2 + 6 H2O
+		log_k	 -1.57
+	 delta_h 2.35 kJ
+		analytical_expression  -1.978  1.38e-3
+		Vm 132
+	Kieserite
+		MgSO4:H2O  =  Mg+2 + SO4-2 + H2O
+		log_k	 -1.16
+	 delta_h 9.22 kJ
+		analytical_expression  29.485  -5.07e-2  0  -2.662  -7.95e5
+		Vm 53.8
 	SOLUTION 1
 	REACTION_TEMPERATURE 
-	0, 25, 30, 35, 40, 45, 50#, 55, 60, 65, 70, 100, 120, 140, 160, 170, 180, 190, 200
+	10, 25, 30, 35, 40, 45, 50
 	EQUILIBRIUM_PHASES
 	Epsomite 0 10
 	USER_GRAPH 1
 	-chart_title "MgSO4-hydrates' solubility"
-	-axis_titles "Temperature / ºC" "mol MgSO4 / kgw"
+	-axis_titles "Temperature /��C" "mol MgSO4 / kgw"
 	-axis_scale x_axis 0 210
 	-connect_simulations false
 	-plot_csv_file MgSO4.csv
@@ -111,36 +144,36 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Epsomite          0.00    -2.06     -2.06    1.000e+01   6.991e+00  -3.009e+00
+Epsomite          0.00    -1.83     -1.83    1.000e+01   5.554e+00  -4.446e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                2.181e+00   3.009e+00
-	S                 2.181e+00   3.009e+00
+	Mg                2.849e+00   4.446e+00
+	S                 2.849e+00   4.446e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.389      Charge balance
+                                       pH  =   6.021      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,   0°C)  = 32264
-                          Density (g/cm³)  =   1.25401
-                               Volume (L)  =   1.38887
-                        Viscosity (mPa s)  =   8.79999
-                        Activity of water  =   0.945
-                 Ionic strength (mol/kgw)  =   8.725e+00
-                       Mass of water (kg)  =   1.379e+00
-                 Total alkalinity (eq/kg)  =   8.817e-10
-                         Temperature (°C)  =   0.00
-                  Electrical balance (eq)  =  -1.220e-09
+      Specific Conductance (µS/cm,  10°C)  = 27771
+                          Density (g/cm³)  =   1.29231
+                               Volume (L)  =   1.62170
+                        Viscosity (mPa s)  =  11.25006
+                        Activity of water  =   0.910
+                 Ionic strength (mol/kgw)  =   1.139e+01
+                       Mass of water (kg)  =   1.561e+00
+                 Total alkalinity (eq/kg)  =   7.794e-10
+                         Temperature (°C)  =  10.00
+                  Electrical balance (eq)  =  -2.227e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  26
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.72629
-                         Density of water  =   0.99984
-                                  Total H  = 1.531385e+02
-                                  Total O  = 8.860526e+01
+                               Iterations  =  31
+                         Gamma iterations  =   7
+                      Osmotic coefficient  =   0.91664
+                         Density of water  =   0.99970
+                                  Total H  = 1.732495e+02
+                                  Total O  = 1.044068e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -148,27 +181,27 @@ Epsomite          0.00    -2.06     -2.06    1.000e+01   6.991e+00  -3.009e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              2.410e-07   4.087e-07    -6.618    -6.389     0.229      0.00
-   OH-             3.922e-08   2.663e-09    -7.407    -8.575    -1.168      5.53
-   H2O             5.551e+01   9.445e-01     1.744    -0.025     0.000     18.02
-Mg            2.181e+00
-   Mg+2            2.181e+00   1.135e+00     0.339     0.055    -0.284    -16.87
-   MgOH+           5.247e-07   3.762e-07    -6.280    -6.425    -0.145     (0)  
-S(6)          2.181e+00
-   SO4-2           2.181e+00   1.140e-02     0.339    -1.943    -2.282     19.92
-   HSO4-           3.220e-07   2.291e-07    -6.492    -6.640    -0.148     39.80
+   H+              3.541e-07   9.530e-07    -6.451    -6.021     0.430      0.00
+   OH-             5.805e-08   2.809e-09    -7.236    -8.551    -1.315     10.15
+   H2O             5.551e+01   9.102e-01     1.744    -0.041     0.000     18.02
+Mg            2.849e+00
+   Mg+2            2.849e+00   2.516e+00     0.455     0.401    -0.054    -15.55
+   MgOH+           1.209e-06   9.398e-07    -5.917    -6.027    -0.109     (0)  
+S(6)          2.849e+00
+   SO4-2           2.849e+00   1.131e-02     0.455    -1.946    -2.401     29.18
+   HSO4-           9.124e-07   7.721e-07    -6.040    -6.112    -0.073     41.32
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(273 K,   1 atm)
+  Phase               SI** log IAP   log K(283 K,   1 atm)
 
-  Brucite          -5.89    -17.09  -11.21  Mg(OH)2
-  Epsomite          0.00     -2.06   -2.06  MgSO4:7H2O
-  H2O(g)           -2.23     -0.02    2.21  H2O
-  Hexahydrite      -0.54     -2.04   -1.50  MgSO4:6H2O
-  Kieserite        -1.98     -1.91    0.07  MgSO4:H2O
-  Leonhardite      -1.10     -1.99   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.73     -2.01   -1.28  MgSO4:5H2O
+  Brucite          -5.63    -16.70  -11.07  Mg(OH)2
+  Epsomite          0.00     -1.83   -1.83  MgSO4:7H2O
+  H2O(g)           -1.95     -0.04    1.91  H2O
+  Hexahydrite      -0.20     -1.79   -1.59  MgSO4:6H2O
+  Kieserite        -0.27     -1.59   -1.31  MgSO4:H2O
+  Leonhardite      -0.82     -1.71   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.46     -1.75   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -184,36 +217,36 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Epsomite          0.00    -1.85     -1.85    1.000e+01   5.161e+00  -4.839e+00
+Epsomite          0.00    -1.74     -1.74    1.000e+01   4.249e+00  -5.751e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                3.005e+00   4.839e+00
-	S                 3.005e+00   4.839e+00
+	Mg                3.333e+00   5.751e+00
+	S                 3.333e+00   5.751e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.783      Charge balance
+                                       pH  =   5.665      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 49300
-                          Density (g/cm³)  =   1.30426
-                               Volume (L)  =   1.68119
-                        Viscosity (mPa s)  =   6.93755
-                        Activity of water  =   0.904
-                 Ionic strength (mol/kgw)  =   1.202e+01
-                       Mass of water (kg)  =   1.610e+00
-                 Total alkalinity (eq/kg)  =   7.553e-10
+      Specific Conductance (µS/cm,  25°C)  = 35401
+                          Density (g/cm³)  =   1.32082
+                               Volume (L)  =   1.83031
+                        Viscosity (mPa s)  =   9.95375
+                        Activity of water  =   0.883
+                 Ionic strength (mol/kgw)  =   1.333e+01
+                       Mass of water (kg)  =   1.725e+00
+                 Total alkalinity (eq/kg)  =   7.050e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -5.683e-09
+                  Electrical balance (eq)  =  -2.351e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  28
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   0.92811
+                      Osmotic coefficient  =   1.03633
                          Density of water  =   0.99704
-                                  Total H  = 1.787574e+02
-                                  Total O  = 1.087344e+02
+                                  Total H  = 1.915264e+02
+                                  Total O  = 1.187672e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -221,27 +254,27 @@ Epsomite          0.00    -1.85     -1.85    1.000e+01   5.161e+00  -4.839e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              6.522e-07   1.647e-06    -6.186    -5.783     0.402      0.00
-   OH-             1.146e-07   5.557e-09    -6.941    -8.255    -1.314     12.22
-   H2O             5.551e+01   9.044e-01     1.744    -0.044     0.000     18.07
-Mg            3.005e+00
-   Mg+2            3.005e+00   2.138e+00     0.478     0.330    -0.148    -15.21
-   MgOH+           2.754e-06   1.822e-06    -5.560    -5.739    -0.179     (0)  
-S(6)          3.005e+00
-   SO4-2           3.005e+00   1.342e-02     0.478    -1.872    -2.350     28.89
-   HSO4-           2.216e-06   2.105e-06    -5.654    -5.677    -0.022     42.48
+   H+              6.072e-07   2.164e-06    -6.217    -5.665     0.552      0.00
+   OH-             1.046e-07   4.130e-09    -6.980    -8.384    -1.404     13.84
+   H2O             5.551e+01   8.830e-01     1.744    -0.054     0.000     18.07
+Mg            3.333e+00
+   Mg+2            3.333e+00   3.658e+00     0.523     0.563     0.040    -14.66
+   MgOH+           3.074e-06   2.317e-06    -5.512    -5.635    -0.123     (0)  
+S(6)          3.333e+00
+   SO4-2           3.333e+00   1.193e-02     0.523    -1.923    -2.446     32.03
+   HSO4-           2.571e-06   2.510e-06    -5.590    -5.600    -0.010     42.54
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  Brucite          -5.30    -16.18  -10.88  Mg(OH)2
-  Epsomite          0.00     -1.85   -1.85  MgSO4:7H2O
-  H2O(g)           -1.55     -0.04    1.50  H2O
-  Hexahydrite      -0.24     -1.80   -1.57  MgSO4:6H2O
-  Kieserite        -1.32     -1.59   -0.27  MgSO4:H2O
-  Leonhardite      -0.83     -1.72   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.48     -1.76   -1.28  MgSO4:5H2O
+  Brucite          -5.32    -16.20  -10.88  Mg(OH)2
+  Epsomite          0.00     -1.74   -1.74  MgSO4:7H2O
+  H2O(g)           -1.56     -0.05    1.50  H2O
+  Hexahydrite      -0.12     -1.68   -1.57  MgSO4:6H2O
+  Kieserite        -0.25     -1.41   -1.16  MgSO4:H2O
+  Leonhardite      -0.69     -1.58   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.35     -1.63   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -257,36 +290,36 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Epsomite          0.00    -1.81     -1.81    1.000e+01   4.602e+00  -5.398e+00
+Epsomite         -0.00    -1.71     -1.71    1.000e+01   3.600e+00  -6.400e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                3.212e+00   5.398e+00
-	S                 3.212e+00   5.398e+00
+	Mg                3.541e+00   6.400e+00
+	S                 3.541e+00   6.400e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.661      Charge balance
+                                       pH  =   5.537      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  30°C)  = 50974
-                          Density (g/cm³)  =   1.31634
-                               Volume (L)  =   1.77048
-                        Viscosity (mPa s)  =   7.01541
-                        Activity of water  =   0.893
-                 Ionic strength (mol/kgw)  =   1.285e+01
-                       Mass of water (kg)  =   1.681e+00
-                 Total alkalinity (eq/kg)  =   7.237e-10
+      Specific Conductance (µS/cm,  30°C)  = 36870
+                          Density (g/cm³)  =   1.33367
+                               Volume (L)  =   1.93256
+                        Viscosity (mPa s)  =  10.03878
+                        Activity of water  =   0.870
+                 Ionic strength (mol/kgw)  =   1.417e+01
+                       Mass of water (kg)  =   1.807e+00
+                 Total alkalinity (eq/kg)  =   6.731e-10
                          Temperature (°C)  =  30.00
-                  Electrical balance (eq)  =  -1.346e-09
+                  Electrical balance (eq)  =  -1.576e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  28
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.97702
+                               Iterations  =  29
+                         Gamma iterations  =   7
+                      Osmotic coefficient  =   1.08774
                          Density of water  =   0.99564
-                                  Total H  = 1.865868e+02
-                                  Total O  = 1.148861e+02
+                                  Total H  = 2.006080e+02
+                                  Total O  = 1.259028e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -294,27 +327,27 @@ Epsomite          0.00    -1.81     -1.81    1.000e+01   4.602e+00  -5.398e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              7.500e-07   2.183e-06    -6.125    -5.661     0.464      0.00
-   OH-             1.371e-07   6.005e-09    -6.863    -8.221    -1.358     13.56
-   H2O             5.551e+01   8.931e-01     1.744    -0.049     0.000     18.09
-Mg            3.212e+00
-   Mg+2            3.212e+00   2.583e+00     0.507     0.412    -0.095    -14.95
-   MgOH+           3.774e-06   2.519e-06    -5.423    -5.599    -0.176     (0)  
-S(6)          3.212e+00
-   SO4-2           3.212e+00   1.314e-02     0.507    -1.881    -2.388     30.20
-   HSO4-           3.161e-06   3.145e-06    -5.500    -5.502    -0.002     42.80
+   H+              6.951e-07   2.902e-06    -6.158    -5.537     0.621      0.00
+   OH-             1.238e-07   4.404e-09    -6.907    -8.356    -1.449     15.18
+   H2O             5.551e+01   8.704e-01     1.744    -0.060     0.000     18.09
+Mg            3.541e+00
+   Mg+2            3.541e+00   4.469e+00     0.549     0.650     0.101    -14.39
+   MgOH+           4.176e-06   3.197e-06    -5.379    -5.495    -0.116     (0)  
+S(6)          3.541e+00
+   SO4-2           3.541e+00   1.160e-02     0.549    -1.936    -2.485     32.76
+   HSO4-           3.604e-06   3.656e-06    -5.443    -5.437     0.006     42.84
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(303 K,   1 atm)
 
-  Brucite          -5.21    -16.03  -10.82  Mg(OH)2
-  Epsomite          0.00     -1.81   -1.81  MgSO4:7H2O
-  H2O(g)           -1.43     -0.05    1.38  H2O
-  Hexahydrite      -0.18     -1.76   -1.58  MgSO4:6H2O
-  Kieserite        -1.16     -1.52   -0.36  MgSO4:H2O
-  Leonhardite      -0.78     -1.67   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.43     -1.71   -1.28  MgSO4:5H2O
+  Brucite          -5.24    -16.06  -10.82  Mg(OH)2
+  Epsomite         -0.00     -1.71   -1.71  MgSO4:7H2O
+  H2O(g)           -1.44     -0.06    1.38  H2O
+  Hexahydrite      -0.09     -1.65   -1.56  MgSO4:6H2O
+  Kieserite        -0.20     -1.35   -1.14  MgSO4:H2O
+  Leonhardite      -0.64     -1.53   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.30     -1.59   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -330,36 +363,36 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Epsomite          0.00    -1.78     -1.78    1.000e+01   3.933e+00  -6.067e+00
+Epsomite         -0.00    -1.68     -1.68    1.000e+01   2.785e+00  -7.215e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                3.437e+00   6.067e+00
-	S                 3.437e+00   6.067e+00
+	Mg                3.778e+00   7.215e+00
+	S                 3.778e+00   7.215e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.536      Charge balance
+                                       pH  =   5.404      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  35°C)  = 51860
-                          Density (g/cm³)  =   1.32914
-                               Volume (L)  =   1.87741
-                        Viscosity (mPa s)  =   7.21951
-                        Activity of water  =   0.880
-                 Ionic strength (mol/kgw)  =   1.375e+01
-                       Mass of water (kg)  =   1.765e+00
-                 Total alkalinity (eq/kg)  =   6.891e-10
+      Specific Conductance (µS/cm,  35°C)  = 37645
+                          Density (g/cm³)  =   1.34826
+                               Volume (L)  =   2.06073
+                        Viscosity (mPa s)  =  10.36949
+                        Activity of water  =   0.855
+                 Ionic strength (mol/kgw)  =   1.511e+01
+                       Mass of water (kg)  =   1.910e+00
+                 Total alkalinity (eq/kg)  =   6.368e-10
                          Temperature (°C)  =  35.00
-                  Electrical balance (eq)  =  -4.339e-09
+                  Electrical balance (eq)  =  -1.177e-07
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  28
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   1.03043
+                      Osmotic coefficient  =   1.14685
                          Density of water  =   0.99403
-                                  Total H  = 1.959471e+02
-                                  Total O  = 1.222406e+02
+                                  Total H  = 2.120244e+02
+                                  Total O  = 1.348728e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -367,27 +400,27 @@ Epsomite          0.00    -1.78     -1.78    1.000e+01   3.933e+00  -6.067e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              8.424e-07   2.912e-06    -6.075    -5.536     0.539      0.00
-   OH-             1.621e-07   6.321e-09    -6.790    -8.199    -1.409     14.94
-   H2O             5.551e+01   8.802e-01     1.744    -0.055     0.000     18.12
-Mg            3.437e+00
-   Mg+2            3.437e+00   3.217e+00     0.536     0.507    -0.029    -14.70
-   MgOH+           5.156e-06   3.513e-06    -5.288    -5.454    -0.167     (0)  
-S(6)          3.437e+00
-   SO4-2           3.437e+00   1.260e-02     0.536    -1.900    -2.436     31.47
-   HSO4-           4.475e-06   4.637e-06    -5.349    -5.334     0.015     43.07
+   H+              7.737e-07   3.948e-06    -6.111    -5.404     0.708      0.00
+   OH-             1.446e-07   4.531e-09    -6.840    -8.344    -1.504     16.62
+   H2O             5.551e+01   8.555e-01     1.744    -0.068     0.000     18.12
+Mg            3.778e+00
+   Mg+2            3.778e+00   5.732e+00     0.577     0.758     0.181    -14.13
+   MgOH+           5.674e-06   4.486e-06    -5.246    -5.348    -0.102     (0)  
+S(6)          3.778e+00
+   SO4-2           3.778e+00   1.096e-02     0.577    -1.960    -2.537     33.44
+   HSO4-           5.044e-06   5.278e-06    -5.297    -5.278     0.020     43.10
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(308 K,   1 atm)
 
-  Brucite          -5.13    -15.89  -10.76  Mg(OH)2
-  Epsomite          0.00     -1.78   -1.78  MgSO4:7H2O
-  H2O(g)           -1.31     -0.06    1.26  H2O
-  Hexahydrite      -0.13     -1.72   -1.60  MgSO4:6H2O
-  Kieserite        -1.00     -1.45   -0.45  MgSO4:H2O
-  Leonhardite      -0.73     -1.61   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.38     -1.67   -1.28  MgSO4:5H2O
+  Brucite          -5.16    -15.93  -10.76  Mg(OH)2
+  Epsomite         -0.00     -1.68   -1.68  MgSO4:7H2O
+  H2O(g)           -1.32     -0.07    1.26  H2O
+  Hexahydrite      -0.06     -1.61   -1.55  MgSO4:6H2O
+  Kieserite        -0.13     -1.27   -1.14  MgSO4:H2O
+  Leonhardite      -0.59     -1.47   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.26     -1.54   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -403,36 +436,36 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Epsomite          0.00    -1.75     -1.75    1.000e+01   3.118e+00  -6.882e+00
+Epsomite          0.00    -1.65     -1.65    1.000e+01   1.734e+00  -8.266e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                3.684e+00   6.882e+00
-	S                 3.684e+00   6.882e+00
+	Mg                4.047e+00   8.266e+00
+	S                 4.047e+00   8.266e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.407      Charge balance
+                                       pH  =   5.262      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  40°C)  = 51892
-                          Density (g/cm³)  =   1.34258
-                               Volume (L)  =   2.00830
-                        Viscosity (mPa s)  =   7.55944
-                        Activity of water  =   0.865
-                 Ionic strength (mol/kgw)  =   1.474e+01
-                       Mass of water (kg)  =   1.868e+00
-                 Total alkalinity (eq/kg)  =   6.511e-10
+      Specific Conductance (µS/cm,  40°C)  = 37654
+                          Density (g/cm³)  =   1.36471
+                               Volume (L)  =   2.22565
+                        Viscosity (mPa s)  =  10.97716
+                        Activity of water  =   0.838
+                 Ionic strength (mol/kgw)  =   1.619e+01
+                       Mass of water (kg)  =   2.042e+00
+                 Total alkalinity (eq/kg)  =   5.955e-10
                          Temperature (°C)  =  40.00
-                  Electrical balance (eq)  =  -1.245e-09
+                  Electrical balance (eq)  =  -1.299e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  32
+                               Iterations  =  31
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   1.08941
+                      Osmotic coefficient  =   1.21547
                          Density of water  =   0.99221
-                                  Total H  = 2.073622e+02
-                                  Total O  = 1.312096e+02
+                                  Total H  = 2.267334e+02
+                                  Total O  = 1.464299e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -440,27 +473,27 @@ Epsomite          0.00    -1.75     -1.75    1.000e+01   3.118e+00  -6.882e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              9.214e-07   3.919e-06    -6.036    -5.407     0.629      0.00
-   OH-             1.896e-07   6.466e-09    -6.722    -8.189    -1.467     16.41
-   H2O             5.551e+01   8.654e-01     1.744    -0.063     0.000     18.16
-Mg            3.684e+00
-   Mg+2            3.684e+00   4.158e+00     0.566     0.619     0.052    -14.46
-   MgOH+           7.033e-06   4.958e-06    -5.153    -5.305    -0.152     (0)  
-S(6)          3.684e+00
-   SO4-2           3.684e+00   1.178e-02     0.566    -1.929    -2.495     32.73
-   HSO4-           6.301e-06   6.745e-06    -5.201    -5.171     0.030     43.32
+   H+              8.330e-07   5.475e-06    -6.079    -5.262     0.818      0.00
+   OH-             1.665e-07   4.479e-09    -6.779    -8.349    -1.570     18.19
+   H2O             5.551e+01   8.376e-01     1.744    -0.077     0.000     18.16
+Mg            4.047e+00
+   Mg+2            4.047e+00   7.801e+00     0.607     0.892     0.285    -13.86
+   MgOH+           7.731e-06   6.444e-06    -5.112    -5.191    -0.079     (0)  
+S(6)          4.047e+00
+   SO4-2           4.047e+00   1.003e-02     0.607    -1.999    -2.606     34.09
+   HSO4-           7.064e-06   7.546e-06    -5.151    -5.122     0.029     43.34
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(313 K,   1 atm)
 
-  Brucite          -5.05    -15.76  -10.71  Mg(OH)2
-  Epsomite          0.00     -1.75   -1.75  MgSO4:7H2O
-  H2O(g)           -1.20     -0.06    1.14  H2O
-  Hexahydrite      -0.08     -1.69   -1.61  MgSO4:6H2O
-  Kieserite        -0.82     -1.37   -0.55  MgSO4:H2O
-  Leonhardite      -0.67     -1.56   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.34     -1.62   -1.28  MgSO4:5H2O
+  Brucite          -5.10    -15.81  -10.71  Mg(OH)2
+  Epsomite          0.00     -1.65   -1.65  MgSO4:7H2O
+  H2O(g)           -1.22     -0.08    1.14  H2O
+  Hexahydrite      -0.02     -1.57   -1.55  MgSO4:6H2O
+  Kieserite        -0.04     -1.18   -1.14  MgSO4:H2O
+  Leonhardite      -0.53     -1.41   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.21     -1.49   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -476,36 +509,36 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Epsomite          0.00    -1.72     -1.72    1.000e+01   2.098e+00  -7.902e+00
+Epsomite         -0.00    -1.61     -1.61    1.000e+01   3.309e-01  -9.669e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                3.958e+00   7.902e+00
-	S                 3.958e+00   7.902e+00
+	Mg                4.357e+00   9.669e+00
+	S                 4.357e+00   9.669e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.272      Charge balance
+                                       pH  =   5.109      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  45°C)  = 51017
-                          Density (g/cm³)  =   1.35677
-                               Volume (L)  =   2.17266
-                        Viscosity (mPa s)  =   8.05771
-                        Activity of water  =   0.848
-                 Ionic strength (mol/kgw)  =   1.583e+01
-                       Mass of water (kg)  =   1.997e+00
-                 Total alkalinity (eq/kg)  =   6.092e-10
+      Specific Conductance (µS/cm,  45°C)  = 36835
+                          Density (g/cm³)  =   1.38322
+                               Volume (L)  =   2.44593
+                        Viscosity (mPa s)  =  11.92961
+                        Activity of water  =   0.816
+                 Ionic strength (mol/kgw)  =   1.743e+01
+                       Mass of water (kg)  =   2.219e+00
+                 Total alkalinity (eq/kg)  =   5.480e-10
                          Temperature (°C)  =  45.00
-                  Electrical balance (eq)  =  -1.367e-09
+                  Electrical balance (eq)  =  -2.562e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  32
-                         Gamma iterations  =   7
-                      Osmotic coefficient  =   1.15536
+                               Iterations  =  33
+                         Gamma iterations  =   8
+                      Osmotic coefficient  =   1.29620
                          Density of water  =   0.99021
-                                  Total H  = 2.216461e+02
-                                  Total O  = 1.424327e+02
+                                  Total H  = 2.463800e+02
+                                  Total O  = 1.618665e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -513,27 +546,27 @@ Epsomite          0.00    -1.72     -1.72    1.000e+01   2.098e+00  -7.902e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              9.774e-07   5.344e-06    -6.010    -5.272     0.738      0.00
-   OH-             2.193e-07   6.402e-09    -6.659    -8.194    -1.535     17.97
-   H2O             5.551e+01   8.481e-01     1.744    -0.072     0.000     18.19
-Mg            3.958e+00
-   Mg+2            3.958e+00   5.627e+00     0.597     0.750     0.153    -14.24
-   MgOH+           9.597e-06   7.117e-06    -5.018    -5.148    -0.130     (0)  
-S(6)          3.958e+00
-   SO4-2           3.958e+00   1.071e-02     0.597    -1.970    -2.568     34.02
-   HSO4-           8.838e-06   9.679e-06    -5.054    -5.014     0.039     43.53
+   H+              8.602e-07   7.789e-06    -6.065    -5.109     0.957      0.00
+   OH-             1.891e-07   4.226e-09    -6.723    -8.374    -1.651     19.94
+   H2O             5.551e+01   8.159e-01     1.744    -0.088     0.000     18.19
+Mg            4.357e+00
+   Mg+2            4.357e+00   1.145e+01     0.639     1.059     0.420    -13.59
+   MgOH+           1.060e-05   9.560e-06    -4.975    -5.020    -0.045     (0)  
+S(6)          4.357e+00
+   SO4-2           4.357e+00   8.819e-03     0.639    -2.055    -2.694     34.75
+   HSO4-           9.930e-06   1.067e-05    -5.003    -4.972     0.031     43.54
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(318 K,   1 atm)
 
-  Brucite          -4.98    -15.64  -10.66  Mg(OH)2
-  Epsomite          0.00     -1.72   -1.72  MgSO4:7H2O
-  H2O(g)           -1.10     -0.07    1.03  H2O
-  Hexahydrite      -0.03     -1.65   -1.62  MgSO4:6H2O
-  Kieserite        -0.63     -1.29   -0.66  MgSO4:H2O
-  Leonhardite      -0.62     -1.51   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.29     -1.58   -1.28  MgSO4:5H2O
+  Brucite          -5.03    -15.69  -10.66  Mg(OH)2
+  Epsomite         -0.00     -1.61   -1.61  MgSO4:7H2O
+  H2O(g)           -1.11     -0.09    1.03  H2O
+  Hexahydrite       0.01     -1.53   -1.54  MgSO4:6H2O
+  Kieserite         0.08     -1.08   -1.16  MgSO4:H2O
+  Leonhardite      -0.46     -1.35   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.15     -1.44   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -549,36 +582,36 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Epsomite          0.00    -1.69     -1.69    1.000e+01   7.759e-01  -9.224e+00
+Epsomite         -0.07    -1.65     -1.58    1.000e+01           0  -1.000e+01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.264e+00   9.224e+00
-	S                 4.264e+00   9.224e+00
+	Mg                4.423e+00   1.000e+01
+	S                 4.423e+00   1.000e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.129      Charge balance
+                                       pH  =   5.049      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  50°C)  = 49195
-                          Density (g/cm³)  =   1.37171
-                               Volume (L)  =   2.38649
-                        Viscosity (mPa s)  =   8.75324
-                        Activity of water  =   0.828
-                 Ionic strength (mol/kgw)  =   1.706e+01
-                       Mass of water (kg)  =   2.163e+00
-                 Total alkalinity (eq/kg)  =   5.622e-10
+      Specific Conductance (µS/cm,  50°C)  = 40806
+                          Density (g/cm³)  =   1.38642
+                               Volume (L)  =   2.49911
+                        Viscosity (mPa s)  =  10.89572
+                        Activity of water  =   0.815
+                 Ionic strength (mol/kgw)  =   1.769e+01
+                       Mass of water (kg)  =   2.261e+00
+                 Total alkalinity (eq/kg)  =   5.380e-10
                          Temperature (°C)  =  50.00
-                  Electrical balance (eq)  =  -1.470e-09
+                  Electrical balance (eq)  =  -6.999e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  32
+                               Iterations  =  31
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   1.23028
+                      Osmotic coefficient  =   1.28595
                          Density of water  =   0.98803
-                                  Total H  = 2.401501e+02
-                                  Total O  = 1.569715e+02
+                                  Total H  = 2.510124e+02
+                                  Total O  = 1.655062e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -586,27 +619,27 @@ Epsomite          0.00    -1.69     -1.69    1.000e+01   7.759e-01  -9.224e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              9.990e-07   7.427e-06    -6.000    -5.129     0.871      0.00
-   OH-             2.508e-07   6.101e-09    -6.601    -8.215    -1.614     19.69
-   H2O             5.551e+01   8.278e-01     1.744    -0.082     0.000     18.23
-Mg            4.264e+00
-   Mg+2            4.264e+00   8.079e+00     0.630     0.907     0.278    -14.02
-   MgOH+           1.313e-05   1.047e-05    -4.882    -4.980    -0.099     (0)  
-S(6)          4.264e+00
-   SO4-2           4.264e+00   9.394e-03     0.630    -2.027    -2.657     35.37
-   HSO4-           1.239e-05   1.369e-05    -4.907    -4.863     0.044     43.73
+   H+              9.767e-07   8.928e-06    -6.010    -5.049     0.961      0.00
+   OH-             2.288e-07   4.995e-09    -6.641    -8.301    -1.661     20.47
+   H2O             5.551e+01   8.147e-01     1.744    -0.089     0.000     18.23
+Mg            4.423e+00
+   Mg+2            4.423e+00   1.075e+01     0.646     1.031     0.386    -13.77
+   MgOH+           1.321e-05   1.140e-05    -4.879    -4.943    -0.064     (0)  
+S(6)          4.423e+00
+   SO4-2           4.423e+00   8.650e-03     0.646    -2.063    -2.709     34.83
+   HSO4-           1.246e-05   1.361e-05    -4.905    -4.866     0.038     43.73
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(323 K,   1 atm)
 
-  Brucite          -4.92    -15.52  -10.60  Mg(OH)2
-  Epsomite          0.00     -1.69   -1.69  MgSO4:7H2O
-  H2O(g)           -1.00     -0.08    0.92  H2O
-  Hexahydrite       0.03     -1.61   -1.64  MgSO4:6H2O
-  Kieserite        -0.43     -1.20   -0.77  MgSO4:H2O
-  Leonhardite      -0.56     -1.45   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.25     -1.53   -1.28  MgSO4:5H2O
+  Brucite          -4.97    -15.57  -10.60  Mg(OH)2
+  Epsomite         -0.07     -1.65   -1.58  MgSO4:7H2O
+  H2O(g)           -1.00     -0.09    0.92  H2O
+  Hexahydrite      -0.03     -1.57   -1.53  MgSO4:6H2O
+  Kieserite         0.07     -1.12   -1.19  MgSO4:H2O
+  Leonhardite      -0.50     -1.39   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.19     -1.48   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -640,36 +673,36 @@ Using temperature 2.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Hexahydrite       0.00    -1.61     -1.61    2.000e+01   1.320e+01  -6.799e+00
+Hexahydrite       0.00    -1.55     -1.55    2.000e+01   1.258e+01  -7.419e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                3.919e+00   6.799e+00
-	S                 3.919e+00   6.799e+00
+	Mg                4.117e+00   7.419e+00
+	S                 4.117e+00   7.419e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.321      Charge balance
+                                       pH  =   5.236      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  40°C)  = 48647
-                          Density (g/cm³)  =   1.35892
-                               Volume (L)  =   1.87900
-                        Viscosity (mPa s)  =   8.83380
-                        Activity of water  =   0.848
-                 Ionic strength (mol/kgw)  =   1.568e+01
-                       Mass of water (kg)  =   1.735e+00
-                 Total alkalinity (eq/kg)  =   7.010e-10
+      Specific Conductance (µS/cm,  40°C)  = 36281
+                          Density (g/cm³)  =   1.36924
+                               Volume (L)  =   1.96817
+                        Viscosity (mPa s)  =  11.56616
+                        Activity of water  =   0.832
+                 Ionic strength (mol/kgw)  =   1.647e+01
+                       Mass of water (kg)  =   1.802e+00
+                 Total alkalinity (eq/kg)  =   6.750e-10
                          Temperature (°C)  =  40.00
-                  Electrical balance (eq)  =  -1.230e-09
+                  Electrical balance (eq)  =  -1.257e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  31
+                               Iterations  =  30
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   1.16996
+                      Osmotic coefficient  =   1.24079
                          Density of water  =   0.99221
-                                  Total H  = 1.926047e+02
-                                  Total O  = 1.234997e+02
+                                  Total H  = 2.000366e+02
+                                  Total O  = 1.296930e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -677,27 +710,27 @@ Hexahydrite       0.00    -1.61     -1.61    2.000e+01   1.320e+01  -6.799e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              8.510e-07   4.779e-06    -6.070    -5.321     0.749      0.00
-   OH-             1.775e-07   5.194e-09    -6.751    -8.284    -1.534     17.56
-   H2O             5.551e+01   8.477e-01     1.744    -0.072     0.000     18.16
-Mg            3.919e+00
-   Mg+2            3.919e+00   6.223e+00     0.593     0.794     0.201    -14.08
-   MgOH+           7.603e-06   5.961e-06    -5.119    -5.225    -0.106     (0)  
-S(6)          3.919e+00
-   SO4-2           3.919e+00   1.063e-02     0.593    -1.973    -2.567     33.25
-   HSO4-           6.928e-06   7.421e-06    -5.159    -5.130     0.030     43.33
+   H+              8.099e-07   5.812e-06    -6.092    -5.236     0.856      0.00
+   OH-             1.632e-07   4.191e-09    -6.787    -8.378    -1.590     18.53
+   H2O             5.551e+01   8.319e-01     1.744    -0.080     0.000     18.16
+Mg            4.117e+00
+   Mg+2            4.117e+00   8.842e+00     0.615     0.947     0.332    -13.75
+   MgOH+           7.924e-06   6.834e-06    -5.101    -5.165    -0.064     (0)  
+S(6)          4.117e+00
+   SO4-2           4.117e+00   9.710e-03     0.615    -2.013    -2.627     34.25
+   HSO4-           7.276e-06   7.754e-06    -5.138    -5.110     0.028     43.34
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(313 K,   1 atm)
 
-  Brucite          -5.07    -15.77  -10.71  Mg(OH)2
-  Epsomite          0.07     -1.68   -1.75  MgSO4:7H2O
-  H2O(g)           -1.21     -0.07    1.14  H2O
-  Hexahydrite       0.00     -1.61   -1.61  MgSO4:6H2O
-  Kieserite        -0.70     -1.25   -0.55  MgSO4:H2O
-  Leonhardite      -0.58     -1.47   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.25     -1.54   -1.28  MgSO4:5H2O
+  Brucite          -5.10    -15.81  -10.71  Mg(OH)2
+  Epsomite          0.02     -1.63   -1.65  MgSO4:7H2O
+  H2O(g)           -1.22     -0.08    1.14  H2O
+  Hexahydrite       0.00     -1.55   -1.55  MgSO4:6H2O
+  Kieserite        -0.00     -1.15   -1.14  MgSO4:H2O
+  Leonhardite      -0.50     -1.39   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.18     -1.47   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -713,36 +746,36 @@ Using temperature 2.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Hexahydrite      -0.00    -1.64     -1.64    2.000e+01   1.238e+01  -7.620e+00
+Hexahydrite      -0.00    -1.53     -1.53    2.000e+01   1.109e+01  -8.905e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.178e+00   7.620e+00
-	S                 4.178e+00   7.620e+00
+	Mg                4.537e+00   8.905e+00
+	S                 4.537e+00   8.905e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.160      Charge balance
+                                       pH  =   5.007      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  50°C)  = 50439
-                          Density (g/cm³)  =   1.36637
-                               Volume (L)  =   2.00606
-                        Viscosity (mPa s)  =   8.29623
-                        Activity of water  =   0.835
-                 Ionic strength (mol/kgw)  =   1.671e+01
-                       Mass of water (kg)  =   1.824e+00
-                 Total alkalinity (eq/kg)  =   6.669e-10
+      Specific Conductance (µS/cm,  50°C)  = 38494
+                          Density (g/cm³)  =   1.39343
+                               Volume (L)  =   2.17776
+                        Viscosity (mPa s)  =  11.80285
+                        Activity of water  =   0.805
+                 Ionic strength (mol/kgw)  =   1.815e+01
+                       Mass of water (kg)  =   1.963e+00
+                 Total alkalinity (eq/kg)  =   6.197e-10
                          Temperature (°C)  =  50.00
-                  Electrical balance (eq)  =  -1.261e-09
+                  Electrical balance (eq)  =  -1.799e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  33
-                         Gamma iterations  =   7
-                      Osmotic coefficient  =   1.20085
+                               Iterations  =  32
+                         Gamma iterations  =   8
+                      Osmotic coefficient  =   1.32711
                          Density of water  =   0.98803
-                                  Total H  = 2.024580e+02
-                                  Total O  = 1.317109e+02
+                                  Total H  = 2.178772e+02
+                                  Total O  = 1.445602e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -750,27 +783,27 @@ Hexahydrite      -0.00    -1.64     -1.64    2.000e+01   1.238e+01  -7.620e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.036e-06   6.910e-06    -5.984    -5.160     0.824      0.00
-   OH-             2.566e-07   6.611e-09    -6.591    -8.180    -1.589     19.26
-   H2O             5.551e+01   8.346e-01     1.744    -0.079     0.000     18.23
-Mg            4.178e+00
-   Mg+2            4.178e+00   6.944e+00     0.621     0.842     0.221    -14.15
-   MgOH+           1.276e-05   9.749e-06    -4.894    -5.011    -0.117     (0)  
-S(6)          4.178e+00
-   SO4-2           4.178e+00   9.809e-03     0.621    -2.008    -2.629     35.18
-   HSO4-           1.198e-05   1.331e-05    -4.922    -4.876     0.046     43.73
+   H+              9.236e-07   9.845e-06    -6.034    -5.007     1.028      0.00
+   OH-             2.219e-07   4.475e-09    -6.654    -8.349    -1.695     21.03
+   H2O             5.551e+01   8.050e-01     1.744    -0.094     0.000     18.23
+Mg            4.537e+00
+   Mg+2            4.537e+00   1.327e+01     0.657     1.123     0.466    -13.58
+   MgOH+           1.376e-05   1.262e-05    -4.861    -4.899    -0.038     (0)  
+S(6)          4.537e+00
+   SO4-2           4.537e+00   8.134e-03     0.657    -2.090    -2.747     35.07
+   HSO4-           1.306e-05   1.411e-05    -4.884    -4.850     0.034     43.73
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(323 K,   1 atm)
 
-  Brucite          -4.91    -15.52  -10.60  Mg(OH)2
-  Epsomite         -0.02     -1.72   -1.69  MgSO4:7H2O
-  H2O(g)           -0.99     -0.08    0.92  H2O
-  Hexahydrite      -0.00     -1.64   -1.64  MgSO4:6H2O
-  Kieserite        -0.48     -1.25   -0.77  MgSO4:H2O
-  Leonhardite      -0.59     -1.48   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.27     -1.56   -1.28  MgSO4:5H2O
+  Brucite          -4.97    -15.58  -10.60  Mg(OH)2
+  Epsomite         -0.04     -1.63   -1.58  MgSO4:7H2O
+  H2O(g)           -1.01     -0.09    0.92  H2O
+  Hexahydrite      -0.00     -1.53   -1.53  MgSO4:6H2O
+  Kieserite         0.13     -1.06   -1.19  MgSO4:H2O
+  Leonhardite      -0.46     -1.34   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.15     -1.44   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -786,36 +819,36 @@ Using temperature 2.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Hexahydrite      -0.00    -1.65     -1.65    2.000e+01   1.183e+01  -8.168e+00
+Hexahydrite       0.00    -1.53     -1.53    2.000e+01   1.006e+01  -9.942e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.338e+00   8.168e+00
-	S                 4.338e+00   8.168e+00
+	Mg                4.792e+00   9.942e+00
+	S                 4.792e+00   9.942e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.075      Charge balance
+                                       pH  =   4.881      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  55°C)  = 50367
-                          Density (g/cm³)  =   1.37148
-                               Volume (L)  =   2.08976
-                        Viscosity (mPa s)  =   8.23008
-                        Activity of water  =   0.826
-                 Ionic strength (mol/kgw)  =   1.735e+01
-                       Mass of water (kg)  =   1.883e+00
-                 Total alkalinity (eq/kg)  =   6.460e-10
+      Specific Conductance (µS/cm,  55°C)  = 38711
+                          Density (g/cm³)  =   1.40795
+                               Volume (L)  =   2.32348
+                        Viscosity (mPa s)  =  12.28736
+                        Activity of water  =   0.788
+                 Ionic strength (mol/kgw)  =   1.917e+01
+                       Mass of water (kg)  =   2.075e+00
+                 Total alkalinity (eq/kg)  =   5.863e-10
                          Temperature (°C)  =  55.00
-                  Electrical balance (eq)  =  -1.330e-09
+                  Electrical balance (eq)  =  -4.232e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  31
-                         Gamma iterations  =   7
-                      Osmotic coefficient  =   1.22276
+                               Iterations  =  33
+                         Gamma iterations  =   8
+                      Osmotic coefficient  =   1.38139
                          Density of water  =   0.98569
-                                  Total H  = 2.090266e+02
-                                  Total O  = 1.371847e+02
+                                  Total H  = 2.303133e+02
+                                  Total O  = 1.549236e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -823,27 +856,27 @@ Hexahydrite      -0.00    -1.65     -1.65    2.000e+01   1.183e+01  -8.168e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.112e-06   8.419e-06    -5.954    -5.075     0.879      0.00
-   OH-             3.038e-07   7.182e-09    -6.517    -8.144    -1.626     20.23
-   H2O             5.551e+01   8.260e-01     1.744    -0.083     0.000     18.28
-Mg            4.338e+00
-   Mg+2            4.338e+00   7.662e+00     0.637     0.884     0.247    -14.21
-   MgOH+           1.646e-05   1.260e-05    -4.784    -4.900    -0.116     (0)  
-S(6)          4.338e+00
-   SO4-2           4.338e+00   9.158e-03     0.637    -2.038    -2.675     36.19
-   HSO4-           1.565e-05   1.759e-05    -4.805    -4.755     0.051     43.91
+   H+              9.406e-07   1.314e-05    -6.027    -4.881     1.145      0.00
+   OH-             2.545e-07   4.389e-09    -6.594    -8.358    -1.763     22.48
+   H2O             5.551e+01   7.878e-01     1.744    -0.104     0.000     18.28
+Mg            4.792e+00
+   Mg+2            4.792e+00   1.756e+01     0.681     1.245     0.564    -13.52
+   MgOH+           1.818e-05   1.765e-05    -4.740    -4.753    -0.013     (0)  
+S(6)          4.792e+00
+   SO4-2           4.792e+00   7.108e-03     0.681    -2.148    -2.829     35.51
+   HSO4-           1.749e-05   1.873e-05    -4.757    -4.727     0.030     43.91
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(328 K,   1 atm)
 
-  Brucite          -4.85    -15.40  -10.55  Mg(OH)2
-  Epsomite         -0.07     -1.73   -1.67  MgSO4:7H2O
-  H2O(g)           -0.89     -0.08    0.81  H2O
-  Hexahydrite      -0.00     -1.65   -1.65  MgSO4:6H2O
-  Kieserite        -0.36     -1.24   -0.88  MgSO4:H2O
-  Leonhardite      -0.60     -1.49   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.28     -1.57   -1.28  MgSO4:5H2O
+  Brucite          -4.92    -15.47  -10.55  Mg(OH)2
+  Epsomite         -0.08     -1.63   -1.55  MgSO4:7H2O
+  H2O(g)           -0.91     -0.10    0.81  H2O
+  Hexahydrite       0.00     -1.53   -1.53  MgSO4:6H2O
+  Kieserite         0.23     -1.01   -1.23  MgSO4:H2O
+  Leonhardite      -0.43     -1.32   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.14     -1.42   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -859,36 +892,36 @@ Using temperature 2.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Hexahydrite      -0.00    -1.67     -1.67    2.000e+01   1.116e+01  -8.839e+00
+Hexahydrite       0.00    -1.52     -1.52    2.000e+01   8.715e+00  -1.129e+01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.520e+00   8.839e+00
-	S                 4.520e+00   8.839e+00
+	Mg                5.084e+00   1.129e+01
+	S                 5.084e+00   1.129e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.984      Charge balance
+                                       pH  =   4.746      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  60°C)  = 49595
-                          Density (g/cm³)  =   1.37743
-                               Volume (L)  =   2.19211
-                        Viscosity (mPa s)  =   8.29356
-                        Activity of water  =   0.816
-                 Ionic strength (mol/kgw)  =   1.808e+01
-                       Mass of water (kg)  =   1.955e+00
-                 Total alkalinity (eq/kg)  =   6.220e-10
+      Specific Conductance (µS/cm,  60°C)  = 38247
+                          Density (g/cm³)  =   1.42423
+                               Volume (L)  =   2.51243
+                        Viscosity (mPa s)  =  13.07185
+                        Activity of water  =   0.767
+                 Ionic strength (mol/kgw)  =   2.033e+01
+                       Mass of water (kg)  =   2.220e+00
+                 Total alkalinity (eq/kg)  =   5.479e-10
                          Temperature (°C)  =  60.00
-                  Electrical balance (eq)  =  -1.482e-09
+                  Electrical balance (eq)  =  -1.417e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  33
-                         Gamma iterations  =   7
-                      Osmotic coefficient  =   1.24965
+                               Iterations  =  38
+                         Gamma iterations  =   8
+                      Osmotic coefficient  =   1.44523
                          Density of water  =   0.98319
-                                  Total H  = 2.170841e+02
-                                  Total O  = 1.438993e+02
+                                  Total H  = 2.464354e+02
+                                  Total O  = 1.683587e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -896,27 +929,27 @@ Hexahydrite      -0.00    -1.67     -1.67    2.000e+01   1.116e+01  -8.839e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.167e-06   1.037e-05    -5.933    -4.984     0.949      0.00
-   OH-             3.562e-07   7.593e-09    -6.448    -8.120    -1.671     21.31
-   H2O             5.551e+01   8.158e-01     1.744    -0.088     0.000     18.32
-Mg            4.520e+00
-   Mg+2            4.520e+00   8.749e+00     0.655     0.942     0.287    -14.28
-   MgOH+           2.121e-05   1.644e-05    -4.674    -4.784    -0.110     (0)  
-S(6)          4.520e+00
-   SO4-2           4.520e+00   8.366e-03     0.655    -2.077    -2.733     37.27
-   HSO4-           2.040e-05   2.307e-05    -4.690    -4.637     0.053     44.09
+   H+              9.192e-07   1.795e-05    -6.037    -4.746     1.291      0.00
+   OH-             2.888e-07   4.128e-09    -6.539    -8.384    -1.845     24.11
+   H2O             5.551e+01   7.674e-01     1.744    -0.115     0.000     18.32
+Mg            5.084e+00
+   Mg+2            5.084e+00   2.486e+01     0.706     1.396     0.689    -13.45
+   MgOH+           2.413e-05   2.540e-05    -4.617    -4.595     0.022     (0)  
+S(6)          5.084e+00
+   SO4-2           5.084e+00   5.971e-03     0.706    -2.224    -2.930     36.01
+   HSO4-           2.350e-05   2.453e-05    -4.629    -4.610     0.019     44.07
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(333 K,   1 atm)
 
-  Brucite          -4.79    -15.30  -10.51  Mg(OH)2
-  Epsomite         -0.11     -1.75   -1.65  MgSO4:7H2O
-  H2O(g)           -0.80     -0.09    0.71  H2O
-  Hexahydrite      -0.00     -1.67   -1.67  MgSO4:6H2O
-  Kieserite        -0.22     -1.22   -1.00  MgSO4:H2O
-  Leonhardite      -0.60     -1.49   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.29     -1.58   -1.28  MgSO4:5H2O
+  Brucite          -4.87    -15.37  -10.51  Mg(OH)2
+  Epsomite         -0.11     -1.63   -1.52  MgSO4:7H2O
+  H2O(g)           -0.82     -0.11    0.71  H2O
+  Hexahydrite       0.00     -1.52   -1.52  MgSO4:6H2O
+  Kieserite         0.34     -0.94   -1.28  MgSO4:H2O
+  Leonhardite      -0.40     -1.29   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.12     -1.40   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -932,36 +965,36 @@ Using temperature 2.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Hexahydrite       0.00    -1.68     -1.68    2.000e+01   1.033e+01  -9.674e+00
+Hexahydrite      -0.00    -1.51     -1.51    2.000e+01   6.901e+00  -1.310e+01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.729e+00   9.674e+00
-	S                 4.729e+00   9.674e+00
+	Mg                5.422e+00   1.310e+01
+	S                 5.422e+00   1.310e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.887      Charge balance
+                                       pH  =   4.597      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  65°C)  = 48098
-                          Density (g/cm³)  =   1.38414
-                               Volume (L)  =   2.31933
-                        Viscosity (mPa s)  =   8.49373
-                        Activity of water  =   0.804
-                 Ionic strength (mol/kgw)  =   1.892e+01
-                       Mass of water (kg)  =   2.046e+00
-                 Total alkalinity (eq/kg)  =   5.945e-10
+      Specific Conductance (µS/cm,  65°C)  = 37031
+                          Density (g/cm³)  =   1.44251
+                               Volume (L)  =   2.76790
+                        Viscosity (mPa s)  =  14.24767
+                        Activity of water  =   0.743
+                 Ionic strength (mol/kgw)  =   2.169e+01
+                       Mass of water (kg)  =   2.416e+00
+                 Total alkalinity (eq/kg)  =   5.034e-10
                          Temperature (°C)  =  65.00
-                  Electrical balance (eq)  =  -2.338e-09
+                  Electrical balance (eq)  =  -1.307e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  32
-                         Gamma iterations  =   8
-                      Osmotic coefficient  =   1.28226
+                               Iterations  =  39
+                         Gamma iterations  =   9
+                      Osmotic coefficient  =   1.52130
                          Density of water  =   0.98054
-                                  Total H  = 2.271064e+02
-                                  Total O  = 1.522512e+02
+                                  Total H  = 2.682028e+02
+                                  Total O  = 1.864982e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -969,27 +1002,27 @@ Hexahydrite       0.00    -1.68     -1.68    2.000e+01   1.033e+01  -9.674e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.194e-06   1.296e-05    -5.923    -4.887     1.036      0.00
-   OH-             4.135e-07   7.792e-09    -6.383    -8.108    -1.725     22.51
-   H2O             5.551e+01   8.037e-01     1.744    -0.095     0.000     18.37
-Mg            4.729e+00
-   Mg+2            4.729e+00   1.040e+01     0.675     1.017     0.342    -14.37
-   MgOH+           2.732e-05   2.175e-05    -4.563    -4.663    -0.099     (0)  
-S(6)          4.729e+00
-   SO4-2           4.729e+00   7.453e-03     0.675    -2.128    -2.802     38.45
-   HSO4-           2.654e-05   2.996e-05    -4.576    -4.523     0.053     44.27
+   H+              8.521e-07   2.531e-05    -6.070    -4.597     1.473      0.00
+   OH-             3.240e-07   3.689e-09    -6.489    -8.433    -1.944     25.96
+   H2O             5.551e+01   7.429e-01     1.744    -0.129     0.000     18.37
+Mg            5.422e+00
+   Mg+2            5.422e+00   3.843e+01     0.734     1.585     0.851    -13.39
+   MgOH+           3.232e-05   3.804e-05    -4.490    -4.420     0.071     (0)  
+S(6)          5.422e+00
+   SO4-2           5.422e+00   4.769e-03     0.734    -2.322    -3.056     36.60
+   HSO4-           3.179e-05   3.162e-05    -4.498    -4.500    -0.002     44.24
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(338 K,   1 atm)
 
-  Brucite          -4.74    -15.20  -10.46  Mg(OH)2
-  Epsomite         -0.15     -1.77   -1.63  MgSO4:7H2O
-  H2O(g)           -0.71     -0.09    0.61  H2O
-  Hexahydrite       0.00     -1.68   -1.68  MgSO4:6H2O
-  Kieserite        -0.08     -1.21   -1.12  MgSO4:H2O
-  Leonhardite      -0.60     -1.49   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.30     -1.58   -1.28  MgSO4:5H2O
+  Brucite          -4.82    -15.28  -10.46  Mg(OH)2
+  Epsomite         -0.15     -1.64   -1.49  MgSO4:7H2O
+  H2O(g)           -0.74     -0.13    0.61  H2O
+  Hexahydrite      -0.00     -1.51   -1.51  MgSO4:6H2O
+  Kieserite         0.48     -0.87   -1.34  MgSO4:H2O
+  Leonhardite      -0.37     -1.25   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.10     -1.38   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1005,36 +1038,36 @@ Using temperature 2.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Hexahydrite       0.00    -1.69     -1.69    2.000e+01   9.265e+00  -1.074e+01
+Hexahydrite      -0.00    -1.50     -1.50    2.000e+01   4.296e+00  -1.570e+01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.969e+00   1.074e+01
-	S                 4.969e+00   1.074e+01
+	Mg                5.822e+00   1.570e+01
+	S                 5.822e+00   1.570e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.783      Charge balance
+                                       pH  =   4.428      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  70°C)  = 45860
-                          Density (g/cm³)  =   1.39153
-                               Volume (L)  =   2.48116
-                        Viscosity (mPa s)  =   8.84859
-                        Activity of water  =   0.789
-                 Ionic strength (mol/kgw)  =   1.988e+01
-                       Mass of water (kg)  =   2.160e+00
-                 Total alkalinity (eq/kg)  =   5.630e-10
+      Specific Conductance (µS/cm,  70°C)  = 34970
+                          Density (g/cm³)  =   1.46309
+                               Volume (L)  =   3.13573
+                        Viscosity (mPa s)  =  15.98537
+                        Activity of water  =   0.713
+                 Ionic strength (mol/kgw)  =   2.329e+01
+                       Mass of water (kg)  =   2.698e+00
+                 Total alkalinity (eq/kg)  =   4.509e-10
                          Temperature (°C)  =  70.00
-                  Electrical balance (eq)  =  -1.228e-09
+                  Electrical balance (eq)  =  -1.899e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  34
-                         Gamma iterations  =   8
-                      Osmotic coefficient  =   1.32162
+                               Iterations  =  40
+                         Gamma iterations  =   9
+                      Osmotic coefficient  =   1.61392
                          Density of water  =   0.97776
-                                  Total H  = 2.398349e+02
-                                  Total O  = 1.628583e+02
+                                  Total H  = 2.994630e+02
+                                  Total O  = 2.125484e+02
 
 ----------------------------Distribution of species----------------------------
 
@@ -1042,27 +1075,27 @@ Hexahydrite       0.00    -1.69     -1.69    2.000e+01   9.265e+00  -1.074e+01
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.184e-06   1.650e-05    -5.926    -4.783     1.144      0.00
-   OH-             4.755e-07   7.731e-09    -6.323    -8.112    -1.789     23.87
-   H2O             5.551e+01   7.893e-01     1.744    -0.103     0.000     18.43
-Mg            4.969e+00
-   Mg+2            4.969e+00   1.299e+01     0.696     1.114     0.417    -14.46
-   MgOH+           3.525e-05   2.928e-05    -4.453    -4.533    -0.081     (0)  
-S(6)          4.969e+00
-   SO4-2           4.969e+00   6.443e-03     0.696    -2.191    -2.887     39.76
-   HSO4-           3.454e-05   3.852e-05    -4.462    -4.414     0.047     44.45
+   H+              7.348e-07   3.733e-05    -6.134    -4.428     1.706      0.00
+   OH-             3.589e-07   3.085e-09    -6.445    -8.511    -2.066     28.12
+   H2O             5.551e+01   7.128e-01     1.744    -0.147     0.000     18.43
+Mg            5.822e+00
+   Mg+2            5.822e+00   6.710e+01     0.765     1.827     1.062    -13.31
+   MgOH+           4.394e-05   6.036e-05    -4.357    -4.219     0.138     (0)  
+S(6)          5.822e+00
+   SO4-2           5.822e+00   3.556e-03     0.765    -2.449    -3.214     37.31
+   HSO4-           4.357e-05   3.990e-05    -4.361    -4.399    -0.038     44.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(343 K,   1 atm)
 
-  Brucite          -4.70    -15.11  -10.41  Mg(OH)2
-  Epsomite         -0.19     -1.80   -1.61  MgSO4:7H2O
-  H2O(g)           -0.62     -0.10    0.51  H2O
-  Hexahydrite       0.00     -1.69   -1.69  MgSO4:6H2O
-  Kieserite         0.07     -1.18   -1.25  MgSO4:H2O
-  Leonhardite      -0.60     -1.49   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.31     -1.59   -1.28  MgSO4:5H2O
+  Brucite          -4.78    -15.19  -10.41  Mg(OH)2
+  Epsomite         -0.19     -1.65   -1.46  MgSO4:7H2O
+  H2O(g)           -0.66     -0.15    0.51  H2O
+  Hexahydrite      -0.00     -1.50   -1.50  MgSO4:6H2O
+  Kieserite         0.64     -0.77   -1.41  MgSO4:H2O
+  Leonhardite      -0.32     -1.21   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.07     -1.36   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1096,36 +1129,36 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -1.25     -1.25    1.000e+01   4.717e+00  -5.283e+00
+Kieserite         0.00    -1.41     -1.41    1.000e+01   5.147e+00  -4.853e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.824e+00   5.283e+00
-	S                 4.824e+00   5.283e+00
+	Mg                4.463e+00   4.853e+00
+	S                 4.463e+00   4.853e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.835      Charge balance
+                                       pH  =   4.926      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  70°C)  = 48023
-                          Density (g/cm³)  =   1.38414
-                               Volume (L)  =   1.25071
-                        Viscosity (mPa s)  =   8.15391
-                        Activity of water  =   0.801
-                 Ionic strength (mol/kgw)  =   1.930e+01
-                       Mass of water (kg)  =   1.095e+00
-                 Total alkalinity (eq/kg)  =   1.111e-09
+      Specific Conductance (µS/cm,  70°C)  = 65396
+                          Density (g/cm³)  =   1.38590
+                               Volume (L)  =   1.20611
+                        Viscosity (mPa s)  =   6.93216
+                        Activity of water  =   0.830
+                 Ionic strength (mol/kgw)  =   1.785e+01
+                       Mass of water (kg)  =   1.087e+00
+                 Total alkalinity (eq/kg)  =   1.119e-09
                          Temperature (°C)  =  70.00
-                  Electrical balance (eq)  =  -1.226e-09
+                  Electrical balance (eq)  =  -2.280e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  42
-                         Gamma iterations  =   9
-                      Osmotic coefficient  =   1.27463
+                               Iterations  =  46
+                         Gamma iterations  =  10
+                      Osmotic coefficient  =   1.16086
                          Density of water  =   0.97776
-                                  Total H  = 1.215793e+02
-                                  Total O  = 8.192343e+01
+                                  Total H  = 1.207179e+02
+                                  Total O  = 7.976997e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1133,27 +1166,27 @@ Kieserite         0.00    -1.25     -1.25    1.000e+01   4.717e+00  -5.283e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.285e-06   1.462e-05    -5.891    -4.835     1.056      0.00
-   OH-             4.915e-07   8.855e-09    -6.309    -8.053    -1.744     23.14
-   H2O             5.551e+01   8.013e-01     1.744    -0.096     0.000     18.43
-Mg            4.824e+00
-   Mg+2            4.824e+00   1.001e+01     0.683     1.000     0.317    -14.65
-   MgOH+           3.358e-05   2.584e-05    -4.474    -4.588    -0.114     (0)  
-S(6)          4.824e+00
-   SO4-2           4.824e+00   7.052e-03     0.683    -2.152    -2.835     39.38
-   HSO4-           3.278e-05   3.736e-05    -4.484    -4.428     0.057     44.45
+   H+              1.685e-06   1.185e-05    -5.773    -4.926     0.847      0.00
+   OH-             4.889e-07   1.131e-08    -6.311    -7.946    -1.636     21.32
+   H2O             5.551e+01   8.297e-01     1.744    -0.081     0.000     18.43
+Mg            4.463e+00
+   Mg+2            4.463e+00   5.334e+00     0.650     0.727     0.077    -15.14
+   MgOH+           2.737e-05   1.760e-05    -4.563    -4.755    -0.192     (0)  
+S(6)          4.463e+00
+   SO4-2           4.463e+00   8.717e-03     0.650    -2.060    -2.709     34.50
+   HSO4-           2.617e-05   3.105e-05    -4.582    -4.508     0.074     44.45
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(343 K,   1 atm)
 
-  Brucite          -4.69    -15.11  -10.41  Mg(OH)2
-  Epsomite         -0.22     -1.82   -1.61  MgSO4:7H2O
-  H2O(g)           -0.61     -0.10    0.51  H2O
-  Hexahydrite      -0.03     -1.73   -1.69  MgSO4:6H2O
-  Kieserite         0.00     -1.25   -1.25  MgSO4:H2O
-  Leonhardite      -0.65     -1.54   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.35     -1.63   -1.28  MgSO4:5H2O
+  Brucite          -4.75    -15.17  -10.41  Mg(OH)2
+  Epsomite         -0.44     -1.90   -1.46  MgSO4:7H2O
+  H2O(g)           -0.60     -0.08    0.51  H2O
+  Hexahydrite      -0.31     -1.82   -1.50  MgSO4:6H2O
+  Kieserite         0.00     -1.41   -1.41  MgSO4:H2O
+  Leonhardite      -0.77     -1.66   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.45     -1.74   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1169,36 +1202,36 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -1.51     -1.51    1.000e+01   4.931e+00  -5.069e+00
+Kieserite        -0.00    -1.58     -1.58    1.000e+01   5.126e+00  -4.874e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.645e+00   5.069e+00
-	S                 4.645e+00   5.069e+00
+	Mg                4.480e+00   4.874e+00
+	S                 4.480e+00   4.874e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.870      Charge balance
+                                       pH  =   4.882      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  80°C)  = 53183
-                          Density (g/cm³)  =   1.36430
-                               Volume (L)  =   1.24716
-                        Viscosity (mPa s)  =   6.14758
-                        Activity of water  =   0.826
-                 Ionic strength (mol/kgw)  =   1.858e+01
-                       Mass of water (kg)  =   1.091e+00
-                 Total alkalinity (eq/kg)  =   1.115e-09
+      Specific Conductance (µS/cm,  80°C)  = 80824
+                          Density (g/cm³)  =   1.38488
+                               Volume (L)  =   1.20911
+                        Viscosity (mPa s)  =   5.71726
+                        Activity of water  =   0.838
+                 Ionic strength (mol/kgw)  =   1.792e+01
+                       Mass of water (kg)  =   1.088e+00
+                 Total alkalinity (eq/kg)  =   1.118e-09
                          Temperature (°C)  =  80.00
-                  Electrical balance (eq)  =  -1.219e-09
+                  Electrical balance (eq)  =  -1.228e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  30
+                               Iterations  =  27
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   1.14359
+                      Osmotic coefficient  =   1.09630
                          Density of water  =   0.97179
-                                  Total H  = 1.211509e+02
-                                  Total O  = 8.085247e+01
+                                  Total H  = 1.207602e+02
+                                  Total O  = 7.987572e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1206,27 +1239,27 @@ Kieserite         0.00    -1.51     -1.51    1.000e+01   4.931e+00  -5.069e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.780e-06   1.348e-05    -5.749    -4.870     0.879      0.00
-   OH-             7.416e-07   1.579e-08    -6.130    -7.801    -1.672     22.50
-   H2O             5.551e+01   8.258e-01     1.744    -0.083     0.000     18.54
-Mg            4.645e+00
-   Mg+2            4.645e+00   4.811e+00     0.667     0.682     0.015    -15.79
-   MgOH+           4.423e-05   2.634e-05    -4.354    -4.579    -0.225     (0)  
-S(6)          4.645e+00
-   SO4-2           4.645e+00   7.833e-03     0.667    -2.106    -2.773     40.28
-   HSO4-           4.319e-05   5.250e-05    -4.365    -4.280     0.085     44.83
+   H+              2.140e-06   1.312e-05    -5.669    -4.882     0.788      0.00
+   OH-             6.915e-07   1.646e-08    -6.160    -7.784    -1.623     21.66
+   H2O             5.551e+01   8.378e-01     1.744    -0.077     0.000     18.54
+Mg            4.480e+00
+   Mg+2            4.480e+00   3.675e+00     0.651     0.565    -0.086    -15.99
+   MgOH+           3.794e-05   2.096e-05    -4.421    -4.679    -0.258     (0)  
+S(6)          4.480e+00
+   SO4-2           4.480e+00   8.604e-03     0.651    -2.065    -2.717     34.40
+   HSO4-           3.649e-05   4.499e-05    -4.438    -4.347     0.091     44.82
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(353 K,   1 atm)
 
-  Brucite          -4.59    -14.92  -10.33  Mg(OH)2
-  Epsomite         -0.43     -2.01   -1.57  MgSO4:7H2O
-  H2O(g)           -0.42     -0.08    0.33  H2O
-  Hexahydrite      -0.20     -1.92   -1.72  MgSO4:6H2O
-  Kieserite         0.00     -1.51   -1.51  MgSO4:H2O
-  Leonhardite      -0.87     -1.76   -0.89  MgSO4:4H2O
-  Pentahydrite     -0.55     -1.84   -1.28  MgSO4:5H2O
+  Brucite          -4.68    -15.00  -10.33  Mg(OH)2
+  Epsomite         -0.64     -2.04   -1.40  MgSO4:7H2O
+  H2O(g)           -0.41     -0.08    0.33  H2O
+  Hexahydrite      -0.47     -1.96   -1.49  MgSO4:6H2O
+  Kieserite        -0.00     -1.58   -1.58  MgSO4:H2O
+  Leonhardite      -0.92     -1.81   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.60     -1.88   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1242,36 +1275,36 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -2.05     -2.05    1.000e+01   5.480e+00  -4.520e+00
+Kieserite        -0.00    -1.99     -1.99    1.000e+01   5.270e+00  -4.730e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.180e+00   4.520e+00
-	S                 4.180e+00   4.520e+00
+	Mg                4.359e+00   4.730e+00
+	S                 4.359e+00   4.730e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.987      Charge balance
+                                       pH  =   4.871      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 100°C)  = 65314
-                          Density (g/cm³)  =   1.31635
-                               Volume (L)  =   1.23491
-                        Viscosity (mPa s)  =   3.41032
-                        Activity of water  =   0.875
-                 Ionic strength (mol/kgw)  =   1.672e+01
-                       Mass of water (kg)  =   1.081e+00
-                 Total alkalinity (eq/kg)  =   1.125e-09
+      Specific Conductance (µS/cm, 100°C)  = 126901
+                          Density (g/cm³)  =   1.36857
+                               Volume (L)  =   1.20896
+                        Viscosity (mPa s)  =   3.72402
+                        Activity of water  =   0.865
+                 Ionic strength (mol/kgw)  =   1.743e+01
+                       Mass of water (kg)  =   1.085e+00
+                 Total alkalinity (eq/kg)  =   1.121e-09
                          Temperature (°C)  = 100.00
-                  Electrical balance (eq)  =  -2.168e-09
+                  Electrical balance (eq)  =  -1.574e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  25
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   0.88469
+                      Osmotic coefficient  =   0.92618
                          Density of water  =   0.95835
-                                  Total H  = 1.200534e+02
-                                  Total O  = 7.810864e+01
+                                  Total H  = 1.204723e+02
+                                  Total O  = 7.915591e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1279,27 +1312,27 @@ Kieserite         0.00    -2.05     -2.05    1.000e+01   5.480e+00  -4.520e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              3.274e-06   1.029e-05    -5.485    -4.987     0.497      0.00
-   OH-             1.599e-06   4.912e-08    -5.796    -7.309    -1.513     20.50
-   H2O             5.551e+01   8.753e-01     1.744    -0.058     0.000     18.80
-Mg            4.180e+00
-   Mg+2            4.180e+00   1.056e+00     0.621     0.024    -0.597    -18.22
-   MgOH+           7.242e-05   2.606e-05    -4.140    -4.584    -0.444     (0)  
-S(6)          4.180e+00
-   SO4-2           4.180e+00   9.569e-03     0.621    -2.019    -2.640     41.77
-   HSO4-           7.074e-05   9.381e-05    -4.150    -4.028     0.123     45.61
+   H+              3.494e-06   1.345e-05    -5.457    -4.871     0.585      0.00
+   OH-             1.350e-06   3.714e-08    -5.870    -7.430    -1.560     21.45
+   H2O             5.551e+01   8.646e-01     1.744    -0.063     0.000     18.80
+Mg            4.359e+00
+   Mg+2            4.358e+00   1.352e+00     0.639     0.131    -0.508    -18.06
+   MgOH+           6.589e-05   2.522e-05    -4.181    -4.598    -0.417     (0)  
+S(6)          4.359e+00
+   SO4-2           4.358e+00   8.763e-03     0.639    -2.057    -2.697     34.25
+   HSO4-           6.374e-05   8.445e-05    -4.196    -4.073     0.122     45.65
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(373 K,   1 atm)
 
-  Brucite          -4.43    -14.59  -10.17  Mg(OH)2
-  Epsomite         -0.88     -2.40   -1.52  MgSO4:7H2O
-  H2O(g)           -0.06     -0.06    0.00  H2O
-  Hexahydrite      -0.56     -2.34   -1.78  MgSO4:6H2O
-  Kieserite         0.00     -2.05   -2.05  MgSO4:H2O
-  Leonhardite      -1.34     -2.23   -0.89  MgSO4:4H2O
-  Pentahydrite     -1.00     -2.28   -1.28  MgSO4:5H2O
+  Brucite          -4.56    -14.73  -10.17  Mg(OH)2
+  Epsomite         -1.10     -2.37   -1.27  MgSO4:7H2O
+  H2O(g)           -0.07     -0.06    0.00  H2O
+  Hexahydrite      -0.84     -2.31   -1.46  MgSO4:6H2O
+  Kieserite        -0.00     -1.99   -1.99  MgSO4:H2O
+  Leonhardite      -1.29     -2.18   -0.89  MgSO4:4H2O
+  Pentahydrite     -0.96     -2.24   -1.28  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1315,37 +1348,37 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite        -0.00    -2.62     -2.62    1.000e+01   6.209e+00  -3.791e+00
+Kieserite         0.00    -2.50     -2.50    1.000e+01   5.706e+00  -4.294e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                3.549e+00   3.791e+00
-	S                 3.549e+00   3.791e+00
+	Mg                3.985e+00   4.294e+00
+	S                 3.985e+00   4.294e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.151      Charge balance
+                                       pH  =   4.956      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 120°C)  = 82458
-                          Density (g/cm³)  =   1.25434
-                               Volume (L)  =   1.21546
-                        Viscosity (mPa s)  =   1.78260
-                        Activity of water  =   0.921
-                 Ionic strength (mol/kgw)  =   1.419e+01
-                       Mass of water (kg)  =   1.068e+00
-                 Total alkalinity (eq/kg)  =   1.139e-09
+      Specific Conductance (µS/cm, 120°C)  = 207555
+                          Density (g/cm³)  =   1.32687
+                               Volume (L)  =   1.20145
+                        Viscosity (mPa s)  =   2.21940
+                        Activity of water  =   0.902
+                 Ionic strength (mol/kgw)  =   1.594e+01
+                       Mass of water (kg)  =   1.077e+00
+                 Total alkalinity (eq/kg)  =   1.129e-09
                          Temperature (°C)  = 120.00
-                           Pressure (atm)  =  1.81
-                  Electrical balance (eq)  =  -2.649e-09
+                           Pressure (atm)  =  1.77
+                  Electrical balance (eq)  =  -9.400e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  29
+                               Iterations  =  32
                          Gamma iterations  =   8
-                      Osmotic coefficient  =   0.64088
+                      Osmotic coefficient  =   0.71808
                          Density of water  =   0.94311
-                                  Total H  = 1.185942e+02
-                                  Total O  = 7.446069e+01
+                                  Total H  = 1.195996e+02
+                                  Total O  = 7.697413e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1353,27 +1386,27 @@ Kieserite        -0.00    -2.62     -2.62    1.000e+01   6.209e+00  -3.791e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              5.539e-06   7.062e-06    -5.257    -5.151     0.105      0.00
-   OH-             3.230e-06   1.455e-07    -5.491    -6.837    -1.346     17.26
-   H2O             5.551e+01   9.213e-01     1.744    -0.036     0.000     19.10
-Mg            3.549e+00
-   Mg+2            3.548e+00   2.392e-01     0.550    -0.621    -1.171    -20.69
-   MgOH+           1.121e-04   2.608e-05    -3.950    -4.584    -0.633     (0)  
-S(6)          3.549e+00
-   SO4-2           3.548e+00   1.079e-02     0.550    -1.967    -2.517     42.51
-   HSO4-           1.098e-04   1.418e-04    -3.959    -3.848     0.111     46.33
+   H+              5.799e-06   1.107e-05    -5.237    -4.956     0.281      0.00
+   OH-             2.560e-06   9.090e-08    -5.592    -7.041    -1.450     19.74
+   H2O             5.551e+01   9.020e-01     1.744    -0.045     0.000     19.10
+Mg            3.985e+00
+   Mg+2            3.985e+00   3.824e-01     0.600    -0.417    -1.018    -20.44
+   MgOH+           1.027e-04   2.604e-05    -3.989    -4.584    -0.596     (0)  
+S(6)          3.985e+00
+   SO4-2           3.985e+00   9.219e-03     0.600    -2.035    -2.636     34.21
+   HSO4-           9.943e-05   1.348e-04    -4.002    -3.870     0.132     46.53
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(393 K,   2 atm)
 
-  Brucite          -4.27    -14.30  -10.02  Mg(OH)2
-  Epsomite         -1.35     -2.84   -1.49  MgSO4:7H2O
-  H2O(g)            0.25     -0.04   -0.29  H2O
-  Hexahydrite      -0.97     -2.80   -1.83  MgSO4:6H2O
-  Kieserite        -0.00     -2.62   -2.62  MgSO4:H2O
-  Leonhardite      -1.84     -2.73   -0.89  MgSO4:4H2O
-  Pentahydrite     -1.48     -2.77   -1.29  MgSO4:5H2O
+  Brucite          -4.48    -14.50  -10.02  Mg(OH)2
+  Epsomite         -1.62     -2.77   -1.15  MgSO4:7H2O
+  H2O(g)            0.24     -0.04   -0.29  H2O
+  Hexahydrite      -1.29     -2.72   -1.44  MgSO4:6H2O
+  Kieserite         0.00     -2.50   -2.50  MgSO4:H2O
+  Leonhardite      -1.74     -2.63   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.39     -2.68   -1.29  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1389,37 +1422,37 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -3.21     -3.21    1.000e+01   7.199e+00  -2.801e+00
+Kieserite        -0.00    -3.08     -3.08    1.000e+01   6.582e+00  -3.418e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                2.666e+00   2.801e+00
-	S                 2.666e+00   2.801e+00
+	Mg                3.220e+00   3.418e+00
+	S                 3.220e+00   3.418e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.355      Charge balance
+                                       pH  =   5.139      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 140°C)  = 112242
-                          Density (g/cm³)  =   1.17203
-                               Volume (L)  =   1.18391
-                        Viscosity (mPa s)  =   0.83556
-                        Activity of water  =   0.960
-                 Ionic strength (mol/kgw)  =   1.066e+01
-                       Mass of water (kg)  =   1.050e+00
-                 Total alkalinity (eq/kg)  =   1.158e-09
+      Specific Conductance (µS/cm, 140°C)  = 356430
+                          Density (g/cm³)  =   1.24677
+                               Volume (L)  =   1.18144
+                        Viscosity (mPa s)  =   1.11386
+                        Activity of water  =   0.945
+                 Ionic strength (mol/kgw)  =   1.288e+01
+                       Mass of water (kg)  =   1.062e+00
+                 Total alkalinity (eq/kg)  =   1.146e-09
                          Temperature (°C)  = 140.00
-                           Pressure (atm)  =  3.42
-                  Electrical balance (eq)  =  -1.221e-09
+                           Pressure (atm)  =  3.37
+                  Electrical balance (eq)  =  -1.302e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  32
+                               Iterations  =  33
                          Gamma iterations  =   8
-                      Osmotic coefficient  =   0.42641
+                      Osmotic coefficient  =   0.49148
                          Density of water  =   0.92614
-                                  Total H  = 1.166139e+02
-                                  Total O  = 6.950992e+01
+                                  Total H  = 1.178483e+02
+                                  Total O  = 7.259600e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1427,27 +1460,27 @@ Kieserite         0.00    -3.21     -3.21    1.000e+01   7.199e+00  -2.801e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              8.033e-06   4.411e-06    -5.095    -5.355    -0.260      0.00
-   OH-             6.114e-06   4.118e-07    -5.214    -6.385    -1.172     11.89
-   H2O             5.551e+01   9.599e-01     1.744    -0.018     0.000     19.45
-Mg            2.666e+00
-   Mg+2            2.666e+00   6.237e-02     0.426    -1.205    -1.631    -23.01
-   MgOH+           1.665e-04   2.947e-05    -3.778    -4.531    -0.752     (0)  
-S(6)          2.666e+00
-   SO4-2           2.666e+00   1.038e-02     0.426    -1.984    -2.410     40.75
-   HSO4-           1.646e-04   1.692e-04    -3.784    -3.772     0.012     46.57
+   H+              9.369e-06   7.260e-06    -5.028    -5.139    -0.111      0.00
+   OH-             4.740e-06   2.462e-07    -5.324    -6.609    -1.285     15.36
+   H2O             5.551e+01   9.446e-01     1.744    -0.025     0.000     19.45
+Mg            3.220e+00
+   Mg+2            3.220e+00   9.263e-02     0.508    -1.033    -1.541    -22.88
+   MgOH+           1.480e-04   2.617e-05    -3.830    -4.582    -0.753     (0)  
+S(6)          3.220e+00
+   SO4-2           3.220e+00   9.450e-03     0.508    -2.025    -2.532     33.18
+   HSO4-           1.434e-04   1.701e-04    -3.843    -3.769     0.074     47.14
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(413 K,   3 atm)
 
-  Brucite          -4.09    -13.98   -9.89  Mg(OH)2
-  Epsomite         -1.84     -3.31   -1.47  MgSO4:7H2O
+  Brucite          -4.36    -14.25   -9.89  Mg(OH)2
+  Epsomite         -2.21     -3.23   -1.02  MgSO4:7H2O
   H2O(g)            0.52     -0.02   -0.54  H2O
-  Hexahydrite      -1.41     -3.30   -1.89  MgSO4:6H2O
-  Kieserite         0.00     -3.21   -3.21  MgSO4:H2O
-  Leonhardite      -2.37     -3.26   -0.89  MgSO4:4H2O
-  Pentahydrite     -1.99     -3.28   -1.29  MgSO4:5H2O
+  Hexahydrite      -1.80     -3.21   -1.41  MgSO4:6H2O
+  Kieserite        -0.00     -3.08   -3.08  MgSO4:H2O
+  Leonhardite      -2.27     -3.16   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.89     -3.18   -1.29  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1463,37 +1496,37 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite        -0.00    -3.79     -3.79    1.000e+01   8.557e+00  -1.443e+00
+Kieserite        -0.00    -3.73     -3.73    1.000e+01   8.173e+00  -1.827e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                1.406e+00   1.443e+00
-	S                 1.406e+00   1.443e+00
+	Mg                1.769e+00   1.827e+00
+	S                 1.769e+00   1.827e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.596      Charge balance
+                                       pH  =   5.429      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 160°C)  = 166239
-                          Density (g/cm³)  =   1.05375
-                               Volume (L)  =   1.13846
-                        Viscosity (mPa s)  =   0.35463
-                        Activity of water  =   0.985
-                 Ionic strength (mol/kgw)  =   5.624e+00
-                       Mass of water (kg)  =   1.026e+00
-                 Total alkalinity (eq/kg)  =   1.186e-09
+      Specific Conductance (µS/cm, 160°C)  = 522786
+                          Density (g/cm³)  =   1.09928
+                               Volume (L)  =   1.13968
+                        Viscosity (mPa s)  =   0.43516
+                        Activity of water  =   0.981
+                 Ionic strength (mol/kgw)  =   7.075e+00
+                       Mass of water (kg)  =   1.033e+00
+                 Total alkalinity (eq/kg)  =   1.178e-09
                          Temperature (°C)  = 160.00
-                           Pressure (atm)  =  6.02
-                  Electrical balance (eq)  =  -3.929e-09
+                           Pressure (atm)  =  5.99
+                  Electrical balance (eq)  =  -1.084e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  25
+                               Iterations  =  24
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   0.29031
+                      Osmotic coefficient  =   0.29730
                          Density of water  =   0.90745
-                                  Total H  = 1.138978e+02
-                                  Total O  = 6.271968e+01
+                                  Total H  = 1.146664e+02
+                                  Total O  = 6.464112e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1501,27 +1534,27 @@ Kieserite        -0.00    -3.79     -3.79    1.000e+01   8.557e+00  -1.443e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.009e-05   1.113e-06    -4.996    -5.954    -0.957      2.18
-   H+              7.705e-06   2.537e-06    -5.113    -5.596    -0.482      0.00
-   H2O             5.551e+01   9.854e-01     1.744    -0.006     0.000     19.85
-Mg            1.406e+00
-   Mg+2            1.406e+00   2.265e-02     0.148    -1.645    -1.793    -25.08
-   MgOH+           2.247e-04   4.544e-05    -3.648    -4.343    -0.694     (0)  
-S(6)          1.406e+00
-   SO4-2           1.406e+00   7.245e-03     0.148    -2.140    -2.288     30.50
-   HSO4-           2.271e-04   1.368e-04    -3.644    -3.864    -0.220     44.92
+   H+              1.090e-05   3.720e-06    -4.963    -5.429    -0.467      0.00
+   OH-             8.149e-06   7.553e-07    -5.089    -6.122    -1.033      5.00
+   H2O             5.551e+01   9.812e-01     1.744    -0.008     0.000     19.85
+Mg            1.769e+00
+   Mg+2            1.769e+00   2.523e-02     0.248    -1.598    -1.846    -25.05
+   MgOH+           1.935e-04   3.437e-05    -3.713    -4.464    -0.750     (0)  
+S(6)          1.769e+00
+   SO4-2           1.769e+00   7.527e-03     0.248    -2.123    -2.371     25.82
+   HSO4-           1.907e-04   1.320e-04    -3.720    -3.879    -0.160     45.82
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(433 K,   6 atm)
 
-  Brucite          -3.78    -13.55   -9.77  Mg(OH)2
-  Epsomite         -2.36     -3.83   -1.47  MgSO4:7H2O
+  Brucite          -4.07    -13.84   -9.77  Mg(OH)2
+  Epsomite         -2.88     -3.78   -0.90  MgSO4:7H2O
   H2O(g)            0.76     -0.01   -0.77  H2O
-  Hexahydrite      -1.88     -3.82   -1.95  MgSO4:6H2O
-  Kieserite        -0.00     -3.79   -3.79  MgSO4:H2O
-  Leonhardite      -2.92     -3.81   -0.89  MgSO4:4H2O
-  Pentahydrite     -2.53     -3.82   -1.29  MgSO4:5H2O
+  Hexahydrite      -2.39     -3.77   -1.38  MgSO4:6H2O
+  Kieserite        -0.00     -3.73   -3.73  MgSO4:H2O
+  Leonhardite      -2.86     -3.75   -0.89  MgSO4:4H2O
+  Pentahydrite     -2.47     -3.76   -1.29  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1537,37 +1570,37 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -4.08     -4.08    1.000e+01   9.234e+00  -7.662e-01
+Kieserite         0.00    -4.07     -4.07    1.000e+01   9.197e+00  -8.032e-01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                7.557e-01   7.662e-01
-	S                 7.557e-01   7.662e-01
+	Mg                7.918e-01   8.032e-01
+	S                 7.918e-01   8.032e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.705      Charge balance
+                                       pH  =   5.596      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 170°C)  = 176909
-                          Density (g/cm³)  =   0.98377
-                               Volume (L)  =   1.12427
-                        Viscosity (mPa s)  =   0.24644
+      Specific Conductance (µS/cm, 170°C)  = 368688
+                          Density (g/cm³)  =   0.99110
+                               Volume (L)  =   1.12113
+                        Viscosity (mPa s)  =   0.26105
                         Activity of water  =   0.992
-                 Ionic strength (mol/kgw)  =   3.022e+00
+                 Ionic strength (mol/kgw)  =   3.167e+00
                        Mass of water (kg)  =   1.014e+00
-                 Total alkalinity (eq/kg)  =   1.200e-09
+                 Total alkalinity (eq/kg)  =   1.199e-09
                          Temperature (°C)  = 170.00
                            Pressure (atm)  =  7.76
-                  Electrical balance (eq)  =  -1.122e-09
+                  Electrical balance (eq)  =  -1.011e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  25
+                               Iterations  =  24
                          Gamma iterations  =   7
-                      Osmotic coefficient  =   0.29846
+                      Osmotic coefficient  =   0.29518
                          Density of water  =   0.89745
-                                  Total H  = 1.125448e+02
-                                  Total O  = 5.933710e+01
+                                  Total H  = 1.126189e+02
+                                  Total O  = 5.952232e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1575,27 +1608,27 @@ Kieserite         0.00    -4.08     -4.08    1.000e+01   9.234e+00  -7.662e-01
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.105e-05   1.706e-06    -4.957    -5.768    -0.811     -4.59
-   H+              5.503e-06   1.971e-06    -5.259    -5.705    -0.446      0.00
-   H2O             5.551e+01   9.919e-01     1.744    -0.004     0.000     20.07
-Mg            7.557e-01
-   Mg+2            7.555e-01   1.649e-02    -0.122    -1.783    -1.661    -26.21
-   MgOH+           2.260e-04   6.421e-05    -3.646    -4.192    -0.546     (0)  
-S(6)          7.557e-01
-   SO4-2           7.555e-01   5.069e-03    -0.122    -2.295    -2.173     19.18
-   HSO4-           2.315e-04   1.058e-04    -3.635    -3.975    -0.340     42.49
+   OH-             8.816e-06   1.325e-06    -5.055    -5.878    -0.823     -4.23
+   H+              7.187e-06   2.538e-06    -5.143    -5.596    -0.452      0.00
+   H2O             5.551e+01   9.916e-01     1.744    -0.004     0.000     20.07
+Mg            7.918e-01
+   Mg+2            7.916e-01   1.665e-02    -0.102    -1.778    -1.677    -26.19
+   MgOH+           1.821e-04   5.035e-05    -3.740    -4.298    -0.558     (0)  
+S(6)          7.918e-01
+   SO4-2           7.916e-01   5.125e-03    -0.102    -2.290    -2.189     14.65
+   HSO4-           1.837e-04   8.474e-05    -3.736    -4.072    -0.336     42.67
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(443 K,   8 atm)
 
-  Brucite          -3.61    -13.32   -9.71  Mg(OH)2
-  Epsomite         -2.63     -4.10   -1.47  MgSO4:7H2O
+  Brucite          -3.82    -13.53   -9.71  Mg(OH)2
+  Epsomite         -3.26     -4.09   -0.84  MgSO4:7H2O
   H2O(g)            0.87     -0.00   -0.88  H2O
-  Hexahydrite      -2.13     -4.10   -1.97  MgSO4:6H2O
-  Kieserite         0.00     -4.08   -4.08  MgSO4:H2O
-  Leonhardite      -3.20     -4.09   -0.89  MgSO4:4H2O
-  Pentahydrite     -2.80     -4.10   -1.29  MgSO4:5H2O
+  Hexahydrite      -2.73     -4.09   -1.36  MgSO4:6H2O
+  Kieserite         0.00     -4.07   -4.07  MgSO4:H2O
+  Leonhardite      -3.19     -4.08   -0.89  MgSO4:4H2O
+  Pentahydrite     -2.79     -4.09   -1.29  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1611,37 +1644,37 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -4.37     -4.37    1.000e+01   9.594e+00  -4.064e-01
+Kieserite         0.00    -4.43     -4.43    1.000e+01   9.685e+00  -3.146e-01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                4.035e-01   4.064e-01
-	S                 4.035e-01   4.064e-01
+	Mg                3.128e-01   3.146e-01
+	S                 3.128e-01   3.146e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.770      Charge balance
+                                       pH  =   5.687      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 180°C)  = 150989
-                          Density (g/cm³)  =   0.93661
-                               Volume (L)  =   1.12773
-                        Viscosity (mPa s)  =   0.19734
-                        Activity of water  =   0.995
-                 Ionic strength (mol/kgw)  =   1.613e+00
-                       Mass of water (kg)  =   1.007e+00
-                 Total alkalinity (eq/kg)  =   1.207e-09
+      Specific Conductance (µS/cm, 180°C)  = 177296
+                          Density (g/cm³)  =   0.92676
+                               Volume (L)  =   1.12600
+                        Viscosity (mPa s)  =   0.19162
+                        Activity of water  =   0.996
+                 Ionic strength (mol/kgw)  =   1.251e+00
+                       Mass of water (kg)  =   1.006e+00
+                 Total alkalinity (eq/kg)  =   1.210e-09
                          Temperature (°C)  = 180.00
-                           Pressure (atm)  =  9.86
-                  Electrical balance (eq)  =  -1.213e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  24
+                           Pressure (atm)  =  9.87
+                  Electrical balance (eq)  =   1.698e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  19
                          Gamma iterations  =   6
-                      Osmotic coefficient  =   0.32666
+                      Osmotic coefficient  =   0.34296
                          Density of water  =   0.88700
-                                  Total H  = 1.118253e+02
-                                  Total O  = 5.753833e+01
+                                  Total H  = 1.116417e+02
+                                  Total O  = 5.707931e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1649,27 +1682,27 @@ Kieserite         0.00    -4.37     -4.37    1.000e+01   9.594e+00  -4.064e-01
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.103e-05   2.293e-06    -4.958    -5.640    -0.682    -10.23
-   H+              3.850e-06   1.700e-06    -5.415    -5.770    -0.355      0.00
-   H2O             5.551e+01   9.953e-01     1.744    -0.002     0.000     20.31
-Mg            4.035e-01
-   Mg+2            4.033e-01   1.230e-02    -0.394    -1.910    -1.516    -27.64
-   MgOH+           2.080e-04   8.190e-05    -3.682    -4.087    -0.405     (0)  
-S(6)          4.035e-01
-   SO4-2           4.033e-01   3.500e-03    -0.394    -2.456    -2.061      8.15
-   HSO4-           2.152e-04   8.991e-05    -3.667    -4.046    -0.379     39.80
+   OH-             7.977e-06   1.898e-06    -5.098    -5.722    -0.624    -11.47
+   H+              4.263e-06   2.056e-06    -5.370    -5.687    -0.317      0.00
+   H2O             5.551e+01   9.961e-01     1.744    -0.002     0.000     20.31
+Mg            3.128e-01
+   Mg+2            3.127e-01   1.130e-02    -0.505    -1.947    -1.442    -27.88
+   MgOH+           1.410e-04   6.231e-05    -3.851    -4.205    -0.355     (0)  
+S(6)          3.128e-01
+   SO4-2           3.127e-01   3.329e-03    -0.505    -2.478    -1.973      3.14
+   HSO4-           1.447e-04   6.171e-05    -3.839    -4.210    -0.370     39.03
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(453 K,  10 atm)
 
-  Brucite          -3.53    -13.19   -9.66  Mg(OH)2
-  Epsomite         -2.90     -4.38   -1.48  MgSO4:7H2O
+  Brucite          -3.73    -13.39   -9.66  Mg(OH)2
+  Epsomite         -3.66     -4.44   -0.77  MgSO4:7H2O
   H2O(g)            0.97     -0.00   -0.97  H2O
-  Hexahydrite      -2.38     -4.38   -2.00  MgSO4:6H2O
-  Kieserite         0.00     -4.37   -4.37  MgSO4:H2O
-  Leonhardite      -3.48     -4.37   -0.89  MgSO4:4H2O
-  Pentahydrite     -3.08     -4.38   -1.29  MgSO4:5H2O
+  Hexahydrite      -3.09     -4.43   -1.35  MgSO4:6H2O
+  Kieserite         0.00     -4.43   -4.43  MgSO4:H2O
+  Leonhardite      -3.54     -4.43   -0.89  MgSO4:4H2O
+  Pentahydrite     -3.14     -4.43   -1.29  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1685,37 +1718,37 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -4.65     -4.65    1.000e+01   9.761e+00  -2.387e-01
+Kieserite         0.00    -4.79     -4.79    1.000e+01   9.862e+00  -1.384e-01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                2.377e-01   2.387e-01
-	S                 2.377e-01   2.387e-01
+	Mg                1.380e-01   1.384e-01
+	S                 1.380e-01   1.384e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.808      Charge balance
+                                       pH  =   5.737      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 190°C)  = 117966
-                          Density (g/cm³)  =   0.90700
-                               Volume (L)  =   1.13896
-                        Viscosity (mPa s)  =   0.17235
-                        Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.500e-01
-                       Mass of water (kg)  =   1.004e+00
-                 Total alkalinity (eq/kg)  =   1.211e-09
+      Specific Conductance (µS/cm, 190°C)  = 85299
+                          Density (g/cm³)  =   0.89465
+                               Volume (L)  =   1.13916
+                        Viscosity (mPa s)  =   0.16274
+                        Activity of water  =   0.998
+                 Ionic strength (mol/kgw)  =   5.517e-01
+                       Mass of water (kg)  =   1.002e+00
+                 Total alkalinity (eq/kg)  =   1.213e-09
                          Temperature (°C)  = 190.00
-                           Pressure (atm)  = 12.37
-                  Electrical balance (eq)  =  -1.216e-09
+                           Pressure (atm)  = 12.39
+                  Electrical balance (eq)  =  -1.198e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  23
+                               Iterations  =  19
                          Gamma iterations  =   6
-                      Osmotic coefficient  =   0.34314
+                      Osmotic coefficient  =   0.37427
                          Density of water  =   0.87608
-                                  Total H  = 1.114898e+02
-                                  Total O  = 5.669960e+01
+                                  Total H  = 1.112891e+02
+                                  Total O  = 5.619799e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1723,27 +1756,27 @@ Kieserite         0.00    -4.65     -4.65    1.000e+01   9.761e+00  -2.387e-01
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.086e-05   2.832e-06    -4.964    -5.548    -0.584    -15.02
-   H+              2.920e-06   1.555e-06    -5.535    -5.808    -0.274      0.00
-   H2O             5.551e+01   9.971e-01     1.744    -0.001     0.000     20.56
-Mg            2.377e-01
-   Mg+2            2.375e-01   8.997e-03    -0.624    -2.046    -1.421    -29.41
-   MgOH+           1.903e-04   9.492e-05    -3.721    -4.023    -0.302     (0)  
-S(6)          2.377e-01
-   SO4-2           2.375e-01   2.487e-03    -0.624    -2.604    -1.980     -1.61
-   HSO4-           1.982e-04   8.350e-05    -3.703    -4.078    -0.375     37.17
+   OH-             7.140e-06   2.408e-06    -5.146    -5.618    -0.472    -16.97
+   H+              2.923e-06   1.832e-06    -5.534    -5.737    -0.203      0.00
+   H2O             5.551e+01   9.981e-01     1.744    -0.001     0.000     20.56
+Mg            1.380e-01
+   Mg+2            1.379e-01   7.195e-03    -0.860    -2.143    -1.283    -30.15
+   MgOH+           1.068e-04   6.448e-05    -3.972    -4.191    -0.219     (0)  
+S(6)          1.380e-01
+   SO4-2           1.379e-01   2.259e-03    -0.860    -2.646    -1.786     -6.96
+   HSO4-           1.110e-04   5.168e-05    -3.955    -4.287    -0.332     35.74
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(463 K,  12 atm)
 
-  Brucite          -3.54    -13.14   -9.60  Mg(OH)2
-  Epsomite         -3.17     -4.66   -1.49  MgSO4:7H2O
+  Brucite          -3.78    -13.38   -9.60  Mg(OH)2
+  Epsomite         -4.09     -4.79   -0.71  MgSO4:7H2O
   H2O(g)            1.07     -0.00   -1.07  H2O
-  Hexahydrite      -2.63     -4.66   -2.02  MgSO4:6H2O
-  Kieserite         0.00     -4.65   -4.65  MgSO4:H2O
-  Leonhardite      -3.76     -4.66   -0.89  MgSO4:4H2O
-  Pentahydrite     -3.36     -4.66   -1.29  MgSO4:5H2O
+  Hexahydrite      -3.46     -4.79   -1.33  MgSO4:6H2O
+  Kieserite         0.00     -4.79   -4.79  MgSO4:H2O
+  Leonhardite      -3.90     -4.79   -0.89  MgSO4:4H2O
+  Pentahydrite     -3.50     -4.79   -1.29  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1759,37 +1792,37 @@ Using temperature 3.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Kieserite         0.00    -4.93     -4.93    1.000e+01   9.850e+00  -1.502e-01
+Kieserite         0.00    -5.16     -5.16    1.000e+01   9.935e+00  -6.513e-02
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Mg                1.498e-01   1.502e-01
-	S                 1.498e-01   1.502e-01
+	Mg                6.506e-02   6.513e-02
+	S                 6.506e-02   6.513e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.836      Charge balance
+                                       pH  =   5.769      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm, 200°C)  = 89896
-                          Density (g/cm³)  =   0.88517
-                               Volume (L)  =   1.15322
-                        Viscosity (mPa s)  =   0.16032
-                        Activity of water  =   0.998
-                 Ionic strength (mol/kgw)  =   5.988e-01
-                       Mass of water (kg)  =   1.003e+00
-                 Total alkalinity (eq/kg)  =   1.213e-09
+      Specific Conductance (µS/cm, 200°C)  = 41584
+                          Density (g/cm³)  =   0.87390
+                               Volume (L)  =   1.15461
+                        Viscosity (mPa s)  =   0.15466
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   2.600e-01
+                       Mass of water (kg)  =   1.001e+00
+                 Total alkalinity (eq/kg)  =   1.215e-09
                          Temperature (°C)  = 200.00
-                           Pressure (atm)  = 15.35
-                  Electrical balance (eq)  =  -2.866e-10
+                           Pressure (atm)  = 15.36
+                  Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  22
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.35206
+                               Iterations  =  17
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.38834
                          Density of water  =   0.86467
-                                  Total H  = 1.113129e+02
-                                  Total O  = 5.625744e+01
+                                  Total H  = 1.111427e+02
+                                  Total O  = 5.583189e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1797,27 +1830,27 @@ Kieserite         0.00    -4.93     -4.93    1.000e+01   9.850e+00  -1.502e-01
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.069e-05   3.332e-06    -4.971    -5.477    -0.506    -19.79
-   H+              2.340e-06   1.459e-06    -5.631    -5.836    -0.205      0.00
-   H2O             5.551e+01   9.981e-01     1.744    -0.001     0.000     20.84
-Mg            1.498e-01
-   Mg+2            1.497e-01   6.565e-03    -0.825    -2.183    -1.358    -31.58
-   MgOH+           1.757e-04   1.052e-04    -3.755    -3.978    -0.223     (0)  
-S(6)          1.498e-01
-   SO4-2           1.497e-01   1.793e-03    -0.825    -2.747    -1.922    -11.25
-   HSO4-           1.840e-04   8.081e-05    -3.735    -4.093    -0.357     34.37
+   OH-             6.517e-06   2.864e-06    -5.186    -5.543    -0.357    -22.17
+   H+              2.234e-06   1.700e-06    -5.651    -5.769    -0.119      0.00
+   H2O             5.551e+01   9.991e-01     1.744    -0.000     0.000     20.84
+Mg            6.506e-02
+   Mg+2            6.498e-02   4.461e-03    -1.187    -2.351    -1.163    -33.03
+   MgOH+           8.198e-05   6.133e-05    -4.086    -4.212    -0.126     (0)  
+S(6)          6.506e-02
+   SO4-2           6.497e-02   1.544e-03    -1.187    -2.811    -1.624    -17.10
+   HSO4-           8.626e-05   4.541e-05    -4.064    -4.343    -0.279     32.45
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(473 K,  15 atm)
 
-  Brucite          -3.59    -13.14   -9.55  Mg(OH)2
-  Epsomite         -3.44     -4.94   -1.49  MgSO4:7H2O
+  Brucite          -3.89    -13.44   -9.55  Mg(OH)2
+  Epsomite         -4.52     -5.16   -0.64  MgSO4:7H2O
   H2O(g)            1.16     -0.00   -1.16  H2O
-  Hexahydrite      -2.88     -4.93   -2.05  MgSO4:6H2O
-  Kieserite         0.00     -4.93   -4.93  MgSO4:H2O
-  Leonhardite      -4.04     -4.93   -0.89  MgSO4:4H2O
-  Pentahydrite     -3.64     -4.93   -1.29  MgSO4:5H2O
+  Hexahydrite      -3.85     -5.16   -1.32  MgSO4:6H2O
+  Kieserite         0.00     -5.16   -5.16  MgSO4:H2O
+  Leonhardite      -4.27     -5.16   -0.89  MgSO4:4H2O
+  Pentahydrite     -3.87     -5.16   -1.29  MgSO4:5H2O
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.

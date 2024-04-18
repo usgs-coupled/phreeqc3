@@ -14,6 +14,7 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	CALCULATE_VALUES
 	RATES
 	END
 ------------------------------------
@@ -51,7 +52,7 @@ Initial solution 1.
 
                                        pH  =   3.061      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 391
+      Specific Conductance (µS/cm,  25°C)  = 389
                           Density (g/cm³)  =   0.99706
                                Volume (L)  =   1.00298
                         Viscosity (mPa s)  =   0.89015
@@ -301,8 +302,8 @@ X                1.646e-03 mol	[1 (mol Ca0.5X)/(mol kinetic reactant Calcite)]
 ----------------------------Description of solution----------------------------
 
                                        pH  =   3.731      Charge balance
-                                       pe  =  14.007      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 184
+                                       pe  =   2.058      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 162
                           Density (g/cm³)  =   0.99709
                                Volume (L)  =   1.00300
                         Viscosity (mPa s)  =   0.89043
@@ -312,9 +313,9 @@ X                1.646e-03 mol	[1 (mol Ca0.5X)/(mol kinetic reactant Calcite)]
                  Total alkalinity (eq/kg)  =  -1.922e-04
                        Total CO2 (mol/kg)  =   3.539e-04
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   6.798e-12
+                  Electrical balance (eq)  =   6.896e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  = 358
+                               Iterations  = 387
                                   Total H  = 1.110133e+02
                                   Total O  = 5.550728e+01
 
@@ -326,15 +327,15 @@ X                1.646e-03 mol	[1 (mol Ca0.5X)/(mol kinetic reactant Calcite)]
    H+              1.930e-04   1.856e-04    -3.714    -3.731    -0.017      0.00
    OH-             5.684e-11   5.453e-11   -10.245   -10.263    -0.018     -4.10
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00  -120.968  -120.968     0.000     35.46
+C(-4)         4.161e-26
+   CH4             4.161e-26   4.162e-26   -25.381   -25.381     0.000     35.46
 C(4)          3.539e-04
    CO2             3.530e-04   3.531e-04    -3.452    -3.452     0.000     34.43
-   HCO3-           8.812e-07   8.461e-07    -6.055    -6.073    -0.018     24.56
+   HCO3-           8.812e-07   8.461e-07    -6.055    -6.073    -0.018     24.58
    CaHCO3+         3.397e-09   3.263e-09    -8.469    -8.486    -0.018      9.68
    (CO2)2          2.288e-09   2.289e-09    -8.641    -8.640     0.000     68.87
-   NaHCO3          5.244e-11   5.248e-11   -10.280   -10.280     0.000     28.00
-   CO3-2           2.515e-13   2.138e-13   -12.599   -12.670    -0.071     -4.05
+   NaHCO3          6.832e-11   6.836e-11   -10.165   -10.165     0.000     31.73
+   CO3-2           2.515e-13   2.138e-13   -12.599   -12.670    -0.071     -3.91
    CaCO3           1.085e-13   1.085e-13   -12.965   -12.964     0.000    -14.60
 Ca            3.556e-04
    Ca+2            3.556e-04   3.022e-04    -3.449    -3.520    -0.071    -18.12
@@ -344,14 +345,14 @@ Ca            3.556e-04
 Cl            1.000e-03
    Cl-             9.999e-04   9.594e-04    -3.000    -3.018    -0.018     18.08
    HCl             6.126e-08   6.134e-08    -7.213    -7.212     0.001     (0)  
-H(0)          4.726e-39
-   H2              2.363e-39   2.364e-39   -38.627   -38.626     0.000     28.61
+H(0)          3.725e-15
+   H2              1.863e-15   1.863e-15   -14.730   -14.730     0.000     28.61
 Na            9.664e-05
    Na+             9.664e-05   9.277e-05    -4.015    -4.033    -0.018     -1.47
-   NaHCO3          5.244e-11   5.248e-11   -10.280   -10.280     0.000     28.00
+   NaHCO3          6.832e-11   6.836e-11   -10.165   -10.165     0.000     31.73
    NaOH            5.057e-25   5.059e-25   -24.296   -24.296     0.000     (0)  
-O(0)          1.492e-15
-   O2              7.460e-16   7.462e-16   -15.127   -15.127     0.000     30.40
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -62.921   -62.921     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -359,12 +360,12 @@ O(0)          1.492e-15
 
   Aragonite        -7.85    -16.19   -8.34  CaCO3
   Calcite          -7.71    -16.19   -8.48  CaCO3
-  CH4(g)         -118.17   -120.97   -2.80  CH4
+  CH4(g)          -22.58    -25.38   -2.80  CH4
   CO2(g)           -1.98     -3.45   -1.47  CO2
-  H2(g)           -35.53    -38.63   -3.10  H2
+  H2(g)           -11.63    -14.73   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -8.62     -7.05    1.57  NaCl
-  O2(g)           -12.23    -15.13   -2.89  O2
+  O2(g)           -60.03    -62.92   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.

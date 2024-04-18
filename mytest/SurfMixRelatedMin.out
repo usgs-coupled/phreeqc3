@@ -14,6 +14,7 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	CALCULATE_VALUES
 	RATES
 	END
 ------------------------------------
@@ -51,7 +52,7 @@ Initial solution 1.
 
                                        pH  =   3.061      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 391
+      Specific Conductance (µS/cm,  25°C)  = 389
                           Density (g/cm³)  =   0.99706
                                Volume (L)  =   1.00298
                         Viscosity (mPa s)  =   0.89015
@@ -305,11 +306,11 @@ Gypsum           -1.27    -5.85     -4.58    2.000e-03           0  -2.000e-03
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  8.200e-24  Surface charge, eq
+	  8.714e-25  Surface charge, eq
 	undefined  sigma, C/m²
-	  5.879e-02  psi, V
-	 -2.288e+00  -F*psi/RT
-	  1.014e-01  exp(-F*psi/RT)
+	  7.518e-02  psi, V
+	 -2.926e+00  -F*psi/RT
+	  5.359e-02  exp(-F*psi/RT)
 	  1.000e+01  specific area, m²/mol Gypsum
 	  0.000e+00  m² for   0.000e+00 moles of Gypsum
 
@@ -319,22 +320,22 @@ Hfo_s
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Hfo_sOH2+         7.536e-24       0.000   7.535e-24     -23.123
-	Hfo_sOHCa+2       6.008e-27       0.000   6.007e-27     -26.221
-	Hfo_sOH           5.127e-27       0.000   5.126e-27     -26.290
-	Hfo_sO-           7.990e-32       0.000   7.990e-32     -31.097
+	Hfo_sOH2+         9.551e-25       0.000   9.550e-25     -24.020
+	Hfo_sOH           1.230e-27       0.000   1.230e-27     -26.910
+	Hfo_sOHCa+2       4.023e-28       0.000   4.023e-28     -27.395
+	Hfo_sO-           3.627e-32       0.000   3.627e-32     -31.440
 
 Hfo_w         
 	  0.000e+00  moles	[1 mol/(mol Gypsum)]
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Hfo_wOH2+         9.987e-25       0.000   9.986e-25     -24.001
-	Hfo_wSO4-         3.458e-25       0.000   3.457e-25     -24.461
-	Hfo_wOH           6.794e-28       0.000   6.794e-28     -27.168
-	Hfo_wOHSO4-2      4.693e-28       0.000   4.693e-28     -27.329
-	Hfo_wO-           1.059e-32       0.000   1.059e-32     -31.975
-	Hfo_wOCa+         1.599e-34       0.000   1.598e-34     -33.796
+	Hfo_wSO4-         4.264e-25       0.000   4.264e-25     -24.370
+	Hfo_wOH2+         3.441e-25       0.000   3.440e-25     -24.463
+	Hfo_wOHSO4-2      1.095e-27       0.000   1.095e-27     -26.961
+	Hfo_wOH           4.430e-28       0.000   4.429e-28     -27.354
+	Hfo_wO-           1.307e-32       0.000   1.306e-32     -31.884
+	Hfo_wOCa+         5.507e-35       0.000   5.507e-35     -34.259
 
 -----------------------------Solution composition------------------------------
 
@@ -348,17 +349,17 @@ Hfo_w
 ----------------------------Description of solution----------------------------
 
                                        pH  =   3.129      Charge balance
-                                       pe  =  15.757      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 761
-                          Density (g/cm³)  =   0.99734
+                                       pe  =  15.775      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 683
+                          Density (g/cm³)  =   0.99733
                                Volume (L)  =   1.00306
-                        Viscosity (mPa s)  =   0.89195
+                        Viscosity (mPa s)  =   0.89192
                         Activity of water  =   1.000
-                 Ionic strength (mol/kgw)  =   7.811e-03
+                 Ionic strength (mol/kgw)  =   7.809e-03
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -8.999e-04
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.899e-12
+                  Electrical balance (eq)  =   6.711e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  37
                                   Total H  = 1.110213e+02
@@ -369,36 +370,36 @@ Hfo_w
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              8.070e-04   7.433e-04    -3.093    -3.129    -0.036      0.00
+   H+              8.071e-04   7.433e-04    -3.093    -3.129    -0.036      0.00
    OH-             1.496e-11   1.362e-11   -10.825   -10.866    -0.041     -4.05
    H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
 Ca            2.000e-03
    Ca+2            1.749e-03   1.221e-03    -2.757    -2.913    -0.156    -17.96
-   CaSO4           2.497e-04   2.501e-04    -3.603    -3.602     0.001      7.50
-   CaHSO4+         1.341e-06   1.222e-06    -5.873    -5.913    -0.040     (0)  
+   CaSO4           2.495e-04   2.500e-04    -3.603    -3.602     0.001      7.50
+   CaHSO4+         1.340e-06   1.221e-06    -5.873    -5.913    -0.040     (0)  
    CaOH+           2.990e-13   2.725e-13   -12.524   -12.565    -0.040     (0)  
 Cl            9.999e-04
    Cl-             9.997e-04   9.104e-04    -3.000    -3.041    -0.041     18.13
    HCl             2.313e-07   2.331e-07    -6.636    -6.632     0.003     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -40.923   -40.922     0.001     28.61
+   H2              0.000e+00   0.000e+00   -40.959   -40.958     0.001     28.61
 Na            9.999e-05
-   Na+             9.954e-05   9.085e-05    -4.002    -4.042    -0.040     -1.40
-   NaSO4-          4.537e-07   4.090e-07    -6.343    -6.388    -0.045     14.79
-   NaOH            1.235e-25   1.237e-25   -24.908   -24.908     0.001     (0)  
-O(0)          5.808e-11
-   O2              2.904e-11   2.909e-11   -10.537   -10.536     0.001     30.40
+   Na+             9.816e-05   8.959e-05    -4.008    -4.048    -0.040     -1.40
+   NaSO4-          1.837e-06   1.679e-06    -5.736    -5.775    -0.039    -15.91
+   NaOH            1.218e-25   1.220e-25   -24.914   -24.914     0.001     (0)  
+O(0)          6.869e-11
+   O2              3.434e-11   3.441e-11   -10.464   -10.463     0.001     30.40
 S(-2)         0.000e+00
-   H2S             0.000e+00   0.000e+00  -119.693  -119.692     0.001     36.27
-   HS-             0.000e+00   0.000e+00  -123.464  -123.505    -0.041     20.66
-   S-2             0.000e+00   0.000e+00  -133.137  -133.294    -0.157     (0)  
-   (H2S)2          0.000e+00   0.000e+00  -240.663  -240.662     0.001     30.09
+   H2S             0.000e+00   0.000e+00  -119.839  -119.838     0.001     36.27
+   HS-             0.000e+00   0.000e+00  -123.610  -123.651    -0.041     20.66
+   S-2             0.000e+00   0.000e+00  -133.283  -133.440    -0.157     (0)  
+   (H2S)2          0.000e+00   0.000e+00  -240.955  -240.954     0.001     30.09
 S(6)          2.000e-03
-   SO4-2           1.657e-03   1.152e-03    -2.781    -2.938    -0.158     15.00
-   CaSO4           2.497e-04   2.501e-04    -3.603    -3.602     0.001      7.50
-   HSO4-           9.135e-05   8.327e-05    -4.039    -4.080    -0.040     40.33
-   CaHSO4+         1.341e-06   1.222e-06    -5.873    -5.913    -0.040     (0)  
-   NaSO4-          4.537e-07   4.090e-07    -6.343    -6.388    -0.045     14.79
+   SO4-2           1.656e-03   1.152e-03    -2.781    -2.939    -0.158     17.51
+   CaSO4           2.495e-04   2.500e-04    -3.603    -3.602     0.001      7.50
+   HSO4-           9.129e-05   8.322e-05    -4.040    -4.080    -0.040     40.33
+   NaSO4-          1.837e-06   1.679e-06    -5.736    -5.775    -0.039    -15.91
+   CaHSO4+         1.340e-06   1.221e-06    -5.873    -5.913    -0.040     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -406,14 +407,14 @@ S(6)          2.000e-03
 
   Anhydrite        -1.57     -5.85   -4.28  CaSO4
   Gypsum           -1.27     -5.85   -4.58  CaSO4:2H2O
-  H2(g)           -37.82    -40.92   -3.10  H2
+  H2(g)           -37.86    -40.96   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  H2S(g)         -118.70   -126.63   -7.94  H2S
-  Halite           -8.65     -7.08    1.57  NaCl
-  Mirabilite       -9.78    -11.02   -1.24  Na2SO4:10H2O
-  O2(g)            -7.64    -10.54   -2.89  O2
-  Sulfur          -86.80    -81.92    4.88  S
-  Thenardite      -10.72    -11.02   -0.30  Na2SO4
+  H2S(g)         -118.84   -126.78   -7.94  H2S
+  Halite           -8.66     -7.09    1.57  NaCl
+  Mirabilite       -9.79    -11.03   -1.24  Na2SO4:10H2O
+  O2(g)            -7.57    -10.46   -2.89  O2
+  Sulfur          -86.91    -82.03    4.88  S
+  Thenardite      -10.73    -11.03   -0.30  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.

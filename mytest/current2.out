@@ -14,6 +14,7 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	CALCULATE_VALUES
 	RATES
 	END
 ------------------------------------
@@ -83,9 +84,9 @@ Initial solution 0.
 
                                        pH  =  12.828      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 67943
+      Specific Conductance (µS/cm,  25°C)  = 67350
                           Density (g/cm³)  =   1.02204
-                               Volume (L)  = 101255.71980
+                               Volume (L)  = 101255.71977
                         Viscosity (mPa s)  =   0.94099
                         Activity of water  =   0.979
                  Ionic strength (mol/kgw)  =   6.080e-01
@@ -146,7 +147,7 @@ Initial solution 1.
 
                                        pH  =  12.828      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 45073
+      Specific Conductance (µS/cm,  25°C)  = 44183
                           Density (g/cm³)  =   1.01067
                                Volume (L)  =   0.00001
                         Viscosity (mPa s)  =   0.90309
@@ -155,7 +156,7 @@ Initial solution 1.
                        Mass of water (kg)  =   1.000e-05
                  Total alkalinity (eq/kg)  =   1.000e-01
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -2.118e-20
+                  Electrical balance (eq)  =  -2.202e-20
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   9 (18 overall)
                                   Total H  = 1.111124e-03
@@ -209,7 +210,7 @@ Initial solution 11.
 
                                        pH  =  12.828      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 45073
+      Specific Conductance (µS/cm,  25°C)  = 44183
                           Density (g/cm³)  =   1.01067
                                Volume (L)  =   0.00016
                         Viscosity (mPa s)  =   0.90309
@@ -272,7 +273,7 @@ Initial solution 16.
 
                                        pH  =  12.828      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 45073
+      Specific Conductance (µS/cm,  25°C)  = 44183
                           Density (g/cm³)  =   1.01067
                                Volume (L)  =   0.00001
                         Viscosity (mPa s)  =   0.90309
@@ -334,7 +335,7 @@ Initial solution 26.
 
                                        pH  =  12.908      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 25914
+      Specific Conductance (µS/cm,  25°C)  = 25244
                           Density (g/cm³)  =   1.00234
                                Volume (L)  = 100330.58687
                         Viscosity (mPa s)  =   0.89924
@@ -344,7 +345,7 @@ Initial solution 26.
                  Total alkalinity (eq/kg)  =   1.080e-01
                          Temperature (°C)  =  25.00
               Electrical Potential (Volt)  =  3.00
-                  Electrical balance (eq)  =  -2.388e-09
+                  Electrical balance (eq)  =  -2.394e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  10 (46 overall)
                                   Total H  = 1.111204e+07
@@ -393,7 +394,7 @@ Using pure phase assemblage 0.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-H2(g)           -11.79   -14.89     -3.10    0.000e+00           0   0.000e+00
+H2(g)           -31.70   -34.81     -3.10    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
@@ -406,8 +407,8 @@ H2(g)           -11.79   -14.89     -3.10    0.000e+00           0   0.000e+00
 ----------------------------Description of solution----------------------------
 
                                        pH  =  12.828      Charge balance
-                                       pe  =  -6.959      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 67943
+                                       pe  =   3.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 67350
                           Density (g/cm³)  =   1.02204
                                Volume (L)  = 101255.71977
                         Viscosity (mPa s)  =   0.94099
@@ -416,9 +417,9 @@ H2(g)           -11.79   -14.89     -3.10    0.000e+00           0   0.000e+00
                        Mass of water (kg)  =   1.000e+05
                  Total alkalinity (eq/kg)  =   1.080e-01
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -2.019e-10
+                  Electrical balance (eq)  =  -2.146e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  12
+                               Iterations  =   1
                                   Total H  = 1.111204e+07
                                   Total O  = 5.561422e+06
 
@@ -433,24 +434,24 @@ H2(g)           -11.79   -14.89     -3.10    0.000e+00           0   0.000e+00
 Cl            5.000e-01
    Cl-             5.000e-01   3.186e-01    -0.301    -0.497    -0.196     18.75
    HCl             8.997e-15   1.632e-14   -14.046   -13.787     0.259     (0)  
-H(0)          2.259e-15
-   H2              1.129e-15   1.299e-15   -14.947   -14.886     0.061     28.61
+H(0)          2.724e-35
+   H2              1.362e-35   1.566e-35   -34.866   -34.805     0.061     28.61
 K             8.300e-02
    K+              8.300e-02   5.230e-02    -1.081    -1.281    -0.201      9.62
 Na            5.250e-01
    Na+             5.250e-01   3.763e-01    -0.280    -0.424    -0.145     -0.55
    NaOH            2.180e-12   2.508e-12   -11.662   -11.601     0.061     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -62.686   -62.626     0.061     30.40
+O(0)          2.833e-23
+   O2              1.417e-23   1.629e-23   -22.849   -22.788     0.061     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -11.79    -14.89   -3.10  H2
+  H2(g)           -31.70    -34.81   -3.10  H2
   H2O(g)           -1.51     -0.01    1.50  H2O
   Halite           -2.49     -0.92    1.57  NaCl
-  O2(g)           -59.73    -62.63   -2.89  O2
+  O2(g)           -19.90    -22.79   -2.89  O2
   Sylvite          -2.68     -1.78    0.90  KCl
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -529,7 +530,7 @@ Using pure phase assemblage 0.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-H2(g)           -11.79   -14.89     -3.10    0.000e+00               0.000e+00
+H2(g)           -31.70   -34.81     -3.10    0.000e+00               0.000e+00
 
 -----------------------------Solution composition------------------------------
 
@@ -542,8 +543,8 @@ H2(g)           -11.79   -14.89     -3.10    0.000e+00               0.000e+00
 ----------------------------Description of solution----------------------------
 
                                        pH  =  12.828      Charge balance
-                                       pe  =  -6.959      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 67943
+                                       pe  =   3.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 67350
                           Density (g/cm³)  =   1.02204
                                Volume (L)  = 101255.71977
                         Viscosity (mPa s)  =   0.94099
@@ -552,9 +553,9 @@ H2(g)           -11.79   -14.89     -3.10    0.000e+00               0.000e+00
                        Mass of water (kg)  =   1.000e+05
                  Total alkalinity (eq/kg)  =   1.080e-01
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -2.019e-10
+                  Electrical balance (eq)  =  -2.146e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  12
+                               Iterations  =   1
                                   Total H  = 1.111204e+07
                                   Total O  = 5.561422e+06
 
@@ -569,24 +570,24 @@ H2(g)           -11.79   -14.89     -3.10    0.000e+00               0.000e+00
 Cl            5.000e-01
    Cl-             5.000e-01   3.186e-01    -0.301    -0.497    -0.196     18.75
    HCl             8.997e-15   1.632e-14   -14.046   -13.787     0.259     (0)  
-H(0)          2.259e-15
-   H2              1.129e-15   1.299e-15   -14.947   -14.886     0.061     28.61
+H(0)          2.724e-35
+   H2              1.362e-35   1.566e-35   -34.866   -34.805     0.061     28.61
 K             8.300e-02
    K+              8.300e-02   5.230e-02    -1.081    -1.281    -0.201      9.62
 Na            5.250e-01
    Na+             5.250e-01   3.763e-01    -0.280    -0.424    -0.145     -0.55
    NaOH            2.180e-12   2.508e-12   -11.662   -11.601     0.061     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -62.686   -62.626     0.061     30.40
+O(0)          2.833e-23
+   O2              1.417e-23   1.629e-23   -22.849   -22.788     0.061     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -11.79    -14.89   -3.10  H2
+  H2(g)           -31.70    -34.81   -3.10  H2
   H2O(g)           -1.51     -0.01    1.50  H2O
   Halite           -2.49     -0.92    1.57  NaCl
-  O2(g)           -59.73    -62.63   -2.89  O2
+  O2(g)           -19.90    -22.79   -2.89  O2
   Sylvite          -2.68     -1.78    0.90  KCl
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -606,7 +607,7 @@ Using pure phase assemblage 0.	Pure-phase assemblage after simulation 2.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-H2(g)            -3.42    -6.52     -3.10    0.000e+00               0.000e+00
+H2(g)            -3.41    -6.52     -3.10    0.000e+00               0.000e+00
 
 -----------------------------Solution composition------------------------------
 
@@ -619,8 +620,8 @@ H2(g)            -3.42    -6.52     -3.10    0.000e+00               0.000e+00
 ----------------------------Description of solution----------------------------
 
                                        pH  =  12.828      Charge balance
-                                       pe  = -11.144      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 67944
+                                       pe  = -11.145      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 67350
                           Density (g/cm³)  =   1.02204
                                Volume (L)  = 101255.71926
                         Viscosity (mPa s)  =   0.94099
@@ -629,8 +630,8 @@ H2(g)            -3.42    -6.52     -3.10    0.000e+00               0.000e+00
                        Mass of water (kg)  =   1.000e+05
                  Total alkalinity (eq/kg)  =   1.080e-01
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -6.210e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                  Electrical balance (eq)  =   2.338e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1
                                   Total H  = 1.111204e+07
                                   Total O  = 5.561422e+06
@@ -646,8 +647,8 @@ H2(g)            -3.42    -6.52     -3.10    0.000e+00               0.000e+00
 Cl            5.000e-01
    Cl-             5.000e-01   3.186e-01    -0.301    -0.497    -0.196     18.75
    HCl             8.997e-15   1.632e-14   -14.046   -13.787     0.259     (0)  
-H(0)          5.298e-07
-   H2              2.649e-07   3.047e-07    -6.577    -6.516     0.061     28.61
+H(0)          5.301e-07
+   H2              2.650e-07   3.049e-07    -6.577    -6.516     0.061     28.61
 K             8.300e-02
    K+              8.300e-02   5.230e-02    -1.081    -1.281    -0.201      9.62
 Na            5.250e-01
@@ -660,7 +661,7 @@ O(0)          0.000e+00
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -3.42     -6.52   -3.10  H2
+  H2(g)            -3.41     -6.52   -3.10  H2
   H2O(g)           -1.51     -0.01    1.50  H2O
   Halite           -2.49     -0.92    1.57  NaCl
   O2(g)           -76.47    -79.37   -2.89  O2

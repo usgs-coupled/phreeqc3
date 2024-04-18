@@ -14,6 +14,7 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	CALCULATE_VALUES
 	RATES
 	END
 ------------------------------------
@@ -141,73 +142,6 @@ Reading input data for simulation 2.
 	 echo_input false
 
 	Reading data from rho24.prn ...
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 1.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                8.777e-01   8.777e-01
-	Cl                1.948e+00   1.948e+00  Charge balance
-	Mg                9.630e-02   9.630e-02
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 113377
-                          Density (g/cm³)  =   1.07958
-                               Volume (L)  =   1.02501
-                        Viscosity (mPa s)  =   1.22046
-                        Activity of water  =   0.950
-                 Ionic strength (mol/kgw)  =   2.922e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.942e-06
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.047e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550622e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.757e-07   8.940e-08    -6.755    -7.049    -0.294      0.62
-   H+              1.393e-07   1.000e-07    -6.856    -7.000    -0.144      0.00
-   H2O             5.551e+01   9.503e-01     1.744    -0.022     0.000     18.06
-Ca            8.777e-01
-   Ca+2            8.777e-01   3.244e-01    -0.057    -0.489    -0.432    -15.52
-   CaOH+           3.838e-07   5.118e-07    -6.416    -6.291     0.125     (0)  
-Cl            1.948e+00
-   Cl-             1.948e+00   1.129e+00     0.290     0.053    -0.237     19.50
-   HCl             2.243e-09   3.930e-08    -8.649    -7.406     1.244     (0)  
-H(0)          7.256e-26
-   H2              3.628e-26   7.110e-26   -25.440   -25.148     0.292     28.60
-Mg            9.630e-02
-   Mg+2            9.630e-02   5.204e-02    -1.016    -1.284    -0.267    -19.10
-   MgOH+           2.524e-06   1.640e-06    -5.598    -5.785    -0.187     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.748   -42.456     0.292     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.46   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
 ------------------
 End of simulation.
 ------------------
@@ -220,33 +154,30 @@ Reading input data for simulation 3.
 Beginning of initial solution calculations.
 -------------------------------------------
 
-Initial solution 2.	
+Initial solution 1.	
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Ca                7.906e-01   7.906e-01
-	Cl                1.977e+00   1.977e+00  Charge balance
-	Mg                1.979e-01   1.979e-01
+	Pure water     
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 113594
-                          Density (g/cm³)  =   1.07957
-                               Volume (L)  =   1.02503
-                        Viscosity (mPa s)  =   1.23596
-                        Activity of water  =   0.950
-                 Ionic strength (mol/kgw)  =   2.965e+00
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.007e-07
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   5.651e-06
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.102e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -255,30 +186,21 @@ Initial solution 2.
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.759e-07   8.933e-08    -6.755    -7.049    -0.294      0.68
-   H+              1.393e-07   1.000e-07    -6.856    -7.000    -0.144      0.00
-   H2O             5.551e+01   9.496e-01     1.744    -0.022     0.000     18.06
-Ca            7.906e-01
-   Ca+2            7.906e-01   2.958e-01    -0.102    -0.529    -0.427    -15.51
-   CaOH+           3.451e-07   4.665e-07    -6.462    -6.331     0.131     (0)  
-Cl            1.977e+00
-   Cl-             1.977e+00   1.146e+00     0.296     0.059    -0.237     19.51
-   HCl             2.181e-09   3.988e-08    -8.661    -7.399     1.262     (0)  
-H(0)          7.183e-26
-   H2              3.592e-26   7.110e-26   -25.445   -25.148     0.297     28.60
-Mg            1.979e-01
-   Mg+2            1.979e-01   1.087e-01    -0.704    -0.964    -0.260    -19.08
-   MgOH+           5.272e-06   3.423e-06    -5.278    -5.466    -0.187     (0)  
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.753   -42.457     0.297     30.31
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(297 K,   6 atm)
+  Phase               SI** log IAP   log K(298 K,   1 atm)
 
   H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.46   -2.89  O2
+  H2O(g)           -1.50      0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -295,1277 +217,6 @@ Reading input data for simulation 4.
 Beginning of initial solution calculations.
 -------------------------------------------
 
-Initial solution 3.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                6.568e-01   6.568e-01
-	Cl                1.861e+00   1.861e+00  Charge balance
-	Mg                2.737e-01   2.737e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 108867
-                          Density (g/cm³)  =   1.07399
-                               Volume (L)  =   1.02324
-                        Viscosity (mPa s)  =   1.22565
-                        Activity of water  =   0.953
-                 Ionic strength (mol/kgw)  =   2.791e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   7.152e-06
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.025e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550622e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.752e-07   8.962e-08    -6.756    -7.048    -0.291      0.45
-   H+              1.391e-07   1.000e-07    -6.857    -7.000    -0.143      0.00
-   H2O             5.551e+01   9.525e-01     1.744    -0.021     0.000     18.06
-Ca            6.568e-01
-   Ca+2            6.568e-01   2.339e-01    -0.183    -0.631    -0.448    -15.58
-   CaOH+           2.886e-07   3.700e-07    -6.540    -6.432     0.108     (0)  
-Cl            1.861e+00
-   Cl-             1.861e+00   1.079e+00     0.270     0.033    -0.237     19.47
-   HCl             2.434e-09   3.754e-08    -8.614    -7.426     1.188     (0)  
-H(0)          7.477e-26
-   H2              3.738e-26   7.110e-26   -25.427   -25.148     0.279     28.60
-Mg            2.737e-01
-   Mg+2            2.737e-01   1.408e-01    -0.563    -0.851    -0.289    -19.16
-   MgOH+           6.830e-06   4.448e-06    -5.166    -5.352    -0.186     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.733   -42.454     0.279     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.45   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 5.
-------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 4.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                6.233e-01   6.233e-01
-	Cl                2.005e+00   2.005e+00  Charge balance
-	Mg                3.792e-01   3.792e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 113156
-                          Density (g/cm³)  =   1.07859
-                               Volume (L)  =   1.02475
-                        Viscosity (mPa s)  =   1.26068
-                        Activity of water  =   0.949
-                 Ionic strength (mol/kgw)  =   3.007e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.057e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.266e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550623e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.761e-07   8.927e-08    -6.754    -7.049    -0.295      0.74
-   H+              1.394e-07   1.000e-07    -6.856    -7.000    -0.144      0.00
-   H2O             5.551e+01   9.489e-01     1.744    -0.023     0.000     18.06
-Ca            6.233e-01
-   Ca+2            6.233e-01   2.361e-01    -0.205    -0.627    -0.422    -15.49
-   CaOH+           2.717e-07   3.719e-07    -6.566    -6.430     0.136     (0)  
-Cl            2.005e+00
-   Cl-             2.005e+00   1.163e+00     0.302     0.065    -0.237     19.52
-   HCl             2.123e-09   4.045e-08    -8.673    -7.393     1.280     (0)  
-H(0)          7.114e-26
-   H2              3.557e-26   7.110e-26   -25.449   -25.148     0.301     28.60
-Mg            3.792e-01
-   Mg+2            3.792e-01   2.117e-01    -0.421    -0.674    -0.253    -19.06
-   MgOH+           1.026e-05   6.660e-06    -4.989    -5.177    -0.188     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.758   -42.458     0.301     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.46   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 6.
-------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 5.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                4.725e-01   4.725e-01
-	Cl                1.892e+00   1.892e+00  Charge balance
-	Mg                4.734e-01   4.734e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 108407
-                          Density (g/cm³)  =   1.07292
-                               Volume (L)  =   1.02293
-                        Viscosity (mPa s)  =   1.25361
-                        Activity of water  =   0.952
-                 Ionic strength (mol/kgw)  =   2.838e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.226e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.068e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550623e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.754e-07   8.954e-08    -6.756    -7.048    -0.292      0.51
-   H+              1.391e-07   1.000e-07    -6.857    -7.000    -0.143      0.00
-   H2O             5.551e+01   9.518e-01     1.744    -0.021     0.000     18.06
-Ca            4.725e-01
-   Ca+2            4.725e-01   1.705e-01    -0.326    -0.768    -0.443    -15.56
-   CaOH+           2.073e-07   2.694e-07    -6.683    -6.570     0.114     (0)  
-Cl            1.892e+00
-   Cl-             1.892e+00   1.097e+00     0.277     0.040    -0.237     19.48
-   HCl             2.365e-09   3.816e-08    -8.626    -7.418     1.208     (0)  
-H(0)          7.398e-26
-   H2              3.699e-26   7.110e-26   -25.432   -25.148     0.284     28.60
-Mg            4.734e-01
-   Mg+2            4.734e-01   2.478e-01    -0.325    -0.606    -0.281    -19.14
-   MgOH+           1.202e-05   7.821e-06    -4.920    -5.107    -0.187     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.739   -42.455     0.284     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.45   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 7.
-------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 6.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                3.960e-01   3.960e-01
-	Cl                1.919e+00   1.919e+00  Charge balance
-	Mg                5.636e-01   5.636e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 108688
-                          Density (g/cm³)  =   1.07298
-                               Volume (L)  =   1.02296
-                        Viscosity (mPa s)  =   1.26889
-                        Activity of water  =   0.951
-                 Ionic strength (mol/kgw)  =   2.879e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.474e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.098e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550623e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.756e-07   8.947e-08    -6.756    -7.048    -0.293      0.56
-   H+              1.392e-07   1.000e-07    -6.856    -7.000    -0.144      0.00
-   H2O             5.551e+01   9.511e-01     1.744    -0.022     0.000     18.06
-Ca            3.960e-01
-   Ca+2            3.960e-01   1.446e-01    -0.402    -0.840    -0.438    -15.54
-   CaOH+           1.734e-07   2.283e-07    -6.761    -6.642     0.119     (0)  
-Cl            1.919e+00
-   Cl-             1.919e+00   1.112e+00     0.283     0.046    -0.237     19.49
-   HCl             2.305e-09   3.871e-08    -8.637    -7.412     1.225     (0)  
-H(0)          7.328e-26
-   H2              3.664e-26   7.110e-26   -25.436   -25.148     0.288     28.60
-Mg            5.636e-01
-   Mg+2            5.636e-01   2.997e-01    -0.249    -0.523    -0.274    -19.12
-   MgOH+           1.453e-05   9.449e-06    -4.838    -5.025    -0.187     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.743   -42.456     0.288     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.46   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 8.
-------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 7.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                2.767e-01   2.767e-01
-	Cl                1.815e+00   1.815e+00  Charge balance
-	Mg                6.308e-01   6.308e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 104304
-                          Density (g/cm³)  =   1.06795
-                               Volume (L)  =   1.02137
-                        Viscosity (mPa s)  =   1.26085
-                        Activity of water  =   0.954
-                 Ionic strength (mol/kgw)  =   2.722e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.550e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   9.483e-15
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550623e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.750e-07   8.973e-08    -6.757    -7.047    -0.290      0.35
-   H+              1.390e-07   1.000e-07    -6.857    -7.000    -0.143      0.00
-   H2O             5.551e+01   9.537e-01     1.744    -0.021     0.000     18.06
-Ca            2.767e-01
-   Ca+2            2.767e-01   9.668e-02    -0.558    -1.015    -0.457    -15.61
-   CaOH+           1.219e-07   1.531e-07    -6.914    -6.815     0.099     (0)  
-Cl            1.815e+00
-   Cl-             1.815e+00   1.052e+00     0.259     0.022    -0.237     19.45
-   HCl             2.540e-09   3.661e-08    -8.595    -7.436     1.159     (0)  
-H(0)          7.597e-26
-   H2              3.798e-26   7.110e-26   -25.420   -25.148     0.272     28.60
-Mg            6.308e-01
-   Mg+2            6.308e-01   3.163e-01    -0.200    -0.500    -0.300    -19.20
-   MgOH+           1.534e-05   1.000e-05    -4.814    -5.000    -0.186     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.725   -42.453     0.272     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.45   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 9.
-------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 8.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                1.857e-01   1.857e-01
-	Cl                1.840e+00   1.840e+00  Charge balance
-	Mg                7.343e-01   7.343e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 104419
-                          Density (g/cm³)  =   1.06776
-                               Volume (L)  =   1.02132
-                        Viscosity (mPa s)  =   1.27810
-                        Activity of water  =   0.953
-                 Ionic strength (mol/kgw)  =   2.760e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.823e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   9.314e-15
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550624e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.751e-07   8.967e-08    -6.757    -7.047    -0.291      0.40
-   H+              1.390e-07   1.000e-07    -6.857    -7.000    -0.143      0.00
-   H2O             5.551e+01   9.531e-01     1.744    -0.021     0.000     18.06
-Ca            1.857e-01
-   Ca+2            1.857e-01   6.556e-02    -0.731    -1.183    -0.452    -15.59
-   CaOH+           8.172e-08   1.038e-07    -7.088    -6.984     0.104     (0)  
-Cl            1.840e+00
-   Cl-             1.840e+00   1.066e+00     0.265     0.028    -0.237     19.46
-   HCl             2.482e-09   3.711e-08    -8.605    -7.430     1.175     (0)  
-H(0)          7.531e-26
-   H2              3.766e-26   7.110e-26   -25.424   -25.148     0.276     28.60
-Mg            7.343e-01
-   Mg+2            7.343e-01   3.734e-01    -0.134    -0.428    -0.294    -19.18
-   MgOH+           1.811e-05   1.180e-05    -4.742    -4.928    -0.186     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.730   -42.454     0.276     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.45   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 10.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 9.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                9.200e-02   9.200e-02
-	Cl                1.852e+00   1.852e+00  Charge balance
-	Mg                8.340e-01   8.340e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 104074
-                          Density (g/cm³)  =   1.06709
-                               Volume (L)  =   1.02112
-                        Viscosity (mPa s)  =   1.29335
-                        Activity of water  =   0.953
-                 Ionic strength (mol/kgw)  =   2.778e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.078e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.038e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550624e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.752e-07   8.964e-08    -6.756    -7.048    -0.291      0.43
-   H+              1.391e-07   1.000e-07    -6.857    -7.000    -0.143      0.00
-   H2O             5.551e+01   9.528e-01     1.744    -0.021     0.000     18.06
-Ca            9.200e-02
-   Ca+2            9.200e-02   3.265e-02    -1.036    -1.486    -0.450    -15.59
-   CaOH+           4.045e-08   5.165e-08    -7.393    -7.287     0.106     (0)  
-Cl            1.852e+00
-   Cl-             1.852e+00   1.073e+00     0.268     0.031    -0.237     19.47
-   HCl             2.455e-09   3.735e-08    -8.610    -7.428     1.182     (0)  
-H(0)          7.500e-26
-   H2              3.750e-26   7.110e-26   -25.426   -25.148     0.278     28.60
-Mg            8.340e-01
-   Mg+2            8.340e-01   4.270e-01    -0.079    -0.370    -0.291    -19.17
-   MgOH+           2.071e-05   1.349e-05    -4.684    -4.870    -0.186     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.732   -42.454     0.278     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.55     -0.02    1.53  H2O
-  O2(g)           -39.57    -42.45   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 11.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 10.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                1.445e+00   1.445e+00
-	Cl                3.211e+00   3.211e+00  Charge balance
-	Mg                1.604e-01   1.604e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 147275
-                          Density (g/cm³)  =   1.12820
-                               Volume (L)  =   1.04207
-                        Viscosity (mPa s)  =   1.45722
-                        Activity of water  =   0.918
-                 Ionic strength (mol/kgw)  =   4.816e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   9.518e-06
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -1.453e-15
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   7
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550623e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.792e-07   8.633e-08    -6.747    -7.064    -0.317      3.14
-   H+              1.410e-07   1.000e-07    -6.851    -7.000    -0.149      0.00
-   H2O             5.551e+01   9.181e-01     1.744    -0.037     0.000     18.06
-Ca            1.445e+00
-   Ca+2            1.445e+00   9.634e-01     0.160    -0.016    -0.176    -14.76
-   CaOH+           6.041e-07   1.469e-06    -6.219    -5.833     0.386     (0)  
-Cl            3.211e+00
-   Cl-             3.211e+00   1.903e+00     0.507     0.280    -0.227     19.88
-   HCl             5.905e-10   6.624e-08    -9.229    -7.179     2.050     (0)  
-H(0)          4.691e-26
-   H2              2.345e-26   7.110e-26   -25.630   -25.148     0.482     28.60
-Mg            1.604e-01
-   Mg+2            1.604e-01   1.854e-01    -0.795    -0.732     0.063    -18.24
-   MgOH+           8.876e-06   5.645e-06    -5.052    -5.248    -0.197     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.968   -42.486     0.482     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.04    1.53  H2O
-  O2(g)           -39.60    -42.49   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 12.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 11.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                1.259e+00   1.259e+00
-	Cl                3.103e+00   3.103e+00  Charge balance
-	Mg                2.923e-01   2.923e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 144145
-                          Density (g/cm³)  =   1.12259
-                               Volume (L)  =   1.04007
-                        Viscosity (mPa s)  =   1.44761
-                        Activity of water  =   0.921
-                 Ionic strength (mol/kgw)  =   4.654e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.571e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -3.682e-08
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550623e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.791e-07   8.659e-08    -6.747    -7.063    -0.316      2.93
-   H+              1.409e-07   1.000e-07    -6.851    -7.000    -0.149      0.00
-   H2O             5.551e+01   9.209e-01     1.744    -0.036     0.000     18.06
-Ca            1.259e+00
-   Ca+2            1.259e+00   7.958e-01     0.100    -0.099    -0.199    -14.82
-   CaOH+           5.277e-07   1.217e-06    -6.278    -5.915     0.363     (0)  
-Cl            3.103e+00
-   Cl-             3.103e+00   1.834e+00     0.492     0.263    -0.228     19.85
-   HCl             6.670e-10   6.382e-08    -9.176    -7.195     1.981     (0)  
-H(0)          4.869e-26
-   H2              2.435e-26   7.110e-26   -25.614   -25.148     0.465     28.60
-Mg            2.923e-01
-   Mg+2            2.923e-01   3.158e-01    -0.534    -0.501     0.034    -18.31
-   MgOH+           1.514e-05   9.644e-06    -4.820    -5.016    -0.196     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.949   -42.484     0.465     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.04    1.53  H2O
-  O2(g)           -39.60    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 13.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 12.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                1.095e+00   1.095e+00
-	Cl                3.107e+00   3.107e+00  Charge balance
-	Mg                4.591e-01   4.591e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 143194
-                          Density (g/cm³)  =   1.12087
-                               Volume (L)  =   1.03955
-                        Viscosity (mPa s)  =   1.46601
-                        Activity of water  =   0.921
-                 Ionic strength (mol/kgw)  =   4.661e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.435e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -3.853e-08
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550624e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.791e-07   8.658e-08    -6.747    -7.063    -0.316      2.94
-   H+              1.409e-07   1.000e-07    -6.851    -7.000    -0.149      0.00
-   H2O             5.551e+01   9.208e-01     1.744    -0.036     0.000     18.06
-Ca            1.095e+00
-   Ca+2            1.095e+00   6.934e-01     0.039    -0.159    -0.198    -14.82
-   CaOH+           4.587e-07   1.060e-06    -6.338    -5.975     0.364     (0)  
-Cl            3.107e+00
-   Cl-             3.107e+00   1.837e+00     0.492     0.264    -0.228     19.85
-   HCl             6.636e-10   6.392e-08    -9.178    -7.194     1.984     (0)  
-H(0)          4.861e-26
-   H2              2.431e-26   7.110e-26   -25.614   -25.148     0.466     28.60
-Mg            4.591e-01
-   Mg+2            4.591e-01   4.974e-01    -0.338    -0.303     0.035    -18.31
-   MgOH+           2.385e-05   1.519e-05    -4.623    -4.818    -0.196     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.950   -42.484     0.466     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.04    1.53  H2O
-  O2(g)           -39.60    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 14.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 13.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                9.587e-01   9.587e-01
-	Cl                3.113e+00   3.113e+00  Charge balance
-	Mg                5.979e-01   5.979e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 142447
-                          Density (g/cm³)  =   1.11950
-                               Volume (L)  =   1.03915
-                        Viscosity (mPa s)  =   1.48311
-                        Activity of water  =   0.921
-                 Ionic strength (mol/kgw)  =   4.670e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.161e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -4.080e-08
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550625e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.791e-07   8.657e-08    -6.747    -7.063    -0.316      2.95
-   H+              1.409e-07   1.000e-07    -6.851    -7.000    -0.149      0.00
-   H2O             5.551e+01   9.206e-01     1.744    -0.036     0.000     18.06
-Ca            9.587e-01
-   Ca+2            9.587e-01   6.090e-01    -0.018    -0.215    -0.197    -14.81
-   CaOH+           4.017e-07   9.311e-07    -6.396    -6.031     0.365     (0)  
-Cl            3.113e+00
-   Cl-             3.113e+00   1.841e+00     0.493     0.265    -0.228     19.85
-   HCl             6.593e-10   6.405e-08    -9.181    -7.193     1.987     (0)  
-H(0)          4.852e-26
-   H2              2.426e-26   7.110e-26   -25.615   -25.148     0.467     28.60
-Mg            5.979e-01
-   Mg+2            5.979e-01   6.502e-01    -0.223    -0.187     0.036    -18.30
-   MgOH+           3.117e-05   1.985e-05    -4.506    -4.702    -0.196     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.951   -42.484     0.467     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.04    1.53  H2O
-  O2(g)           -39.60    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 15.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 14.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                7.648e-01   7.648e-01
-	Cl                3.024e+00   3.024e+00  Charge balance
-	Mg                7.474e-01   7.474e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 139490
-                          Density (g/cm³)  =   1.11440
-                               Volume (L)  =   1.03737
-                        Viscosity (mPa s)  =   1.48443
-                        Activity of water  =   0.923
-                 Ionic strength (mol/kgw)  =   4.537e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.728e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -1.652e-08
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550625e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.790e-07   8.678e-08    -6.747    -7.062    -0.314      2.78
-   H+              1.408e-07   1.000e-07    -6.851    -7.000    -0.149      0.00
-   H2O             5.551e+01   9.229e-01     1.744    -0.035     0.000     18.06
-Ca            7.648e-01
-   Ca+2            7.648e-01   4.652e-01    -0.116    -0.332    -0.216    -14.87
-   CaOH+           3.211e-07   7.129e-07    -6.493    -6.147     0.346     (0)  
-Cl            3.024e+00
-   Cl-             3.024e+00   1.784e+00     0.481     0.251    -0.229     19.83
-   HCl             7.281e-10   6.208e-08    -9.138    -7.207     1.931     (0)  
-H(0)          5.003e-26
-   H2              2.501e-26   7.110e-26   -25.602   -25.148     0.454     28.60
-Mg            7.474e-01
-   Mg+2            7.474e-01   7.691e-01    -0.126    -0.114     0.012    -18.36
-   MgOH+           3.692e-05   2.354e-05    -4.433    -4.628    -0.196     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.935   -42.482     0.454     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.03    1.53  H2O
-  O2(g)           -39.59    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 16.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 15.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                5.907e-01   5.907e-01
-	Cl                2.922e+00   2.922e+00  Charge balance
-	Mg                8.703e-01   8.703e-01
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 136272
-                          Density (g/cm³)  =   1.10906
-                               Volume (L)  =   1.03549
-                        Viscosity (mPa s)  =   1.48147
-                        Activity of water  =   0.925
-                 Ionic strength (mol/kgw)  =   4.383e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.069e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -5.355e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550626e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.789e-07   8.703e-08    -6.747    -7.060    -0.313      2.57
-   H+              1.407e-07   1.000e-07    -6.852    -7.000    -0.148      0.00
-   H2O             5.551e+01   9.255e-01     1.744    -0.034     0.000     18.06
-Ca            5.907e-01
-   Ca+2            5.907e-01   3.418e-01    -0.229    -0.466    -0.238    -14.93
-   CaOH+           2.487e-07   5.253e-07    -6.604    -6.280     0.325     (0)  
-Cl            2.922e+00
-   Cl-             2.922e+00   1.719e+00     0.466     0.235    -0.230     19.80
-   HCl             8.157e-10   5.982e-08    -9.088    -7.223     1.865     (0)  
-H(0)          5.183e-26
-   H2              2.591e-26   7.110e-26   -25.586   -25.148     0.438     28.60
-Mg            8.703e-01
-   Mg+2            8.703e-01   8.405e-01    -0.060    -0.075    -0.015    -18.43
-   MgOH+           4.041e-05   2.580e-05    -4.394    -4.588    -0.195     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.918   -42.479     0.438     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.03    1.53  H2O
-  O2(g)           -39.59    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 17.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 16.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                4.429e-01   4.429e-01
-	Cl                2.956e+00   2.956e+00  Charge balance
-	Mg                1.035e+00   1.035e+00
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 136026
-                          Density (g/cm³)  =   1.10849
-                               Volume (L)  =   1.03540
-                        Viscosity (mPa s)  =   1.51203
-                        Activity of water  =   0.925
-                 Ionic strength (mol/kgw)  =   4.434e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.929e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -7.885e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550627e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.789e-07   8.695e-08    -6.747    -7.061    -0.313      2.64
-   H+              1.407e-07   1.000e-07    -6.852    -7.000    -0.148      0.00
-   H2O             5.551e+01   9.246e-01     1.744    -0.034     0.000     18.06
-Ca            4.429e-01
-   Ca+2            4.429e-01   2.606e-01    -0.354    -0.584    -0.230    -14.91
-   CaOH+           1.863e-07   4.001e-07    -6.730    -6.398     0.332     (0)  
-Cl            2.956e+00
-   Cl-             2.956e+00   1.741e+00     0.471     0.241    -0.230     19.81
-   HCl             7.854e-10   6.058e-08    -9.105    -7.218     1.887     (0)  
-H(0)          5.122e-26
-   H2              2.561e-26   7.110e-26   -25.592   -25.148     0.443     28.60
-Mg            1.035e+00
-   Mg+2            1.035e+00   1.021e+00     0.015     0.009    -0.006    -18.41
-   MgOH+           4.906e-05   3.131e-05    -4.309    -4.504    -0.195     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.923   -42.480     0.443     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.03    1.53  H2O
-  O2(g)           -39.59    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 18.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 17.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                3.025e-01   3.025e-01
-	Cl                2.932e+00   2.932e+00  Charge balance
-	Mg                1.163e+00   1.163e+00
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 134600
-                          Density (g/cm³)  =   1.10607
-                               Volume (L)  =   1.03460
-                        Viscosity (mPa s)  =   1.52769
-                        Activity of water  =   0.925
-                 Ionic strength (mol/kgw)  =   4.398e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   5.450e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -5.990e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550627e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.789e-07   8.701e-08    -6.747    -7.060    -0.313      2.59
-   H+              1.407e-07   1.000e-07    -6.852    -7.000    -0.148      0.00
-   H2O             5.551e+01   9.252e-01     1.744    -0.034     0.000     18.06
-Ca            3.025e-01
-   Ca+2            3.025e-01   1.759e-01    -0.519    -0.755    -0.236    -14.92
-   CaOH+           1.273e-07   2.702e-07    -6.895    -6.568     0.327     (0)  
-Cl            2.932e+00
-   Cl-             2.932e+00   1.725e+00     0.467     0.237    -0.230     19.80
-   HCl             8.069e-10   6.004e-08    -9.093    -7.222     1.872     (0)  
-H(0)          5.166e-26
-   H2              2.583e-26   7.110e-26   -25.588   -25.148     0.440     28.60
-Mg            1.163e+00
-   Mg+2            1.163e+00   1.130e+00     0.066     0.053    -0.012    -18.42
-   MgOH+           5.433e-05   3.468e-05    -4.265    -4.460    -0.195     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.919   -42.479     0.440     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.03    1.53  H2O
-  O2(g)           -39.59    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 19.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 18.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Ca                1.411e-01   1.411e-01
-	Cl                2.897e+00   2.897e+00  Charge balance
-	Mg                1.308e+00   1.308e+00
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  24°C)  = 132802
-                          Density (g/cm³)  =   1.10308
-                               Volume (L)  =   1.03361
-                        Viscosity (mPa s)  =   1.54575
-                        Activity of water  =   0.926
-                 Ionic strength (mol/kgw)  =   4.346e+00
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   5.990e-05
-                         Temperature (°C)  =  24.00
-                           Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -4.016e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550628e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.789e-07   8.709e-08    -6.748    -7.060    -0.313      2.53
-   H+              1.407e-07   1.000e-07    -6.852    -7.000    -0.148      0.00
-   H2O             5.551e+01   9.261e-01     1.744    -0.033     0.000     18.06
-Ca            1.411e-01
-   Ca+2            1.411e-01   8.067e-02    -0.850    -1.093    -0.243    -14.94
-   CaOH+           5.944e-08   1.241e-07    -7.226    -6.906     0.320     (0)  
-Cl            2.897e+00
-   Cl-             2.897e+00   1.703e+00     0.462     0.231    -0.231     19.79
-   HCl             8.383e-10   5.928e-08    -9.077    -7.227     1.850     (0)  
-H(0)          5.228e-26
-   H2              2.614e-26   7.110e-26   -25.583   -25.148     0.435     28.60
-Mg            1.308e+00
-   Mg+2            1.307e+00   1.244e+00     0.116     0.095    -0.022    -18.45
-   MgOH+           5.980e-05   3.819e-05    -4.223    -4.418    -0.195     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.913   -42.479     0.435     30.31
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(297 K,   6 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.56     -0.03    1.53  H2O
-  O2(g)           -39.59    -42.48   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 20.
--------------------------------------
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 21.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
-Initial solution 1.	
-
------------------------------Solution composition------------------------------
-
-	Elements           Molality       Moles
-
-	Pure water     
-
-----------------------------Description of solution----------------------------
-
-                                       pH  =   7.000    
-                                       pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 0
-                          Density (g/cm³)  =   0.99704
-                               Volume (L)  =   1.00297
-                        Viscosity (mPa s)  =   0.89002
-                        Activity of water  =   1.000
-                 Ionic strength (mol/kgw)  =   1.007e-07
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.217e-09
-                         Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.217e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
-                               Iterations  =   0
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550622e+01
-
-----------------------------Distribution of species----------------------------
-
-                                               Log       Log       Log    mole V
-   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
-
-   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
-   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
-   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
-H(0)          1.416e-25
-   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
-
-------------------------------Saturation indices-------------------------------
-
-  Phase               SI** log IAP   log K(298 K,   1 atm)
-
-  H2(g)           -22.05    -25.15   -3.10  H2
-  H2O(g)           -1.50      0.00    1.50  H2O
-  O2(g)           -39.19    -42.08   -2.89  O2
-
-**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
-  For ideal gases, phi = 1.
-
-------------------
-End of simulation.
-------------------
-
--------------------------------------
-Reading input data for simulation 22.
--------------------------------------
-
--------------------------------------------
-Beginning of initial solution calculations.
--------------------------------------------
-
 Initial solution 2.	
 
 -----------------------------Solution composition------------------------------
@@ -1621,9 +272,9 @@ O(0)          0.000e+00
 End of simulation.
 ------------------
 
--------------------------------------
-Reading input data for simulation 23.
--------------------------------------
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
 
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -1684,9 +335,9 @@ O(0)          0.000e+00
 End of simulation.
 ------------------
 
--------------------------------------
-Reading input data for simulation 24.
--------------------------------------
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
 
 
 	Reading data from rho49.prn ...
@@ -1708,17 +359,17 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 173981
+      Specific Conductance (µS/cm,  50°C)  = 189518
                           Density (g/cm³)  =   1.06874
                                Volume (L)  =   1.03540
-                        Viscosity (mPa s)  =   0.75640
+                        Viscosity (mPa s)  =   0.75628
                         Activity of water  =   0.950
                  Ionic strength (mol/kgw)  =   2.922e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.149e-05
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.008e-14
+                  Electrical balance (eq)  =   2.016e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110125e+02
@@ -1761,9 +412,9 @@ O(0)          2.603e-35
 End of simulation.
 ------------------
 
--------------------------------------
-Reading input data for simulation 25.
--------------------------------------
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
 
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -1783,17 +434,17 @@ Initial solution 2.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 174216
+      Specific Conductance (µS/cm,  50°C)  = 189561
                           Density (g/cm³)  =   1.06884
                                Volume (L)  =   1.03532
-                        Viscosity (mPa s)  =   0.76407
+                        Viscosity (mPa s)  =   0.76393
                         Activity of water  =   0.950
                  Ionic strength (mol/kgw)  =   2.965e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   4.351e-05
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.869e-14
+                  Electrical balance (eq)  =   2.806e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110125e+02
@@ -1836,9 +487,9 @@ O(0)          2.573e-35
 End of simulation.
 ------------------
 
--------------------------------------
-Reading input data for simulation 26.
--------------------------------------
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
 
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -1858,17 +509,17 @@ Initial solution 3.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 167085
+      Specific Conductance (µS/cm,  50°C)  = 180254
                           Density (g/cm³)  =   1.06348
                                Volume (L)  =   1.03336
-                        Viscosity (mPa s)  =   0.75531
+                        Viscosity (mPa s)  =   0.75517
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.791e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   5.598e-05
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.583e-14
+                  Electrical balance (eq)  =   2.563e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110125e+02
@@ -1911,9 +562,9 @@ O(0)          2.695e-35
 End of simulation.
 ------------------
 
--------------------------------------
-Reading input data for simulation 27.
--------------------------------------
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
 
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -1933,17 +584,17 @@ Initial solution 4.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 173406
+      Specific Conductance (µS/cm,  50°C)  = 187994
                           Density (g/cm³)  =   1.06807
                                Volume (L)  =   1.03484
-                        Viscosity (mPa s)  =   0.77568
+                        Viscosity (mPa s)  =   0.77552
                         Activity of water  =   0.949
                  Ionic strength (mol/kgw)  =   3.007e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   8.350e-05
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   4.486e-14
+                  Electrical balance (eq)  =   4.595e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110125e+02
@@ -1987,7 +638,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 28.
+Reading input data for simulation 10.
 -------------------------------------
 
 -------------------------------------------
@@ -2008,17 +659,17 @@ Initial solution 5.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 166225
+      Specific Conductance (µS/cm,  50°C)  = 178558
                           Density (g/cm³)  =   1.06263
                                Volume (L)  =   1.03283
-                        Viscosity (mPa s)  =   0.76846
+                        Viscosity (mPa s)  =   0.76829
                         Activity of water  =   0.952
                  Ionic strength (mol/kgw)  =   2.838e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   9.756e-05
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   3.963e-14
+                  Electrical balance (eq)  =   3.921e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110125e+02
@@ -2062,7 +713,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 29.
+Reading input data for simulation 11.
 -------------------------------------
 
 -------------------------------------------
@@ -2083,17 +734,17 @@ Initial solution 6.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 166569
+      Specific Conductance (µS/cm,  50°C)  = 178685
                           Density (g/cm³)  =   1.06278
                                Volume (L)  =   1.03277
-                        Viscosity (mPa s)  =   0.77609
+                        Viscosity (mPa s)  =   0.77590
                         Activity of water  =   0.951
                  Ionic strength (mol/kgw)  =   2.879e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.177e-04
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   4.758e-14
+                  Electrical balance (eq)  =   4.759e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110126e+02
@@ -2137,7 +788,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 30.
+Reading input data for simulation 12.
 -------------------------------------
 
 -------------------------------------------
@@ -2158,17 +809,17 @@ Initial solution 7.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 159940
+      Specific Conductance (µS/cm,  50°C)  = 170151
                           Density (g/cm³)  =   1.05795
                                Volume (L)  =   1.03103
-                        Viscosity (mPa s)  =   0.76882
+                        Viscosity (mPa s)  =   0.76863
                         Activity of water  =   0.954
                  Ionic strength (mol/kgw)  =   2.722e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.242e-04
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   3.769e-14
+                  Electrical balance (eq)  =   3.678e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110126e+02
@@ -2212,7 +863,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 31.
+Reading input data for simulation 13.
 -------------------------------------
 
 -------------------------------------------
@@ -2233,17 +884,17 @@ Initial solution 8.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 160024
+      Specific Conductance (µS/cm,  50°C)  = 169867
                           Density (g/cm³)  =   1.05787
                                Volume (L)  =   1.03087
-                        Viscosity (mPa s)  =   0.77729
+                        Viscosity (mPa s)  =   0.77708
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.760e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.464e-04
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   4.670e-14
+                  Electrical balance (eq)  =   4.511e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110126e+02
@@ -2287,7 +938,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 32.
+Reading input data for simulation 14.
 -------------------------------------
 
 -------------------------------------------
@@ -2308,17 +959,17 @@ Initial solution 9.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 159424
+      Specific Conductance (µS/cm,  50°C)  = 168716
                           Density (g/cm³)  =   1.05731
                                Volume (L)  =   1.03056
-                        Viscosity (mPa s)  =   0.78446
+                        Viscosity (mPa s)  =   0.78424
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.778e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.672e-04
                          Temperature (°C)  =  49.60
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   5.284e-14
+                  Electrical balance (eq)  =   5.207e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110126e+02
@@ -2362,7 +1013,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 33.
+Reading input data for simulation 15.
 -------------------------------------
 
 -------------------------------------------
@@ -2383,10 +1034,10 @@ Initial solution 10.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 223786
+      Specific Conductance (µS/cm,  50°C)  = 255685
                           Density (g/cm³)  =   1.11611
                                Volume (L)  =   1.05335
-                        Viscosity (mPa s)  =   0.90642
+                        Viscosity (mPa s)  =   0.90626
                         Activity of water  =   0.918
                  Ionic strength (mol/kgw)  =   4.816e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2437,7 +1088,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 34.
+Reading input data for simulation 16.
 -------------------------------------
 
 -------------------------------------------
@@ -2458,10 +1109,10 @@ Initial solution 11.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 219142
+      Specific Conductance (µS/cm,  50°C)  = 249065
                           Density (g/cm³)  =   1.11082
                                Volume (L)  =   1.05109
-                        Viscosity (mPa s)  =   0.89797
+                        Viscosity (mPa s)  =   0.89781
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.654e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2512,7 +1163,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 35.
+Reading input data for simulation 17.
 -------------------------------------
 
 -------------------------------------------
@@ -2533,10 +1184,10 @@ Initial solution 12.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 217620
+      Specific Conductance (µS/cm,  50°C)  = 246416
                           Density (g/cm³)  =   1.10934
                                Volume (L)  =   1.05035
-                        Viscosity (mPa s)  =   0.90615
+                        Viscosity (mPa s)  =   0.90596
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.661e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2587,7 +1238,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 36.
+Reading input data for simulation 18.
 -------------------------------------
 
 -------------------------------------------
@@ -2608,10 +1259,10 @@ Initial solution 13.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 216418
+      Specific Conductance (µS/cm,  50°C)  = 244173
                           Density (g/cm³)  =   1.10818
                                Volume (L)  =   1.04976
-                        Viscosity (mPa s)  =   0.91390
+                        Viscosity (mPa s)  =   0.91370
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.669e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2662,7 +1313,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 37.
+Reading input data for simulation 19.
 -------------------------------------
 
 -------------------------------------------
@@ -2683,10 +1334,10 @@ Initial solution 14.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 211988
+      Specific Conductance (µS/cm,  50°C)  = 237407
                           Density (g/cm³)  =   1.10340
                                Volume (L)  =   1.04771
-                        Viscosity (mPa s)  =   0.91124
+                        Viscosity (mPa s)  =   0.91103
                         Activity of water  =   0.923
                  Ionic strength (mol/kgw)  =   4.536e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2737,7 +1388,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 38.
+Reading input data for simulation 20.
 -------------------------------------
 
 -------------------------------------------
@@ -2758,10 +1409,10 @@ Initial solution 15.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 207186
+      Specific Conductance (µS/cm,  50°C)  = 230223
                           Density (g/cm³)  =   1.09834
                                Volume (L)  =   1.04560
-                        Viscosity (mPa s)  =   0.90626
+                        Viscosity (mPa s)  =   0.90603
                         Activity of water  =   0.925
                  Ionic strength (mol/kgw)  =   4.382e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2812,7 +1463,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 39.
+Reading input data for simulation 21.
 -------------------------------------
 
 -------------------------------------------
@@ -2833,10 +1484,10 @@ Initial solution 16.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 206691
+      Specific Conductance (µS/cm,  50°C)  = 228425
                           Density (g/cm³)  =   1.09797
                                Volume (L)  =   1.04531
-                        Viscosity (mPa s)  =   0.92140
+                        Viscosity (mPa s)  =   0.92115
                         Activity of water  =   0.925
                  Ionic strength (mol/kgw)  =   4.434e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2887,7 +1538,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 40.
+Reading input data for simulation 22.
 -------------------------------------
 
 -------------------------------------------
@@ -2908,10 +1559,10 @@ Initial solution 17.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 204499
+      Specific Conductance (µS/cm,  50°C)  = 224508
                           Density (g/cm³)  =   1.09577
                                Volume (L)  =   1.04433
-                        Viscosity (mPa s)  =   0.92781
+                        Viscosity (mPa s)  =   0.92754
                         Activity of water  =   0.925
                  Ionic strength (mol/kgw)  =   4.397e+00
                        Mass of water (kg)  =   1.000e+00
@@ -2962,7 +1613,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 41.
+Reading input data for simulation 23.
 -------------------------------------
 
 -------------------------------------------
@@ -2983,10 +1634,10 @@ Initial solution 18.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  50°C)  = 201745
+      Specific Conductance (µS/cm,  50°C)  = 219619
                           Density (g/cm³)  =   1.09302
                                Volume (L)  =   1.04312
-                        Viscosity (mPa s)  =   0.93511
+                        Viscosity (mPa s)  =   0.93483
                         Activity of water  =   0.926
                  Ionic strength (mol/kgw)  =   4.345e+00
                        Mass of water (kg)  =   1.000e+00
@@ -3037,7 +1688,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 42.
+Reading input data for simulation 24.
 -------------------------------------
 
 ------------------
@@ -3045,7 +1696,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 43.
+Reading input data for simulation 25.
 -------------------------------------
 
 -------------------------------------------
@@ -3108,7 +1759,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 44.
+Reading input data for simulation 26.
 -------------------------------------
 
 -------------------------------------------
@@ -3171,7 +1822,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 45.
+Reading input data for simulation 27.
 -------------------------------------
 
 -------------------------------------------
@@ -3234,7 +1885,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 46.
+Reading input data for simulation 28.
 -------------------------------------
 
 
@@ -3257,17 +1908,17 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 233896
+      Specific Conductance (µS/cm,  74°C)  = 255651
                           Density (g/cm³)  =   1.05552
                                Volume (L)  =   1.04837
-                        Viscosity (mPa s)  =   0.52717
+                        Viscosity (mPa s)  =   0.52699
                         Activity of water  =   0.950
                  Ionic strength (mol/kgw)  =   2.922e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.160e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   5.916e-14
+                  Electrical balance (eq)  =   5.822e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110125e+02
@@ -3311,7 +1962,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 47.
+Reading input data for simulation 29.
 -------------------------------------
 
 -------------------------------------------
@@ -3332,17 +1983,17 @@ Initial solution 2.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 234071
+      Specific Conductance (µS/cm,  74°C)  = 255994
                           Density (g/cm³)  =   1.05569
                                Volume (L)  =   1.04821
-                        Viscosity (mPa s)  =   0.53209
+                        Viscosity (mPa s)  =   0.53190
                         Activity of water  =   0.950
                  Ionic strength (mol/kgw)  =   2.965e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.378e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.106e-13
+                  Electrical balance (eq)  =   1.104e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110127e+02
@@ -3386,7 +2037,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 48.
+Reading input data for simulation 30.
 -------------------------------------
 
 -------------------------------------------
@@ -3407,10 +2058,10 @@ Initial solution 3.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 224688
+      Specific Conductance (µS/cm,  74°C)  = 243669
                           Density (g/cm³)  =   1.05041
                                Volume (L)  =   1.04621
-                        Viscosity (mPa s)  =   0.52553
+                        Viscosity (mPa s)  =   0.52532
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.791e+00
                        Mass of water (kg)  =   1.000e+00
@@ -3461,7 +2112,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 49.
+Reading input data for simulation 31.
 -------------------------------------
 
 -------------------------------------------
@@ -3482,17 +2133,17 @@ Initial solution 4.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 232788
+      Specific Conductance (µS/cm,  74°C)  = 254397
                           Density (g/cm³)  =   1.05506
                                Volume (L)  =   1.04759
-                        Viscosity (mPa s)  =   0.53937
+                        Viscosity (mPa s)  =   0.53913
                         Activity of water  =   0.949
                  Ionic strength (mol/kgw)  =   3.007e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   4.587e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.154e-13
+                  Electrical balance (eq)  =   2.153e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110129e+02
@@ -3536,7 +2187,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 50.
+Reading input data for simulation 32.
 -------------------------------------
 
 -------------------------------------------
@@ -3557,17 +2208,17 @@ Initial solution 5.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 223314
+      Specific Conductance (µS/cm,  74°C)  = 241947
                           Density (g/cm³)  =   1.04971
                                Volume (L)  =   1.04553
-                        Viscosity (mPa s)  =   0.53374
+                        Viscosity (mPa s)  =   0.53349
                         Activity of water  =   0.952
                  Ionic strength (mol/kgw)  =   2.837e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   5.369e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.826e-13
+                  Electrical balance (eq)  =   1.822e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110130e+02
@@ -3611,7 +2262,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 51.
+Reading input data for simulation 33.
 -------------------------------------
 
 -------------------------------------------
@@ -3632,17 +2283,17 @@ Initial solution 6.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 223651
+      Specific Conductance (µS/cm,  74°C)  = 242373
                           Density (g/cm³)  =   1.04993
                                Volume (L)  =   1.04541
-                        Viscosity (mPa s)  =   0.53862
+                        Viscosity (mPa s)  =   0.53835
                         Activity of water  =   0.951
                  Ionic strength (mol/kgw)  =   2.878e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   6.480e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.349e-13
+                  Electrical balance (eq)  =   2.341e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110131e+02
@@ -3686,7 +2337,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 52.
+Reading input data for simulation 34.
 -------------------------------------
 
 -------------------------------------------
@@ -3707,17 +2358,17 @@ Initial solution 7.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 214902
+      Specific Conductance (µS/cm,  74°C)  = 231055
                           Density (g/cm³)  =   1.04516
                                Volume (L)  =   1.04363
-                        Viscosity (mPa s)  =   0.53306
+                        Viscosity (mPa s)  =   0.53278
                         Activity of water  =   0.954
                  Ionic strength (mol/kgw)  =   2.721e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   6.845e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.822e-13
+                  Electrical balance (eq)  =   1.830e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110131e+02
@@ -3761,7 +2412,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 53.
+Reading input data for simulation 35.
 -------------------------------------
 
 -------------------------------------------
@@ -3782,17 +2433,17 @@ Initial solution 8.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 214886
+      Specific Conductance (µS/cm,  74°C)  = 230962
                           Density (g/cm³)  =   1.04516
                                Volume (L)  =   1.04339
-                        Viscosity (mPa s)  =   0.53841
+                        Viscosity (mPa s)  =   0.53811
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.758e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   8.070e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.303e-13
+                  Electrical balance (eq)  =   2.304e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110132e+02
@@ -3836,7 +2487,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 54.
+Reading input data for simulation 36.
 -------------------------------------
 
 -------------------------------------------
@@ -3857,17 +2508,17 @@ Initial solution 9.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 213979
+      Specific Conductance (µS/cm,  74°C)  = 229687
                           Density (g/cm³)  =   1.04468
                                Volume (L)  =   1.04301
-                        Viscosity (mPa s)  =   0.54285
+                        Viscosity (mPa s)  =   0.54253
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.776e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   9.219e-04
                          Temperature (°C)  =  74.50
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.697e-13
+                  Electrical balance (eq)  =   2.704e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110134e+02
@@ -3911,7 +2562,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 55.
+Reading input data for simulation 37.
 -------------------------------------
 
 -------------------------------------------
@@ -3932,10 +2583,10 @@ Initial solution 10.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 297431
+      Specific Conductance (µS/cm,  74°C)  = 345649
                           Density (g/cm³)  =   1.10270
                                Volume (L)  =   1.06615
-                        Viscosity (mPa s)  =   0.63085
+                        Viscosity (mPa s)  =   0.63062
                         Activity of water  =   0.918
                  Ionic strength (mol/kgw)  =   4.816e+00
                        Mass of water (kg)  =   1.000e+00
@@ -3986,7 +2637,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 56.
+Reading input data for simulation 38.
 -------------------------------------
 
 -------------------------------------------
@@ -4007,10 +2658,10 @@ Initial solution 11.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 291446
+      Specific Conductance (µS/cm,  74°C)  = 336915
                           Density (g/cm³)  =   1.09755
                                Volume (L)  =   1.06379
-                        Viscosity (mPa s)  =   0.62474
+                        Viscosity (mPa s)  =   0.62450
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.653e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4061,7 +2712,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 57.
+Reading input data for simulation 39.
 -------------------------------------
 
 -------------------------------------------
@@ -4082,10 +2733,10 @@ Initial solution 12.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 289318
+      Specific Conductance (µS/cm,  74°C)  = 333776
                           Density (g/cm³)  =   1.09622
                                Volume (L)  =   1.06291
-                        Viscosity (mPa s)  =   0.62979
+                        Viscosity (mPa s)  =   0.62952
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.659e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4107,7 +2758,7 @@ Initial solution 12.
    H+              1.449e-07   1.000e-07    -6.839    -7.000    -0.161      0.00
    H2O             5.551e+01   9.208e-01     1.744    -0.036     0.000     18.47
 Ca            1.095e+00
-   Ca+2            1.095e+00   5.738e-01     0.039    -0.241    -0.280    -14.24
+   Ca+2            1.095e+00   5.738e-01     0.039    -0.241    -0.280    -14.25
    CaOH+           3.472e-07   8.775e-07    -6.459    -6.057     0.403     (0)  
 Cl            3.106e+00
    Cl-             3.106e+00   1.727e+00     0.492     0.237    -0.255     20.08
@@ -4136,7 +2787,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 58.
+Reading input data for simulation 40.
 -------------------------------------
 
 -------------------------------------------
@@ -4157,10 +2808,10 @@ Initial solution 13.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 287630
+      Specific Conductance (µS/cm,  74°C)  = 331137
                           Density (g/cm³)  =   1.09518
                                Volume (L)  =   1.06221
-                        Viscosity (mPa s)  =   0.63457
+                        Viscosity (mPa s)  =   0.63428
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.667e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4211,7 +2862,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 59.
+Reading input data for simulation 41.
 -------------------------------------
 
 -------------------------------------------
@@ -4232,10 +2883,10 @@ Initial solution 14.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 281855
+      Specific Conductance (µS/cm,  74°C)  = 322380
                           Density (g/cm³)  =   1.09053
                                Volume (L)  =   1.06005
-                        Viscosity (mPa s)  =   0.63207
+                        Viscosity (mPa s)  =   0.63175
                         Activity of water  =   0.923
                  Ionic strength (mol/kgw)  =   4.533e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4286,7 +2937,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 60.
+Reading input data for simulation 42.
 -------------------------------------
 
 -------------------------------------------
@@ -4307,10 +2958,10 @@ Initial solution 15.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 275620
+      Specific Conductance (µS/cm,  74°C)  = 313000
                           Density (g/cm³)  =   1.08559
                                Volume (L)  =   1.05785
-                        Viscosity (mPa s)  =   0.62799
+                        Viscosity (mPa s)  =   0.62766
                         Activity of water  =   0.926
                  Ionic strength (mol/kgw)  =   4.379e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4361,7 +3012,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 61.
+Reading input data for simulation 43.
 -------------------------------------
 
 -------------------------------------------
@@ -4382,10 +3033,10 @@ Initial solution 16.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 274789
+      Specific Conductance (µS/cm,  74°C)  = 311103
                           Density (g/cm³)  =   1.08536
                                Volume (L)  =   1.05742
-                        Viscosity (mPa s)  =   0.63750
+                        Viscosity (mPa s)  =   0.63714
                         Activity of water  =   0.925
                  Ionic strength (mol/kgw)  =   4.430e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4436,7 +3087,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 62.
+Reading input data for simulation 44.
 -------------------------------------
 
 -------------------------------------------
@@ -4457,10 +3108,10 @@ Initial solution 17.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 271847
+      Specific Conductance (µS/cm,  74°C)  = 306211
                           Density (g/cm³)  =   1.08327
                                Volume (L)  =   1.05634
-                        Viscosity (mPa s)  =   0.64112
+                        Viscosity (mPa s)  =   0.64074
                         Activity of water  =   0.925
                  Ionic strength (mol/kgw)  =   4.393e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4511,7 +3162,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 63.
+Reading input data for simulation 45.
 -------------------------------------
 
 -------------------------------------------
@@ -4532,10 +3183,10 @@ Initial solution 18.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  74°C)  = 268168
+      Specific Conductance (µS/cm,  74°C)  = 300058
                           Density (g/cm³)  =   1.08065
                                Volume (L)  =   1.05502
-                        Viscosity (mPa s)  =   0.64518
+                        Viscosity (mPa s)  =   0.64478
                         Activity of water  =   0.926
                  Ionic strength (mol/kgw)  =   4.341e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4586,7 +3237,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 64.
+Reading input data for simulation 46.
 -------------------------------------
 
 ------------------
@@ -4594,7 +3245,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 65.
+Reading input data for simulation 47.
 -------------------------------------
 
 -------------------------------------------
@@ -4657,7 +3308,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 66.
+Reading input data for simulation 48.
 -------------------------------------
 
 -------------------------------------------
@@ -4720,7 +3371,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 67.
+Reading input data for simulation 49.
 -------------------------------------
 
 -------------------------------------------
@@ -4783,7 +3434,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 68.
+Reading input data for simulation 50.
 -------------------------------------
 
 
@@ -4806,17 +3457,17 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 290421
+      Specific Conductance (µS/cm,  99°C)  = 321973
                           Density (g/cm³)  =   1.03997
                                Volume (L)  =   1.06404
-                        Viscosity (mPa s)  =   0.39492
+                        Viscosity (mPa s)  =   0.39472
                         Activity of water  =   0.950
                  Ionic strength (mol/kgw)  =   2.921e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   4.909e-04
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   2.094e-13
+                  Electrical balance (eq)  =   2.083e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110129e+02
@@ -4860,7 +3511,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 69.
+Reading input data for simulation 51.
 -------------------------------------
 
 -------------------------------------------
@@ -4881,10 +3532,10 @@ Initial solution 2.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 290432
+      Specific Conductance (µS/cm,  99°C)  = 322589
                           Density (g/cm³)  =   1.04020
                                Volume (L)  =   1.06380
-                        Viscosity (mPa s)  =   0.39848
+                        Viscosity (mPa s)  =   0.39825
                         Activity of water  =   0.950
                  Ionic strength (mol/kgw)  =   2.963e+00
                        Mass of water (kg)  =   1.000e+00
@@ -4935,7 +3586,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 70.
+Reading input data for simulation 52.
 -------------------------------------
 
 -------------------------------------------
@@ -4956,17 +3607,17 @@ Initial solution 3.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 279070
+      Specific Conductance (µS/cm,  99°C)  = 307074
                           Density (g/cm³)  =   1.03493
                                Volume (L)  =   1.06184
-                        Viscosity (mPa s)  =   0.39346
+                        Viscosity (mPa s)  =   0.39322
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.789e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.309e-03
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   3.975e-13
+                  Electrical balance (eq)  =   3.979e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110137e+02
@@ -5010,7 +3661,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 71.
+Reading input data for simulation 53.
 -------------------------------------
 
 -------------------------------------------
@@ -5031,17 +3682,17 @@ Initial solution 4.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 288549
+      Specific Conductance (µS/cm,  99°C)  = 320893
                           Density (g/cm³)  =   1.03968
                                Volume (L)  =   1.06307
-                        Viscosity (mPa s)  =   0.40366
+                        Viscosity (mPa s)  =   0.40339
                         Activity of water  =   0.949
                  Ionic strength (mol/kgw)  =   3.004e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.956e-03
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   8.653e-13
+                  Electrical balance (eq)  =   8.664e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110144e+02
@@ -5085,7 +3736,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 72.
+Reading input data for simulation 54.
 -------------------------------------
 
 -------------------------------------------
@@ -5106,17 +3757,17 @@ Initial solution 5.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 277039
+      Specific Conductance (µS/cm,  99°C)  = 305263
                           Density (g/cm³)  =   1.03435
                                Volume (L)  =   1.06103
-                        Viscosity (mPa s)  =   0.39929
+                        Viscosity (mPa s)  =   0.39900
                         Activity of water  =   0.952
                  Ionic strength (mol/kgw)  =   2.833e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.292e-03
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   7.217e-13
+                  Electrical balance (eq)  =   7.234e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110147e+02
@@ -5160,7 +3811,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 73.
+Reading input data for simulation 55.
 -------------------------------------
 
 -------------------------------------------
@@ -5181,17 +3832,17 @@ Initial solution 6.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 277271
+      Specific Conductance (µS/cm,  99°C)  = 305978
                           Density (g/cm³)  =   1.03462
                                Volume (L)  =   1.06084
-                        Viscosity (mPa s)  =   0.40278
+                        Viscosity (mPa s)  =   0.40247
                         Activity of water  =   0.951
                  Ionic strength (mol/kgw)  =   2.873e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.767e-03
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   9.239e-13
+                  Electrical balance (eq)  =   9.242e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110152e+02
@@ -5235,7 +3886,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 74.
+Reading input data for simulation 56.
 -------------------------------------
 
 -------------------------------------------
@@ -5256,17 +3907,17 @@ Initial solution 7.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 266638
+      Specific Conductance (µS/cm,  99°C)  = 291751
                           Density (g/cm³)  =   1.02986
                                Volume (L)  =   1.05909
-                        Viscosity (mPa s)  =   0.39849
+                        Viscosity (mPa s)  =   0.39817
                         Activity of water  =   0.954
                  Ionic strength (mol/kgw)  =   2.717e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.924e-03
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   7.104e-13
+                  Electrical balance (eq)  =   7.118e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110154e+02
@@ -5310,7 +3961,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 75.
+Reading input data for simulation 57.
 -------------------------------------
 
 -------------------------------------------
@@ -5331,17 +3982,17 @@ Initial solution 8.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 266423
+      Specific Conductance (µS/cm,  99°C)  = 291837
                           Density (g/cm³)  =   1.02992
                                Volume (L)  =   1.05878
-                        Viscosity (mPa s)  =   0.40229
+                        Viscosity (mPa s)  =   0.40194
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.753e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   3.447e-03
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   8.833e-13
+                  Electrical balance (eq)  =   8.838e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110159e+02
@@ -5385,7 +4036,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 76.
+Reading input data for simulation 58.
 -------------------------------------
 
 -------------------------------------------
@@ -5406,17 +4057,17 @@ Initial solution 9.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 265144
+      Specific Conductance (µS/cm,  99°C)  = 290422
                           Density (g/cm³)  =   1.02949
                                Volume (L)  =   1.05833
-                        Viscosity (mPa s)  =   0.40539
+                        Viscosity (mPa s)  =   0.40502
                         Activity of water  =   0.953
                  Ionic strength (mol/kgw)  =   2.770e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   3.938e-03
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =   1.025e-12
+                  Electrical balance (eq)  =   1.026e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   6
                                   Total H  = 1.110164e+02
@@ -5460,7 +4111,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 77.
+Reading input data for simulation 59.
 -------------------------------------
 
 -------------------------------------------
@@ -5481,10 +4132,10 @@ Initial solution 10.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 364437
+      Specific Conductance (µS/cm,  99°C)  = 437698
                           Density (g/cm³)  =   1.08748
                                Volume (L)  =   1.08106
-                        Viscosity (mPa s)  =   0.47131
+                        Viscosity (mPa s)  =   0.47105
                         Activity of water  =   0.918
                  Ionic strength (mol/kgw)  =   4.813e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5535,7 +4186,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 78.
+Reading input data for simulation 60.
 -------------------------------------
 
 -------------------------------------------
@@ -5556,10 +4207,10 @@ Initial solution 11.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 357362
+      Specific Conductance (µS/cm,  99°C)  = 426524
                           Density (g/cm³)  =   1.08237
                                Volume (L)  =   1.07867
-                        Viscosity (mPa s)  =   0.46680
+                        Viscosity (mPa s)  =   0.46652
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.649e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5589,7 +4240,7 @@ Cl            3.100e+00
 H(0)          2.671e-26
    H2              1.336e-26   3.895e-26   -25.874   -25.409     0.465     28.57
 Mg            2.923e-01
-   Mg+2            2.895e-01   2.343e-01    -0.538    -0.630    -0.092    -21.07
+   Mg+2            2.895e-01   2.343e-01    -0.538    -0.630    -0.092    -21.08
    MgOH+           2.830e-03   1.694e-03    -2.548    -2.771    -0.223     (0)  
 O(0)          2.603e-23
    O2              1.302e-23   3.796e-23   -22.886   -22.421     0.465     33.86
@@ -5610,7 +4261,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 79.
+Reading input data for simulation 61.
 -------------------------------------
 
 -------------------------------------------
@@ -5631,10 +4282,10 @@ Initial solution 12.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 354597
-                          Density (g/cm³)  =   1.08112
+      Specific Conductance (µS/cm,  99°C)  = 422758
+                          Density (g/cm³)  =   1.08113
                                Volume (L)  =   1.07769
-                        Viscosity (mPa s)  =   0.47032
+                        Viscosity (mPa s)  =   0.47001
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.652e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5685,7 +4336,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 80.
+Reading input data for simulation 62.
 -------------------------------------
 
 -------------------------------------------
@@ -5706,10 +4357,10 @@ Initial solution 13.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 352390
+      Specific Conductance (µS/cm,  99°C)  = 419623
                           Density (g/cm³)  =   1.08016
                                Volume (L)  =   1.07690
-                        Viscosity (mPa s)  =   0.47363
+                        Viscosity (mPa s)  =   0.47329
                         Activity of water  =   0.921
                  Ionic strength (mol/kgw)  =   4.658e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5760,7 +4411,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 81.
+Reading input data for simulation 63.
 -------------------------------------
 
 -------------------------------------------
@@ -5781,10 +4432,10 @@ Initial solution 14.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 345463
+      Specific Conductance (µS/cm,  99°C)  = 408628
                           Density (g/cm³)  =   1.07558
                                Volume (L)  =   1.07470
-                        Viscosity (mPa s)  =   0.47158
+                        Viscosity (mPa s)  =   0.47121
                         Activity of water  =   0.923
                  Ionic strength (mol/kgw)  =   4.523e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5835,7 +4486,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 82.
+Reading input data for simulation 64.
 -------------------------------------
 
 -------------------------------------------
@@ -5856,10 +4507,10 @@ Initial solution 15.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 338021
+      Specific Conductance (µS/cm,  99°C)  = 396824
                           Density (g/cm³)  =   1.07068
                                Volume (L)  =   1.07249
-                        Viscosity (mPa s)  =   0.46838
+                        Viscosity (mPa s)  =   0.46799
                         Activity of water  =   0.926
                  Ionic strength (mol/kgw)  =   4.368e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5910,7 +4561,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 83.
+Reading input data for simulation 65.
 -------------------------------------
 
 -------------------------------------------
@@ -5931,10 +4582,10 @@ Initial solution 16.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 336743
+      Specific Conductance (µS/cm,  99°C)  = 394806
                           Density (g/cm³)  =   1.07055
-                               Volume (L)  =   1.07194
-                        Viscosity (mPa s)  =   0.47497
+                               Volume (L)  =   1.07193
+                        Viscosity (mPa s)  =   0.47455
                         Activity of water  =   0.925
                  Ionic strength (mol/kgw)  =   4.416e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5985,7 +4636,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 84.
+Reading input data for simulation 66.
 -------------------------------------
 
 -------------------------------------------
@@ -6006,10 +4657,10 @@ Initial solution 17.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 333086
+      Specific Conductance (µS/cm,  99°C)  = 388859
                           Density (g/cm³)  =   1.06852
                                Volume (L)  =   1.07079
-                        Viscosity (mPa s)  =   0.47730
+                        Viscosity (mPa s)  =   0.47686
                         Activity of water  =   0.925
                  Ionic strength (mol/kgw)  =   4.377e+00
                        Mass of water (kg)  =   1.000e+00
@@ -6060,7 +4711,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 85.
+Reading input data for simulation 67.
 -------------------------------------
 
 -------------------------------------------
@@ -6081,17 +4732,17 @@ Initial solution 18.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 328534
-                          Density (g/cm³)  =   1.06596
+      Specific Conductance (µS/cm,  99°C)  = 381360
+                          Density (g/cm³)  =   1.06597
                                Volume (L)  =   1.06941
-                        Viscosity (mPa s)  =   0.47987
+                        Viscosity (mPa s)  =   0.47940
                         Activity of water  =   0.926
                  Ionic strength (mol/kgw)  =   4.324e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.114e-02
                          Temperature (°C)  =  99.40
                            Pressure (atm)  =  5.90
-                  Electrical balance (eq)  =  -9.723e-11
+                  Electrical balance (eq)  =  -9.718e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   6
                                   Total H  = 1.110236e+02
@@ -6135,7 +4786,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 86.
+Reading input data for simulation 68.
 -------------------------------------
 
 ------------------
@@ -6143,7 +4794,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 87.
+Reading input data for simulation 69.
 -------------------------------------
 
 -------------------------------------------
@@ -6206,7 +4857,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 88.
+Reading input data for simulation 70.
 -------------------------------------
 
 -------------------------------------------
@@ -6269,6 +4920,6 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 89.
+Reading input data for simulation 71.
 -------------------------------------
 

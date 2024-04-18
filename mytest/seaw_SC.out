@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: seaw_SC
   Output file: seaw_SC.out
 Database file: ../database/Amm.dat
@@ -50,19 +51,17 @@ Reading input data for simulation 1.
 	REACTION_TEMPERATURE
 	 0 40 in 9
 	USER_GRAPH
-
-	Reading data from McCleskey.phr ...
 	-axis_titles "temp / oC" "Conductance / mS/cm" "viscosity / mPa.s"
 	-headings Miller`88 phreeqc McCleskey x viscos_0  viscos
 	10 A = 2.1923 : B = 0.12842 : kk= 0.0320 : ss= 0.00290 : h = 0.1243 : ff= 0.000978
-	20 S  = 35.08 
+	20 S  = 35.08 # salinity / (0/00): select the column of ppm's, TextFX -> Tools -> Add up numbers
 	30 xx = 0.0000165 : T = tc
 	40 K = (A + B * T^(1 + kk) / (1 + T^kk) * exp(ss * T)) * S / (1 + S^h) * exp(-ff * S) * exp(-xx * (S -35) * (T - 20))
 	50 A1 = 2.070e-5 : A2 = -6.370e-10 : A3 = 3.989e-15
 	60 B1 = 3.426e-2 : B2 = 4.464e-4 : B3 = 4.215e-1 : B4 =-3.107e-3
 	70 p = pressure / 1.01325 * 10 : R = S / 35.009
 	80 aa = (A1 * p + A2 * p^2 + A3 * p^3) / (1 + B1 * T + B2 *T^2 + B3 * R + B4 * R * T)
-	90 K = K * (1 + aa) 
+	90 K = K * (1 + aa) #: print tc, aa
 	92 if pressure > 100 and tc > 31 then end
 	100 plot_xy tc, K, line_width = 0, color = Red
 	102 plot_xy tc, SC / 1e3, symbol = None , color = Red
@@ -75,6 +74,8 @@ Reading input data for simulation 1.
 	180 if pressure < 100 then plot_xy tc, m_sc, color = Blue, symbol_size = 0
 	190 dif2 = m_sc/ k - 1 : put(dif2^2 + get(3), 3)
 	200 if tc = 40 then print 'relative s.d. MsCleskey: ' + str_f$((get(3) / (get(2) - 1))^0.5 * 100, 0, 2) + ' %'
+
+	Reading data from McCleskey.phr ...
 	1999 end
 	2000 REM calculate molal conductance from McCleskey, returns m_sc, the specific conductance in mS/cm
 	2010 l0_H = -0.01414 * T^2 + 5.355 * T + 224.2	 : A_H = -0.00918 * T^2 + 1.842 * T + 39.23	 : B_H = 0.3	 : l_H = l0_H - A_H * sqrt_mu / (1 + B_H * sqrt_mu)
@@ -135,8 +136,8 @@ Initial solution 1.	SEAWATER FROM NORDSTROM AND OTHERS (1979)
 
                                        pH  =   8.220    
                                        pe  =   8.451    
-     Specific Conductance (µS/cm,  25°C)  = 52856
-                         Density (g/cm³)  =   1.02328
+      Specific Conductance (µS/cm,  25°C)  = 52856
+                          Density (g/cm³)  =   1.02328
                                Volume (L)  =   1.01278
                         Viscosity (mPa s)  =   0.96027
                         Activity of water  =   0.981
@@ -144,7 +145,7 @@ Initial solution 1.	SEAWATER FROM NORDSTROM AND OTHERS (1979)
                        Mass of water (kg)  =   1.000e+00
                     Total carbon (mol/kg)  =   2.240e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  25.00
+                         Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =   7
@@ -350,8 +351,8 @@ Using temperature 1.
 
                                        pH  =   8.604      Charge balance
                                        pe  =  12.491      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,   0°C)  = 28400
-                         Density (g/cm³)  =   1.02806
+      Specific Conductance (µS/cm,   0°C)  = 28400
+                          Density (g/cm³)  =   1.02806
                                Volume (L)  =   1.00807
                         Viscosity (mPa s)  =   1.91061
                         Activity of water  =   0.981
@@ -359,7 +360,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =   0.00
+                         Temperature (°C)  =   0.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  21
@@ -583,8 +584,8 @@ Using temperature 1.
 
                                        pH  =   8.518      Charge balance
                                        pe  =  12.130      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,   5°C)  = 32989
-                         Density (g/cm³)  =   1.02760
+      Specific Conductance (µS/cm,   5°C)  = 32989
+                          Density (g/cm³)  =   1.02760
                                Volume (L)  =   1.00851
                         Viscosity (mPa s)  =   1.62319
                         Activity of water  =   0.981
@@ -592,7 +593,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =   5.00
+                         Temperature (°C)  =   5.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  21
@@ -816,8 +817,8 @@ Using temperature 1.
 
                                        pH  =   8.437      Charge balance
                                        pe  =  11.779      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  10°C)  = 37750
-                         Density (g/cm³)  =   1.02687
+      Specific Conductance (µS/cm,  10°C)  = 37750
+                          Density (g/cm³)  =   1.02687
                                Volume (L)  =   1.00923
                         Viscosity (mPa s)  =   1.39972
                         Activity of water  =   0.981
@@ -825,7 +826,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  10.00
+                         Temperature (°C)  =  10.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  20
@@ -1049,8 +1050,8 @@ Using temperature 1.
 
                                        pH  =   8.361      Charge balance
                                        pe  =  11.438      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  15°C)  = 42661
-                         Density (g/cm³)  =   1.02590
+      Specific Conductance (µS/cm,  15°C)  = 42661
+                          Density (g/cm³)  =   1.02590
                                Volume (L)  =   1.01019
                         Viscosity (mPa s)  =   1.22215
                         Activity of water  =   0.981
@@ -1058,7 +1059,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  15.00
+                         Temperature (°C)  =  15.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  19
@@ -1282,8 +1283,8 @@ Using temperature 1.
 
                                        pH  =   8.289      Charge balance
                                        pe  =  11.108      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  20°C)  = 47702
-                         Density (g/cm³)  =   1.02469
+      Specific Conductance (µS/cm,  20°C)  = 47702
+                          Density (g/cm³)  =   1.02469
                                Volume (L)  =   1.01138
                         Viscosity (mPa s)  =   1.07843
                         Activity of water  =   0.981
@@ -1291,7 +1292,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  20.00
+                         Temperature (°C)  =  20.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  18
@@ -1515,8 +1516,8 @@ Using temperature 1.
 
                                        pH  =   8.220      Charge balance
                                        pe  =  10.787      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  25°C)  = 52856
-                         Density (g/cm³)  =   1.02328
+      Specific Conductance (µS/cm,  25°C)  = 52856
+                          Density (g/cm³)  =   1.02328
                                Volume (L)  =   1.01278
                         Viscosity (mPa s)  =   0.96027
                         Activity of water  =   0.981
@@ -1524,7 +1525,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  25.00
+                         Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  17
@@ -1748,8 +1749,8 @@ Using temperature 1.
 
                                        pH  =   8.154      Charge balance
                                        pe  =  10.476      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  30°C)  = 58104
-                         Density (g/cm³)  =   1.02167
+      Specific Conductance (µS/cm,  30°C)  = 58104
+                          Density (g/cm³)  =   1.02167
                                Volume (L)  =   1.01437
                         Viscosity (mPa s)  =   0.86181
                         Activity of water  =   0.981
@@ -1757,7 +1758,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  30.00
+                         Temperature (°C)  =  30.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  17
@@ -1981,8 +1982,8 @@ Using temperature 1.
 
                                        pH  =   8.090      Charge balance
                                        pe  =  10.176      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  35°C)  = 63429
-                         Density (g/cm³)  =   1.01988
+      Specific Conductance (µS/cm,  35°C)  = 63429
+                          Density (g/cm³)  =   1.01988
                                Volume (L)  =   1.01615
                         Viscosity (mPa s)  =   0.77879
                         Activity of water  =   0.981
@@ -1990,7 +1991,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  35.00
+                         Temperature (°C)  =  35.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  16
@@ -2190,8 +2191,6 @@ Si            7.382e-05
 
 Reaction step 9.
 
-relative s.d. 1.25 % 
-relative s.d. MsCleskey: 1.64 % 
 Using solution 1.	SEAWATER FROM NORDSTROM AND OTHERS (1979)
 Using temperature 1.	
 
@@ -2216,8 +2215,8 @@ Using temperature 1.
 
                                        pH  =   8.027      Charge balance
                                        pe  =   9.886      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  40°C)  = 68816
-                         Density (g/cm³)  =   1.01792
+      Specific Conductance (µS/cm,  40°C)  = 68816
+                          Density (g/cm³)  =   1.01792
                                Volume (L)  =   1.01810
                         Viscosity (mPa s)  =   0.70809
                         Activity of water  =   0.981
@@ -2225,7 +2224,7 @@ Using temperature 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  40.00
+                         Temperature (°C)  =  40.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
                                Iterations  =  15
@@ -2469,8 +2468,8 @@ Using pressure 1.
 
                                        pH  =   8.167      Charge balance
                                        pe  =  12.872      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,   0°C)  = 32753
-                         Density (g/cm³)  =   1.07174
+      Specific Conductance (µS/cm,   0°C)  = 32753
+                          Density (g/cm³)  =   1.07174
                                Volume (L)  =   0.96697
                         Viscosity (mPa s)  =   1.77019
                         Activity of water  =   0.981
@@ -2478,7 +2477,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =   0.00
+                         Temperature (°C)  =   0.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -2704,8 +2703,8 @@ Using pressure 1.
 
                                        pH  =   8.082      Charge balance
                                        pe  =  12.515      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,   5°C)  = 37116
-                         Density (g/cm³)  =   1.07036
+      Specific Conductance (µS/cm,   5°C)  = 37116
+                          Density (g/cm³)  =   1.07036
                                Volume (L)  =   0.96823
                         Viscosity (mPa s)  =   1.53703
                         Activity of water  =   0.981
@@ -2713,7 +2712,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =   5.00
+                         Temperature (°C)  =   5.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -2939,8 +2938,8 @@ Using pressure 1.
 
                                        pH  =   8.003      Charge balance
                                        pe  =  12.165      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  10°C)  = 41592
-                         Density (g/cm³)  =   1.06880
+      Specific Conductance (µS/cm,  10°C)  = 41592
+                          Density (g/cm³)  =   1.06880
                                Volume (L)  =   0.96964
                         Viscosity (mPa s)  =   1.34965
                         Activity of water  =   0.981
@@ -2948,7 +2947,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  10.00
+                         Temperature (°C)  =  10.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -3174,8 +3173,8 @@ Using pressure 1.
 
                                        pH  =   7.931      Charge balance
                                        pe  =  11.823      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  15°C)  = 46168
-                         Density (g/cm³)  =   1.06710
+      Specific Conductance (µS/cm,  15°C)  = 46168
+                          Density (g/cm³)  =   1.06710
                                Volume (L)  =   0.97118
                         Viscosity (mPa s)  =   1.19655
                         Activity of water  =   0.981
@@ -3183,7 +3182,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  15.00
+                         Temperature (°C)  =  15.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -3409,8 +3408,8 @@ Using pressure 1.
 
                                        pH  =   7.865      Charge balance
                                        pe  =  11.489      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  20°C)  = 50830
-                         Density (g/cm³)  =   1.06527
+      Specific Conductance (µS/cm,  20°C)  = 50830
+                          Density (g/cm³)  =   1.06527
                                Volume (L)  =   0.97286
                         Viscosity (mPa s)  =   1.06967
                         Activity of water  =   0.981
@@ -3418,7 +3417,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  20.00
+                         Temperature (°C)  =  20.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -3644,8 +3643,8 @@ Using pressure 1.
 
                                        pH  =   7.803      Charge balance
                                        pe  =  11.163      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  25°C)  = 55565
-                         Density (g/cm³)  =   1.06332
+      Specific Conductance (µS/cm,  25°C)  = 55565
+                          Density (g/cm³)  =   1.06332
                                Volume (L)  =   0.97464
                         Viscosity (mPa s)  =   0.96323
                         Activity of water  =   0.981
@@ -3653,7 +3652,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  25.00
+                         Temperature (°C)  =  25.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -3879,8 +3878,8 @@ Using pressure 1.
 
                                        pH  =   7.745      Charge balance
                                        pe  =  10.845      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  30°C)  = 60362
-                         Density (g/cm³)  =   1.06127
+      Specific Conductance (µS/cm,  30°C)  = 60362
+                          Density (g/cm³)  =   1.06127
                                Volume (L)  =   0.97652
                         Viscosity (mPa s)  =   0.87299
                         Activity of water  =   0.981
@@ -3888,7 +3887,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  30.00
+                         Temperature (°C)  =  30.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -4114,8 +4113,8 @@ Using pressure 1.
 
                                        pH  =   7.691      Charge balance
                                        pe  =  10.536      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  35°C)  = 65207
-                         Density (g/cm³)  =   1.05913
+      Specific Conductance (µS/cm,  35°C)  = 65207
+                          Density (g/cm³)  =   1.05913
                                Volume (L)  =   0.97850
                         Viscosity (mPa s)  =   0.79578
                         Activity of water  =   0.981
@@ -4123,7 +4122,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  35.00
+                         Temperature (°C)  =  35.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
@@ -4349,8 +4348,8 @@ Using pressure 1.
 
                                        pH  =   7.640      Charge balance
                                        pe  =  10.235      Adjusted to redox equilibrium
-     Specific Conductance (µS/cm,  40°C)  = 70132
-                         Density (g/cm³)  =   1.05690
+      Specific Conductance (µS/cm,  40°C)  = 70132
+                          Density (g/cm³)  =   1.05690
                                Volume (L)  =   0.98056
                         Viscosity (mPa s)  =   0.72919
                         Activity of water  =   0.981
@@ -4358,7 +4357,7 @@ Using pressure 1.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.406e-03
                        Total CO2 (mol/kg)  =   2.240e-03
-                        Temperature (°C)  =  40.00
+                         Temperature (°C)  =  40.00
                            Pressure (atm)  = 1000.00
                   Electrical balance (eq)  =   7.936e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07

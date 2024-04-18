@@ -50,7 +50,7 @@
              0*    # 34SH2S
              1     # Well number
 1.  01S-02E-01 DCB 1 Harrison, Nace 
-       4.41092     # C
+       4.38229     # C
       0.205339     # S
        88.5882     # CA
              0*    # AL
@@ -75,11 +75,11 @@
              0*    # N15
             -3     # RS of N
              0*    # DOX
-       3.73151     # HCO3
+       3.73562     # HCO3
            6.5     # PH
-      0.668164     # H2CO3
-     0.0112192     # CO3
-       4.41092     # CARBONATES
+      0.635964     # H2CO3
+     0.0106827     # CO3
+       4.38229     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -100,7 +100,7 @@
              0*    # 34SH2S
              2     # Well number
 1.  01S-03E-03 ABA 1        Vendome Well 
-       6.36644     # C
+       6.36487     # C
       0.366296     # S
        2.37964     # CA
              0*    # AL
@@ -125,11 +125,11 @@
              0*    # N15
             -3     # RS of N
              0*    # DOX
-       5.53946     # HCO3
+       5.53937     # HCO3
           7.14     # PH
-      0.814855     # H2CO3
-     0.0121067     # CO3
-       6.36644     # CARBONATES
+      0.813384     # H2CO3
+     0.0120927     # CO3
+       6.36487     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -150,9 +150,9 @@
              0*    # 34SH2S
              3     # Well number
 2. Solution after simulation 3.
-        5.6813     # C
+       5.68133     # C
       0.130006     # S
-       2.52799     # CA
+       2.52801     # CA
              0*    # AL
      0.0200009     # MG
      0.0600026     # NA
@@ -175,11 +175,11 @@
              0*    # N15
              0*    # RS of N
    1.47791e-15     # DOX
-       4.81868     # HCO3
+       4.81871     # HCO3
         7.1082     # PH
       0.853845     # H2CO3
-    0.00854341     # CO3
-        5.6813     # CARBONATES
+    0.00854336     # CO3
+       5.68133     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -200,7 +200,7 @@
              0*    # 34SH2S
              4     # Well number
 2.  01S-02E-01 DCB 1 Harrison, Nace 
-       4.41092     # C
+       4.38229     # C
       0.205339     # S
        88.5882     # CA
              0*    # AL
@@ -225,11 +225,11 @@
              0*    # N15
             -3     # RS of N
              0*    # DOX
-       3.73151     # HCO3
+       3.73562     # HCO3
            6.5     # PH
-      0.668164     # H2CO3
-     0.0112192     # CO3
-       4.41092     # CARBONATES
+      0.635964     # H2CO3
+     0.0106827     # CO3
+       4.38229     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -250,7 +250,7 @@
              0*    # 34SH2S
              5     # Well number
 2.  01S-03E-03 ABA 1        Vendome Well 
-        5.7633     # C
+       5.76307     # C
       0.366296     # S
        2.37964     # CA
              0*    # AL
@@ -275,11 +275,11 @@
              0*    # N15
             -3     # RS of N
              0*    # DOX
-       5.01485     # HCO3
+       5.01582     # HCO3
           7.14     # PH
-      0.737436     # H2CO3
-     0.0110002     # CO3
-        5.7633     # CARBONATES
+      0.736236     # H2CO3
+     0.0109895     # CO3
+       5.76307     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+

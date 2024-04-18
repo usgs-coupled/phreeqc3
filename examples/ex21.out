@@ -1,4 +1,4 @@
-   Input file: ex21
+   Input file: ../examples/ex21
   Output file: ex21.out
 Database file: ../database/phreeqc.dat
 
@@ -20,7 +20,6 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
-	DATABASE ../database/phreeqc.dat
 	TITLE Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 2010, GCA 74, 1201
 	KNOBS
 	 tolerance 1e-16
@@ -110,15 +109,15 @@ Initial solution 0.	column with only cell 1, two boundary solutions 0 and 2.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-     Specific Conductance (µS/cm,  25°C)  = 122
-                         Density (g/cm³)  =   0.99708
+      Specific Conductance (µS/cm,  25°C)  = 122
+                          Density (g/cm³)  =   0.99708
                                Volume (L)  =   1.00298
                         Viscosity (mPa s)  =   0.89026
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.417e-09
-                        Temperature (°C)  =  25.00
+                         Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.417e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
@@ -201,7 +200,7 @@ Reading input data for simulation 2.
 	120  por_clay = 0.159
 	130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
 	140  CEC = 0.09 * rho_b_eps   # CEC / (eq/L porewater)
-	150  A_por = 37e3 * rho_b_eps # pore surface area / (m�/L porewater)
+	150  A_por = 37e3 * rho_b_eps # pore surface area / (m²/L porewater)
 	151  correct_$  = ' false'
 	160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1$(4), profile_y2$(4)
 	170  DATA 'Hto', 'Cl_tr', 'Na_tr', 'Cs'
@@ -216,7 +215,7 @@ Reading input data for simulation 2.
 	290  READ profile_y1$(1), profile_y1$(2), profile_y1$(3), profile_y1$(4)
 	300  DATA '0 1.2e-9', '0 2.5e-5', '0 6e-10', '0 auto'
 	310  READ profile_y2$(1), profile_y2$(2), profile_y2$(3), profile_y2$(4)
-	350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m�/s)
+	350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m²/s)
 	360  nfilt1 = 1               # number of cells in filter 1
 	370  nfilt2 = 1               # number of cells in filter 2
 	380  nclay = 11               # number of clay cells
@@ -437,8 +436,8 @@ WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
                                        pH  =   7.600    
                                        pe  =  13.120      Equilibrium with O2(g)
-     Specific Conductance (µS/cm,  23°C)  = 29068
-                         Density (g/cm³)  =   1.01168
+      Specific Conductance (µS/cm,  23°C)  = 29068
+                          Density (g/cm³)  =   1.01168
                                Volume (L)  =   0.20146
                         Viscosity (mPa s)  =   0.96933
                         Activity of water  =   0.990
@@ -446,7 +445,7 @@ WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
                        Mass of water (kg)  =   2.000e-01
                     Total carbon (mol/kg)  =   4.808e-04
                        Total CO2 (mol/kg)  =   4.808e-04
-                        Temperature (°C)  =  23.00
+                         Temperature (°C)  =  23.00
                   Electrical balance (eq)  =  -1.312e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.10
                                Iterations  =   6
