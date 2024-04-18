@@ -178,7 +178,6 @@ sa_declercq(double sa_type, double Sa, double d, double m, double m0, double gfw
 	error_msg(error_string, CONTINUE);
 	input_error++;
 	return (MISSING);
- 
 }
 
 /* ---------------------------------------------------------------------- */
@@ -187,97 +186,58 @@ diff_c(const char *species_name)
 /* ---------------------------------------------------------------------- */
 {
 	class species *s_ptr;
-	LDBLE ka, l_z, Dw, ff, sqrt_mu, a, a2, a3, av;
-	sqrt_mu = sqrt(mu_x);
+	LDBLE Dw;
 
 	s_ptr = s_search(species_name);
 	if (s_ptr == NULL)
 		return(0);
 	if ((Dw = s_ptr->dw) == 0)
-	{
-		if (correct_Dw)
-			Dw = default_Dw;
-		else
-			return(0);
-	}
+		return(0);
 	if (correct_Dw)
 	{
-		if ((l_z = fabs(s_ptr->z)) == 0)
-		{
-			//l_z = 1; // only a 1st approximation for correct_Dw in electrical field
-		}
-		else
-		{
-			if (print_viscosity)
-			{
-				a = (s_ptr->dw_a ? s_ptr->dw_a : 1.6);
-				a2 = (s_ptr->dw_a2 ? s_ptr->dw_a2 : 4.73);
-				av = (s_ptr->dw_a_visc ? pow((viscos_0 / viscos), s_ptr->dw_a_visc) : 1);
-				a3 = (s_ptr->dw_a3 ? pow(mu_x, s_ptr->dw_a3) : s_ptr->dw_a_visc ? 1 : pow(mu_x, 0.75));
-			}
-			else
-			{
-				a = (s_ptr->dw_a ? s_ptr->dw_a : 1.6);
-				a2 = (s_ptr->dw_a2 ? s_ptr->dw_a2 : 4.73);
-				av = 1.0;
-				a3 = (s_ptr->dw_a3 ? pow(mu_x, s_ptr->dw_a3) : pow(mu_x, 0.75));
-			}
-			ka = DH_B * a2 * sqrt_mu / (1 + a3);
-			ff = av * exp(-a * DH_A * l_z * sqrt_mu / (1 + ka));
-			Dw *= ff;
-		}
+		calc_SC();
+		Dw = s_ptr->dw_corr;
 	}
-	if (tk_x != 298.15 && s_ptr->dw_t)
-		Dw *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
+	else
+	{
+		if (tk_x != 298.15 && s_ptr->dw_t)
+			Dw *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
 
-	s_ptr->dw_corr = Dw * viscos_0_25 / viscos_0;
-	return s_ptr->dw_corr;
+		Dw *= viscos_0_25 / viscos_0;
+	}
+	if (s_ptr->dw_a_v_dif)
+		Dw *= pow(viscos_0 / viscos, s_ptr->dw_a_v_dif);
+	return Dw;
 }
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-setdiff_c(const char *species_name, double d)
+setdiff_c(const char *species_name, double d, double d_v_d)
 /* ---------------------------------------------------------------------- */
 {
 	class species *s_ptr;
-	LDBLE ka, l_z, Dw, ff, sqrt_mu, a, a2, a3, av;
-	sqrt_mu = sqrt(mu_x);
+	LDBLE Dw;
 
 	s_ptr = s_search(species_name);
 	if (s_ptr == NULL)
 		return(0);
 	Dw = s_ptr->dw = d;
+	s_ptr->dw_a_v_dif = d_v_d;
 	if (correct_Dw)
 	{
-		if ((l_z = fabs(s_ptr->z)) == 0)
-		{
-			//l_z = 1; // only a 1st approximation for correct_Dw in electrical field
-		}
-		else
-		{
-			if (print_viscosity)
-			{
-				a = (s_ptr->dw_a ? s_ptr->dw_a : 1.6);
-				a2 = (s_ptr->dw_a2 ? s_ptr->dw_a2 : 4.73);
-				av = (s_ptr->dw_a_visc ? pow((viscos_0 / viscos), s_ptr->dw_a_visc) : 1);
-				a3 = (s_ptr->dw_a3 ? pow(mu_x, s_ptr->dw_a3) : 1);
-			}
-			else
-			{
-				a = (s_ptr->dw_a ? s_ptr->dw_a : 1.6);
-				a2 = (s_ptr->dw_a2 ? s_ptr->dw_a2 : 4.73);
-				av = 1.0;
-				a3 = (s_ptr->dw_a3 ? pow(mu_x, s_ptr->dw_a3) : s_ptr->dw_a_visc ? 1 : pow(mu_x, 0.75));
-			}
-			ka = DH_B * a2 * sqrt_mu / (1 + a3);
-			ff = av * exp(-a * DH_A * l_z * sqrt_mu / (1 + ka));
-			Dw *= ff;
-		}
+		calc_SC();
+		Dw = s_ptr->dw_corr;
 	}
-	if (tk_x != 298.15 && s_ptr->dw_t)
+	else
+	{
+		if (tk_x != 298.15 && s_ptr->dw_t)
 			Dw *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
 
-	s_ptr->dw_corr = Dw * viscos_0_25 / viscos_0;
-	return s_ptr->dw_corr;
+		Dw *= viscos_0_25 / viscos_0;
+	}
+	if (d_v_d)
+		Dw *= pow(viscos_0 / viscos, d_v_d);
+	return Dw;
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -287,6 +247,7 @@ calc_SC(void)
 	class species *s_ptr;
 	int i;
 	LDBLE ka, l_z, Dw, ff, sqrt_mu, a, a2, a3, av, v_Cl = 1;
+	SC = 0;
 	sqrt_mu = sqrt(mu_x);
 	bool Falk = false;
 	s_ptr = s_search("H+");
@@ -294,7 +255,6 @@ calc_SC(void)
 		return(0);
 	else if (s_ptr->dw_a3 > 24) Falk = true;
 
-	SC = 0;
 	//LDBLE ta1, ta2, ta3, ta4;
 	//for (i = 0; i < (int)this->s_x.size(); i++)
 	//{
@@ -320,7 +280,10 @@ calc_SC(void)
 				if (correct_Dw)
 					Dw = default_Dw;
 				else
+				{
+					s_x[i]->dw_corr = 0;
 					continue;
+				}
 			}
 			if (s_x[i]->lm < min_dif_LM)
 				continue;
@@ -343,27 +306,6 @@ calc_SC(void)
 			}
 			else
 			{
-				//if (s_x[i]->dw_a2)
-				//	ka = DH_B * s_x[i]->dw_a2 * sqrt_mu / (1 + pow(mu_x, 0.259));
-				//	//ka = DH_B * s_x[i]->dw_a2 * sqrt_mu / (1 + pow(mu_x, 0.75));
-				//else
-				//{
-				//	ka = DH_B * 4.73 * sqrt_mu / (1 + pow(mu_x, 0.259));
-				//	//ka = DH_B * ta1 * sqrt_mu / (1 + pow(mu_x, ta2));
-				//	//ka = DH_B * ta1 * sqrt_mu / (1 + mu_x / ta2);
-				//}
-				//if (s_x[i]->dw_a)
-				//{
-				//	ff = exp(-s_x[i]->dw_a * DH_A * l_z * sqrt_mu / (1 + ka));
-				//	if (print_viscosity && s_x[i]->dw_a_visc)
-				//		ff *= pow((viscos_0 / viscos), s_x[i]->dw_a_visc);
-				//}
-				//else
-				//{
-				//	ff = exp(-1.6 * DH_A * l_z * sqrt_mu / (1 + ka));
-				//	//ff = exp(-ta3 * DH_A * l_z * sqrt_mu / (1 + ka));
-				//}
-				//Dw *= ff;
 				s_ptr = s_x[i];
 				if (print_viscosity)
 				{
@@ -384,6 +326,8 @@ calc_SC(void)
 			}
 
 			Dw *= ff;
+			if (correct_Dw)
+				s_x[i]->dw_corr = Dw;
 			s_x[i]->dw_t_SC = s_x[i]->moles / mass_water_aq_x * l_z * l_z * Dw;
 			SC += s_x[i]->dw_t_SC;
 		}
@@ -416,8 +360,13 @@ calc_SC(void)
 				continue;
 			if ((Dw = s_x[i]->dw) == 0)
 			{
-				if (correct_Dw) Dw = default_Dw; // or charge based...Dw = l_z > 0 ? 1.6e-9 / l_z : 2e-9 / -l_z;
-				else continue;
+				if (correct_Dw)
+					Dw = default_Dw; // or charge based...Dw = l_z > 0 ? 1.6e-9 / l_z : 2e-9 / -l_z;
+				else
+				{
+					s_x[i]->dw_corr = 0;
+					continue;
+				}
 			}
 			if (tk_x != 298.15 && s_x[i]->dw_t)
 				Dw *= exp(s_x[i]->dw_t / tk_x - s_x[i]->dw_t / 298.15);
@@ -496,6 +445,8 @@ calc_SC(void)
 				ff = av * exp(-a * DH_A * l_z * sqrt_mu / (1 + ka));
 
 				Dw *= ff;
+				if (correct_Dw)
+					s_x[i]->dw_corr = Dw;
 				s_x[i]->dw_t_SC = s_x[i]->moles / mass_water_aq_x * l_z * l_z * Dw;
 				SC += s_x[i]->dw_t_SC * 1e3 * Dw_SC;
 			}
@@ -540,7 +491,9 @@ calc_SC(void)
 				//t1 = (Dw - B2 * l_z * sqrt_mu / (1 + ka)) *
 				//	(1 - B1 * sqrt_mu / ((1 + ka) *(1 + ka * sqrt_q + ka * ka / 6))); // S.cm2/eq / (kgw/L)
 				if (av)
-				t1 *= pow(viscos_0 / viscos, av);
+					t1 *= pow(viscos_0 / viscos, av);
+				if (correct_Dw)
+					s_x[i]->dw_corr *= t1 / Dw;
 
 				// fractional contribution in mu, and correct for charge imbalance
 				a2 = 2 / (eq_plus + eq_min);
