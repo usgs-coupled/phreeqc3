@@ -1,0 +1,248 @@
+name: dist
+
+on:
+  push:
+    branches: 
+      - master
+      - develop
+    paths-ignore:
+      - 'doc/**'
+      - 'Version3/**'
+      - 'README.md'
+  pull_request:
+    branches: 
+      - master
+      - develop
+    paths-ignore:
+      - 'doc/**'
+      - 'Version3/**'
+      - 'README.md'
+  schedule:
+    - cron: '1 2 2/7 * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'DATE: Leave blank to use todays date'
+        required: false
+        default: ''
+
+      rel:
+        description: 'REL: Leave blank to automatically generate (2021-03-09 = 15700)'
+        required: false
+        default: ''
+
+      ver:
+        description: 'VER: Leave blank to use MAJOR.MINOR.(PATCH+1) (from https://github.com/usgs-coupled/phreeqc-version/blob/main/phreeqc-version.txt)'
+        required: false
+        default: ''  
+
+jobs:
+
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Date: $DATE"
+          echo "REL: $REL"
+          echo "VER: $VER"
+        env:
+          DATE: ${{ inputs.date }}
+          REL: ${{ inputs.rel }}
+          VER: ${{ inputs.ver }}
+
+  init:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    env:
+      DATE: ${{ inputs.date }}
+      REL: ${{ inputs.rel }}
+      VER: ${{ inputs.ver }}
+    # Map step outputs to job outputs
+    outputs:
+      VER: ${{ steps.vars.outputs.VER }}
+      REL: ${{ steps.vars.outputs.REL }}
+      DATE: ${{ steps.vars.outputs.DATE }}
+      DATE_FULL: ${{ steps.vars.outputs.DATE_FULL }}
+      DATE_RFC_3339: ${{ steps.vars.outputs.DATE_RFC_3339 }}
+    steps:
+      - name: Setup vars
+        id: vars
+        run: |
+          if [ -z "${VER}" ]; then
+            echo VER="$(curl -sS https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/next_ver.sh | sh)" >> "${GITHUB_OUTPUT}"
+          else
+            echo VER="${VER}"                                                                                           >> "${GITHUB_OUTPUT}"
+          fi
+          
+          if [ -z "${REL}" ]; then
+            echo REL="$(curl -sS https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/rel.py | python3)" >> "${GITHUB_OUTPUT}"
+          else
+            echo REL="${REL}"                                                                                           >> "${GITHUB_OUTPUT}"
+          fi
+          
+          if [ -z "${DATE}" ]; then
+            echo DATE="$(TZ='America/Denver' date '+%x')"                                                               >> "${GITHUB_OUTPUT}"
+            echo DATE_RFC_3339="$(TZ='America/Denver' date --rfc-3339=date)"                                            >> "${GITHUB_OUTPUT}"
+            echo DATE_FULL="$(TZ='America/Denver' date)"                                                                >> "${GITHUB_OUTPUT}"
+          else
+            echo DATE="${DATE}"                                                                                         >> "${GITHUB_OUTPUT}"
+            echo DATE_RFC_3339="$(TZ='America/Denver' date --rfc-3339=date --date=${DATE})"                             >> "${GITHUB_OUTPUT}"
+            echo DATE_FULL="$(TZ='America/Denver' date --date=${DATE})"                                                 >> "${GITHUB_OUTPUT}"
+          fi
+
+  results:
+    name: display results
+    needs: init
+    runs-on: ubuntu-latest
+    steps:
+      - name: results
+        run: |
+          echo VER="${{ needs.init.outputs.VER }}"
+          echo REL="${{ needs.init.outputs.REL }}"
+          echo DATE="${{ needs.init.outputs.DATE }}"
+          echo DATE_RFC_3339="${{ needs.init.outputs.DATE_RFC_3339 }}"
+          echo DATE_FULL="${{ needs.init.outputs.DATE_FULL }}"
+          echo TARBALL="phreeqc-${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}.tar.gz"
+
+  build-chm:
+    runs-on: windows-latest
+    steps:
+
+    - name: '🧰 Checkout'
+      uses: actions/checkout@v4
+
+    - name: 'fixup_html'
+      shell: bash
+      working-directory: ${{ github.workspace }}/HTMLversion/HTML
+      run: ./fixup_html.bash
+
+    - name: 'update html'
+      shell: bash
+      working-directory: ${{ github.workspace }}/HTMLversion
+      run: tar czf ../HTML.tar.gz HTML/*.htm HTML/*.png HTML/*.css
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: HTML
+        path: ${{github.workspace}}/HTML.tar.gz
+
+    - name: cache htmlhelp
+      id: cache-htmlhelp
+      uses: actions/cache@v4
+      with:
+        path: "C:/Program Files (x86)/HTML Help Workshop"
+        key: ${{ runner.os }}-htmlhelp
+
+    - name: install htmlhelp
+      if: steps.cache-htmlhelp.outputs.cache-hit != 'true'
+      timeout-minutes: 5
+      run: |
+        curl -L -O --max-time 120 http://web.archive.org/web/20160201063255/http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe
+        cmd /c start /wait .\htmlhelp.exe /q /c /t:$(Get-Location)\tmp
+        $file = "$(Get-Location)\tmp\htmlhelp.inf"
+        (Get-Content $file) | Foreach-Object { $_ `
+          -replace '^BeginPrompt',                                               ';;BeginPrompt' `
+          -replace '^EndPrompt',                                                 ';;EndPrompt' `
+          -replace '^49000=CustomLDID49000, 1',                                  '49000=CustomLDID49000, 5' `
+          -replace '^"hhupd.exe',                                                ';;hhupd.exe' `
+          -replace '^DefaultInstallDir="C:\\Program Files\\HTML Help Workshop"', 'DefaultInstallDir="%ProgramFiles%\\HTML Help Workshop"'
+        } | Set-Content $file
+        cmd /c start /wait .\tmp\setup.exe
+        Remove-Item -Recurse -Force .\tmp
+        Remove-Item -Recurse -Force .\htmlhelp.exe
+
+    - name: add htmlhelp to path
+      run: Write-Output 'C:\Program Files (x86)\HTML Help Workshop' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: compile chm
+      shell: bash
+      working-directory: ${{ github.workspace }}/HTMLversion
+      run: |
+        # hhc returns 1 on success
+        set +e
+        hhc phreeqc3.hhp | tee hhc.out
+        status=${PIPESTATUS[0]}
+        set -e
+        if [ "$status" -eq 1 ]; then
+          echo "[OK]"
+          exit 0
+        else
+          echo "[FAILED]"
+          exit 1
+        fi
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: chm
+        path: ${{github.workspace}}/HTMLversion/phreeqc3.chm
+
+  distcheck:
+    # if: ${{ false }}
+    name: make distcheck
+    needs: [init, build-chm]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: chm
+        path: ${{github.workspace}}/HTMLversion
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: HTML
+
+    - name: install dos2unix
+      run: sudo apt-get -y install dos2unix
+
+    - name: versioning
+      run: ./jenkins-phreeqc-dist.sh -v ${{ needs.init.outputs.VER }} -r ${{ needs.init.outputs.REL }} -d ${{ needs.init.outputs.DATE }}
+
+    - name: bootstrap
+      run: ./bootstrap
+
+    - name: mkdir
+      run: mkdir ${{github.workspace}}/_build
+
+    - name: configure
+      working-directory: ${{github.workspace}}/_build
+      run: ../configure --prefix=$(pwd)/INSTALL
+
+    - name: make distcheck
+      working-directory: ${{github.workspace}}/_build
+      run: DISTCHECK_CONFIGURE_FLAGS="" make -j2 distcheck
+
+    - name: copy README
+      run: cp doc/README PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
+
+    - name: convert line endings
+      run: unix2dos doc/RELEASE doc/README
+
+    - name: copy RELEASE
+      run: cp doc/RELEASE Phreeqc_ReleaseNotes.txt
+
+    - name: make dist-zip
+      working-directory: ${{github.workspace}}/_build
+      run: make dist-zip
+
+    - name: mv files
+      working-directory: ${{github.workspace}}/_build
+      run: mv *.tar.gz *.zip ../.
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: phreeqc-artifacts
+        path: |
+          phreeqc-*.tar.gz
+          phreeqc-*.zip
+          PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
+          Phreeqc_ReleaseNotes.txt
+          HTML.tar.gz
+
+    - uses: geekyeggo/delete-artifact@v5
+      with:
+        name: |
+          chm
+          HTML
