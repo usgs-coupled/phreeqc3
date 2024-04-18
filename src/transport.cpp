@@ -2010,6 +2010,8 @@ fill_spec(int l_cell_no, int ref_cell)
 				}
 				if (s_ptr2->dw_a_v_dif)
 					sol_D[l_cell_no].spec[count_spec].dw_a_v_dif = s_ptr2->dw_a_v_dif;
+				else
+					sol_D[l_cell_no].spec[count_spec].dw_a_v_dif = 0.0;
 
 				//if (implicit) // && name_ret.second && (l_cell_no > 1 || (l_cell_no == 1 && bcon_first != 2)))
 				//{
@@ -2114,6 +2116,8 @@ fill_spec(int l_cell_no, int ref_cell)
 				sol_D[l_cell_no].spec[count_spec].dw_a_v_dif = s_ptr->dw_a_v_dif;
 				sol_D[l_cell_no].spec[count_spec].Dwt *= pow(viscos_0 / viscos, s_ptr->dw_a_v_dif);
 			}
+			else
+				sol_D[l_cell_no].spec[count_spec].dw_a_v_dif = 0.0;
 			if (correct_Dw)
 			{
 				//calc_SC(); // removed that neutral species are corrected as if z = 1, but is viscosity-dependent
@@ -4412,7 +4416,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 							}
 						}
 						dum = ct[icell].visc1;
-						if (sol_D[icell].spec[j].dw_a_v_dif)
+						if (sol_D[jcell].spec[j].dw_a_v_dif)
 							dum = pow(dum, sol_D[icell].spec[j].dw_a_v_dif);
 						g_i *= sol_D[jcell].spec[j].erm_ddl / dum;
 						//g_i *= sol_D[jcell].spec[j].erm_ddl / ct[icell].visc1;
@@ -4423,9 +4427,10 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						{
 							g_j += it_sc->Get_z_gMCD_map()[ct[icell].v_m[k].z];
 						}
+
 						dum = ct[icell].visc2;
-						if (sol_D[icell].spec[j].dw_a_v_dif)
-							dum = pow(dum, sol_D[icell].spec[j].dw_a_v_dif);
+						if (sol_D[jcell].spec[j].dw_a_v_dif)
+							dum = pow(dum, sol_D[jcell].spec[j].dw_a_v_dif);
 						g_j *= sol_D[jcell].spec[j].erm_ddl / dum;
 						//g_j *= sol_D[jcell].spec[j].erm_ddl / ct[icell].visc2;
 					}
@@ -4529,8 +4534,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 							g_j += it_sc->Get_z_gMCD_map()[ct[icell].v_m[k].z];
 						}
 						dum = ct[icell].visc2;
-						if (sol_D[icell].spec[j].dw_a_v_dif)
-							dum = pow(dum, sol_D[icell].spec[j].dw_a_v_dif);
+						if (sol_D[jcell].spec[j].dw_a_v_dif)
+							dum = pow(dum, sol_D[jcell].spec[j].dw_a_v_dif);
 						g_j *= sol_D[jcell].spec[j].erm_ddl / dum;
 						//g_j *= sol_D[jcell].spec[j].erm_ddl / ct[icell].visc2;
 					}
