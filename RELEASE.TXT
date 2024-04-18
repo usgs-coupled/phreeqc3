@@ -1,5 +1,18 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
+	April 15, 2024
+  	-----------------
+	PHREEQC: Fixed a memory error with iso.dat because it uses H3O+ instead of 
+	H+. The SC variable was uninitialized in that situation.
+	
+	DATABASES: Amm.dat, phreeqc.dat, and pitzer.dat were updated with 
+	revisions to viscosity and specific conductance.
+	
+	PhreeqcRM and IPhreeqc: Fixed bug with the temperature grid for llnl. Some 
+	internal testing and list generators used the default temperature of 25C, 
+	which caused an error if the temperature grid did not span 25C.
+	
+  	-----------------
 	March 25, 2024
   	-----------------
 	DATABASES phreeqc.dat and Amm.dat: Three CALCULATE_VALUES definitions for 
