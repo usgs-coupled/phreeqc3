@@ -162,6 +162,7 @@ if(PHRQC_USE_GMP)
 endif()
 
 option(PHRQC_TESTING "Set TESTING preprocessor definition" OFF)
+option(PHRQC_ENABLE_REGRESSION_TESTING "When TESTING, enable tests that take longer to run" OFF)
 
 if(MSVC)
 

@@ -599,7 +599,7 @@ set(H2S_FILES
 )
 
 # label current
-# ctest -L pitzer
+# ctest -L current
 set(CURRENT
   #mytest.Clogging
   mytest.current_analytical
@@ -835,5 +835,11 @@ if (NUMDIFF_COMMAND)
     # if (${prefix} IN_LIST SKIP)
     #   set_tests_properties(${test_name} PROPERTIES DISABLED TRUE)
     # endif()
+  endforeach()
+endif()
+
+if (NOT PHRQC_ENABLE_REGRESSION_TESTING)
+  foreach(test ${LONG_DEBUG})
+    set_tests_properties(${test} PROPERTIES DISABLED TRUE)
   endforeach()
 endif()
