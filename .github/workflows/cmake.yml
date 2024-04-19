@@ -145,7 +145,7 @@ jobs:
 
     - name: Install ninja numdiff valgrind (Linux)
       if: runner.os == 'Linux'
-      run: sudo apt-get install -y ninja-build numdiff valgrind
+      run: sudo apt-get update && sudo apt-get install -y ninja-build numdiff valgrind
 
     - name: Install ninja numdiff (macOS)
       if: runner.os == 'macOS'
