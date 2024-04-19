@@ -162,7 +162,7 @@ if(PHRQC_USE_GMP)
 endif()
 
 option(PHRQC_TESTING "Set TESTING preprocessor definition" OFF)
-option(PHRQC_ENABLE_REGRESSION_TESTING "When TESTING, enable tests that take longer to run" OFF)
+option(PHRQC_ENABLE_REGRESSION_TESTING "Enables all tests including tests that take over 600 seconds to run" OFF)
 
 if(MSVC)
 

@@ -24,7 +24,7 @@ on:
       - 'Version3/**'
       - 'README.md'
   schedule:
-    - cron: '1 2 2/7 * *'
+    - cron: '1 2 * * 2'
   workflow_dispatch:
 
 jobs:
@@ -167,7 +167,7 @@ jobs:
       run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: CMemCheck (Linux)
-      if: runner.os == 'Linux'
+      if: runner.os == 'Linux' && github.event_name == 'schedule'
       run: ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: Upload results
