@@ -1155,6 +1155,7 @@ protected:
 	*   Save
 	*---------------------------------------------------------------------- */
 	std::map<std::string, double> save_values;
+	std::map<std::string, std::string> save_strings;
 	class save save;
 
 	/*----------------------------------------------------------------------

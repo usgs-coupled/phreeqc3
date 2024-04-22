@@ -1346,6 +1346,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokget:
 			output_msg("GET");
 			break;
+		case tokget_:
+			output_msg("GET$");
+			break;
 		case tokget_por:
 			output_msg("GET_POR");
 			break;
@@ -1487,6 +1490,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 			break;
 		case tokput:
 			output_msg("PUT");
+			break;
+		case tokput_:
+			output_msg("PUT$");
 			break;
 		case tokqbrn:
 			output_msg("QBrn"); // Q_Born, d(eps_r)/d(P)/(eps_r^2)
@@ -2660,6 +2666,51 @@ factor(struct LOC_exec * LINK)
 	}
 	break;
 
+	case tokget_:
+	{
+		std::ostringstream oss;
+		require(toklp, LINK);
+
+		/* get first subscript */
+		if (LINK->t != NULL && LINK->t->kind != tokrp)
+		{
+			i = intexpr(LINK);
+			oss << i << ",";
+		}
+
+		/* get other subscripts */
+		for (;;)
+		{
+			if (LINK->t != NULL && LINK->t->kind == tokcomma)
+			{
+				LINK->t = LINK->t->next;
+				j = intexpr(LINK);
+				oss << j << ",";
+			}
+			else
+			{
+				/* get right parentheses */
+				require(tokrp, LINK);
+				break;
+			}
+		}
+		if (parse_all)
+		{
+			n.UU.val = 1;
+		}
+		else
+		{
+			n.stringval = true;
+			n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
+			if (n.UU.sval == NULL)
+				PhreeqcPtr->malloc_error();
+			std::map<std::string, std::string>::iterator it = PhreeqcPtr->save_strings.find(oss.str());
+			n.UU.sval = (it == PhreeqcPtr->save_strings.end()) ? strcpy(n.UU.sval, "unknown") :
+				strcpy(n.UU.sval, it->second.c_str());
+		}
+		break;
+	}
+
 	case tokget:
 	{
 		std::ostringstream oss;
@@ -2699,7 +2750,6 @@ factor(struct LOC_exec * LINK)
 		}
 		break;
 	}
-
 	case tokget_por:
 	{
 		i = intfactor(LINK);
@@ -3151,7 +3201,7 @@ factor(struct LOC_exec * LINK)
 	{
 		n.stringval = true;
 		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
+		string1 = strexpr(LINK);
 		require(tokcomma, LINK);
 		i = intexpr(LINK);
 		require(tokrp, LINK);
@@ -4882,6 +4932,38 @@ cmdput(struct LOC_exec *LINK)
 }
 
 void PBasic::
+cmdput_(struct LOC_exec* LINK)
+{
+	int j;
+	std::ostringstream oss;
+
+	/* get parentheses */
+	require(toklp, LINK);
+
+	/* get first argumen */
+	std::string s_value = strexpr(LINK);
+
+	for (;;)
+	{
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		{
+			LINK->t = LINK->t->next;
+			j = intexpr(LINK);
+			oss << j << ",";
+		}
+		else
+		{
+			/* get right parentheses */
+			require(tokrp, LINK);
+			break;
+		}
+	}
+	if (!parse_all)
+	{
+		PhreeqcPtr->save_strings[oss.str()] = s_value;
+	}
+}
+void PBasic::
 cmdchange_por(struct LOC_exec *LINK)
 {
 	int j;
@@ -6118,6 +6200,10 @@ exec(void)
 
 					case tokput:
 						cmdput(&V);
+						break;
+
+					case tokput_:
+						cmdput_(&V);
 						break;
 
 					case tokchange_por:
@@ -7454,6 +7540,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get",                PBasic::tokget),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get$",               PBasic::tokget_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get_por",            PBasic::tokget_por),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gfw",                PBasic::tokgfw),
 #if defined (PHREEQ98) || defined (MULTICHART)
@@ -7507,6 +7594,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("print", PBasic::tokprint),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("punch", PBasic::tokpunch),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("put",                PBasic::tokput),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("put$",               PBasic::tokput_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rem",                PBasic::tokrem),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho",                PBasic::tokrho),

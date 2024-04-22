@@ -1201,6 +1201,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	Rxn_kinetics_map = pSrc->Rxn_kinetics_map;
 	use_kinetics_limiter = pSrc->use_kinetics_limiter;
 	save_values = pSrc->save_values;
+	save_strings = pSrc->save_strings;
 	save = pSrc->save;
 	//class copier copy_solution;
 	//class copier copy_pp_assemblage;

@@ -163,6 +163,7 @@ set(TESTS
   gas_phase_pressure
   gas_type_switch
   gas9
+  get_put_
   gfw
   Goldsack
   gyps_Na2SO4
@@ -219,6 +220,7 @@ set(TESTS
   KCl-SO4
   kin_time
   kinetic_rates
+  kinetic_rates_carbfix
   kinex
   KinSorbNp
   kinsurf

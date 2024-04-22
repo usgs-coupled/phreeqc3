@@ -254,6 +254,7 @@ public:
 		tokgas_p,
 		tokgas_vm,
 		tokget,
+		tokget_,
 		tokget_por,
 		tokgfw,
 		tokgraph_x,
@@ -302,6 +303,7 @@ public:
 		tokprint,
 		tokpunch,
 		tokput,
+		tokput_,
 		tokqbrn,
 		tokrho,
 		tokrho_0,
@@ -443,6 +445,7 @@ public:
 	void cmdrun(struct LOC_exec *LINK);
 	void cmdsave(struct LOC_exec *LINK);
 	void cmdput(struct LOC_exec *LINK);
+	void cmdput_(struct LOC_exec* LINK);
 	void cmdchange_por(struct LOC_exec *LINK);
 	void cmdchange_surf(struct LOC_exec *LINK);
 	void cmdbye(void);
