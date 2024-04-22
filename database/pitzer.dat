@@ -29,20 +29,20 @@ Sr		Sr+2	0	Sr		87.62
 # redox-uncoupled gases	
 Hdg		Hdg	0	Hdg		2.016 # H2 gas
 Oxg		Oxg	0	Oxg		32 # Oxygen gas
-Mtg		Mtg	0.0	Mtg		16.032 # CH4 gas
-Sg		H2Sg	 0.0	H2Sg		32.064 # H2S gas
+Mtg		Mtg	0	Mtg		16.032 # CH4 gas
+Sg		H2Sg	0	H2Sg		32.064 # H2S gas
 Ntg		Ntg	0	Ntg		28.0134 # N2 gas
 
 SOLUTION_SPECIES
 H+ = H+
 	-viscosity  9.35e-2  -8.31e-2  2.487e-2  4.49e-4  2.01e-2  1.570 # for viscosity parameters see ref. 4
-	-dw	9.31e-9  823  5.314  0  3.0  24.01  0
+	-dw	9.31e-9  823  5.55  0  3.07  24.01  0
 #		Dw(25 C) dw_T  a     a2 visc  a3    a_v_dif
 # Dw(TK) = 9.31e-9 * exp(823 / TK - 823 / 298.15) * viscos_0_25 / viscos_0_tc
 # a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
 
-# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^3.0
-# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5 in DHO eqn.
+# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^visc (visc = 3.07 for H+)
+# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn. (a2 = Vm = 0 for H+, the reference for Vm)
 # a3 = -10 ? ka = DH_B * a * mu^a2 in DHO.  (Define a3 = -10.)
 # -5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))
 

@@ -63,14 +63,14 @@ SOLUTION_SPECIES
 H+ = H+
 	-gamma	9.0     0
 	-viscosity  9.35e-2  -8.31e-2  2.487e-2  4.49e-4  2.01e-2  1.570 # for viscosity parameters see ref. 4
-	-dw	9.31e-9  838  16.315  0.809  2.376  24.01  0
-#		Dw(25 C) dw_T  a      a2      visc   a3    a_v_dif
+	-dw	9.31e-9  838  16.315  0  2.376  24.01  0
+#		Dw(25 C) dw_T  a      a2  visc   a3    a_v_dif
 # Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc
 # a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
 
-# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^2.376
-# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn.
-# a3 = -10 ? ka = DH_B * a * mu^a2  (Define a3 = -10) (not used in this database.)
+# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^visc (visc = 2.376 for H+)
+# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn. (a2 = Vm = 0 for H+, the reference for Vm)
+# a3 = -10 ? ka = DH_B * a * mu^a2  (Define a3 = -10, not used in this database.) (a3 = 24.01 for H+, a flag.)
 # -3 < a3 < 4 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka)) (Sr+2 in this database)
 
 # If a_v_dif <> 0, Dw(TK) *= (viscos_0_tc / viscos)^a_v_dif in TRANSPORT.
@@ -363,10 +363,10 @@ Ca+2 + CO3-2 = CaCO3
 	-dw 4.46e-10    # complexes: calc'd with the Pikal formula
 	-Vm	-.2430  -8.3748  9.0417  -2.4328  -.0300 # supcrt
 Ca+2 + CO3-2 + H+ = CaHCO3+
-	-log_k  11.435; -delta_h -0.871 kcal
-	-analytic  1317.0071  0.34546894  -39916.84  -517.70761  563713.9
+	-log_k  10.91; -delta_h 4.38 kcal
+	-analytic  -6.009  3.377e-2  2044
 	-gamma  6.0	0
-	-Vm	3.1911  .0104  5.7459  -2.7794  .3084 5.4 # supcrt
+	-Vm	30.19  .010  5.75  -2.78  .308 5.4
 	-dw	5.06e-10
 Ca+2 + SO4-2 = CaSO4
 	-log_k  2.25
