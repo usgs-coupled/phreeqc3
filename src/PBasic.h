@@ -291,6 +291,8 @@ public:
 		tokpad_,
 		tokpad,
 		tokparm,
+		tokrate_pk,
+		tokrate_sverdrup,
 		tokpercent_error,
 		tokphase_formula,
 		tokphase_formula_,
