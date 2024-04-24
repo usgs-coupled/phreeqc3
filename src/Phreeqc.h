@@ -694,6 +694,9 @@ public:
 	bool read_vector_ints(const char** cptr, std::vector<int>& v, int positive);
 	bool read_vector_t_f(const char** ptr, std::vector<bool>& v);
 	int read_master_species(void);
+	int read_rate_parameters_pk(void);
+	int read_rate_parameters_svd(void);
+	int read_rate_parameters_hermanska(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
 	//int read_solution_mix(void);
@@ -1183,7 +1186,12 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::vector<class inverse> inverse;
 	int count_inverse;
-
+	/*----------------------------------------------------------------------
+	*   Rates
+	*---------------------------------------------------------------------- */
+	std::map<std::string, std::vector<double> > rate_parameters_pk;
+	std::map<std::string, std::vector<double> > rate_parameters_svd;
+	std::map<std::string, std::vector<double> > rate_parameters_hermanska;
 	/*----------------------------------------------------------------------
 	*   Mix
 	*---------------------------------------------------------------------- */

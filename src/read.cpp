@@ -135,6 +135,15 @@ read_input(void)
 		case Keywords::KEY_MIX:
 			read_mix();
 			break;
+		case Keywords::KEY_RATE_PARAMETERS_PK:
+			read_rate_parameters_pk();
+			break;
+		case Keywords::KEY_RATE_PARAMETERS_SVD:
+			read_rate_parameters_svd();
+			break;
+		case Keywords::KEY_RATE_PARAMETERS_HERMANSKA:
+			read_rate_parameters_hermanska();
+			break;
 		case Keywords::KEY_SOLUTION_MIX:
 			//read_solution_mix();
 			read_entity_mix(Rxn_solution_mix_map);
@@ -2354,6 +2363,201 @@ read_kinetics(void)
 		}
 	}
 	Rxn_kinetics_map[n_user] = temp_kinetics;
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_rate_parameters_pk(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads kinetics data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to rate_parameters_pk map */
+		{
+			std::string min_name;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				min_name = token;
+				str_tolower(min_name);
+			}
+			std::vector<double> v;
+			read_vector_doubles(&next_char, v);
+			rate_parameters_pk[min_name] = v;
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_rate_parameters_svd(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads kinetics data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to rate_parameters_pk map */
+		{
+			std::string min_name;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				min_name = token;
+				str_tolower(min_name);
+			}
+			std::vector<double> v;
+			read_vector_doubles(&next_char, v);
+			rate_parameters_svd[min_name] = v;
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_rate_parameters_hermanska(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads kinetics data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to rate_parameters_pk map */
+		{
+			std::string min_name;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				min_name = token;
+				str_tolower(min_name);
+			}
+			std::vector<double> v;
+			read_vector_doubles(&next_char, v);
+			rate_parameters_hermanska[min_name] = v;
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */

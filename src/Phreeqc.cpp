@@ -1217,6 +1217,10 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//	Inverse not implemented
 	//std::vector<class inverse> inverse;
 	count_inverse = 0;
+	/* rate parameters */
+	rate_parameters_pk = pSrc->rate_parameters_pk;
+	rate_parameters_svd = pSrc->rate_parameters_svd;
+	rate_parameters_hermanska = pSrc->rate_parameters_hermanska;
 	//   Mix
 	Rxn_mix_map = pSrc->Rxn_mix_map;
 	Dispersion_mix_map = pSrc->Dispersion_mix_map;
