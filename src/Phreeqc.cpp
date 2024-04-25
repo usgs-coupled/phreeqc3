@@ -1221,6 +1221,8 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	rate_parameters_pk = pSrc->rate_parameters_pk;
 	rate_parameters_svd = pSrc->rate_parameters_svd;
 	rate_parameters_hermanska = pSrc->rate_parameters_hermanska;
+	// Mean gammas
+	mean_gammas = pSrc->mean_gammas;
 	//   Mix
 	Rxn_mix_map = pSrc->Rxn_mix_map;
 	Dispersion_mix_map = pSrc->Dispersion_mix_map;

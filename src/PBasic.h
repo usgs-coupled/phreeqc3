@@ -294,6 +294,7 @@ public:
 		tokrate_pk,
 		tokrate_svd,
 		tokrate_hermanska,
+		tokmeang,
 		tokpercent_error,
 		tokphase_formula,
 		tokphase_formula_,

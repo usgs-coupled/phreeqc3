@@ -239,6 +239,7 @@ set(TESTS
   MassWater
   McBride_rho
   McClesk
+  mean_gammas
   membrane
   MgCl2
   mgcl2mgso4_pz
@@ -332,6 +333,7 @@ set(TESTS
   pyrite_34s
   R-04_01_PHRC
   rahn
+  rate_parameters
   Ratework
   raw
   reaction_p

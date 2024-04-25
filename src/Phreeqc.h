@@ -697,6 +697,7 @@ public:
 	int read_rate_parameters_pk(void);
 	int read_rate_parameters_svd(void);
 	int read_rate_parameters_hermanska(void);
+	int read_mean_gammas(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
 	//int read_solution_mix(void);
@@ -1192,6 +1193,10 @@ protected:
 	std::map<std::string, std::vector<double> > rate_parameters_pk;
 	std::map<std::string, std::vector<double> > rate_parameters_svd;
 	std::map<std::string, std::vector<double> > rate_parameters_hermanska;
+	/*----------------------------------------------------------------------
+	*   Mean gammas
+	*---------------------------------------------------------------------- */
+	std::map<std::string, cxxNameDouble> mean_gammas;
 	/*----------------------------------------------------------------------
 	*   Mix
 	*---------------------------------------------------------------------- */

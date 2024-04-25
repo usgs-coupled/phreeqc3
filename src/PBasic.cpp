@@ -1464,6 +1464,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokrate_hermanska:
 			output_msg("RATE_HERMANSKA");
 			break;
+		case tokmeang:
+			output_msg("MEANG");
+			break;
 		case tokpercent_error:
 			output_msg("PERCENT_ERROR");
 			break;
@@ -3550,6 +3553,39 @@ factor(struct LOC_exec * LINK)
 //	250 SAVE rate * TIME
 //	- end
 
+	}
+	break;
+
+	case tokmeang:
+	{
+		require(toklp, LINK);
+		char* min_name = strexpr(LINK);
+		require(tokrp, LINK);
+		if (parse_all) {
+			n.UU.val = 1;
+			break;
+		}
+		std::string min_string = min_name;
+		Utilities::str_tolower(min_string);
+		std::map<std::string, cxxNameDouble>::const_iterator it = PhreeqcPtr->mean_gammas.find(min_string);
+		if (it == PhreeqcPtr->mean_gammas.end() || it->second.size() == 0)
+		{
+			std::ostringstream oss;
+			oss << "No definition in MEAN_GAMMAS found for " << min_name << "\n";
+			snerr(oss.str().c_str());
+		}
+
+		double mg = 1.0;
+		double sum = 0.0;
+		cxxNameDouble::const_iterator it_nd = it->second.begin();
+		for (; it_nd != it->second.end(); it_nd++)
+		{
+			double g = PhreeqcPtr->activity_coefficient(it_nd->first.c_str());
+			mg *= pow(g, it_nd->second);
+			sum += it_nd->second;
+		}
+		mg = pow(mg, 1.0 / sum);
+		n.UU.val = mg;
 	}
 	break;
 	case tokpercent_error:
@@ -7907,6 +7943,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rate_pk",            PBasic::tokrate_pk),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rate_svd",           PBasic::tokrate_svd),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rate_hermanska",     PBasic::tokrate_hermanska),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("meang",              PBasic::tokmeang),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("percent_error",      PBasic::tokpercent_error),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula",      PBasic::tokphase_formula),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula$",     PBasic::tokphase_formula_),
