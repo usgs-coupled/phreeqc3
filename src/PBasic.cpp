@@ -3267,9 +3267,45 @@ factor(struct LOC_exec * LINK)
 		double dif_temp = 1.0 / PhreeqcPtr->tk_x - 1.0 / 298.15;
 		double dT_R = dif_temp / (2.303 * 8.314e-3);
 		int Table = 0;
-		double rate_H, rate_H2O, rate_OH, lgk_H, lgk_H2O, lgk_OH;
+		double rate_H = 0.0, rate_H2O = 0.0, rate_OH = 0.0;
+		double lgk_H = -30.0, lgk_H2O = -30.0, lgk_OH = -30.0;
 		if (it->second.size() > 8)
 			Table = (int) it->second.back();
+
+		switch (Table)
+		{
+		case 0:
+			if (it->second.size() != 8)
+			{
+				std::ostringstream oss;
+				oss << "Expected 8 rate parameters, " << it->second.size() << " were found for " << min_name << "\n";
+				snerr(oss.str().c_str());
+			}
+			break;
+		case 33:
+			if (it->second.size() != 9)
+			{
+				std::ostringstream oss;
+				oss << "Expected 8 rate parameters for table 33 mineral. " << it->second.size() - 1 << " were found for " << min_name << ".\n";
+				snerr(oss.str().c_str());
+			}
+			break;
+		case 35:
+			if (it->second.size() != 11)
+			{
+				std::ostringstream oss;
+				oss << "Expected 10 rate parameters for table 35 mineral. " << it->second.size() - 1 << " were found for " << min_name << ".\n";
+				snerr(oss.str().c_str());
+			}
+			break;
+		default:
+		{
+			std::ostringstream oss;
+			oss << "Unknown table value " << Table << " for " << min_name << ".";
+			snerr(oss.str().c_str());
+		}
+		break;
+		}
 		switch (Table)
 		{
 		case 0:
@@ -3280,16 +3316,12 @@ factor(struct LOC_exec * LINK)
 				double nH = it->second[2];
 				rate_H = pow(10.0, lgk_H - e_H * dT_R) * pow(PhreeqcPtr->activity("H+"), nH);
 			}
-			else
-				rate_H = 0;
 			// rate by hydrolysis
 			if ((lgk_H2O = it->second[3]) > -30)
 			{
 				double e_H2O = it->second[4];
 				rate_H2O = pow(10.0, lgk_H2O - e_H2O * dT_R);
 			}
-			else
-				rate_H2O = 0;
 			//	 rate by OH-
 			if ((lgk_OH = it->second[5]) > -30)
 			{
@@ -3297,8 +3329,6 @@ factor(struct LOC_exec * LINK)
 				double n_OH = it->second[7];
 				rate_OH = pow(10.0, lgk_OH - e_OH * dT_R) * pow(PhreeqcPtr->activity("H+"), n_OH);
 			}
-			else
-				rate_OH = 0;
 			break;
 		case 33:
 			// rate by H+
@@ -3308,16 +3338,12 @@ factor(struct LOC_exec * LINK)
 				double nH = it->second[2];
 				rate_H = pow(10.0, lgk_H - e_H * dT_R) * pow(PhreeqcPtr->activity("H+"), nH);
 			}
-			else
-				rate_H = 0;
 			// rate by hydrolysis
 			if ((lgk_H2O = it->second[3]) > -30)
 			{
 				double e_H2O = it->second[4];
 				rate_H2O = pow(10.0, lgk_H2O - e_H2O * dT_R);
 			}
-			else
-				rate_H2O = 0;
 			//	 rate by P_CO2
 			if ((lgk_OH = it->second[5]) > -30)
 			{
@@ -3325,8 +3351,6 @@ factor(struct LOC_exec * LINK)
 				double n_PCO2 = it->second[7];
 				rate_OH = pow(10.0, lgk_OH - e_OH * dT_R) * pow(PhreeqcPtr->saturation_ratio("CO2(g)"), n_PCO2);
 			}
-			else
-				rate_OH = 0;
 			break;
 		case 35:
 			// rate by H+ and Fe+3
@@ -3337,8 +3361,6 @@ factor(struct LOC_exec * LINK)
 				double nFe = it->second[3];
 				rate_H = pow(10.0, lgk_H - e_H * dT_R) * pow(PhreeqcPtr->activity("H+"), nH) * pow(PhreeqcPtr->activity("Fe+3"), nFe);
 			}
-			else
-				rate_H = 0;
 			// rate by hydrolysis and O2
 			if ((lgk_H2O = it->second[4]) > -30)
 			{
@@ -3346,8 +3368,6 @@ factor(struct LOC_exec * LINK)
 				double n_O2 = it->second[6];
 				rate_H2O = pow(10.0, lgk_H2O - e_H2O * dT_R) * pow(PhreeqcPtr->activity("O2"), n_O2);
 			}
-			else
-				rate_H2O = 0;
 			//	 rate by OH-
 			if ((lgk_OH = it->second[7]) > -30)
 			{
@@ -3355,8 +3375,6 @@ factor(struct LOC_exec * LINK)
 				double n_OH = it->second[9];
 				rate_OH = pow(10.0, lgk_OH - e_OH * dT_R) * pow(PhreeqcPtr->activity("H+"), n_OH);
 			}
-			else
-				rate_OH = 0;
 			break;
 		}
 		// sum rates
