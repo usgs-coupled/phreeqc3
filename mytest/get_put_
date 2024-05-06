@@ -33,7 +33,7 @@ MEAN_G
 "H2SO4",   2, "H+",   2, "SO4-2", 1, \
 "HBr",     2, "H+",   1, "Br-",   1
 20 n = 21
-30 meang = 0
+30 mean_gamma = 0
 40 RESTORE 10
 50 s$ = GET$(-1)
 60 FOR i = 1 TO n
@@ -44,17 +44,17 @@ MEAN_G
 110    READ comp$(j), coef(j)
 120  NEXT j
 130  IF salt$ <> s$ THEN GOTO 300
-140  meang = 1
+140  mean_gamma = 1
 150  v = 0
 160  FOR j = 1 to ncomp
 170    v = v + coef(j)
-180    meang = meang*GAMMA(comp$(j))^coef(j)
+180    mean_gamma = mean_gamma*GAMMA(comp$(j))^coef(j)
 190  NEXT j
-200  meang = meang^(1/v)
+200  mean_gamma = mean_gamma^(1/v)
 210  GOTO 1000
 300 NEXT i
 1000 REM 
-1010 SAVE meang
+1010 SAVE mean_gamma
 -end
 END
 SOLUTION

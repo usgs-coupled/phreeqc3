@@ -220,6 +220,7 @@ set(TESTS
   KCl-SO4
   kin_time
   kinetic_rates
+  kinetic_rates_plus
   kinetic_rates_carbfix
   kinex
   KinSorbNp
@@ -387,6 +388,7 @@ set(TESTS
   SrSO4_P
   SrSO4_tc
   ss_incr
+  ss_kinetics
   ss_r
   stag_diss_only
   str_f

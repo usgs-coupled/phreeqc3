@@ -1,377 +1,2871 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><HTML>
-<HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
-<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
-<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
-<LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> RATES</TITLE><HR><P> | <A HREF="phreeqc3-40.htm">Next</A> || <A HREF="phreeqc3-38.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
-<BODY BGCOLOR="#ffffff">
-<H2 CLASS="FM3d-order-node">
-<A NAME="50593793_pgfId-255343"></A><STRONG CLASS="Bold">
-RATES</STRONG>
-<A NAME="50593793_97907"></A></H2>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255344"></A>This keyword data block is used to define mathematical rate expressions for kinetic reactions. General rate formulas are defined in the <STRONG CLASS="Bold">
-RATES</STRONG>
- data block and specific kinetic parameters for batch reaction or transport are defined in the <A HREF="phreeqc3-24.htm#50593793_55637" CLASS="XRef">KINETICS</A> data block.</P>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255345"></A><A NAME="50593793_14859"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255346"></A>Line 0:  RATES </pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255347"></A>Line 1:	Calcite</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255348"></A>Line 2:	-start</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255349"></A>Basic: 1   rem M = current number of moles of calcite</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-323055"></A>Basic: 2   rem M0 = number of moles of calcite initially present</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-323056"></A>Basic: 3   rem PARM(1) = A/V, cm^2/L </pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255350"></A>Basic: 4   rem PARM(2) = exponent for M/M0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-323067"></A>Basic: 10  si_cc = SI(&quot;Calcite&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255351"></A>Basic: 20  if (M &lt;= 0 and si_cc &lt; 0) then goto 200</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255352"></A>Basic: 30    k1 = 10^(0.198 - 444.0 / TK )</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255353"></A>Basic: 40    k2 = 10^(2.84 - 2177.0 / TK)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255354"></A>Basic: 50    if TC &lt;= 25 then k3 = 10^(-5.86 - 317.0 / TK )</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255355"></A>Basic: 60    if TC &gt; 25 then k3  = 10^(-1.1 - 1737.0 / TK )</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255356"></A>Basic: 70    t = 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255357"></A>Basic: 80    if M0 &gt; 0 then t = M/M0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255358"></A>Basic: 90    if t = 0 then t = 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255359"></A>Basic: 100   area = PARM(1) * (t)^PARM(2)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255360"></A>Basic: 110   rf = k1*ACT(&quot;H+&quot;)+k2*ACT(&quot;CO2&quot;)+k3*ACT(&quot;H2O&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255361"></A>Basic: 120   rem 1e-3 converts mmol to mol</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-323884"></A>Basic: 130   rate = area * 1e-3 * rf * (1 - 10^(2/3*si_cc))</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255362"></A>Basic: 140   moles = rate * TIME</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255369"></A>Basic: 200 SAVE moles</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255370"></A>Line 3:	-end</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255371"></A>Line 1a:	Pyrite</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255372"></A>Line 2a:	-start</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255373"></A>Basic: 1   rem  PARM(1) = log10(A/V, 1/dm)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-323864"></A>Basic: 2   rem  PARM(2) = exp for (M/M0)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255374"></A>Basic: 3   rem  PARM(3) = exp for O2</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-323869"></A>Basic: 4   rem  PARM(4) = exp for H+</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255375"></A>Basic: 10  if (M &lt;= 0) then goto 200</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255376"></A>Basic: 20  if (SI(&quot;Pyrite&quot;) &gt;= 0) then goto 200</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255377"></A>Basic: 30    lograte = -10.19 + PARM(1) + PARM(2)*LOG10(M/M0)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255378"></A>Basic: 40    lograte = lograte + PARM(3)*LM(&quot;O2&quot;) + PARM(4)*LM(&quot;H+&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255379"></A>Basic: 50    moles = (10^lograte) * TIME</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255380"></A>Basic: 60    if (moles &gt; M) then moles = M</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-324293"></A>Basic: 200 SAVE moles</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255383"></A>Line 3a:	-end</pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255384"></A><A NAME="50593793_44821"></A>Explanation</H6>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255385"></A>Line 0: <STRONG CLASS="Bold">
-RATES</STRONG>
- </P>
-<P CLASS="Body1">
-<A NAME="50593793_pgfId-255386"></A><STRONG CLASS="Bold">
-RATES</STRONG>
- is the keyword for the data block. No other data are input on the keyword line.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255387"></A>Line 1: <EM CLASS="Emphasis">
-name of rate expression</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-255388"></A><EM CLASS="Emphasis">
-name of rate expression</EM>
---Alphanumeric character string that identifies the rate expression; no spaces are allowed.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255389"></A>Line 2: <STRONG CLASS="Bold">
--start</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-255390"></A><STRONG CLASS="Bold">
--start</STRONG>
---Identifier marks the beginning of a Basic program by which the moles of reaction for a time subinterval are calculated. </P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255391"></A>Basic:<EM CLASS="Emphasis">
- numbered Basic statement</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-557087"></A><EM CLASS="Emphasis">
-numbered Basic statement</EM>
---A valid Basic language statement that must be numbered. The statements are evaluated in numerical order. The sequence of statements must extrapolate the rate of reaction over the time subinterval given by the internally defined variable TIME. There must be a statement &#8220;<STRONG CLASS="Bold">
-SAVE</STRONG>
- <EM CLASS="Emphasis">
-expression</EM>
-&#8221;, where the value of <EM CLASS="Emphasis">
-expression </EM>
-is the moles of reaction that are transferred during time subinterval TIME. Statements and functions that are available through the Basic interpreter are listed in the section on the Basic interpreter. Parameters defined in the <A HREF="phreeqc3-24.htm#50593793_55637" CLASS="XRef">KINETICS</A> data block also are available through the Basic array PARM.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255399"></A>Line 3: <STRONG CLASS="Bold">
--end</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-255400"></A><STRONG CLASS="Bold">
--end</STRONG>
---Identifier marks the end of a Basic program by which the number of moles of a reaction for a time subinterval is calculated. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
-END</STRONG>
-.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255401"></A><A NAME="50593793_35191"></A>Notes</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-545097"></A>A Basic interpreter (David Gillespie, Synaptics, Inc., San Jose, Calif., written commun., 1997) distributed with the Linux operating system (Free Software Foundation, Inc.) is embedded in PHREEQC. The Basic interpreter is used during the integration of the kinetic reactions to evaluate the moles of reaction progress for a time subinterval. A Basic program for each kinetic reaction must be included in the input or database file. Each program must stand alone with its own set of variables and numbered statement lines. There is no conflict in using the same variable names or line numbers in separate rate programs. </P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-584192"></A>It is possible to transfer data among rates with the special Basic statements PUT and GET (see <A HREF="phreeqc3-61.htm#50593797_44206" CLASS="XRef">The Basic Interpreter</A>). The programs are used to calculate the instantaneous rate of reaction and extrapolate that rate for a time subinterval given by the variable &#8220;TIME&#8221; (calcite, line 140; pyrite line 50). TIME is an internally generated and variable time substep, and its value cannot be changed. The total moles of reaction must be returned to the main program with a SAVE command (line 200 in each example). Note that moles of reaction are returned, not the rate of the reaction. Moles are counted positive when the solution concentration of the reactant increases.</P>
-<TABLE>
-<CAPTION>
-<P CLASS="TableTitle">
-<A NAME="50593793_pgfId-545113"></A>Table 5. <A NAME="50593793_21664"></A>Description of Basic program for calcite kinetics given in example for <STRONG CLASS="Bold">
-RATES</STRONG>
- data block.</P>
-</CAPTION>
-<TR>
-<TH ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellHeading">
-<A NAME="50593793_pgfId-545117"></A>Line number</P>
-</TH>
-<TH ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellHeading">
-<A NAME="50593793_pgfId-545119"></A>Function</P>
-</TH>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545121"></A>1-4</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545123"></A>Comments.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545125"></A>10</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545127"></A>Calculate calcite saturation index.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545129"></A>20</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545131"></A>If undersaturated and no moles of calcite, exit; moles=0 by default.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545133"></A>30-60</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545135"></A>Calculate temperature dependence of constants k1, k2, and k3.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545137"></A>70-90</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545139"></A>Calculate ratio of current moles of calcite to initial moles of calcite; set ratio to 1 if no moles of calcite are present.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545141"></A>100</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545143"></A>Calculate surface area.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545145"></A>110</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545147"></A>Calculate forward rate.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545149"></A>130</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545151"></A>Calculate overall rate, factor of 1e-3 converts rate to moles from millimoles.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545153"></A>140</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545155"></A>Calculate moles of reaction over time interval given by TIME. Note that the multiplication of the rate by TIME must be present in one of the Basic lines.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545157"></A>200</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-545159"></A>Return moles of reaction for time subinterval with &#8220;SAVE&#8221;. A SAVE statement must always be present in a rate program.</P>
-</TD>
-</TR>
-</TABLE>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-323408"></A>The first example estimates the rate of calcite dissolution or precipitation on the basis of a rate expression from Plummer and others (1978) (see also equations 101 and 106, Parkhurst and Appelo, 1999). The forward rate is given by</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50593793_pgfId-323413"></A><A NAME="50593793_33569"></A><IMG SRC="phreeqc3-79.png" ALIGN="MIDDLE">
-,	(1)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50593793_pgfId-323423"></A>where square brackets indicate activity and <IMG SRC="phreeqc3-80.png" ALIGN="MIDDLE">
-, <IMG SRC="phreeqc3-81.png" ALIGN="MIDDLE">
-, and <IMG SRC="phreeqc3-82.png" ALIGN="MIDDLE">
- are functions of temperature (Plummer and others, 1978). In a pure calcite-water system with fixed <IMG SRC="phreeqc3-83.png" ALIGN="MIDDLE">
-, the overall rate for calcite (forward rate minus backward rate) is approximated by</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50593793_pgfId-323468"></A><A NAME="50593793_34976"></A><IMG SRC="phreeqc3-84.png" ALIGN="MIDDLE">
-,	(2)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50593793_pgfId-323472"></A>where <IMG SRC="phreeqc3-85.png" ALIGN="MIDDLE">
- is mmol cm<Sup CLASS="Superscript">
--2</Sup>
-s<Sup CLASS="Superscript">
--1</Sup>
-(millimole per square centimeter per second). Equation <A HREF="phreeqc3-39.htm#50593793_34976" CLASS="XRef">2</A> is implemented in Basic for the first example above. Explanations of the Basic lines for this rate expression are given in <A HREF="phreeqc3-39.htm#50593793_21664" CLASS="XRef">table 5</A>.</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-323473"></A>The second example is for the dissolution of pyrite in the presence of dissolved oxygen from Williamson and Rimstidt (1994):</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50593793_pgfId-323477"></A><IMG SRC="phreeqc3-86.png" ALIGN="MIDDLE">
-,	(3)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50593793_pgfId-323478"></A>where parentheses indicate molality. This rate is based on detailed measurements in solutions of varying compositions and shows a square root dependence on the molality of oxygen and a small dependence on pH. This rate is applicable only for dissolution in the presence of oxygen and will be incorrect near equilibrium when oxygen is depleted. Explanations of the Basic lines for this rate expression are given in <A HREF="phreeqc3-39.htm#50593793_29341" CLASS="XRef">table 6</A>. </P>
-<TABLE>
-<CAPTION>
-<P CLASS="TableTitle">
-<A NAME="50593793_pgfId-499224"></A>Table 6. <A NAME="50593793_29341"></A>Description of Basic program for pyrite dissolution kinetics given in example for <STRONG CLASS="Bold">
-RATES</STRONG>
- data block.</P>
-</CAPTION>
-<TR>
-<TH ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellHeading">
-<A NAME="50593793_pgfId-499228"></A>Line number</P>
-</TH>
-<TH ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellHeading">
-<A NAME="50593793_pgfId-499230"></A>Function</P>
-</TH>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499232"></A>1-4</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499234"></A>Comments.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499236"></A>10</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499238"></A>Checks that pyrite is still available, otherwise exits with value of moles=0 by default.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499240"></A>20</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499242"></A>Checks that the solution is undersaturated (the rate is for dissolution only), otherwise exits with value of moles=0.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499244"></A>30, 40</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499246"></A>Calculate log of the rate of pyrite dissolution.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499248"></A>50</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499250"></A>Calculate the moles of pyrite dissolution over time interval given by TIME. </P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499252"></A>60</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499254"></A>Limits pyrite dissolution to remaining moles of pyrite.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499256"></A>200</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50593793_pgfId-499258"></A>Return moles of reaction for time subinterval with SAVE. A SAVE statement must always be present in a rate program.</P>
-</TD>
-</TR>
-</TABLE>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-780918"></A>Some special statements and functions have been added to the Basic interpreter to allow access to quantities that may be needed in rate expressions. These functions are listed in <A HREF="phreeqc3-61.htm#50593797_44206" CLASS="XRef">The Basic Interpreter</A>, <A HREF="phreeqc3-61.htm#50593797_27680" CLASS="XRef">table 8</A>. Standard Basic statements that are implemented in the interpreter are listed in <A HREF="phreeqc3-61.htm#50593797_44206" CLASS="XRef">The Basic Interpreter</A>, <A HREF="phreeqc3-61.htm#50593797_51264" CLASS="XRef">table 7</A>. Upper or lower case may be used for statement, function, and variable names. String variable names must end with the character &#8220;$&#8221;. </P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-780912"></A>The PRINT command in Basic programs is useful for debugging rate expressions. It can be used to write quantities to the output file to check that rates are calculated correctly. However, the PRINT command will write to the output file every time a rate is evaluated, which may be many times per time step. The sequence of information from PRINT statements in <A HREF="phreeqc3-39.htm#50593793_97907" CLASS="XRef">RATES</A> definitions may be difficult to interpret because of the automatic time-step adjustment of the integration method.</P>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255778"></A><A NAME="50593793_98707"></A>Example problems</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255782"></A>The keyword <STRONG CLASS="Bold">
-RATES </STRONG>
-is used in example problems <A HREF="phreeqc3-68.htm#50593807_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-71.htm#50593807_39217" CLASS="XRef">9</A>, and <A HREF="phreeqc3-77.htm#50593807_40270" CLASS="XRef">15</A>. It is also found in the Amm.dat, llnl.dat, phreeqc.dat, and wateq4f.dat databases.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255783"></A><A NAME="50593793_47568"></A>Related keywords</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255793"></A><A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-24.htm#50593793_55637" CLASS="XRef">KINETICS</A>, and <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A>.</P>
-</DIV>
-</DIV>
-<HR><P> | <A HREF="phreeqc3-40.htm">Next</A> || <A HREF="phreeqc3-38.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
-</HTML>
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="phreeqc3-39_files/filelist.xml">
+<link rel=Edit-Time-Data href="phreeqc3-39_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title> RATES</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>David Parkhurst</o:Author>
+  <o:LastAuthor>David Parkhurst</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>1</o:TotalTime>
+  <o:Created>2024-04-29T22:02:00Z</o:Created>
+  <o:LastSaved>2024-04-29T22:03:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>1523</o:Words>
+  <o:Characters>8687</o:Characters>
+  <o:Lines>72</o:Lines>
+  <o:Paragraphs>20</o:Paragraphs>
+  <o:CharactersWithSpaces>10190</o:CharactersWithSpaces>
+  <o:Version>16.00</o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<link rel=themeData href="phreeqc3-39_files/themedata.thmx">
+<link rel=colorSchemeMapping href="phreeqc3-39_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>167</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SplitPgBreakAndParaMark/>
+  </w:Compatibility>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="376">
+  <w:LsdException Locked="false" Priority="0" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 9"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="header"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footer"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index heading"/>
+  <w:LsdException Locked="false" Priority="35" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of figures"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope return"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="line number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="page number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of authorities"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="macro"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="toa heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 5"/>
+  <w:LsdException Locked="false" Priority="10" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Closing"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Signature"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Message Header"/>
+  <w:LsdException Locked="false" Priority="11" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Salutation"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Date"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Note Heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Block Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="FollowedHyperlink"/>
+  <w:LsdException Locked="false" Priority="22" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Document Map"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Plain Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="E-mail Signature"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Top of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Bottom of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal (Web)"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Acronym"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Cite"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Code"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Definition"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Keyboard"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Preformatted"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Sample"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Typewriter"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Variable"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Table"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation subject"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="No List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Contemporary"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Elegant"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Professional"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Balloon Text"/>
+  <w:LsdException Locked="false" Priority="39" Name="Table Grid"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Theme"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+  <w:LsdException Locked="false" Priority="41" Name="Plain Table 1"/>
+  <w:LsdException Locked="false" Priority="42" Name="Plain Table 2"/>
+  <w:LsdException Locked="false" Priority="43" Name="Plain Table 3"/>
+  <w:LsdException Locked="false" Priority="44" Name="Plain Table 4"/>
+  <w:LsdException Locked="false" Priority="45" Name="Plain Table 5"/>
+  <w:LsdException Locked="false" Priority="40" Name="Grid Table Light"/>
+  <w:LsdException Locked="false" Priority="46" Name="Grid Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hashtag"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Unresolved Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Link"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<link rel=Stylesheet type="text/css" media=all href=phreeqc3.css>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536869121 64767 1 0 415 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 1 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:1;
+	font-size:24.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h2
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 2 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:2;
+	font-size:18.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h3
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 3 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.5pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h4
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 4 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:4;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h5
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 5 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:5;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h6
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 6 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	font-size:7.5pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+pre
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 1";
+	mso-ansi-font-size:16.0pt;
+	mso-bidi-font-size:16.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 2";
+	mso-ansi-font-size:13.0pt;
+	mso-bidi-font-size:13.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 3";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#1F3763;
+	mso-themecolor:accent1;
+	mso-themeshade:127;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading4Char
+	{mso-style-name:"Heading 4 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 4";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;
+	font-style:italic;}
+span.Heading5Char
+	{mso-style-name:"Heading 5 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 5";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading6Char
+	{mso-style-name:"Heading 6 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 6";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#1F3763;
+	mso-themecolor:accent1;
+	mso-themeshade:127;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"HTML Preformatted";
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Consolas;
+	mso-ascii-font-family:Consolas;
+	mso-hansi-font-family:Consolas;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm1st-order, li.fm1st-order, div.fm1st-order
+	{mso-style-name:fm1st-order;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm1st-order-appendix, li.fm1st-order-appendix, div.fm1st-order-appendix
+	{mso-style-name:fm1st-order-appendix;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm1toc-heading, li.fm1toc-heading, div.fm1toc-heading
+	{mso-style-name:fm1toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:31.2pt;
+	text-indent:-31.2pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm2d-order, li.fm2d-order, div.fm2d-order
+	{mso-style-name:fm2d-order;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm2d-order-example, li.fm2d-order-example, div.fm2d-order-example
+	{mso-style-name:fm2d-order-example;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm2toc-heading, li.fm2toc-heading, div.fm2toc-heading
+	{mso-style-name:fm2toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:42.0pt;
+	text-indent:-20.4pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm3d-order, li.fm3d-order, div.fm3d-order
+	{mso-style-name:fm3d-order;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm3toc-heading, li.fm3toc-heading, div.fm3toc-heading
+	{mso-style-name:fm3toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:70.8pt;
+	text-indent:-30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm4th-order, li.fm4th-order, div.fm4th-order
+	{mso-style-name:fm4th-order;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm4th-order-node, li.fm4th-order-node, div.fm4th-order-node
+	{mso-style-name:fm4th-order-node;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm5th-order, li.fm5th-order, div.fm5th-order
+	{mso-style-name:fm5th-order;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm5thorderheading, li.fm5thorderheading, div.fm5thorderheading
+	{mso-style-name:fm5thorderheading;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.abstract-body, li.abstract-body, div.abstract-body
+	{mso-style-name:abstract-body;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.abstractbody, li.abstractbody, div.abstractbody
+	{mso-style-name:abstractbody;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.abstractheading, li.abstractheading, div.abstractheading
+	{mso-style-name:abstractheading;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.appendix-body, li.appendix-body, div.appendix-body
+	{mso-style-name:appendix-body;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.appendix-heading, li.appendix-heading, div.appendix-heading
+	{mso-style-name:appendix-heading;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.author, li.author, div.author
+	{mso-style-name:author;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.authorline, li.authorline, div.authorline
+	{mso-style-name:authorline;
+	mso-style-unhide:no;
+	margin-top:21.0pt;
+	margin-right:0in;
+	margin-bottom:28.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body, li.body, div.body
+	{mso-style-name:body;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-att, li.body-att, div.body-att
+	{mso-style-name:body-att;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:48.0pt;
+	text-indent:-48.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-indent, li.body-indent, div.body-indent
+	{mso-style-name:body-indent;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-left, li.body-left, div.body-left
+	{mso-style-name:body-left;
+	mso-style-unhide:no;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-line, li.body-line, div.body-line
+	{mso-style-name:body-line;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1, li.body1, div.body1
+	{mso-style-name:body1;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1-indent, li.body1-indent, div.body1-indent
+	{mso-style-name:body1-indent;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1-indentflush, li.body1-indentflush, div.body1-indentflush
+	{mso-style-name:body1-indentflush;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body2, li.body2, div.body2
+	{mso-style-name:body2;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:138.0pt;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.bodytext, li.bodytext, div.bodytext
+	{mso-style-name:bodytext;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.bodytextflush, li.bodytextflush, div.bodytextflush
+	{mso-style-name:bodytextflush;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody, li.cellbody, div.cellbody
+	{mso-style-name:cellbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptcenter, li.cellbody8ptcenter, div.cellbody8ptcenter
+	{mso-style-name:cellbody8ptcenter;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptleft, li.cellbody8ptleft, div.cellbody8ptleft
+	{mso-style-name:cellbody8ptleft;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptright, li.cellbody8ptright, div.cellbody8ptright
+	{mso-style-name:cellbody8ptright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody9ptleft, li.cellbody9ptleft, div.cellbody9ptleft
+	{mso-style-name:cellbody9ptleft;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody9ptright, li.cellbody9ptright, div.cellbody9ptright
+	{mso-style-name:cellbody9ptright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellcenter, li.cellcenter, div.cellcenter
+	{mso-style-name:cellcenter;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellheading, li.cellheading, div.cellheading
+	{mso-style-name:cellheading;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading7pt, li.cellheading7pt, div.cellheading7pt
+	{mso-style-name:cellheading7pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading8pt, li.cellheading8pt, div.cellheading8pt
+	{mso-style-name:cellheading8pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading9pt, li.cellheading9pt, div.cellheading9pt
+	{mso-style-name:cellheading9pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellright, li.cellright, div.cellright
+	{mso-style-name:cellright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellspanhead6pt, li.cellspanhead6pt, div.cellspanhead6pt
+	{mso-style-name:cellspanhead6pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanhead7pt, li.cellspanhead7pt, div.cellspanhead7pt
+	{mso-style-name:cellspanhead7pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanhead8pt, li.cellspanhead8pt, div.cellspanhead8pt
+	{mso-style-name:cellspanhead8pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanner, li.cellspanner, div.cellspanner
+	{mso-style-name:cellspanner;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.computeroutput, li.computeroutput, div.computeroutput
+	{mso-style-name:computeroutput;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:6.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.5pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.contentsheading, li.contentsheading, div.contentsheading
+	{mso-style-name:contentsheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cutin-fig, li.cutin-fig, div.cutin-fig
+	{mso-style-name:cutin-fig;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cutin-fulltitle, li.cutin-fulltitle, div.cutin-fulltitle
+	{mso-style-name:cutin-fulltitle;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cutin-table, li.cutin-table, div.cutin-table
+	{mso-style-name:cutin-table;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.eq-explan-, li.eq-explan-, div.eq-explan-
+	{mso-style-name:eq-explan-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equation, li.equation, div.equation
+	{mso-style-name:equation;
+	mso-style-unhide:no;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equationunnumbered, li.equationunnumbered, div.equationunnumbered
+	{mso-style-name:equationunnumbered;
+	mso-style-unhide:no;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equationwhere, li.equationwhere, div.equationwhere
+	{mso-style-name:equationwhere;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.figurecaption, li.figurecaption, div.figurecaption
+	{mso-style-name:figurecaption;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.figurecaptionwhite, li.figurecaptionwhite, div.figurecaptionwhite
+	{mso-style-name:figurecaptionwhite;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:18.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.figurecutinfulltitle, li.figurecutinfulltitle, div.figurecutinfulltitle
+	{mso-style-name:figurecutinfulltitle;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.footer, li.footer, div.footer
+	{mso-style-name:footer;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.5pt;
+	text-align:justify;
+	text-indent:-20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footerleft, li.footerleft, div.footerleft
+	{mso-style-name:footerleft;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footerright, li.footerright, div.footerright
+	{mso-style-name:footerright;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-align:right;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footnote, li.footnote, div.footnote
+	{mso-style-name:footnote;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:22.5pt;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.glossary-body, li.glossary-body, div.glossary-body
+	{mso-style-name:glossary-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.glossary-heading, li.glossary-heading, div.glossary-heading
+	{mso-style-name:glossary-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.headingrunin, li.headingrunin, div.headingrunin
+	{mso-style-name:headingrunin;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.headnote, li.headnote, div.headnote
+	{mso-style-name:headnote;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.index-body, li.index-body, div.index-body
+	{mso-style-name:index-body;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.index-heading, li.index-heading, div.index-heading
+	{mso-style-name:index-heading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.list-alpha, li.list-alpha, div.list-alpha
+	{mso-style-name:list-alpha;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-alpha-start, li.list-alpha-start, div.list-alpha-start
+	{mso-style-name:list-alpha-start;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-bulleted, li.list-bulleted, div.list-bulleted
+	{mso-style-name:list-bulleted;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-num-start, li.list-num-start, div.list-num-start
+	{mso-style-name:list-num-start;
+	mso-style-unhide:no;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-numbered, li.list-numbered, div.list-numbered
+	{mso-style-name:list-numbered;
+	mso-style-unhide:no;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.mapping-table-cell, li.mapping-table-cell, div.mapping-table-cell
+	{mso-style-name:mapping-table-cell;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.mapping-table-title, li.mapping-table-title, div.mapping-table-title
+	{mso-style-name:mapping-table-title;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.pub-approval, li.pub-approval, div.pub-approval
+	{mso-style-name:pub-approval;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.quote, li.quote, div.quote
+	{mso-style-name:quote;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:20.0pt;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.ref-body, li.ref-body, div.ref-body
+	{mso-style-name:ref-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.ref-heading, li.ref-heading, div.ref-heading
+	{mso-style-name:ref-heading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.referencesbody, li.referencesbody, div.referencesbody
+	{mso-style-name:referencesbody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.referencesheading, li.referencesheading, div.referencesheading
+	{mso-style-name:referencesheading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.sideheading, li.sideheading, div.sideheading
+	{mso-style-name:sideheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:27.5pt;
+	text-indent:-27.5pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.sym-def-headings, li.sym-def-headings, div.sym-def-headings
+	{mso-style-name:sym-def-headings;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-style:italic;}
+p.symbols-body, li.symbols-body, div.symbols-body
+	{mso-style-name:symbols-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.symbols-heading, li.symbols-heading, div.symbols-heading
+	{mso-style-name:symbols-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tablefootnote, li.tablefootnote, div.tablefootnote
+	{mso-style-name:tablefootnote;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tableheadnote, li.tableheadnote, div.tableheadnote
+	{mso-style-name:tableheadnote;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tabletitle, li.tabletitle, div.tabletitle
+	{mso-style-name:tabletitle;
+	mso-style-unhide:no;
+	margin-top:11.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.title, li.title, div.title
+	{mso-style-name:title;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.appendixbody, li.appendixbody, div.appendixbody
+	{mso-style-name:appendixbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.appendixheading, li.appendixheading, div.appendixheading
+	{mso-style-name:appendixheading;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-2-, li.cellbody8ptdec-2-, div.cellbody8ptdec-2-
+	{mso-style-name:cellbody8ptdec-2-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-25-, li.cellbody8ptdec-25-, div.cellbody8ptdec-25-
+	{mso-style-name:cellbody8ptdec-25-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-3-, li.cellbody8ptdec-3-, div.cellbody8ptdec-3-
+	{mso-style-name:cellbody8ptdec-3-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-35-, li.cellbody8ptdec-35-, div.cellbody8ptdec-35-
+	{mso-style-name:cellbody8ptdec-35-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-4-, li.cellbody8ptdec-4-, div.cellbody8ptdec-4-
+	{mso-style-name:cellbody8ptdec-4-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-45-, li.cellbody8ptdec-45-, div.cellbody8ptdec-45-
+	{mso-style-name:cellbody8ptdec-45-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-5-, li.cellbody8ptdec-5-, div.cellbody8ptdec-5-
+	{mso-style-name:cellbody8ptdec-5-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-55-, li.cellbody8ptdec-55-, div.cellbody8ptdec-55-
+	{mso-style-name:cellbody8ptdec-55-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-6-, li.cellbody8ptdec-6-, div.cellbody8ptdec-6-
+	{mso-style-name:cellbody8ptdec-6-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-2-, li.cellbody9ptdec-2-, div.cellbody9ptdec-2-
+	{mso-style-name:cellbody9ptdec-2-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-3-, li.cellbody9ptdec-3-, div.cellbody9ptdec-3-
+	{mso-style-name:cellbody9ptdec-3-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-4-, li.cellbody9ptdec-4-, div.cellbody9ptdec-4-
+	{mso-style-name:cellbody9ptdec-4-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-55-, li.cellbody9ptdec-55-, div.cellbody9ptdec-55-
+	{mso-style-name:cellbody9ptdec-55-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-6-, li.cellbody9ptdec-6-, div.cellbody9ptdec-6-
+	{mso-style-name:cellbody9ptdec-6-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.celldecimal, li.celldecimal, div.celldecimal
+	{mso-style-name:celldecimal;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.fig-cap, li.fig-cap, div.fig-cap
+	{mso-style-name:fig-cap;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.figurecutin, li.figurecutin, div.figurecutin
+	{mso-style-name:figurecutin;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.glossarybody, li.glossarybody, div.glossarybody
+	{mso-style-name:glossarybody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.glossaryheading, li.glossaryheading, div.glossaryheading
+	{mso-style-name:glossaryheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.indexbody, li.indexbody, div.indexbody
+	{mso-style-name:indexbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.indexheading, li.indexheading, div.indexheading
+	{mso-style-name:indexheading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.listbullet1, li.listbullet1, div.listbullet1
+	{mso-style-name:listbullet1;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listbullet2, li.listbullet2, div.listbullet2
+	{mso-style-name:listbullet2;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:42.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1begin, li.listlevel1begin, div.listlevel1begin
+	{mso-style-name:listlevel1begin;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1continue, li.listlevel1continue, div.listlevel1continue
+	{mso-style-name:listlevel1continue;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelabegin, li.listlevelabegin, div.listlevelabegin
+	{mso-style-name:listlevelabegin;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelacontinue, li.listlevelacontinue, div.listlevelacontinue
+	{mso-style-name:listlevelacontinue;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.referencesrepeat, li.referencesrepeat, div.referencesrepeat
+	{mso-style-name:referencesrepeat;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionbody, li.symboldefinitionbody, div.symboldefinitionbody
+	{mso-style-name:symboldefinitionbody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionheadings, li.symboldefinitionheadings, div.symboldefinitionheadings
+	{mso-style-name:symboldefinitionheadings;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-style:italic;}
+p.symboldefinitionsheading, li.symboldefinitionsheading, div.symboldefinitionsheading
+	{mso-style-name:symboldefinitionsheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.tablecutin, li.tablecutin, div.tablecutin
+	{mso-style-name:tablecutin;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+</style>
+<![endif]-->
+<meta http-equiv=Content-Style-Type content="text/css">
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=white lang=EN-US link=blue vlink=purple style='tab-interval:.5in;
+word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<div class=MsoNormal align=center style='text-align:center;line-height:107%'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+<p>| <a href="phreeqc3-40.htm">Next</a> || <a href="rate-parameters_svd.htm">Previous</a>
+|| <a href="phreeqc3.htm">Top</a> | </p>
+
+<h2 style='margin-top:12.0pt;margin-right:0in;margin-bottom:9.0pt;margin-left:
+0in;vertical-align:baseline'><a name="50593793_pgfId-255343"></a><strong><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:blue'>RATES</span></strong><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:blue'> <a
+name="50593793_97907"></a><o:p></o:p></span></h2>
+
+<p class=bodytext><a name="50593793_pgfId-255344"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>This keyword data block
+is used to define mathematical rate expressions for kinetic reactions. General
+rate formulas are defined in the <strong>RATES</strong> data block and specific
+kinetic parameters for batch reaction or transport are defined in the <a
+href="phreeqc3-24.htm#50593793_55637">KINETICS</a> data block.<o:p></o:p></span></p>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255345"></a><a name="50593793_14859"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Example
+data block<o:p></o:p></span></h6>
+
+<pre style='vertical-align:baseline'><a name="50593793_pgfId-255346"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 0:<span style='mso-spacerun:yes'>  </span>RATES <o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255347"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 1:<span style='mso-tab-count:1'>      </span>Calcite<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255348"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 2:<span style='mso-tab-count:1'>      </span>-start<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255349"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 1<span style='mso-spacerun:yes'>   </span>rem M = current number of moles of calcite<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-323055"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 2<span style='mso-spacerun:yes'>   </span>rem M0 = number of moles of calcite initially present<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-323056"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 3<span style='mso-spacerun:yes'>   </span>rem PARM(1) = A/V, cm^2/L <o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255350"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 4<span style='mso-spacerun:yes'>   </span>rem PARM(2) = exponent for M/M0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-323067"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 10<span style='mso-spacerun:yes'>  </span><span
+class=SpellE>si_cc</span> = SI(&quot;Calcite&quot;)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255351"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 20<span style='mso-spacerun:yes'>  </span>if (M &lt;= 0 and <span
+class=SpellE>si_cc</span> &lt; 0) then <span class=SpellE>goto</span> 200<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255352"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 30<span style='mso-spacerun:yes'>    </span>k1 = 10^(0.198 - 444.0 / TK )<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255353"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 40<span style='mso-spacerun:yes'>    </span>k2 = 10^(2.84 - 2177.0 / TK)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255354"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 50<span style='mso-spacerun:yes'>    </span>if TC &lt;= 25 then k3 = 10^(-5.86 - 317.0 / TK )<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255355"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 60<span style='mso-spacerun:yes'>    </span>if TC &gt; 25 then k3<span style='mso-spacerun:yes'>  </span>= 10^(-1.1 - 1737.0 / TK )<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255356"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 70<span style='mso-spacerun:yes'>    </span>t = 1<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255357"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 80<span style='mso-spacerun:yes'>    </span>if M0 &gt; 0 then t = M/M0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255358"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 90<span style='mso-spacerun:yes'>    </span>if t = 0 then t = 1<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255359"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 100<span style='mso-spacerun:yes'>   </span>area = PARM(1) * (t)^PARM(2)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255360"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 110<span style='mso-spacerun:yes'>   </span>rf = k1*ACT(&quot;H+&quot;)+k2*ACT(&quot;CO2&quot;)+k3*ACT(&quot;H2O&quot;)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255361"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 120<span style='mso-spacerun:yes'>   </span>rem 1e-3 converts mmol to mol<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-323884"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 130<span style='mso-spacerun:yes'>   </span>rate = area * 1e-3 * rf * (1 - 10^(2/3*<span
+class=SpellE>si_cc</span>))<o:p></o:p></span></pre><pre style='vertical-align:
+baseline'><a name="50593793_pgfId-255362"></a><span style='font-size:12.0pt;
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Basic: 140<span style='mso-spacerun:yes'>   </span>moles = rate * TIME<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255369"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 200 SAVE moles<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255370"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 3:<span style='mso-tab-count:1'>      </span>-end<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255371"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 1a:<span style='mso-tab-count:1'>     </span>Pyrite<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255372"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 2a:<span style='mso-tab-count:1'>     </span>-start<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255373"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 1<span style='mso-spacerun:yes'>   </span>rem<span style='mso-spacerun:yes'>  </span>PARM(1) = log10(A/V, 1/dm)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-323864"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 2<span style='mso-spacerun:yes'>   </span>rem<span style='mso-spacerun:yes'>  </span>PARM(2) = exp for (M/M0)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255374"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 3<span style='mso-spacerun:yes'>   </span>rem<span style='mso-spacerun:yes'>  </span>PARM(3) = exp for O2<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-323869"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 4<span style='mso-spacerun:yes'>   </span>rem<span style='mso-spacerun:yes'>  </span>PARM(4) = exp for H+<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255375"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 10<span style='mso-spacerun:yes'>  </span>if (M &lt;= 0) then <span
+class=SpellE>goto</span> 200<o:p></o:p></span></pre><pre style='vertical-align:
+baseline'><a name="50593793_pgfId-255376"></a><span style='font-size:12.0pt;
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Basic: 20<span style='mso-spacerun:yes'>  </span>if (SI(&quot;Pyrite&quot;) &gt;= 0) then <span
+class=SpellE>goto</span> 200<o:p></o:p></span></pre><pre style='vertical-align:
+baseline'><a name="50593793_pgfId-255377"></a><span style='font-size:12.0pt;
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Basic: 30<span style='mso-spacerun:yes'>    </span><span
+class=SpellE>lograte</span> = -10.19 + PARM(1) + PARM(2)*LOG10(M/M0)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255378"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 40<span style='mso-spacerun:yes'>    </span><span
+class=SpellE>lograte</span> = <span class=SpellE>lograte</span> + PARM(3)*LM(&quot;O2&quot;) + PARM(4)*LM(&quot;H+&quot;)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255379"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 50<span style='mso-spacerun:yes'>    </span>moles = (10^lograte) * TIME<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255380"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 60<span style='mso-spacerun:yes'>    </span>if (moles &gt; M) then moles = M<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-324293"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Basic: 200 SAVE moles<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255383"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 3a:<span style='mso-tab-count:1'>     </span>-end<o:p></o:p></span></pre></div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255384"></a><a name="50593793_44821"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Explanation<o:p></o:p></span></h6>
+
+<p class=body-indent><a name="50593793_pgfId-255385"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+0: <strong>RATES</strong> <o:p></o:p></span></p>
+
+<p class=body1><a name="50593793_pgfId-255386"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>RATES</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+is the keyword for the data block. No other data are input on the keyword line.<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255387"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+1: <em>name of rate expression</em> <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-255388"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>name
+of rate expression</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast'> --Alphanumeric character string that
+identifies the rate expression; no spaces are allowed.<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255389"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+2: <strong>-start</strong> <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-255390"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-start</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Identifier marks the beginning of a Basic program by which the moles of
+reaction for a time subinterval are calculated. <o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255391"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Basic:<em>
+numbered Basic statement</em> <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-557087"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>numbered
+Basic statement</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast'> --A valid Basic language statement that
+must be numbered. The statements are evaluated in numerical order. The sequence
+of statements must extrapolate the rate of reaction over the time subinterval
+given by the internally defined variable TIME. There must be a statement “<strong>
+SAVE</strong> <em>expression</em> ”, where the value of <em>expression </em>is
+the moles of reaction that are transferred during time subinterval TIME.
+Statements and functions that are available through the Basic interpreter are
+listed in the section on the Basic interpreter. Parameters defined in the <a
+href="phreeqc3-24.htm#50593793_55637">KINETICS</a> data block also are
+available through the Basic array PARM.<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255399"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+3: <strong>-end</strong> <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-255400"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-end</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Identifier marks the end of a Basic program by which the number of moles of a
+reaction for a time subinterval is calculated. Note the hyphen is required to
+avoid a conflict with the keyword <strong>END</strong> .<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255401"></a><a name="50593793_35191"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Notes<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-545097"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>A Basic interpreter
+(David Gillespie, <span class=SpellE>Synaptics</span>, Inc., San Jose, Calif.,
+written <span class=SpellE>commun</span>., 1997) distributed with the Linux
+operating system (Free Software Foundation, Inc.) is embedded in PHREEQC. The
+Basic interpreter is used during the integration of the kinetic reactions to
+evaluate the moles of reaction progress for a time subinterval. A Basic program
+for each kinetic reaction must be included in the input or database file. Each
+program must stand alone with its own set of variables and numbered statement
+lines. There is no conflict in using the same variable names or line numbers in
+separate rate programs. <o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-584192"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>It is possible to
+transfer data among rates with the special Basic statements PUT and GET (see <a
+href="phreeqc3-61.htm#50593797_44206">The Basic Interpreter</a>). The programs
+are used to calculate the instantaneous rate of reaction and extrapolate that
+rate for a time subinterval given by the variable “TIME” (calcite, line 140;
+pyrite line 50). TIME is an internally generated and variable time <span
+class=SpellE>substep</span>, and its value cannot be changed. The total moles
+of reaction must be returned to the main program with a SAVE command (line 200
+in each example). Note that moles of reaction are returned, not the rate of the
+reaction. Moles are counted positive when the solution concentration of the
+reactant increases.<o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=3 cellpadding=0
+ style='mso-cellspacing:1.5pt;mso-yfti-tbllook:1184'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td colspan=2 style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=tabletitle><a name="50593793_pgfId-545113"></a><span
+  style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Table
+  5. <a name="50593793_21664"></a>Description of Basic program for calcite
+  kinetics given <span class=SpellE>in</span> example for <strong><span
+  style='font-family:"Arial",sans-serif'>RATES</span></strong> data block.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellheading><a name="50593793_pgfId-545117"></a><span
+  style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+  number<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellheading><a name="50593793_pgfId-545119"></a><span
+  style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Function<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545121"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>1-4<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545123"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Comments.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545125"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>10<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545127"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate calcite
+  saturation index.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545129"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>20<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545131"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>If undersaturated and
+  no moles of calcite, exit; moles=0 by default.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545133"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>30-60<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545135"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate temperature
+  dependence of constants k1, k2, and k3.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545137"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>70-90<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545139"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate ratio of
+  current moles of calcite to initial moles of calcite; set ratio to 1 if no
+  moles of calcite are present.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:7'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545141"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>100<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545143"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate surface
+  area.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:8'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545145"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>110<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545147"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate forward
+  rate.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:9'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545149"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>130<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545151"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate overall
+  rate, factor of 1e-3 converts rate to moles from millimoles.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:10'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545153"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>140<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545155"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate moles of
+  reaction over time interval given by TIME. Note that the multiplication of
+  the rate by TIME must be present in one of the Basic lines.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:11;mso-yfti-lastrow:yes'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545157"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>200<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-545159"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Return moles of
+  reaction for time subinterval with “SAVE”. A SAVE statement must always be
+  present in a rate program.<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=bodytext><a name="50593793_pgfId-323408"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>The first example
+estimates the rate of calcite dissolution or precipitation on the basis of a
+rate expression from Plummer and others (1978) (see also equations 101 and 106,
+Parkhurst and Appelo, 1999). The forward rate is given by<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h3 style='margin:0in;vertical-align:baseline'><a name="50593793_pgfId-323413"></a><a
+name="50593793_33569"></a><span style='font-size:12.0pt;color:black;mso-no-proof:
+yes'><img border=0 width=262 height=32 id="_x0000_i1042" src=phreeqc3-79.png></span><span
+style='font-size:12.0pt;color:black'>, (1)<o:p></o:p></span></h3>
+
+<p class=bodytextflush><a name="50593793_pgfId-323423"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>where
+square brackets indicate activity and </span><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;mso-no-proof:yes'><img
+border=0 width=18 height=24 id="_x0000_i1041" src=phreeqc3-80.png></span><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>,
+</span><span style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;mso-no-proof:yes'><img border=0 width=17 height=24
+id="_x0000_i1040" src=phreeqc3-81.png></span><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>, and </span><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+mso-no-proof:yes'><img border=0 width=17 height=24 id="_x0000_i1039"
+src=phreeqc3-82.png></span><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast'>are functions of temperature (Plummer and
+others, 1978). In a pure calcite-water system with fixed </span><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+mso-no-proof:yes'><img border=0 width=37 height=26 id="_x0000_i1038"
+src=phreeqc3-83.png></span><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast'>, the overall rate for calcite (forward
+rate minus backward rate) is approximated by<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h3 style='margin:0in;vertical-align:baseline'><a name="50593793_pgfId-323468"></a><a
+name="50593793_34976"></a><span style='font-size:12.0pt;color:black;mso-no-proof:
+yes'><img border=0 width=203 height=69 id="_x0000_i1037" src=phreeqc3-84.png></span><span
+style='font-size:12.0pt;color:black'>, (2)<o:p></o:p></span></h3>
+
+<p class=bodytextflush><a name="50593793_pgfId-323472"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>where
+</span><span style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;mso-no-proof:yes'><img border=0 width=56 height=24
+id="_x0000_i1036" src=phreeqc3-85.png></span><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>is mmol cm<sup> -2</sup>
+s<sup> -1</sup> (millimole per square centimeter per second). Equation <a
+href="phreeqc3-39.htm#50593793_34976">2</a> is implemented in Basic for the
+first example above. Explanations of the Basic lines for this rate expression
+are given in <a href="phreeqc3-39.htm#50593793_21664">table 5</a>.<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-323473"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>The second example is
+for the dissolution of pyrite in the presence of dissolved oxygen from
+Williamson and <span class=SpellE>Rimstidt</span> (1994):<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h3 style='margin:0in;vertical-align:baseline'><a name="50593793_pgfId-323477"></a><span
+style='font-size:12.0pt;color:black;mso-no-proof:yes'><img border=0 width=256
+height=35 id="_x0000_i1035" src=phreeqc3-86.png></span><span style='font-size:
+12.0pt;color:black'>, (3)<o:p></o:p></span></h3>
+
+<p class=bodytextflush><a name="50593793_pgfId-323478"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>where
+parentheses indicate molality. This rate is based on detailed measurements in
+solutions of varying compositions and shows a square root dependence on the
+molality of oxygen and a small dependence on <span class=SpellE>pH.</span> This
+rate is applicable only for dissolution in the presence of oxygen and will be
+incorrect near equilibrium when oxygen is depleted. Explanations of the Basic
+lines for this rate expression are given in <a
+href="phreeqc3-39.htm#50593793_29341">table 6</a>. <o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=3 cellpadding=0
+ style='mso-cellspacing:1.5pt;mso-yfti-tbllook:1184'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td colspan=2 style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=tabletitle><a name="50593793_pgfId-499224"></a><span
+  style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Table
+  6. <a name="50593793_29341"></a>Description of Basic program for pyrite
+  dissolution kinetics given <span class=SpellE>in</span> example for <strong><span
+  style='font-family:"Arial",sans-serif'>RATES</span></strong> data block.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellheading><a name="50593793_pgfId-499228"></a><span
+  style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+  number<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellheading><a name="50593793_pgfId-499230"></a><span
+  style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Function<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499232"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>1-4<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499234"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Comments.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499236"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>10<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499238"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Checks that pyrite is
+  still available, otherwise exits with value of moles=0 by default.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499240"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>20<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499242"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Checks that the
+  solution is undersaturated (the rate is for dissolution only), otherwise
+  exits with value of moles=0.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499244"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>30, 40<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499246"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate log of the
+  rate of pyrite dissolution.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499248"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>50<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499250"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Calculate the moles
+  of pyrite dissolution over time interval given by TIME. <o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:7'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499252"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>60<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499254"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Limits pyrite
+  dissolution to remaining moles of pyrite.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:8;mso-yfti-lastrow:yes'>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499256"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>200<o:p></o:p></span></p>
+  </td>
+  <td style='padding:.75pt .75pt .75pt .75pt'>
+  <p class=cellbody><a name="50593793_pgfId-499258"></a><span style='mso-fareast-font-family:
+  "Times New Roman";mso-fareast-theme-font:minor-fareast'>Return moles of
+  reaction for time subinterval with SAVE. A SAVE statement must always be
+  present in a rate program.<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=bodytext><a name="50593793_pgfId-780918"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Some special statements
+and functions have been added to the Basic interpreter to allow access to
+quantities that may be needed in rate expressions. These functions are listed
+in <a href="phreeqc3-61.htm#50593797_44206">The Basic Interpreter</a>, <a
+href="phreeqc3-61.htm#50593797_27680">table 8</a>. Standard Basic statements
+that are implemented in the interpreter are listed in <a
+href="phreeqc3-61.htm#50593797_44206">The Basic Interpreter</a>, <a
+href="phreeqc3-61.htm#50593797_51264">table 7</a>. Upper or lower case may be
+used for statement, function, and variable names. String variable names must
+end with the character “$”. <o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-780912"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>The PRINT command in
+Basic programs is useful for debugging rate expressions. It can be used to
+write quantities to the output file to check that rates are calculated
+correctly. However, the PRINT command will write to the output file every time
+a rate is evaluated, which may be many times per time step. The sequence of
+information from PRINT statements in <a href="phreeqc3-39.htm#50593793_97907">RATES</a>
+definitions may be difficult to interpret because of the automatic time-step
+adjustment of the integration method.<o:p></o:p></span></p>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255778"></a><a name="50593793_98707"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Example
+problems<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-255782"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>The keyword <strong>RATES
+</strong>is used in example problems <a href="phreeqc3-68.htm#50593807_49505">6</a>,
+<a href="phreeqc3-71.htm#50593807_39217">9</a>, and <a
+href="phreeqc3-77.htm#50593807_40270">15</a>. It is also found in the Amm.dat,
+llnl.dat, phreeqc.dat, and wateq4f.dat databases.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255783"></a><a name="50593793_47568"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Related
+keywords<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-255793"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'><a
+href="phreeqc3-6.htm#50593793_87438">ADVECTION</a>, <a
+href="phreeqc3-24.htm#50593793_55637">KINETICS</a>, and <a
+href="phreeqc3-56.htm#50593793_87317">TRANSPORT</a>.<o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+<p><span style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>| <a href="phreeqc3-40.htm">Next</a> || <a
+href="rate-parameters_svd.htm">Previous</a> || <a href="phreeqc3.htm">Top</a> |
+<o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

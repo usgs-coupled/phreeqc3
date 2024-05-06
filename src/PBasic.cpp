@@ -3585,7 +3585,7 @@ factor(struct LOC_exec * LINK)
 		if (it->second.size() != 11)
 		{
 			std::ostringstream oss;
-			oss << "RATE_HERMANSKA requires 8 rate parameters, " << it->second.size() << " were found for " << min_name << "\n";
+			oss << "RATE_HERMANSKA requires 11 rate parameters, " << it->second.size() << " were found for " << min_name << "\n";
 			snerr(oss.str().c_str());
 		}
 		//	gas constant * Tk, act("H+")
@@ -3600,7 +3600,7 @@ factor(struct LOC_exec * LINK)
 		double rate_H = Aa * exp(-e_H / RT) * pow(aH, nH);
 
 		//	rate by hydrolysis
-		double rate_H2O, rate_OH, lgk_H2O = it->second[4];
+		double rate_H2O = 0.0, lgk_H2O = it->second[4];
 		if (lgk_H2O)
 		{
 			double Ab = it->second[5];
@@ -3611,7 +3611,7 @@ factor(struct LOC_exec * LINK)
 		//	rate by OH-
 		//	180 lgk_OH = get(-99, 11) : Ac = get(-99, 12) : e_OH = get(-99, 13) : nOH = get(-99, 14)
 		//	190 rate_OH = Ac * exp(-e_OH / RT) * aH ^ nOH
-		double lgk_OH = it->second[7];
+		double  rate_OH = 0.0, lgk_OH = it->second[7];
 		if (lgk_OH)
 		{
 			double Ac = it->second[8];
@@ -3619,8 +3619,6 @@ factor(struct LOC_exec * LINK)
 			double nOH = it->second[10];
 			rate_OH = Ac * exp(-e_OH / RT) * pow(aH, nOH);
 		}
-		else
-			rate_OH = 0;
 		// sum rates
 		double rate = rate_H + rate_H2O + rate_OH;
 		n.UU.val = rate;

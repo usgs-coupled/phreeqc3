@@ -5,9 +5,11 @@ set(phreeqc_DATABASE
   frezchem.dat
   iso.dat
   llnl.dat
+  kinec.v2.dat
   minteq.dat
   minteq.v4.dat
   phreeqc.dat
+  phreeqc_rates.dat
   PHREEQC_ThermoddemV1.10_15Dec2020.dat
   pitzer.dat
   sit.dat
