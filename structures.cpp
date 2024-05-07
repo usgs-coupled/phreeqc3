@@ -139,6 +139,7 @@ clean_up(void)
 	}
 	logk.clear();
 	save_values.clear();
+	save_strings.clear();
 	/* working pe*/
 	pe_x.clear();
 	/*species_list*/

@@ -1346,6 +1346,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokget:
 			output_msg("GET");
 			break;
+		case tokget_:
+			output_msg("GET$");
+			break;
 		case tokget_por:
 			output_msg("GET_POR");
 			break;
@@ -1452,6 +1455,18 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokparm:
 			output_msg("PARM");
 			break;
+		case tokrate_pk:
+			output_msg("RATE_PK");
+			break;
+		case tokrate_svd:
+			output_msg("RATE_SVD");
+			break;
+		case tokrate_hermanska:
+			output_msg("RATE_HERMANSKA");
+			break;
+		case tokmeang:
+			output_msg("MEANG");
+			break;
 		case tokpercent_error:
 			output_msg("PERCENT_ERROR");
 			break;
@@ -1487,6 +1502,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 			break;
 		case tokput:
 			output_msg("PUT");
+			break;
+		case tokput_:
+			output_msg("PUT$");
 			break;
 		case tokqbrn:
 			output_msg("QBrn"); // Q_Born, d(eps_r)/d(P)/(eps_r^2)
@@ -2660,6 +2678,51 @@ factor(struct LOC_exec * LINK)
 	}
 	break;
 
+	case tokget_:
+	{
+		std::ostringstream oss;
+		require(toklp, LINK);
+
+		/* get first subscript */
+		if (LINK->t != NULL && LINK->t->kind != tokrp)
+		{
+			i = intexpr(LINK);
+			oss << i << ",";
+		}
+
+		/* get other subscripts */
+		for (;;)
+		{
+			if (LINK->t != NULL && LINK->t->kind == tokcomma)
+			{
+				LINK->t = LINK->t->next;
+				j = intexpr(LINK);
+				oss << j << ",";
+			}
+			else
+			{
+				/* get right parentheses */
+				require(tokrp, LINK);
+				break;
+			}
+		}
+		if (parse_all)
+		{
+			n.UU.val = 1;
+		}
+		else
+		{
+			n.stringval = true;
+			n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
+			if (n.UU.sval == NULL)
+				PhreeqcPtr->malloc_error();
+			std::map<std::string, std::string>::iterator it = PhreeqcPtr->save_strings.find(oss.str());
+			n.UU.sval = (it == PhreeqcPtr->save_strings.end()) ? strcpy(n.UU.sval, "unknown") :
+				strcpy(n.UU.sval, it->second.c_str());
+		}
+		break;
+	}
+
 	case tokget:
 	{
 		std::ostringstream oss;
@@ -2699,7 +2762,6 @@ factor(struct LOC_exec * LINK)
 		}
 		break;
 	}
-
 	case tokget_por:
 	{
 		i = intfactor(LINK);
@@ -3151,7 +3213,7 @@ factor(struct LOC_exec * LINK)
 	{
 		n.stringval = true;
 		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
+		string1 = strexpr(LINK);
 		require(tokcomma, LINK);
 		i = intexpr(LINK);
 		require(tokrp, LINK);
@@ -3177,6 +3239,456 @@ factor(struct LOC_exec * LINK)
 	}
 	break;
 
+	case tokrate_pk:
+	{
+		require(toklp, LINK);
+		char* min_name = strexpr(LINK);
+		require(tokrp, LINK);
+		if (parse_all) {
+			n.UU.val = 1;
+			break;
+		}
+		std::string min_string = min_name;
+		Utilities::str_tolower(min_string);
+		std::map<std::string, std::vector<double> >::const_iterator it = PhreeqcPtr->rate_parameters_pk.find(min_string);
+		if (it == PhreeqcPtr->rate_parameters_pk.end())
+		{
+			std::ostringstream oss;
+			oss << "PK rate parameters not found for " << min_name << "\n";
+			snerr(oss.str().c_str());
+		}
+		//if (it->second.size() != 8)
+		//{
+		//	std::ostringstream oss;
+		//	oss << "RATE_PK requires 8 rate parameters, " << it->second.size() << " were found for " << min_name << "\n";
+		//	snerr(oss.str().c_str());
+		//}
+		// temperature factor, gas constant
+		double dif_temp = 1.0 / PhreeqcPtr->tk_x - 1.0 / 298.15;
+		double dT_R = dif_temp / (2.303 * 8.314e-3);
+		int Table = 0;
+		double rate_H = 0.0, rate_H2O = 0.0, rate_OH = 0.0;
+		double lgk_H = -30.0, lgk_H2O = -30.0, lgk_OH = -30.0;
+		if (it->second.size() > 8)
+			Table = (int) it->second.back();
+
+		switch (Table)
+		{
+		case 0:
+			if (it->second.size() != 8)
+			{
+				std::ostringstream oss;
+				oss << "Expected 8 rate parameters, " << it->second.size() << " were found for " << min_name << "\n";
+				snerr(oss.str().c_str());
+			}
+			break;
+		case 33:
+			if (it->second.size() != 9)
+			{
+				std::ostringstream oss;
+				oss << "Expected 8 rate parameters for table 33 mineral. " << it->second.size() - 1 << " were found for " << min_name << ".\n";
+				snerr(oss.str().c_str());
+			}
+			break;
+		case 35:
+			if (it->second.size() != 11)
+			{
+				std::ostringstream oss;
+				oss << "Expected 10 rate parameters for table 35 mineral. " << it->second.size() - 1 << " were found for " << min_name << ".\n";
+				snerr(oss.str().c_str());
+			}
+			break;
+		default:
+		{
+			std::ostringstream oss;
+			oss << "Unknown table value " << Table << " for " << min_name << ".";
+			snerr(oss.str().c_str());
+		}
+		break;
+		}
+		switch (Table)
+		{
+		case 0:
+			// rate by H+
+			if ((lgk_H = it->second[0]) > -30)
+			{
+				double e_H = it->second[1];
+				double nH = it->second[2];
+				rate_H = pow(10.0, lgk_H - e_H * dT_R) * pow(PhreeqcPtr->activity("H+"), nH);
+			}
+			// rate by hydrolysis
+			if ((lgk_H2O = it->second[3]) > -30)
+			{
+				double e_H2O = it->second[4];
+				rate_H2O = pow(10.0, lgk_H2O - e_H2O * dT_R);
+			}
+			//	 rate by OH-
+			if ((lgk_OH = it->second[5]) > -30)
+			{
+				double e_OH = it->second[6];
+				double n_OH = it->second[7];
+				rate_OH = pow(10.0, lgk_OH - e_OH * dT_R) * pow(PhreeqcPtr->activity("H+"), n_OH);
+			}
+			break;
+		case 33:
+			// rate by H+
+			if ((lgk_H = it->second[0]) > -30)
+			{
+				double e_H = it->second[1];
+				double nH = it->second[2];
+				rate_H = pow(10.0, lgk_H - e_H * dT_R) * pow(PhreeqcPtr->activity("H+"), nH);
+			}
+			// rate by hydrolysis
+			if ((lgk_H2O = it->second[3]) > -30)
+			{
+				double e_H2O = it->second[4];
+				rate_H2O = pow(10.0, lgk_H2O - e_H2O * dT_R);
+			}
+			//	 rate by P_CO2
+			if ((lgk_OH = it->second[5]) > -30)
+			{
+				double e_OH = it->second[6];
+				double n_PCO2 = it->second[7];
+				rate_OH = pow(10.0, lgk_OH - e_OH * dT_R) * pow(PhreeqcPtr->saturation_ratio("CO2(g)"), n_PCO2);
+			}
+			break;
+		case 35:
+			// rate by H+ and Fe+3
+			if ((lgk_H = it->second[0]) > -30)
+			{
+				double e_H = it->second[1];
+				double nH = it->second[2];
+				double nFe = it->second[3];
+				rate_H = pow(10.0, lgk_H - e_H * dT_R) * pow(PhreeqcPtr->activity("H+"), nH) * pow(PhreeqcPtr->activity("Fe+3"), nFe);
+			}
+			// rate by hydrolysis and O2
+			if ((lgk_H2O = it->second[4]) > -30)
+			{
+				double e_H2O = it->second[5];
+				double n_O2 = it->second[6];
+				rate_H2O = pow(10.0, lgk_H2O - e_H2O * dT_R) * pow(PhreeqcPtr->activity("O2"), n_O2);
+			}
+			//	 rate by OH-
+			if ((lgk_OH = it->second[7]) > -30)
+			{
+				double e_OH = it->second[8];
+				double n_OH = it->second[9];
+				rate_OH = pow(10.0, lgk_OH - e_OH * dT_R) * pow(PhreeqcPtr->activity("H+"), n_OH);
+			}
+			break;
+		}
+		// sum rates
+		double rate = rate_H + rate_H2O + rate_OH;
+		n.UU.val = rate;
+		//	# affinity_factor m ^ 2 / mol roughness, lgkH  e_H  nH, lgkH2O e_H2O, lgkOH e_OH nOH
+		//		# parm number  1       2          3, 4    5   6, 7     8, 9     10  11
+		//		10  affinity = get(-99, 1) # retrieve number from memory
+		//		20
+		//		30  REM # specific area m2 / mol, surface roughness
+		//		40  sp_area = get(-99, 2) : roughness = get(-99, 3)
+		//		50
+		//		60  REM # temperature factor, gas constant
+		//		70  dif_temp = 1 / TK - 1 / 298 : R = 2.303 * 8.314e-3 : dT_R = dif_temp / R
+		//		80
+		//		90  REM # rate by H +
+		//		100 lgk_H = get(-99, 4) : e_H = get(-99, 5) : nH = get(-99, 6)
+		//		110 rate_H = 10 ^ (lgk_H - e_H * dT_R) * ACT("H+") ^ nH
+		//		120
+		//		130 REM # rate by hydrolysis
+		//		140 lgk_H2O = get(-99, 7) : e_H2O = get(-99, 8)
+		//		150 rate_H2O = 10 ^ (lgk_H2O - e_H2O * dT_R)
+		//		160
+		//		170 REM # rate by OH -
+		//		180 lgk_OH = get(-99, 9) : e_OH = get(-99, 10) : nOH = get(-99, 11)
+		//		190 rate_OH = 10 ^ (lgk_OH - e_OH * dT_R) * ACT("H+") ^ nOH
+		//		200
+		//		210 rate = rate_H + rate_H2O + rate_OH
+		//		220 area = sp_area * M0 * (M / M0) ^ 0.67
+		//		230
+		//		240 rate = area * roughness * rate * affinity
+		//		250 SAVE rate * TIME
+		//		-end
+	}
+	break;
+	case tokrate_svd:
+	{
+		require(toklp, LINK);
+		char* min_name = strexpr(LINK);
+		require(tokrp, LINK);
+		if (parse_all) {
+			n.UU.val = 1;
+			break;
+		}
+		std::string min_string = min_name;
+		Utilities::str_tolower(min_string);
+		std::map<std::string, std::vector<double> >::const_iterator it = PhreeqcPtr->rate_parameters_svd.find(min_string);
+		if (it == PhreeqcPtr->rate_parameters_svd.end())
+		{
+			std::ostringstream oss;
+			oss << "SVD rate parameters not found for " << min_name << "\n";
+			snerr(oss.str().c_str());
+		}
+		if (it->second.size() != 31)
+		{
+			std::ostringstream oss;
+			oss << "RATE_SVD requires 31 rate parameters, " << it->second.size() << " were found for " << min_name << "\n";
+			snerr(oss.str().c_str());
+		}
+
+		// temperature factor, gas constant
+		double dif_temp = 1.0 / PhreeqcPtr->tk_x - 1.0 / 281.0;
+		double e_H = it->second[0];
+		double e_H2O = it->second[1];
+		double e_CO2 = it->second[2];
+		double e_OA = it->second[3];
+		double e_OH = it->second[4];
+
+		double BC = PhreeqcPtr->activity("Na+") + PhreeqcPtr->activity("K+") +
+			PhreeqcPtr->activity("Mg+2") + PhreeqcPtr->activity("Ca+2");
+		double aAl = PhreeqcPtr->activity("Al+3");
+		double aSi = PhreeqcPtr->activity("H4SiO4") + PhreeqcPtr->activity("SiO2");
+		double R = PhreeqcPtr->total("Organicmatter");
+		//	rate by H +
+		double pkH = it->second[5];
+		double nH = it->second[6];
+		double yAl = it->second[7];
+		double CAl = it->second[8];
+		double xBC = it->second[9];
+		double CBC = it->second[10];
+		double pk_H = pkH - 3.0 + e_H * dif_temp;
+		CAl *= 1e-6;
+		CBC *= 1e-6;
+		double rate_H = pow(10.0, -pk_H) * pow(PhreeqcPtr->activity("H+"), nH) / 
+			(pow(1.0 + aAl / CAl, yAl) * pow(1.0 + BC / CBC, xBC));
+		//	rate by hydrolysis
+		double pkH2O = it->second[11];
+		yAl = it->second[12];
+		CAl = it->second[13];
+		xBC = it->second[14];
+		CBC = it->second[15];
+		double zSi = it->second[16];
+		double CSi = it->second[17];
+		CAl *= 1e-6;
+		CBC *= 1e-6;
+		CSi *= 1e-6;
+		double pk_H2O = pkH2O - 3.0 + e_H2O * dif_temp;
+		double rate_H2O = pow(10.0, -pk_H2O) / (pow(1.0 + aAl / CAl, yAl) * pow(1.0 + BC / CBC, xBC) * pow(1.0 + aSi / CSi, zSi));
+		//	rate by CO2
+		double pKCO2 = it->second[18];
+		double nCO2 = it->second[19];
+		double pk_CO2 = pKCO2 - 3.0 + e_CO2 * dif_temp;
+		double rate_CO2 = pow(10.0, -pk_CO2) * pow(PhreeqcPtr->saturation_ratio("CO2(g)"), nCO2);
+		//	rate by Organic Acids
+		double pkOrg = it->second[20];
+		double nOrg = it->second[21];
+		double COrg = it->second[22];
+		COrg *= 1e-6;
+		double pk_Org = pkOrg - 3.0 + e_OA * dif_temp;
+		double rate_Org = pow(10.0, -pkOrg) * pow(R / (1 + R / COrg), nOrg);
+		//	rate by OH-
+		double pkOH = it->second[23];
+		double wOH = it->second[24];
+		yAl = it->second[25];
+		CAl = it->second[26];
+		xBC = it->second[27];
+		CBC = it->second[28];
+		zSi = it->second[29];
+		CSi = it->second[30];
+		CAl *= 1e-6;
+		CBC *= 1e-6;
+		CSi *= 1e-6;
+		double pk_OH = pkOH - 3.0 + e_OH * dif_temp;
+		double rate_OH = pow(10.0, -pk_OH) * pow(PhreeqcPtr->activity("OH-"), wOH) /
+			(pow(1.0 + aAl / CAl, yAl) * pow(1.0 + BC / CBC, xBC) * pow(1.0 + aSi / CSi, zSi));
+		// sum rates
+		double rate = rate_H + rate_H2O + rate_CO2 + rate_Org + rate_OH;
+		n.UU.val = rate;
+		//	Sverdrup_rate
+		//		# in KINETICS, define 34 parms:
+		//	#          affinity m ^ 2 / mol roughness, temperature_factors(TABLE 4) : e_H e_H2O e_CO2 e_OA e_OH, \
+		//# (TABLE 3): pkH  nH yAl CAl xBC CBC,   pKH2O yAl CAl xBC CBC zSi CSi,  pKCO2 nCO2  pkOrg nOrg COrg, pkOH wOH yAl CAl xBC CBC zSi CSi
+		//		10  affinity = get(-99, 1)
+		//		20
+		//		30  REM # specific area m2 / mol, surface roughness
+		//		40  sp_area = get(-99, 2) : roughness = get(-99, 3)
+		//		50
+		//		60  REM # temperature factors
+		//		70  dif_temp = 1 / TK - 1 / 281
+		//		80  e_H = get(-99, 4) : e_H2O = get(-99, 5) : e_CO2 = get(-99, 6) : e_OA = get(-99, 7) : e_OH = get(-99, 8)
+		//		90
+		//		100 BC = ACT("Na+") + ACT("K+") + ACT("Mg+2") + ACT("Ca+2")
+		//		110 aAl = act("Al+3")
+		//		120 aSi = act("H4SiO4")
+		//		130 R = tot("OrganicMatter")
+		//		140
+		//		150 REM # rate by H +
+		//		160 pkH = get(-99, 9) : nH = get(-99, 10) : yAl = get(-99, 11) : CAl = get(-99, 12) : xBC = get(-99, 13) : CBC = get(-99, 14)
+		//		170 pk_H = pkH - 3 + e_H * dif_temp
+		//		180 CAl = CAl * 1e-6
+		//		190 CBC = CBC * 1e-6
+		//		200 rate_H = 10 ^ -pk_H * ACT("H+") ^ nH / ((1 + aAl / CAl) ^ yAl * (1 + BC / CBC) ^ xBC)
+		//		210
+		//		220 REM # rate by hydrolysis
+		//		230 pkH2O = get(-99, 15) : yAl = get(-99, 16) : CAl = get(-99, 17) : xBC = get(-99, 18) : CBC = get(-99, 19) : zSi = get(-99, 20) : CSi = get(-99, 21)
+		//		240 CAl = CAl * 1e-6
+		//		250 CBC = CBC * 1e-6
+		//		260 CSi = CSi * 1e-6
+		//		270 pk_H2O = pkH2O - 3 + e_H2O * dif_temp
+		//		280 rate_H2O = 10 ^ -pk_H2O / ((1 + aAl / CAl) ^ yAl * (1 + BC / CBC) ^ xBC * (1 + aSi / CSi) ^ zSi)
+		//		290
+		//		300 REM # rate by CO2
+		//		310 pKCO2 = get(-99, 22) : nCO2 = get(-99, 23)
+		//		320 pk_CO2 = pkCO2 - 3 + e_CO2 * dif_temp
+		//		330 rate_CO2 = 10 ^ -pk_CO2 * SR("CO2(g)") ^ nCO2
+		//		340
+		//		350 REM # rate by Organic Acids
+		//		360 pkOrg = get(-99, 24) : nOrg = get(-99, 25) : COrg = get(-99, 26)
+		//		370 COrg = COrg * 1e-6
+		//		380 pk_Org = pkOrg - 3 + e_OA * dif_temp
+		//		390 rate_Org = 10 ^ -pk_Org * (R / (1 + R / COrg)) ^ nOrg
+		//		400
+		//		410 REM # rate by OH -
+		//		420 pkOH = get(-99, 27) : wOH = get(-99, 28) : yAl = get(-99, 29) : CAl = get(-99, 30) : xBC = get(-99, 31) : CBC = get(-99, 32) : zSi = get(-99, 33) : CSi = get(-99, 34)
+		//		430 CAl = CAl * 1e-6
+		//		440 CBC = CBC * 1e-6
+		//		450 CSi = CSi * 1e-6
+		//		460 pk_OH = pkOH - 3 + e_OH * dif_temp
+		//		470 rate_OH = 10 ^ -pk_OH * ACT("OH-") ^ wOH / ((1 + aAl / CAl) ^ yAl * (1 + BC / CBC) ^ xBC * (1 + aSi / CSi) ^ zSi)#  : print rate_OH
+		//		480
+		//		490 rate = rate_H + rate_H2O + rate_CO2 + rate_Org + rate_OH
+		//		500 area = sp_area * M0 * (M / M0) ^ 0.67
+		//		510
+		//		520 rate = roughness * area * rate * affinity
+		//		530 SAVE rate * TIME
+		//		- end
+	}
+	break;
+
+	case tokrate_hermanska:
+	{
+		require(toklp, LINK);
+		char* min_name = strexpr(LINK);
+		require(tokrp, LINK);
+		if (parse_all) {
+			n.UU.val = 1;
+			break;
+		}
+		std::string min_string = min_name;
+		Utilities::str_tolower(min_string);
+		std::map<std::string, std::vector<double> >::const_iterator it = PhreeqcPtr->rate_parameters_hermanska.find(min_string);
+		if (it == PhreeqcPtr->rate_parameters_hermanska.end())
+		{
+			std::ostringstream oss;
+			oss << "Hermanska rate parameters not found for " << min_name << "\n";
+			snerr(oss.str().c_str());
+		}
+		if (it->second.size() != 11)
+		{
+			std::ostringstream oss;
+			oss << "RATE_HERMANSKA requires 11 rate parameters, " << it->second.size() << " were found for " << min_name << "\n";
+			snerr(oss.str().c_str());
+		}
+		//	gas constant * Tk, act("H+")
+		double RT = 8.314e-3 * PhreeqcPtr->tk_x;
+		double aH = PhreeqcPtr->activity("H+");
+
+		//	rate by H+
+		double lgk_H = it->second[0];
+		double Aa = it->second[1];
+		double e_H = it->second[2];
+		double nH = it->second[3];
+		double rate_H = Aa * exp(-e_H / RT) * pow(aH, nH);
+
+		//	rate by hydrolysis
+		double rate_H2O = 0.0, lgk_H2O = it->second[4];
+		if (lgk_H2O)
+		{
+			double Ab = it->second[5];
+			double e_H2O = it->second[6];
+			rate_H2O = Ab * exp(-e_H2O / RT);
+		}
+
+		//	rate by OH-
+		//	180 lgk_OH = get(-99, 11) : Ac = get(-99, 12) : e_OH = get(-99, 13) : nOH = get(-99, 14)
+		//	190 rate_OH = Ac * exp(-e_OH / RT) * aH ^ nOH
+		double  rate_OH = 0.0, lgk_OH = it->second[7];
+		if (lgk_OH)
+		{
+			double Ac = it->second[8];
+			double e_OH = it->second[9];
+			double nOH = it->second[10];
+			rate_OH = Ac * exp(-e_OH / RT) * pow(aH, nOH);
+		}
+		// sum rates
+		double rate = rate_H + rate_H2O + rate_OH;
+		n.UU.val = rate;
+
+//		Hermanska_rate
+//			# in KINETICS, define 14 parms:
+//		# parms affinity m ^ 2 / mol roughness, (TABLE 2) : (acid)logk25 Aa Ea na(neutral)logk25 Ab Eb(basic)logk25 Ac Ec nc
+//# (Note that logk25 values are not used, they were transformed to A's.)
+//	10  affinity = get(-99, 1) # retrieve number from memory
+//	20
+//	30  REM # specific area m2 / mol, surface roughness
+//	40  sp_area = get(-99, 2) : roughness = get(-99, 3)
+//	50
+//	60  REM # gas constant * Tk, act("H+")
+//	70  RT = 8.314e-3 * TK     : aH = act("H+")
+//	80
+//	90  REM # rate by H +
+//	100 lgk_H = get(-99, 4) : Aa = get(-99, 5) : e_H = get(-99, 6) : nH = get(-99, 7)
+//	110 rate_H = Aa * exp(-e_H / RT) * aH ^ nH
+//	120
+//	130 REM # rate by hydrolysis
+//	140 lgk_H2O = get(-99, 8) : Ab = get(-99, 9) : e_H2O = get(-99, 10)
+//	150 rate_H2O = Ab * exp(-e_H2O / RT)
+//	160
+//	170 REM # rate by OH -
+//	180 lgk_OH = get(-99, 11) : Ac = get(-99, 12) : e_OH = get(-99, 13) : nOH = get(-99, 14)
+//	190 rate_OH = Ac * exp(-e_OH / RT) * aH ^ nOH
+//	200
+//	210 rate = rate_H + rate_H2O + rate_OH
+//	220 area = sp_area * M0 * (M / M0) ^ 0.67
+//	230
+//	240 rate = area * roughness * rate * affinity
+//	250 SAVE rate * TIME
+//	- end
+
+	}
+	break;
+
+	case tokmeang:
+	{
+		require(toklp, LINK);
+		char* min_name = strexpr(LINK);
+		require(tokrp, LINK);
+		if (parse_all) {
+			n.UU.val = 1;
+			break;
+		}
+		std::string min_string = min_name;
+		Utilities::str_tolower(min_string);
+		std::map<std::string, cxxNameDouble>::const_iterator it = PhreeqcPtr->mean_gammas.find(min_string);
+		if (it == PhreeqcPtr->mean_gammas.end() || it->second.size() == 0)
+		{
+			std::ostringstream oss;
+			oss << "No definition in MEAN_GAMMAS found for " << min_name << "\n";
+			snerr(oss.str().c_str());
+		}
+
+		double mg = 1.0;
+		double sum = 0.0;
+		cxxNameDouble::const_iterator it_nd = it->second.begin();
+		for (; it_nd != it->second.end(); it_nd++)
+		{
+			double g = PhreeqcPtr->activity_coefficient(it_nd->first.c_str());
+			mg *= pow(g, it_nd->second);
+			sum += it_nd->second;
+		}
+		mg = pow(mg, 1.0 / sum);
+		n.UU.val = mg;
+	}
+	break;
 	case tokpercent_error:
 	{
 		n.UU.val = (parse_all) ? 1 : 100 * PhreeqcPtr->cb_x / PhreeqcPtr->total_ions_x;
@@ -4882,6 +5394,38 @@ cmdput(struct LOC_exec *LINK)
 }
 
 void PBasic::
+cmdput_(struct LOC_exec* LINK)
+{
+	int j;
+	std::ostringstream oss;
+
+	/* get parentheses */
+	require(toklp, LINK);
+
+	/* get first argumen */
+	std::string s_value = strexpr(LINK);
+
+	for (;;)
+	{
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		{
+			LINK->t = LINK->t->next;
+			j = intexpr(LINK);
+			oss << j << ",";
+		}
+		else
+		{
+			/* get right parentheses */
+			require(tokrp, LINK);
+			break;
+		}
+	}
+	if (!parse_all)
+	{
+		PhreeqcPtr->save_strings[oss.str()] = s_value;
+	}
+}
+void PBasic::
 cmdchange_por(struct LOC_exec *LINK)
 {
 	int j;
@@ -6118,6 +6662,10 @@ exec(void)
 
 					case tokput:
 						cmdput(&V);
+						break;
+
+					case tokput_:
+						cmdput_(&V);
 						break;
 
 					case tokchange_por:
@@ -7454,6 +8002,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get",                PBasic::tokget),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get$",               PBasic::tokget_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get_por",            PBasic::tokget_por),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gfw",                PBasic::tokgfw),
 #if defined (PHREEQ98) || defined (MULTICHART)
@@ -7492,6 +8041,10 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad",                PBasic::tokpad),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad$",               PBasic::tokpad_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("parm",               PBasic::tokparm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rate_pk",            PBasic::tokrate_pk),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rate_svd",           PBasic::tokrate_svd),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rate_hermanska",     PBasic::tokrate_hermanska),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("meang",              PBasic::tokmeang),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("percent_error",      PBasic::tokpercent_error),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula",      PBasic::tokphase_formula),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula$",     PBasic::tokphase_formula_),
@@ -7507,6 +8060,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("print", PBasic::tokprint),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("punch", PBasic::tokpunch),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("put",                PBasic::tokput),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("put$",               PBasic::tokput_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rem",                PBasic::tokrem),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho",                PBasic::tokrho),

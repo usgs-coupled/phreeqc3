@@ -1201,6 +1201,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	Rxn_kinetics_map = pSrc->Rxn_kinetics_map;
 	use_kinetics_limiter = pSrc->use_kinetics_limiter;
 	save_values = pSrc->save_values;
+	save_strings = pSrc->save_strings;
 	save = pSrc->save;
 	//class copier copy_solution;
 	//class copier copy_pp_assemblage;
@@ -1216,6 +1217,12 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//	Inverse not implemented
 	//std::vector<class inverse> inverse;
 	count_inverse = 0;
+	/* rate parameters */
+	rate_parameters_pk = pSrc->rate_parameters_pk;
+	rate_parameters_svd = pSrc->rate_parameters_svd;
+	rate_parameters_hermanska = pSrc->rate_parameters_hermanska;
+	// Mean gammas
+	mean_gammas = pSrc->mean_gammas;
 	//   Mix
 	Rxn_mix_map = pSrc->Rxn_mix_map;
 	Dispersion_mix_map = pSrc->Dispersion_mix_map;
