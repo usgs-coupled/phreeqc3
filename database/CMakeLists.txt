@@ -5,7 +5,7 @@ set(phreeqc_DATABASE
   frezchem.dat
   iso.dat
   llnl.dat
-  kinec.v2.dat
+  Kinec.v2.dat
   minteq.dat
   minteq.v4.dat
   phreeqc.dat
