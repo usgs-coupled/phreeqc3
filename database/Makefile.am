@@ -12,7 +12,7 @@ DATABASE=\
 	core10.dat\
 	frezchem.dat\
 	iso.dat\
-	kinec.v2.dat\
+	Kinec.v2.dat\
 	llnl.dat\
 	minteq.dat\
 	minteq.v4.dat\
