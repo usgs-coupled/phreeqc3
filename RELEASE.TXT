@@ -1,5 +1,170 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
+	May 3, 2024
+  	-----------------
+	PHREEQC: The -dw identifier of SOLUTION_SPECIES now has up to 7 items.
+	
+	-dw Dw(25C) dw_T a a2 visc a3 a_v_dif  
+	
+	where,
+	Dw(25C)—Tracer diffusion coefficient for the species at 25 °C, m 2 /s. 
+	dw_T—Temperature dependence for diffusion coefficient.
+	a—Debye-Huckel ion size.
+	a2—exponent.
+	Visc—Viscosity exponent.
+	a3—Ionic strength exponent.
+	A_v_dif—Exponent for (viscosity_0/viscosity).
+	
+	The diffusion coefficient is calculated as follows:
+	Dw = Dw(25C) * exp(dw_T / T - dw_T / 298.15)
+	ka = DH_B * a2 * I0.5/ (1 + a3)
+	av = (viscos_0/viscos)a_v_diff
+	ff = av * exp(-a * DH_A * z * I0.5 / (1 + ka))
+	Dw = Dw * ff
+	Where T is temperature in Kelvin, DH_B is the Debye-Huckel B parameter, 
+	I is ionic strength, viscos_0 is the viscosity of pure water at T, viscos is 
+	the viscosity of the solution at T, DH_A is the Debye-Huckel A parameter,
+	and z is the charge on the species,the viscosity of the solution. 
+	See Robinson and Stokes, 2002, Chpt 11 for examples. 
+	The Dw and a_v_dif can be set in a USER_ program with 
+	setdiff_c("name", Dw, a_v_dif), for example: 
+	  10 print setdiff_c("H+", 9.31e-9, 1). 
+	The diffusion coefficient of H+ is handled differently with 
+	Falkenhagen equations. 
+
+  	-----------------
+	May 3, 2024
+  	-----------------
+    PHREEQC: The ionic strength correction is for electromigration calculations 
+	(Appelo, 2017, CCR 101, 102). The correction is applied when the 6th parameter
+	option is set to true for -multi_D in TRANSPORT:
+    
+	-multi_d true/false 1e-9 0.3 0.05 1.0 true/false # multicomponent diffusion
+	
+	true/false, multicomponent diffusion is used,
+	default tracer diffusion coefficient (used in case -dw is not defined for a species), 
+	porosity (por = 0.3), 
+	limiting porosity (0.05) below which diffusion stops, 
+	exponent n (1.0) used in calculating the effect of tortuosity on the 
+	porewater diffusion coefficient	Dp = Dw * por^n, 
+	true/false: correct Dw for ionic strength (false by default). 
+	
+  	-----------------
+	May 3, 2024
+  	-----------------
+	Database: Added new database phreeqc_rates.dat. The database augments
+	phreeqc.dat with rate parameters from Palandri and Kharaka (2004),
+	Sverdrup, Oelkers, Lampa, Belyazid, Kurz, and Akselsson (2019) (only 
+	Albite and quartz), and Hermanska, Voigt, Marieni, Declercq, 
+    and Oelkers (2023). Parameters are defined in data blocks
+	RATE_PARAMETERS_PK, RATE_PARAMETERS_SVD, and RATE_PARAMETERS_HERMANSKA.
+	All minerals with rate parameters have been added in a PHASES
+	data block. Example RATES definitions using the different RATE_PARAMETERS_
+	parameters are provided for Albite and Quartz. 
+
+  	-----------------
+	April 27, 2024
+  	-----------------
+	Databases: Added new keyword data block MEAN_GAMMAS. Each line 
+	of the data block defines how to calculate the mean activity
+	coefficient for a salt with a series of pairs of 
+	aqueous species and stoichiometric coefficient. Phreeqc.dat, 
+	Amm.dat, pitzer.dat, and phreeqc_rates.dat have this data block.
+	
+	MEAN_GAMMAS
+	MgCl2  Mg+2 1 Cl 2
+	
+	A new Basic function MEANG will calculate mean activity coefficients
+	for salts listed in the MEAN_GAMMAS data block.
+	
+	10 g_MgCl2 = MEANG("MgCl2")
+	
+	
+  	-----------------
+	April 27, 2024
+  	-----------------
+	PHREEQC: Added new keyword data blocks RATE_PARAMETERS_PK, RATE_PARAMETERS_SVD,
+	and RATE_PARAMETERS_HERMANSKA and Basic functions RATE_PK, RATE_SVD, and
+	RATE_HERMANSKA
+	
+	RATE_PARAMETERS_PK
+#               Acid                       Neutral           Base
+#               log K    E        n(H+)    log K    E        log K    E        n(OH-)
+#               ======== ======== ======== ======== ======== ======== ======== ========
+Quartz          -30      0        0        -13.4    90.9     -30      0        0        # Table 4
+#               Acid                       Neutral           P_CO2
+#               log K    E        n(H+)    log K    E        log K    E        n(P_CO2) Table
+#               ======== ======== ======== ======== ======== ======== ======== ======== ========
+calcite         -0.3     14.4     1        -5.81    23.5     -3.48    35.4     1        33       # specify Table number for P_CO2^n(P_CO2)
+#               Acid and Fe+3                       Neutral and O2             Base
+#               log K    E        n(H+)    n(Fe+3)  log K    E        n(O2)    log K    E        n(OH-)   Table
+#               ======== ======== ======== ======== ======== ======== ======== ======== ======== ======== ========
+pyrite          -7.52    56.9    -0.5      0.5      -4.55    56.9     0.5      -30      0        0        35       # specify Table number for Fe+3 and O2
+
+	Three rate equations from Palandri and Kharaka (2004) can be entered. Most minerals use
+	use the first form above with 8 parameters. Table 33 has a term for CO2 as in 
+	the calcite example above; parameters from table 33 are identified with a 33 in the 9th
+	field following 8 parameters. Table 35 has additional terms and data from this table
+	is identified with 35 in field 11 following 10 rate parameters. The rates for the 
+	the minerals listed in the data block can be calculated with the Basic function RATE_PK.
+	The calculated rate does not include factors for surface area or affinity.
+	
+	10 rate = RATE_PK("Calcite")
+	
+	RATE_PARAMETERS_SVD
+#        Table 4: E's                    Table 3: H+-reaction                H2O-reaction                        CO2-reaction    Organic_acids        OH--reaction                                Table 5
+#        H+     H2O    CO2    Org_acids OH-    pkH    nH     yAl    CAl    xBC    CBC    pkH2O  yAl    CAl    xBC    CBC    zSi    CSi    pkCO2  nCO2   pkOrg  nOrg   COrg  pkOH-  wOH-   yAl    CAl    xBC    CBC    zSi    CSi    #      Num    Mineral Formula
+#        ====== ====== ====== ========= ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ===== ====== ====== ====== ====== ====== ====== ====== ====== ====== ====== ======= ======
+Albite   3350    2500  1680   1200      3100   14.6   0.5    0.4    0.4    0.4    0.5    16.8   0.15   4      0.15   200    3      900    16.05  0.6    14.7   0.5    5     15.4   0.3    0.1    12     0.5    5      3      900    #      1.6    Albite  NaAlSi3O8
+
+	Rate parameters from Sverdrup, Oelkers, Lampa, Belyazid, Kurz, and Akselsson (2019)
+	can be specified with the RATE_PARAMETERS_SVD data block. A total of 31 parameters 
+	are entered for each mineral. The rates for minerals minerals listed in the data 
+	block can be calculated with the Basic function RATE_SVD. The calculated rate does 
+	not include factors for surface area or affinity.
+	
+	10 rate = RATE_SVD("Albite")
+	
+RATE_PARAMETERS_HERMANSKA
+#               Acid mechanism                       Neutral mechanism           Basic mechanism
+#               logk25   Aa       Eaa      n(H+)     logk25   Ab        Eab      logk25   Ac        Eac      n(OH)    #    Formula
+#               ======== ========= ======== ======== ======== ========= ======== ======== ========= ======== ======== =========================================
+# Amphiboles
+Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48       0        0         0        0
+
+	Rate parameters from Hermanska, Voigt, Marieni, Declercq, and Oelkers (2023) can 
+	be specified with the RATE_PARAMETERS_HERMANSKA data block. A total of 11 parameters 
+	are entered for each mineral. The rates for minerals listed in the data block can 
+	be calculated with the Basic function RATE_HERMANSKA. The calculated rate does not 
+	include factors for surface area or affinity.
+	
+	10 rate = RATE_HERMANSKA("Anthophyllite")
+
+
+  	-----------------
+	April 21, 2024
+  	-----------------
+	PHREEQC: Added Basic functions GET$ and PUT$. They are are the same as
+	GET and PUT, except the first argument is a character string. You may
+	one or more indices as needed to identify the value that is put or
+	gotten.
+	
+	PUT$("MgCl2", 1, 1, 1)
+	x$ = GET$(1, 1, 1)
+
+  	-----------------
+	April 19, 2024
+  	-----------------
+	DATABASE: Kinec.v2.dat is a new llnl.dat style database from the 
+	CarbFix2 and GECO projects that is included in new distributions of 
+	PHREEQC. This database contains the parameters for calculating mineral 
+	dissolution rates for primary and secondary silicate minerals using the 
+	equations and parameters reported by Hermanska et al. (2022, 2023)  
+	and dissolution rates for other non-silicate mineral systems using the 
+	equations and parameters reported by Oelkers and Addassi (2024, in 
+	preparation).
+
+  	-----------------
 	April 15, 2024
   	-----------------
 	PHREEQC: Fixed a memory error with iso.dat because it uses H3O+ instead of 
@@ -15,15 +180,6 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
 	March 25, 2024
   	-----------------
-	DATABASES phreeqc.dat and Amm.dat: Three CALCULATE_VALUES definitions for 
-	calculating the kinetic dissolution of silicate minerals have been defined 
-	that can be invoked by copying a line of numbers from tables in Palandri 
-	and Kharaka (2004), Sverdrup et al. (2019), or Hermanská et al. (2022, 
-	2023). The CALCULATE_VALUES definitions are included in the databases and 
-	can be used in RATES definitions. Rate definitions Albite_PK, Albite_Svd, 
-	and Albite_Hermanska in the databases use the CALCULATE_VALUES definitions. 
-	More details are available at https://hydrochemistry.eu/ph3/release.html.
-
 	DATABASES phreeqc.dat, Amm.dat, and pitzer.dat: The calculation of the 
 	specific conductance can now be done with a Debye-Hückel-Onsager equation 
 	that has both the electrophoretic and the relaxation term. (The standard 
@@ -1553,7 +1709,7 @@ Version 3.6.1: January 7, 2020
 	Eliminated prints  of Total Carbon and Total CO2 in 
 	"Description of solution" when values are zero.
 	
-	Pring and punch of cells in transport calculations with 
+	Print and punch of cells in transport calculations with 
 	stagnant zones follows the order of the cell numbers.
 	
 	Enabled multicomponent diffusion among boundary and stagnant 
