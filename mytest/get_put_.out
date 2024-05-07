@@ -1,0 +1,186 @@
+   Input file: get_put_
+  Output file: get_put_.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	MEAN_GAMMAS
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 get_put__101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	CALCULATE_VALUES
+	MEAN_G
+	start
+	10 DATA "CaCl2",   2, "Ca+2", 1, "Cl-",   2, "CaSO4",   2, "Ca+2", 1, "SO4-2", 1, "CaCO3",   2, "Ca+2", 1, "CO3-2", 1, "Ca(OH)2", 2, "Ca+2", 1, "OH-",   2, "MgCl2",   2, "Mg+2", 1, "Cl-",   2, "MgSO4",   2, "Mg+2", 1, "SO4-2", 1, "MgCO3",   2, "Mg+2", 1, "CO3-2", 1, "Mg(OH)2", 2, "Mg+2", 1, "OH-",   2, "NaCl",    2, "Na+",  1, "Cl-",   1, "Na2SO4",  2, "Na+",  2, "SO4-2", 1, "NaHCO3",  2, "Na+",  1, "HCO3-", 1, "Na2CO3",  2, "Na+",  2, "CO3-2", 1, "NaOH",    2, "Na+",  1, "OH-",   1, "KCl",     2, "K+",   1, "Cl-",   1, "K2SO4",   2, "K+",   2, "SO4-2", 1, "HCO3",    2, "K+",   1, "HCO3-", 1, "K2CO3",   2, "K+",   2, "CO3-2", 1, "KOH",     2, "K+",   1, "OH-",   1, "HCl",     2, "H+",   1, "Cl-",   1, "H2SO4",   2, "H+",   2, "SO4-2", 1, "HBr",     2, "H+",   1, "Br-",   1
+	20 n = 21
+	30 mean_gamma = 0
+	40 RESTORE 10
+	50 s$ = GET$(-1)
+	60 FOR i = 1 TO n
+	70  READ salt$, ncomp
+	80  ERASE comp$, coef
+	90  DIM comp$(ncomp), coef(ncomp)
+	100  FOR j = 1 to ncomp
+	110    READ comp$(j), coef(j)
+	120  NEXT j
+	130  IF salt$ <> s$ THEN GOTO 300
+	140  mean_gamma = 1
+	150  v = 0
+	160  FOR j = 1 to ncomp
+	170    v = v + coef(j)
+	180    mean_gamma = mean_gamma*GAMMA(comp$(j))^coef(j)
+	190  NEXT j
+	200  mean_gamma = mean_gamma^(1/v)
+	210  GOTO 1000
+	300 NEXT i
+	1000 REM 
+	1010 SAVE mean_gamma
+	end
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION
+	units mol/kgw
+	Na 1
+	Cl 1
+	Ca 1
+	S(6) 1
+	USER_PRINT
+	start
+	10 DATA "NaCl", "Na2SO4", "CaCl2", "CaSO4"
+	20 RESTORE 10
+	30 FOR i = 1 to 4
+	40   READ s$
+	50   PUT$(s$, -1)
+	60   mean_g = CALC_VALUE("MEAN_G")
+	70   PRINT PAD$(s$ + ":", 10), mean_g
+	80 NEXT i
+	end
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+NaCl:        7.2128e-01 
+Na2SO4:      4.3009e-01 
+CaCl2:       4.8366e-01 
+CaSO4:       1.8236e-01 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e+00   1.000e+00
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+	S(6)              1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 125097
+                          Density (g/cm³)  =   1.15092
+                               Volume (L)  =   1.03794
+                        Viscosity (mPa s)  =   1.34797
+                        Activity of water  =   0.945
+                 Ionic strength (mol/kgw)  =   2.605e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.033e-07
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   3.036e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.950622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.858e-07   9.566e-08    -6.731    -7.019    -0.288      0.22
+   H+              1.389e-07   1.000e-07    -6.857    -7.000    -0.143      0.00
+   H2O             5.551e+01   9.451e-01     1.744    -0.025     0.000     18.07
+Ca            1.000e+00
+   Ca+2            5.751e-01   1.940e-01    -0.240    -0.712    -0.472    -15.66
+   CaSO4           4.249e-01   7.742e-01    -0.372    -0.111     0.261      7.50
+   CaHSO4+         4.196e-07   5.089e-07    -6.377    -6.293     0.084     (0)  
+   CaOH+           2.509e-07   3.042e-07    -6.601    -6.517     0.084     (0)  
+Cl            1.000e+00
+   Cl-             1.000e+00   5.792e-01    -0.000    -0.237    -0.237     19.45
+   HCl             1.553e-09   1.995e-08    -8.809    -7.700     1.109     (0)  
+H(0)          7.771e-26
+   H2              3.886e-26   7.079e-26   -25.411   -25.150     0.261     28.61
+Na            1.000e+00
+   Na+             6.525e-01   5.861e-01    -0.185    -0.232    -0.047      0.35
+   NaSO4-          3.475e-01   2.141e-01    -0.459    -0.669    -0.210     22.04
+   NaOH            3.077e-18   5.607e-18   -17.512   -17.251     0.261     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.390   -42.129     0.261     30.40
+S(6)          1.000e+00
+   CaSO4           4.249e-01   7.742e-01    -0.372    -0.111     0.261      7.50
+   NaSO4-          3.475e-01   2.141e-01    -0.459    -0.669    -0.210     22.04
+   SO4-2           2.276e-01   2.244e-02    -0.643    -1.649    -1.006     59.08
+   CaHSO4+         4.196e-07   5.089e-07    -6.377    -6.293     0.084     (0)  
+   HSO4-           1.799e-07   2.182e-07    -6.745    -6.661     0.084     41.55
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Anhydrite         1.92     -2.36   -4.28  CaSO4
+  Gypsum            2.17     -2.41   -4.58  CaSO4:2H2O
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.53     -0.02    1.50  H2O
+  Halite           -2.04     -0.47    1.57  NaCl
+  Mirabilite       -1.12     -2.36   -1.24  Na2SO4:10H2O
+  O2(g)           -39.24    -42.13   -2.89  O2
+  Thenardite       -1.81     -2.11   -0.30  Na2SO4
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.058 Seconds.
+-------------------------------
+

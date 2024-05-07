@@ -135,6 +135,18 @@ read_input(void)
 		case Keywords::KEY_MIX:
 			read_mix();
 			break;
+		case Keywords::KEY_RATE_PARAMETERS_PK:
+			read_rate_parameters_pk();
+			break;
+		case Keywords::KEY_RATE_PARAMETERS_SVD:
+			read_rate_parameters_svd();
+			break;
+		case Keywords::KEY_RATE_PARAMETERS_HERMANSKA:
+			read_rate_parameters_hermanska();
+			break;
+		case Keywords::KEY_MEAN_GAMMAS:
+			read_mean_gammas();
+			break;
 		case Keywords::KEY_SOLUTION_MIX:
 			//read_solution_mix();
 			read_entity_mix(Rxn_solution_mix_map);
@@ -2354,6 +2366,317 @@ read_kinetics(void)
 		}
 	}
 	Rxn_kinetics_map[n_user] = temp_kinetics;
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_rate_parameters_pk(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads kinetics data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to rate_parameters_pk map */
+		{
+			std::string min_name;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				min_name = token;
+				str_tolower(min_name);
+			}
+			std::vector<double> v;
+			read_vector_doubles(&next_char, v);
+			rate_parameters_pk[min_name] = v;
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_mean_gammas(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads kinetics data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to mean_gammas map */
+		{
+			std::string salt_name;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				salt_name = token;
+				str_tolower(salt_name);
+			}
+			cxxNameDouble nd;
+
+			/*
+			 *   Store reactant name, default coefficient
+			 */
+			const char* cptr = next_char;
+			bool have_name = false;
+			std::string name;
+			LDBLE coef = 1;
+			while (copy_token(token, &cptr) != EMPTY)
+			{
+				coef = 1;
+				if (isalpha((int)token[0]) || (token[0] == '(')
+					|| (token[0] == '['))
+				{
+					if (have_name)
+					{
+						nd.add(name.c_str(), coef);
+					}
+					name = token;
+					have_name = true;
+				}
+				else
+				{
+					if (!have_name)
+					{
+						error_string = sformatf("No species name has been defined.");
+						error_msg(error_string, CONTINUE);
+						input_error++;
+					}
+					/*
+					 *   Store relative coefficient
+					*/
+					int j = sscanf(token.c_str(), SCANFORMAT, &coef);
+
+					if (j == 1)
+					{
+						nd.add(name.c_str(), coef);
+						have_name = false;
+					}
+					else
+					{
+						error_msg("Reading relative coefficient of reactant.", CONTINUE);
+						error_msg(line_save, CONTINUE);
+						input_error++;
+					}
+				}
+				//if (have_name)
+				//{
+				//	nd.add(name.c_str(), coef);
+				//}
+			}
+			//read_vector_doubles(&next_char, v);
+			mean_gammas[salt_name] = nd;
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_rate_parameters_svd(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads kinetics data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to rate_parameters_svd map */
+		{
+			std::string min_name;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				min_name = token;
+				str_tolower(min_name);
+			}
+			std::vector<double> v;
+			read_vector_doubles(&next_char, v);
+			rate_parameters_svd[min_name] = v;
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_rate_parameters_hermanska(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads kinetics data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to rate_parameters_hermanska map */
+		{
+			std::string min_name;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				min_name = token;
+				str_tolower(min_name);
+			}
+			std::vector<double> v;
+			read_vector_doubles(&next_char, v);
+			rate_parameters_hermanska[min_name] = v;
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */

@@ -1,1185 +1,3136 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><HTML>
-<HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
-<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
-<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
-<LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> PRINT</TITLE><HR><P> | <A HREF="phreeqc3-39.htm">Next</A> || <A HREF="phreeqc3-37.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
-<BODY BGCOLOR="#ffffff">
-<H2 CLASS="FM3d-order-node">
-<A NAME="50593793_pgfId-255256"></A><STRONG CLASS="Bold">
-PRINT</STRONG>
-<A NAME="50593793_92102"></A></H2>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255257"></A>This keyword data block is used to select which results are written to the output file. In addition, this data block enables or disables writing results to the selected-output file and writing a status line to the screen, which monitors the type of calculation being performed.</P>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255258"></A><A NAME="50593793_11082"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255259"></A>Line 0:  PRINT </pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255260"></A>Line 1:	-reset			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255261"></A>Line 2:	-eh			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255262"></A>Line 3:	-echo_input			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497928"></A>Line 4:	-equilibrium_phases			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255263"></A>Line 5:	-exchange			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255264"></A>Line 6:	-gas_phase			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-306399"></A>Line 7:	-headings			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497931"></A>Line 8:	-initial_isotopes			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255265"></A>Line 9:	-inverse_modeling			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497932"></A>Line 10:	-isotope_alphas			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497933"></A>Line 11:	-isotope_ratios			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255266"></A>Line 12:	-kinetics			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255267"></A>Line 13:	-other			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255268"></A>Line 14:	-saturation_indices			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255269"></A>Line 15:	-solid_solutions			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255270"></A>Line 16:	-species			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255271"></A>Line 17:	-surface			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255272"></A>Line 18:	-totals			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255273"></A>Line 19:	-user_print			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497930"></A>Line 20:	-alkalinity			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-716697"></A>Line 21:	-dump			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497935"></A>Line 22:	-censor_species			1e-8</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255274"></A>Line 23:	-selected_output			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-255275"></A>Line 24:	-status			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497929"></A>Line 25:	-user_graph			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-497934"></A>Line 26:	-warnings			200</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-986762"></A><EM CLASS="ChangeFont">Line 27:	-high_precision			false</EM>
-</pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255277"></A><A NAME="50593793_52100"></A>Explanation</H6>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255278"></A>Line 0: <STRONG CLASS="Bold">
-PRINT</STRONG>
-</P>
-<P CLASS="Body1">
-<A NAME="50593793_pgfId-255279"></A>Keyword for the data block. No other data are input on the keyword line.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-282865"></A>Line 1: <STRONG CLASS="Bold">
--reset </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-282866"></A><STRONG CLASS="Bold">
--reset</STRONG>
---Changes all print options listed on Lines 2 through 19 to <STRONG CLASS="Bold">
-true</STRONG>
- or <STRONG CLASS="Bold">
-false</STRONG>
-. If used, this identifier should be the first identifier of the data block. Individual print options may follow. Optionally, <STRONG CLASS="Bold">
-reset </STRONG>
-or <STRONG CLASS="Bold">
--r</STRONG>
-[<STRONG CLASS="Bold">
-eset</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-551052"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, all data blocks described on Lines 2 through 19 are printed to the output file; if false, these data blocks are excluded from the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-721704"></A>Line 2: <STRONG CLASS="Bold">
--eh </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-721705"></A><STRONG CLASS="Bold">
--eh</STRONG>
---Prints eh values calculated from redox couples to the output file for initial solution calculations. Default is <STRONG CLASS="Bold">
-true</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
-eh</STRONG>
-.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-551054"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, eh values calculated from redox couples are printed to the output file; if false, eh values are not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-497974"></A>Line 3: <STRONG CLASS="Bold">
--echo_input </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-561608"></A><STRONG CLASS="Bold">
--echo_input</STRONG>
---Prints non-comment lines from the input file to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-echo_input </STRONG>
-or <STRONG CLASS="Bold">
--ec</STRONG>
-[<STRONG CLASS="Bold">
-ho_input</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-561609"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, input lines are echoed to the output file; if false, input lines are not echoed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255285"></A>Line 4: <STRONG CLASS="Bold">
--equilibrium_phases </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-561729"></A><STRONG CLASS="Bold">
--equilibrium_phases</STRONG>
---Prints the compositions of equilibrium-phase assemblages to the output file. Default is <STRONG CLASS="Bold">
-true</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
-equilibria</STRONG>
-,<STRONG CLASS="Bold">
- equilibrium</STRONG>
-,<STRONG CLASS="Bold">
- pure</STRONG>
-,<STRONG CLASS="Bold">
- -eq</STRONG>
-[<STRONG CLASS="Bold">
-uilibrium_phases</STRONG>
-], <STRONG CLASS="Bold">
--eq</STRONG>
-[<STRONG CLASS="Bold">
-uilibria</STRONG>
-], <STRONG CLASS="Bold">
--p</STRONG>
-[<STRONG CLASS="Bold">
-ure_phases</STRONG>
-], or <STRONG CLASS="Bold">
--p</STRONG>
-[<STRONG CLASS="Bold">
-ure</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-13.htm#50593793_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>; the same is true for the synonym <STRONG CLASS="Bold">
-PURE_PHASES</STRONG>
-.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-561730"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, compositions of equilibrium-phase assemblages are printed to the output file; if false, compositions of equilibrium-phase assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-]. </P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255287"></A>Line 5: <STRONG CLASS="Bold">
--exchange </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-561869"></A><STRONG CLASS="Bold">
--exchange</STRONG>
---Prints the compositions of exchange assemblages to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--ex</STRONG>
-[<STRONG CLASS="Bold">
-change</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-14.htm#50593793_49135" CLASS="XRef">EXCHANGE</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-561964"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, compositions of exchange assemblages are printed to the output file; if false, compositions of exchange assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-498142"></A>Line 6: <STRONG CLASS="Bold">
--gas_phase </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562090"></A><STRONG CLASS="Bold">
--gas_phase</STRONG>
---Prints the compositions of gas phases to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--g</STRONG>
-[<STRONG CLASS="Bold">
-as_phase</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-17.htm#50593793_83409" CLASS="XRef">GAS_PHASE</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562094"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, compositions of gas phases are printed to the output file; if false, compositions of gas phases are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-498147"></A>Line 7: <STRONG CLASS="Bold">
--headings </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562233"></A><STRONG CLASS="Bold">
--headings</STRONG>
---Prints the titles and headings that identify the beginning of each type of calculation to the output file. Default is <STRONG CLASS="Bold">
-true</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
-heading</STRONG>
-, <STRONG CLASS="Bold">
-headings</STRONG>
-, or <STRONG CLASS="Bold">
--h</STRONG>
-[<STRONG CLASS="Bold">
-eadings</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562237"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, headings are printed to the output file; if false, headings are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-498196"></A>Line 8: <STRONG CLASS="Bold">
--initial_isotopes </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562345"></A><STRONG CLASS="Bold">
--initial_isotopes</STRONG>
---Prints the molalities of isotopic elements to the output file for initial solution calculations. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-initial_isotopes</STRONG>
- or <STRONG CLASS="Bold">
--ini</STRONG>
-[<STRONG CLASS="Bold">
-tial_isotopes</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562346"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, molalities of isotopic elements are printed to the output file for initial solution calculations; if false, molalities of isotopic elements are not printed to the output file for initial solution calculations.If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-498204"></A>Line 9: <STRONG CLASS="Bold">
--inverse_modeling </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-716664"></A><STRONG CLASS="Bold">
--inverse_modeling</STRONG>
---Prints the results of inverse modeling to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-inverse</STRONG>
- or <STRONG CLASS="Bold">
--i</STRONG>
-[<STRONG CLASS="Bold">
-nverse_modeling</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-20.htm#50593793_11066" CLASS="XRef">INVERSE_MODELING</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-716665"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, results of inverse modeling are printed to the output file; if false, results of inverse modeling are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-]..</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255293"></A>Line 10: <STRONG CLASS="Bold">
--isotope_alphas </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562768"></A><STRONG CLASS="Bold">
--isotope_alphas</STRONG>
---Prints isotope fractionation factors (as defined by the <A HREF="phreeqc3-22.htm#50593793_17508" CLASS="XRef">ISOTOPE_ALPHAS</A> data block) to the output file. Default is <STRONG CLASS="Bold">
-true at startup</STRONG>
-. Optionally, <STRONG CLASS="Bold">
--is</STRONG>
-[<STRONG CLASS="Bold">
-otope_alphas</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-22.htm#50593793_17508" CLASS="XRef">ISOTOPE_ALPHAS</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562691"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, isotope fractionation factors are printed to the output file; if false, isotope fractionation factors are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-498305"></A>Line 11: <STRONG CLASS="Bold">
--isotope_ratios </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562943"></A><STRONG CLASS="Bold">
--isotope_ratios</STRONG>
---Prints isotope ratios (as defined by the <A HREF="phreeqc3-23.htm#50593793_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block) to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--isotope_r</STRONG>
-[<STRONG CLASS="Bold">
-atios</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-23.htm#50593793_17097" CLASS="XRef">ISOTOPE_RATIOS</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-562928"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, isotope ratios are printed to the output file; if false, isotope ratios are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-498382"></A>Line 12: <STRONG CLASS="Bold">
--kinetics </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563089"></A><STRONG CLASS="Bold">
--kinetics</STRONG>
---Prints the compositions of kinetic-reaction assemblages to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--k</STRONG>
-[<STRONG CLASS="Bold">
-inetics</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-24.htm#50593793_55637" CLASS="XRef">KINETICS</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563019"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, the compositions of kinetic-reaction assemblages are printed to the output file; if false, the compositions of kinetic-reaction assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255295"></A>Line 13: <STRONG CLASS="Bold">
--other </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-255296"></A><STRONG CLASS="Bold">
--other</STRONG>
---Controls all printing to the output file not controlled by any of the other identifiers, including lines that identify the solution or mixture, exchange assemblage, solid-solution assemblage, surface assemblage, pure-phase assemblage, kinetic reaction, and gas phase to be used in each calculation; and description of the stoichiometric reaction. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-other</STRONG>
-, <STRONG CLASS="Bold">
--o</STRONG>
-[<STRONG CLASS="Bold">
-ther</STRONG>
-], <STRONG CLASS="Bold">
-use</STRONG>
-, or <STRONG CLASS="Bold">
--u</STRONG>
-[<STRONG CLASS="Bold">
-se</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563166"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, output items controlled by the <STRONG CLASS="Bold">
--other</STRONG>
- identifier are printed to the output file; if false, output items controlled by the <STRONG CLASS="Bold">
--other</STRONG>
- identifier are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255297"></A>Line 14: <STRONG CLASS="Bold">
--saturation_indices </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563314"></A><STRONG CLASS="Bold">
--saturation_indices</STRONG>
---Prints saturation indices to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--si</STRONG>
-,<STRONG CLASS="Bold">
- si</STRONG>
-,<STRONG CLASS="Bold">
- saturation_indices</STRONG>
-, or<STRONG CLASS="Bold">
- -sa</STRONG>
-[<STRONG CLASS="Bold">
-turation_indices</STRONG>
-]. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563244"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, saturation indices are printed to the output file; if false, saturation indices are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255299"></A>Line 15: <STRONG CLASS="Bold">
--solid_solutions </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563451"></A><STRONG CLASS="Bold">
--solid_solutions</STRONG>
---Prints the compositions of solid-solution assemblages to the output file. Default is <STRONG CLASS="Bold">
-true</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
--so</STRONG>
-[<STRONG CLASS="Bold">
-lid_solutions</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-47.htm#50593793_77444" CLASS="XRef">SOLID_SOLUTIONS</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563384"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, the compositions of solid-solution assemblages are printed to the output file; if false, the compositions of solid-solution assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255301"></A>Line 16: <STRONG CLASS="Bold">
--species </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563579"></A><STRONG CLASS="Bold">
--species</STRONG>
---Prints the distributions of aqueous species (including molality, activity, and activity coefficient) to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-species </STRONG>
-or<STRONG CLASS="Bold">
- -sp</STRONG>
-[<STRONG CLASS="Bold">
-ecies</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563524"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, the distributions of aqueous species are printed to the output file; if false, the distributions of aqueous species are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255303"></A>Line 17: <STRONG CLASS="Bold">
--surface </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563716"></A><STRONG CLASS="Bold">
--surface</STRONG>
---Prints the compositions of surface assemblages to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--su</STRONG>
-[<STRONG CLASS="Bold">
-rface</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-52.htm#50593793_56392" CLASS="XRef">SURFACE</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563649"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, the compositions of surface assemblages are printed to the output file; if false, the compositions of surface assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-255305"></A>Line 18: <STRONG CLASS="Bold">
--totals </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563859"></A><STRONG CLASS="Bold">
--totals</STRONG>
---Prints the total molalities of elements (or element valence states in initial solutions), pH, pe, temperature, and other solution characteristics to the output file. Default is <STRONG CLASS="Bold">
-true</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
-totals </STRONG>
-or<STRONG CLASS="Bold">
- -t</STRONG>
-[<STRONG CLASS="Bold">
-otals</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563789"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, the total molalities of elements and other solution characteristics are printed to the output file; if false, the total molalities of elements and other solution characteristics are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255307"></A>Line 19: <STRONG CLASS="Bold">
--user_print </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-564007"></A><STRONG CLASS="Bold">
--user_print</STRONG>
---Prints the information defined in a <A HREF="phreeqc3-59.htm#50593793_55085" CLASS="XRef">USER_PRINT</A> data block to the output file. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--u</STRONG>
-[<STRONG CLASS="Bold">
-ser_print</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-59.htm#50593793_55085" CLASS="XRef">USER_PRINT</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-563937"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, the information defined in a <A HREF="phreeqc3-59.htm#50593793_55085" CLASS="XRef">USER_PRINT</A> data block is printed to the output file; if false, the information defined in a <A HREF="phreeqc3-59.htm#50593793_55085" CLASS="XRef">USER_PRINT</A> data block is not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255309"></A>Line 20: <STRONG CLASS="Bold">
--alkalinity </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-564187"></A><STRONG CLASS="Bold">
--alkalinity</STRONG>
---Prints listings of the species that contribute to alkalinity to the output file. Default is <STRONG CLASS="Bold">
-false</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
-alkalinity </STRONG>
-or<STRONG CLASS="Bold">
- -a</STRONG>
-[<STRONG CLASS="Bold">
-lkalinity</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-564089"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, listings of the species that contribute to alkalinity are printed to the output file; if false, listings of the species that contribute to alkalinity are not printed to the output file. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-716762"></A>Line 21: <STRONG CLASS="Bold">
--dump </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-716763"></A><STRONG CLASS="Bold">
--dump</STRONG>
---Controls writing dump files. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-dump </STRONG>
-or<STRONG CLASS="Bold">
- -d</STRONG>
-[<STRONG CLASS="Bold">
-ump</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-716764"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, dump files are written as specified in <A HREF="phreeqc3-11.htm#50593793_49635" CLASS="XRef">DUMP</A> and <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> data blocks. If false, dump files are not written. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-498545"></A>Line 22: <STRONG CLASS="Bold">
--censor_species </STRONG>
-<EM CLASS="Emphasis">
-fraction</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-498546"></A><STRONG CLASS="Bold">
--censor_species</STRONG>
---Sets a criterion for exclusion of species with small molalities from the distribution of species blocks of the output file (see <STRONG CLASS="Bold">
--species</STRONG>
-). When <EM CLASS="Emphasis">
-fraction</EM>
- is 0, all species of each element or element redox state are printed. When fraction is a small number greater than zero, if the molality of an element or element redox state in a species is less than <EM CLASS="Emphasis">
-fraction</EM>
- times the total molality of the element or element redox state, then the species is excluded from the distribution of species for that element or element redox state. Default is 0.0 at startup. Optionally, <STRONG CLASS="Bold">
-censor_species </STRONG>
-or<STRONG CLASS="Bold">
- -c</STRONG>
-[<STRONG CLASS="Bold">
-ensor_species</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-498560"></A><EM CLASS="Emphasis">
-fraction</EM>
---Small number greater than zero (1<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--8</Sup>
-, for example).</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-498628"></A>Line 23: <STRONG CLASS="Bold">
--selected_output </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-498543"></A><STRONG CLASS="Bold">
--selected_output</STRONG>
---Controls printing of information defined in <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-60.htm#50593793_56415" CLASS="XRef">USER_PUNCH</A> data blocks to the selected-output file. This identifier has no effect unless the <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block is included in the input file. If a <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block is included, <STRONG CLASS="Bold">
--selected_output</STRONG>
- enables or disables printing to the selected-output file. This print-control option is not affected by <STRONG CLASS="Bold">
--reset</STRONG>
-. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
--se</STRONG>
-[<STRONG CLASS="Bold">
-lected_output</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A>. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-564257"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, printing to the selected-output file is enabled; if false, printing to the selected-output file is disabled. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255311"></A>Line 24: <STRONG CLASS="Bold">
--status </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False </EM>
-or <EM CLASS="Emphasis">
-time_interval</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-255312"></A><STRONG CLASS="Bold">
--status</STRONG>
---Controls printing of information that monitors calculations to the screen. When set to <STRONG CLASS="Bold">
-true</STRONG>
-, a status line is printed to the screen identifying the simulation number and the type of calculation that is being processed by the program. When set to <STRONG CLASS="Bold">
-false</STRONG>
-, no status line is printed to the screen. When set to an integer number, the printout will be suspended for that number of milliseconds. This print-control option is not affected by <STRONG CLASS="Bold">
--reset</STRONG>
-. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-status </STRONG>
-or<STRONG CLASS="Bold">
- -st</STRONG>
-[<STRONG CLASS="Bold">
-atus</STRONG>
-]. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-498680"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False </EM>
-or <EM CLASS="Emphasis">
-time_interval</EM>
-)--<STRONG CLASS="Bold">
-True</STRONG>
- enables printing the status line to the screen; <STRONG CLASS="Bold">
-false</STRONG>
- disables printing the status line; and time_interval sets the frequency for refreshing the status line (milliseconds). </P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-498712"></A>Line 25: <STRONG CLASS="Bold">
--user_graph </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-564501"></A><STRONG CLASS="Bold">
--user_graph</STRONG>
---Enables plotting graphs defined by the <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A> data blocks. Default is <STRONG CLASS="Bold">
-true</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
--user_g</STRONG>
-[<STRONG CLASS="Bold">
-raph</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-937086"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If true, plotting of graphs defined by the <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A> data blocks is enabled; if false, plotting of graphs defined by the <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A> data blocks is disabled. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-937090"></A>Line 26: <STRONG CLASS="Bold">
--warnings </STRONG>
-<EM CLASS="Emphasis">
-count</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-498759"></A><STRONG CLASS="Bold">
--warnings</STRONG>
---Sets a limit to the number of warnings that are printed to the screen and the output file. Default is 100 at startup; up to 100 warnings are printed. Optionally, <STRONG CLASS="Bold">
-warning</STRONG>
-,<STRONG CLASS="Bold">
- warnings</STRONG>
-, or<STRONG CLASS="Bold">
- -w</STRONG>
-[<STRONG CLASS="Bold">
-arnings</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-987012"></A><EM CLASS="Emphasis">
-count</EM>
---Maximum number of warnings written to the screen and the output file.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-987028"></A><EM CLASS="ChangeFont">
-Line 27: -high_precision [(True or False)]</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-987029"></A><EM CLASS="ChangeFont">
--high_precision--Prints results for the PRINT Basic command for <A HREF="phreeqc3-59.htm#50593793_55085" CLASS="XRef"></A>USER_PRINT<EM CLASS="ChangeFont">
-</EM>
- with extra numerical precision (12 decimal places, default is 3 or 4). Default is false at startup. Optionally, high_precision or -hi[gh_precision].</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-987033"></A><EM CLASS="ChangeFont">
-(True or False)--If true, PRINT Basic command is written with extra decimal places; if false, PRINT Basic command is written with normal precision. If neither true nor false is entered on the line, true is assumed. Optionally, t[rue] or f[alse].</EM>
-</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-987014"></A><A NAME="50593793_59204"></A>Notes</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-987015"></A>By default, all print options are set to <STRONG CLASS="Bold">
-true</STRONG>
- at the beginning of a run, with the exception of <STRONG CLASS="Bold">
--alkalinity</STRONG>
-. Once set by the keyword data block <STRONG CLASS="Bold">
-PRINT</STRONG>
-, options remain in effect until the end of the run or until changed in another <STRONG CLASS="Bold">
-PRINT</STRONG>
- data block. </P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255317"></A>Unlike most PHREEQC input, the order in which the identifiers are entered is important when using the <STRONG CLASS="Bold">
--reset</STRONG>
- identifier. For the identifiers controlled by <STRONG CLASS="Bold">
--reset</STRONG>
-, any identifier set before <STRONG CLASS="Bold">
--reset</STRONG>
- in the data block will be reset when <STRONG CLASS="Bold">
--reset</STRONG>
- is encountered. Thus, <STRONG CLASS="Bold">
--reset</STRONG>
- should be the first identifier in the data block. Using <STRONG CLASS="Bold">
--reset false</STRONG>
- will eliminate all printing to the output file except the echoing of the input file and the printing of warning and error messages.</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255318"></A>For long <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
- calculations with <A HREF="phreeqc3-24.htm#50593793_55637" CLASS="XRef">KINETICS</A>, printing the status line [<STRONG CLASS="Bold">
--status true</STRONG>
- (default)] may cause a significant increase in run time. This has been the case on some Macintosh systems. If printing to the screen is unbuffered, the program must wait for the status line to be written before continuing calculations, which slows overall execution time. In this case, setting <STRONG CLASS="Bold">
--status false</STRONG>
- may speed up run times. Alternatively, the time interval for updating the status line may be set to be an integer number of milliseconds. For example, <STRONG CLASS="Bold">
--status</STRONG>
- 500 will suspend any printout to the status line for 500 milliseconds while computations continue unhindered. With a set time interval, the on-screen status line may not show the actual final status of the program when it reports &#8220;Done&#8221;.</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255319"></A>The identifiers <STRONG CLASS="Bold">
--species</STRONG>
- and <STRONG CLASS="Bold">
--saturation_indices </STRONG>
-control the longest output data blocks in the output file and are the most likely to be selectively excluded from long computer runs. Use of the <STRONG CLASS="Bold">
--censor_species</STRONG>
- identifier also will decrease the size of the output file and simplify the results. If transport calculations are made, the output file could become very large unless some or all of the output is excluded though the <STRONG CLASS="Bold">
-PRINT</STRONG>
- data block (<STRONG CLASS="Bold">
--reset</STRONG>
- <STRONG CLASS="Bold">
-false</STRONG>
-). Alternatively, the output in transport calculations may be limited by using the <STRONG CLASS="Bold">
--print_cells</STRONG>
- and <STRONG CLASS="Bold">
--print_frequency </STRONG>
-identifiers in the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
- and <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> data block. For transport calculations, the <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block usually is used to produce a compact file of selected results.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255320"></A><A NAME="50593793_67998"></A>Example problems</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255324"></A>The keyword <STRONG CLASS="Bold">
-PRINT </STRONG>
-is used in example problems <A HREF="phreeqc3-68.htm#50593807_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-72.htm#50593807_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-74.htm#50593807_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-75.htm#50593807_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-76.htm#50593807_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-77.htm#50593807_40270" CLASS="XRef">15</A>, <A HREF="phreeqc3-81.htm#50593807_18716" CLASS="XRef">19</A>, <A HREF="phreeqc3-82.htm#50593807_33272" CLASS="XRef">20</A>, and <A HREF="phreeqc3-83.htm#50593807_68313" CLASS="XRef">21</A>.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-255325"></A><A NAME="50593793_86549"></A>Related keywords</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-255335"></A><A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A>: <STRONG CLASS="Bold">
--print_cells </STRONG>
-and<STRONG CLASS="Bold">
- -print_frequency</STRONG>
-, <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A>, <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A>: <STRONG CLASS="Bold">
--print_cells </STRONG>
-and<STRONG CLASS="Bold">
- -print_frequency</STRONG>
-, <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-59.htm#50593793_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-60.htm#50593793_56415" CLASS="XRef">USER_PUNCH</A>.</P>
-</DIV>
-<HR><P> | <A HREF="phreeqc3-39.htm">Next</A> || <A HREF="phreeqc3-37.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
-</HTML>
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="phreeqc3-38_files/filelist.xml">
+<link rel=Edit-Time-Data href="phreeqc3-38_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title> PRINT</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>David Parkhurst</o:Author>
+  <o:LastAuthor>David Parkhurst</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>1</o:TotalTime>
+  <o:Created>2024-04-30T03:26:00Z</o:Created>
+  <o:LastSaved>2024-04-30T03:27:00Z</o:LastSaved>
+  <o:Pages>7</o:Pages>
+  <o:Words>3203</o:Words>
+  <o:Characters>18259</o:Characters>
+  <o:Lines>152</o:Lines>
+  <o:Paragraphs>42</o:Paragraphs>
+  <o:CharactersWithSpaces>21420</o:CharactersWithSpaces>
+  <o:Version>16.00</o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<link rel=themeData href="phreeqc3-38_files/themedata.thmx">
+<link rel=colorSchemeMapping href="phreeqc3-38_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>167</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SplitPgBreakAndParaMark/>
+  </w:Compatibility>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="376">
+  <w:LsdException Locked="false" Priority="0" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 9"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="header"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footer"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index heading"/>
+  <w:LsdException Locked="false" Priority="35" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of figures"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope return"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="line number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="page number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of authorities"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="macro"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="toa heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 5"/>
+  <w:LsdException Locked="false" Priority="10" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Closing"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Signature"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Message Header"/>
+  <w:LsdException Locked="false" Priority="11" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Salutation"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Date"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Note Heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Block Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="FollowedHyperlink"/>
+  <w:LsdException Locked="false" Priority="22" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Document Map"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Plain Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="E-mail Signature"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Top of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Bottom of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal (Web)"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Acronym"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Cite"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Code"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Definition"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Keyboard"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Preformatted"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Sample"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Typewriter"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Variable"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Table"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation subject"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="No List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Contemporary"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Elegant"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Professional"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Balloon Text"/>
+  <w:LsdException Locked="false" Priority="39" Name="Table Grid"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Theme"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+  <w:LsdException Locked="false" Priority="41" Name="Plain Table 1"/>
+  <w:LsdException Locked="false" Priority="42" Name="Plain Table 2"/>
+  <w:LsdException Locked="false" Priority="43" Name="Plain Table 3"/>
+  <w:LsdException Locked="false" Priority="44" Name="Plain Table 4"/>
+  <w:LsdException Locked="false" Priority="45" Name="Plain Table 5"/>
+  <w:LsdException Locked="false" Priority="40" Name="Grid Table Light"/>
+  <w:LsdException Locked="false" Priority="46" Name="Grid Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hashtag"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Unresolved Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Link"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<link rel=Stylesheet type="text/css" media=all href=phreeqc3.css>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536869121 64767 1 0 415 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 1 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:1;
+	font-size:24.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h2
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 2 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:2;
+	font-size:18.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h3
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 3 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.5pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h4
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 4 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:4;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h5
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 5 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:5;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h6
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 6 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	font-size:7.5pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+pre
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 1";
+	mso-ansi-font-size:16.0pt;
+	mso-bidi-font-size:16.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 2";
+	mso-ansi-font-size:13.0pt;
+	mso-bidi-font-size:13.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 3";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#1F3763;
+	mso-themecolor:accent1;
+	mso-themeshade:127;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading4Char
+	{mso-style-name:"Heading 4 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 4";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;
+	font-style:italic;}
+span.Heading5Char
+	{mso-style-name:"Heading 5 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 5";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading6Char
+	{mso-style-name:"Heading 6 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 6";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#1F3763;
+	mso-themecolor:accent1;
+	mso-themeshade:127;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"HTML Preformatted";
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Consolas;
+	mso-ascii-font-family:Consolas;
+	mso-hansi-font-family:Consolas;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm1st-order, li.fm1st-order, div.fm1st-order
+	{mso-style-name:fm1st-order;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm1st-order-appendix, li.fm1st-order-appendix, div.fm1st-order-appendix
+	{mso-style-name:fm1st-order-appendix;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm1toc-heading, li.fm1toc-heading, div.fm1toc-heading
+	{mso-style-name:fm1toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:31.2pt;
+	text-indent:-31.2pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm2d-order, li.fm2d-order, div.fm2d-order
+	{mso-style-name:fm2d-order;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm2d-order-example, li.fm2d-order-example, div.fm2d-order-example
+	{mso-style-name:fm2d-order-example;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm2toc-heading, li.fm2toc-heading, div.fm2toc-heading
+	{mso-style-name:fm2toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:42.0pt;
+	text-indent:-20.4pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm3d-order, li.fm3d-order, div.fm3d-order
+	{mso-style-name:fm3d-order;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm3toc-heading, li.fm3toc-heading, div.fm3toc-heading
+	{mso-style-name:fm3toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:70.8pt;
+	text-indent:-30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm4th-order, li.fm4th-order, div.fm4th-order
+	{mso-style-name:fm4th-order;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm4th-order-node, li.fm4th-order-node, div.fm4th-order-node
+	{mso-style-name:fm4th-order-node;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm5th-order, li.fm5th-order, div.fm5th-order
+	{mso-style-name:fm5th-order;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm5thorderheading, li.fm5thorderheading, div.fm5thorderheading
+	{mso-style-name:fm5thorderheading;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.abstract-body, li.abstract-body, div.abstract-body
+	{mso-style-name:abstract-body;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.abstractbody, li.abstractbody, div.abstractbody
+	{mso-style-name:abstractbody;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.abstractheading, li.abstractheading, div.abstractheading
+	{mso-style-name:abstractheading;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.appendix-body, li.appendix-body, div.appendix-body
+	{mso-style-name:appendix-body;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.appendix-heading, li.appendix-heading, div.appendix-heading
+	{mso-style-name:appendix-heading;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.author, li.author, div.author
+	{mso-style-name:author;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.authorline, li.authorline, div.authorline
+	{mso-style-name:authorline;
+	mso-style-unhide:no;
+	margin-top:21.0pt;
+	margin-right:0in;
+	margin-bottom:28.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body, li.body, div.body
+	{mso-style-name:body;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-att, li.body-att, div.body-att
+	{mso-style-name:body-att;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:48.0pt;
+	text-indent:-48.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-indent, li.body-indent, div.body-indent
+	{mso-style-name:body-indent;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-left, li.body-left, div.body-left
+	{mso-style-name:body-left;
+	mso-style-unhide:no;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-line, li.body-line, div.body-line
+	{mso-style-name:body-line;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1, li.body1, div.body1
+	{mso-style-name:body1;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1-indent, li.body1-indent, div.body1-indent
+	{mso-style-name:body1-indent;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1-indentflush, li.body1-indentflush, div.body1-indentflush
+	{mso-style-name:body1-indentflush;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body2, li.body2, div.body2
+	{mso-style-name:body2;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:138.0pt;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.bodytext, li.bodytext, div.bodytext
+	{mso-style-name:bodytext;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.bodytextflush, li.bodytextflush, div.bodytextflush
+	{mso-style-name:bodytextflush;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody, li.cellbody, div.cellbody
+	{mso-style-name:cellbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptcenter, li.cellbody8ptcenter, div.cellbody8ptcenter
+	{mso-style-name:cellbody8ptcenter;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptleft, li.cellbody8ptleft, div.cellbody8ptleft
+	{mso-style-name:cellbody8ptleft;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptright, li.cellbody8ptright, div.cellbody8ptright
+	{mso-style-name:cellbody8ptright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody9ptleft, li.cellbody9ptleft, div.cellbody9ptleft
+	{mso-style-name:cellbody9ptleft;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody9ptright, li.cellbody9ptright, div.cellbody9ptright
+	{mso-style-name:cellbody9ptright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellcenter, li.cellcenter, div.cellcenter
+	{mso-style-name:cellcenter;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellheading, li.cellheading, div.cellheading
+	{mso-style-name:cellheading;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading7pt, li.cellheading7pt, div.cellheading7pt
+	{mso-style-name:cellheading7pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading8pt, li.cellheading8pt, div.cellheading8pt
+	{mso-style-name:cellheading8pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading9pt, li.cellheading9pt, div.cellheading9pt
+	{mso-style-name:cellheading9pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellright, li.cellright, div.cellright
+	{mso-style-name:cellright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellspanhead6pt, li.cellspanhead6pt, div.cellspanhead6pt
+	{mso-style-name:cellspanhead6pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanhead7pt, li.cellspanhead7pt, div.cellspanhead7pt
+	{mso-style-name:cellspanhead7pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanhead8pt, li.cellspanhead8pt, div.cellspanhead8pt
+	{mso-style-name:cellspanhead8pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanner, li.cellspanner, div.cellspanner
+	{mso-style-name:cellspanner;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.computeroutput, li.computeroutput, div.computeroutput
+	{mso-style-name:computeroutput;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:6.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.5pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.contentsheading, li.contentsheading, div.contentsheading
+	{mso-style-name:contentsheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cutin-fig, li.cutin-fig, div.cutin-fig
+	{mso-style-name:cutin-fig;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cutin-fulltitle, li.cutin-fulltitle, div.cutin-fulltitle
+	{mso-style-name:cutin-fulltitle;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cutin-table, li.cutin-table, div.cutin-table
+	{mso-style-name:cutin-table;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.eq-explan-, li.eq-explan-, div.eq-explan-
+	{mso-style-name:eq-explan-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equation, li.equation, div.equation
+	{mso-style-name:equation;
+	mso-style-unhide:no;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equationunnumbered, li.equationunnumbered, div.equationunnumbered
+	{mso-style-name:equationunnumbered;
+	mso-style-unhide:no;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equationwhere, li.equationwhere, div.equationwhere
+	{mso-style-name:equationwhere;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.figurecaption, li.figurecaption, div.figurecaption
+	{mso-style-name:figurecaption;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.figurecaptionwhite, li.figurecaptionwhite, div.figurecaptionwhite
+	{mso-style-name:figurecaptionwhite;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:18.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.figurecutinfulltitle, li.figurecutinfulltitle, div.figurecutinfulltitle
+	{mso-style-name:figurecutinfulltitle;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.footer, li.footer, div.footer
+	{mso-style-name:footer;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.5pt;
+	text-align:justify;
+	text-indent:-20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footerleft, li.footerleft, div.footerleft
+	{mso-style-name:footerleft;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footerright, li.footerright, div.footerright
+	{mso-style-name:footerright;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-align:right;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footnote, li.footnote, div.footnote
+	{mso-style-name:footnote;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:22.5pt;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.glossary-body, li.glossary-body, div.glossary-body
+	{mso-style-name:glossary-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.glossary-heading, li.glossary-heading, div.glossary-heading
+	{mso-style-name:glossary-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.headingrunin, li.headingrunin, div.headingrunin
+	{mso-style-name:headingrunin;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.headnote, li.headnote, div.headnote
+	{mso-style-name:headnote;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.index-body, li.index-body, div.index-body
+	{mso-style-name:index-body;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.index-heading, li.index-heading, div.index-heading
+	{mso-style-name:index-heading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.list-alpha, li.list-alpha, div.list-alpha
+	{mso-style-name:list-alpha;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-alpha-start, li.list-alpha-start, div.list-alpha-start
+	{mso-style-name:list-alpha-start;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-bulleted, li.list-bulleted, div.list-bulleted
+	{mso-style-name:list-bulleted;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-num-start, li.list-num-start, div.list-num-start
+	{mso-style-name:list-num-start;
+	mso-style-unhide:no;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-numbered, li.list-numbered, div.list-numbered
+	{mso-style-name:list-numbered;
+	mso-style-unhide:no;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.mapping-table-cell, li.mapping-table-cell, div.mapping-table-cell
+	{mso-style-name:mapping-table-cell;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.mapping-table-title, li.mapping-table-title, div.mapping-table-title
+	{mso-style-name:mapping-table-title;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.pub-approval, li.pub-approval, div.pub-approval
+	{mso-style-name:pub-approval;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.quote, li.quote, div.quote
+	{mso-style-name:quote;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:20.0pt;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.ref-body, li.ref-body, div.ref-body
+	{mso-style-name:ref-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.ref-heading, li.ref-heading, div.ref-heading
+	{mso-style-name:ref-heading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.referencesbody, li.referencesbody, div.referencesbody
+	{mso-style-name:referencesbody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.referencesheading, li.referencesheading, div.referencesheading
+	{mso-style-name:referencesheading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.sideheading, li.sideheading, div.sideheading
+	{mso-style-name:sideheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:27.5pt;
+	text-indent:-27.5pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.sym-def-headings, li.sym-def-headings, div.sym-def-headings
+	{mso-style-name:sym-def-headings;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-style:italic;}
+p.symbols-body, li.symbols-body, div.symbols-body
+	{mso-style-name:symbols-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.symbols-heading, li.symbols-heading, div.symbols-heading
+	{mso-style-name:symbols-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tablefootnote, li.tablefootnote, div.tablefootnote
+	{mso-style-name:tablefootnote;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tableheadnote, li.tableheadnote, div.tableheadnote
+	{mso-style-name:tableheadnote;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tabletitle, li.tabletitle, div.tabletitle
+	{mso-style-name:tabletitle;
+	mso-style-unhide:no;
+	margin-top:11.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.title, li.title, div.title
+	{mso-style-name:title;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.appendixbody, li.appendixbody, div.appendixbody
+	{mso-style-name:appendixbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.appendixheading, li.appendixheading, div.appendixheading
+	{mso-style-name:appendixheading;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-2-, li.cellbody8ptdec-2-, div.cellbody8ptdec-2-
+	{mso-style-name:cellbody8ptdec-2-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-25-, li.cellbody8ptdec-25-, div.cellbody8ptdec-25-
+	{mso-style-name:cellbody8ptdec-25-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-3-, li.cellbody8ptdec-3-, div.cellbody8ptdec-3-
+	{mso-style-name:cellbody8ptdec-3-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-35-, li.cellbody8ptdec-35-, div.cellbody8ptdec-35-
+	{mso-style-name:cellbody8ptdec-35-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-4-, li.cellbody8ptdec-4-, div.cellbody8ptdec-4-
+	{mso-style-name:cellbody8ptdec-4-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-45-, li.cellbody8ptdec-45-, div.cellbody8ptdec-45-
+	{mso-style-name:cellbody8ptdec-45-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-5-, li.cellbody8ptdec-5-, div.cellbody8ptdec-5-
+	{mso-style-name:cellbody8ptdec-5-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-55-, li.cellbody8ptdec-55-, div.cellbody8ptdec-55-
+	{mso-style-name:cellbody8ptdec-55-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-6-, li.cellbody8ptdec-6-, div.cellbody8ptdec-6-
+	{mso-style-name:cellbody8ptdec-6-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-2-, li.cellbody9ptdec-2-, div.cellbody9ptdec-2-
+	{mso-style-name:cellbody9ptdec-2-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-3-, li.cellbody9ptdec-3-, div.cellbody9ptdec-3-
+	{mso-style-name:cellbody9ptdec-3-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-4-, li.cellbody9ptdec-4-, div.cellbody9ptdec-4-
+	{mso-style-name:cellbody9ptdec-4-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-55-, li.cellbody9ptdec-55-, div.cellbody9ptdec-55-
+	{mso-style-name:cellbody9ptdec-55-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-6-, li.cellbody9ptdec-6-, div.cellbody9ptdec-6-
+	{mso-style-name:cellbody9ptdec-6-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.celldecimal, li.celldecimal, div.celldecimal
+	{mso-style-name:celldecimal;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.fig-cap, li.fig-cap, div.fig-cap
+	{mso-style-name:fig-cap;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.figurecutin, li.figurecutin, div.figurecutin
+	{mso-style-name:figurecutin;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.glossarybody, li.glossarybody, div.glossarybody
+	{mso-style-name:glossarybody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.glossaryheading, li.glossaryheading, div.glossaryheading
+	{mso-style-name:glossaryheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.indexbody, li.indexbody, div.indexbody
+	{mso-style-name:indexbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.indexheading, li.indexheading, div.indexheading
+	{mso-style-name:indexheading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.listbullet1, li.listbullet1, div.listbullet1
+	{mso-style-name:listbullet1;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listbullet2, li.listbullet2, div.listbullet2
+	{mso-style-name:listbullet2;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:42.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1begin, li.listlevel1begin, div.listlevel1begin
+	{mso-style-name:listlevel1begin;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1continue, li.listlevel1continue, div.listlevel1continue
+	{mso-style-name:listlevel1continue;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelabegin, li.listlevelabegin, div.listlevelabegin
+	{mso-style-name:listlevelabegin;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelacontinue, li.listlevelacontinue, div.listlevelacontinue
+	{mso-style-name:listlevelacontinue;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.referencesrepeat, li.referencesrepeat, div.referencesrepeat
+	{mso-style-name:referencesrepeat;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionbody, li.symboldefinitionbody, div.symboldefinitionbody
+	{mso-style-name:symboldefinitionbody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionheadings, li.symboldefinitionheadings, div.symboldefinitionheadings
+	{mso-style-name:symboldefinitionheadings;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-style:italic;}
+p.symboldefinitionsheading, li.symboldefinitionsheading, div.symboldefinitionsheading
+	{mso-style-name:symboldefinitionsheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.tablecutin, li.tablecutin, div.tablecutin
+	{mso-style-name:tablecutin;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+</style>
+<![endif]-->
+<meta http-equiv=Content-Style-Type content="text/css">
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=white lang=EN-US link=blue vlink=purple style='tab-interval:.5in;
+word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<div class=MsoNormal align=center style='text-align:center;line-height:107%'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+<p>| <a href="rate-parameters_hermanska.htm">Next</a> || <a
+href="phreeqc3-37.htm">Previous</a> || <a href="phreeqc3.htm">Top</a> | </p>
+
+<h2 style='margin-top:12.0pt;margin-right:0in;margin-bottom:9.0pt;margin-left:
+0in;vertical-align:baseline'><a name="50593793_pgfId-255256"></a><strong><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:blue'>PRINT</span></strong><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:blue'> <a
+name="50593793_92102"></a><o:p></o:p></span></h2>
+
+<p class=bodytext><a name="50593793_pgfId-255257"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>This keyword data block
+is used to select which results are written to the output file. In addition,
+this data block enables or disables writing results to the selected-output file
+and writing a status line to the screen, which monitors the type of calculation
+being performed.<o:p></o:p></span></p>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255258"></a><a name="50593793_11082"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Example
+data block<o:p></o:p></span></h6>
+
+<pre style='vertical-align:baseline'><a name="50593793_pgfId-255259"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 0:<span style='mso-spacerun:yes'>  </span>PRINT <o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255260"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 1:<span style='mso-tab-count:1'>      </span>-reset<span
+style='mso-tab-count:3'>             </span>false<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255261"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 2:<span style='mso-tab-count:1'>      </span>-eh<span
+style='mso-tab-count:3'>                </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255262"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 3:<span style='mso-tab-count:1'>      </span>-<span
+class=SpellE>echo_input</span><span style='mso-tab-count:3'>              </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497928"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4:<span style='mso-tab-count:1'>      </span>-<span
+class=SpellE>equilibrium_phases</span><span style='mso-tab-count:3'>             </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255263"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 5:<span style='mso-tab-count:1'>      </span>-exchange<span
+style='mso-tab-count:3'>                </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255264"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 6:<span style='mso-tab-count:1'>      </span>-<span
+class=SpellE>gas_phase</span><span style='mso-tab-count:3'>               </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-306399"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 7:<span style='mso-tab-count:1'>      </span>-headings<span
+style='mso-tab-count:3'>                </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497931"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 8:<span style='mso-tab-count:1'>      </span>-<span
+class=SpellE>initial_isotopes</span><span style='mso-tab-count:3'>               </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255265"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 9:<span style='mso-tab-count:1'>      </span>-<span
+class=SpellE>inverse_modeling</span><span style='mso-tab-count:3'>               </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497932"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 10:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>isotope_alphas</span><span style='mso-tab-count:3'>                 </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497933"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 11:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>isotope_ratios</span><span style='mso-tab-count:3'>                 </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255266"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 12:<span style='mso-tab-count:1'>     </span>-kinetics<span
+style='mso-tab-count:3'>                </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255267"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 13:<span style='mso-tab-count:1'>     </span>-other<span
+style='mso-tab-count:3'>             </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255268"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 14:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>saturation_indices</span><span style='mso-tab-count:3'>             </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255269"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 15:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>solid_solutions</span><span style='mso-tab-count:3'>                </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255270"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 16:<span style='mso-tab-count:1'>     </span>-species<span
+style='mso-tab-count:3'>                 </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255271"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 17:<span style='mso-tab-count:1'>     </span>-surface<span
+style='mso-tab-count:3'>                 </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255272"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 18:<span style='mso-tab-count:1'>     </span>-totals<span
+style='mso-tab-count:3'>                  </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255273"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 19:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>user_print</span><span style='mso-tab-count:3'>              </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497930"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 20:<span style='mso-tab-count:1'>     </span>-alkalinity<span
+style='mso-tab-count:3'>              </span>false<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-716697"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 21:<span style='mso-tab-count:1'>     </span>-dump<span
+style='mso-tab-count:3'>              </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497935"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 22:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>censor_species</span><span style='mso-tab-count:3'>                 </span>1e-8<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255274"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 23:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>selected_output</span><span style='mso-tab-count:3'>                </span>false<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-255275"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 24:<span style='mso-tab-count:1'>     </span>-status<span
+style='mso-tab-count:3'>                  </span>false<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497929"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 25:<span style='mso-tab-count:1'>     </span>-<span
+class=SpellE>user_graph</span><span style='mso-tab-count:3'>              </span>true<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-497934"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 26:<span style='mso-tab-count:1'>     </span>-warnings<span
+style='mso-tab-count:3'>                </span>200<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-986762"></a><em><span
+style='font-size:12.0pt;font-family:"Courier New";mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:#218921'>Line 27:<span
+style='mso-tab-count:1'>     </span>-<span class=SpellE>high_precision</span><span
+style='mso-tab-count:3'>                 </span>false</span></em><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'><o:p></o:p></span></pre></div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255277"></a><a name="50593793_52100"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Explanation<o:p></o:p></span></h6>
+
+<p class=body-indent><a name="50593793_pgfId-255278"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+0: <strong>PRINT</strong> <o:p></o:p></span></p>
+
+<p class=body1><a name="50593793_pgfId-255279"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Keyword for the data
+block. No other data are input on the keyword line.<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-282865"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+1: <strong>-reset </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-282866"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-reset</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Changes all print options listed on Lines 2 through 19 to <strong>true</strong>
+or <strong>false</strong> . If used, this identifier should be the first
+identifier of the data block. Individual print options may follow. Optionally, <strong>reset
+</strong>or <strong>-r</strong> [<strong> <span class=SpellE>eset</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-551052"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, all data blocks described on Lines 2
+through 19 are printed to the output file; if false, these data blocks are
+excluded from the output file. If neither <strong>true</strong> nor <strong>false</strong>
+is entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-721704"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+2: <strong>-eh </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-721705"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-eh</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints eh values calculated from redox couples to the output file for initial
+solution calculations. Default is <strong>true</strong> at startup. Optionally,
+<strong>eh</strong> .<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-551054"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, eh values calculated from redox couples
+are printed to the output file; if false, eh values are not printed. If neither
+<strong>true</strong> nor <strong>false</strong> is entered on the line, <strong>true</strong>
+is assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-497974"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+3: <strong>-<span class=SpellE>echo_input</span> </strong>[(<em> True</em> or <em>False</em>
+)]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-561608"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>echo_input</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints non-comment
+lines from the input file to the output file. Default is <strong>true </strong>at
+startup. Optionally, <span class=SpellE><strong>echo_input</strong></span><strong>
+</strong>or <strong>-<span class=SpellE>ec</span></strong> [<strong> <span
+class=SpellE>ho_input</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-561609"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, input lines are echoed to the output
+file; if false, input lines are not echoed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255285"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+4: <strong>-<span class=SpellE>equilibrium_phases</span> </strong>[(<em> True</em>
+or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-561729"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>equilibrium_phases</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints the
+compositions of equilibrium-phase assemblages to the output file. Default is <strong>true</strong>
+at startup. Optionally, <strong>equilibria</strong> ,<strong> equilibrium</strong>
+,<strong> pure</strong> ,<strong> -eq</strong> [<strong> <span class=SpellE>uilibrium_phases</span></strong>
+], <strong>-eq</strong> [<strong> <span class=SpellE>uilibria</span></strong>
+], <strong>-p</strong> [<strong> <span class=SpellE>ure_phases</span></strong>
+], or <strong>-p</strong> [<strong> <span class=SpellE>ure</span></strong> ].
+Note the hyphen is required to avoid a conflict with the keyword <a
+href="phreeqc3-13.htm#50593793_61207">EQUILIBRIUM_PHASES</a>; the same is true
+for the synonym <strong>PURE_PHASES</strong> .<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-561730"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, compositions of equilibrium-phase
+assemblages are printed to the output file; if false, compositions of
+equilibrium-phase assemblages are not printed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ]. <o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255287"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+5: <strong>-exchange </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-561869"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-exchange</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints the compositions of exchange assemblages to the output file. Default
+is <strong>true </strong>at startup. Optionally, <strong>-ex</strong> [<strong>
+change</strong> ]. Note the hyphen is required to avoid a conflict with the
+keyword <a href="phreeqc3-14.htm#50593793_49135">EXCHANGE</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-561964"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, compositions of exchange assemblages
+are printed to the output file; if false, compositions of exchange assemblages
+are not printed to the output file. If neither <strong>true</strong> nor <strong>false</strong>
+is entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-498142"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+6: <strong>-<span class=SpellE>gas_phase</span> </strong>[(<em> True</em> or <em>False</em>
+)]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562090"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>gas_phase</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints the
+compositions of gas phases to the output file. Default is <strong>true </strong>at
+startup. Optionally, <strong>-g</strong> [<strong> <span class=SpellE>as_phase</span></strong>
+]. Note the hyphen is required to avoid a conflict with the keyword <a
+href="phreeqc3-17.htm#50593793_83409">GAS_PHASE</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562094"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, compositions of gas phases are printed
+to the output file; if false, compositions of gas phases are not printed to the
+output file. If neither <strong>true</strong> nor <strong>false</strong> is
+entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-498147"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+7: <strong>-headings </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562233"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-headings</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints the titles and headings that identify the beginning of each type of
+calculation to the output file. Default is <strong>true</strong> at startup.
+Optionally, <strong>heading</strong> , <strong>headings</strong> , or <strong>-h</strong>
+[<strong> <span class=SpellE>eadings</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562237"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, headings are printed to the output
+file; if false, headings are not printed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-498196"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+8: <strong>-<span class=SpellE>initial_isotopes</span> </strong>[(<em> True</em>
+or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562345"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>initial_isotopes</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints the <span
+class=SpellE>molalities</span> of isotopic elements to the output file for
+initial solution calculations. Default is <strong>true </strong>at startup.
+Optionally, <span class=SpellE><strong>initial_isotopes</strong></span> or <strong>-<span
+class=SpellE>ini</span></strong> [<strong> <span class=SpellE>tial_isotopes</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562346"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, <span class=SpellE>molalities</span> of
+isotopic elements are printed to the output file for initial solution
+calculations; if false, <span class=SpellE>molalities</span> of isotopic
+elements are not printed to the output file for initial solution <span
+class=SpellE>calculations.If</span> neither <strong>true</strong> nor <strong>false</strong>
+is entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-498204"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+9: <strong>-<span class=SpellE>inverse_modeling</span> </strong>[(<em> True</em>
+or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-716664"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>inverse_modeling</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints the results
+of inverse modeling to the output file. Default is <strong>true </strong>at
+startup. Optionally, <strong>inverse</strong> or <strong>-<span class=SpellE>i</span></strong>
+[<strong> <span class=SpellE>nverse_modeling</span></strong> ]. Note the hyphen
+is required to avoid a conflict with the keyword <a
+href="phreeqc3-20.htm#50593793_11066">INVERSE_MODELING</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-716665"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, results of inverse modeling are printed
+to the output file; if false, results of inverse modeling are not printed to
+the output file. If neither <strong>true</strong> nor <strong>false</strong> is
+entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+]..<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255293"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+10: <strong>-<span class=SpellE>isotope_alphas</span> </strong>[(<em> True</em>
+or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562768"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>isotope_alphas</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints isotope
+fractionation factors (as defined by the <a
+href="phreeqc3-22.htm#50593793_17508">ISOTOPE_ALPHAS</a> data block) to the
+output file. Default is <strong>true at startup</strong> . Optionally, <strong>-is</strong>
+[<strong> <span class=SpellE>otope_alphas</span></strong> ]. Note the hyphen is
+required to avoid a conflict with the keyword <a
+href="phreeqc3-22.htm#50593793_17508">ISOTOPE_ALPHAS</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562691"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, isotope fractionation factors are
+printed to the output file; if false, isotope fractionation factors are not
+printed to the output file. If neither <strong>true</strong> nor <strong>false</strong>
+is entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-498305"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+11: <strong>-<span class=SpellE>isotope_ratios</span> </strong>[(<em> True</em>
+or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562943"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>isotope_ratios</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints isotope
+ratios (as defined by the <a href="phreeqc3-23.htm#50593793_17097">ISOTOPE_RATIOS</a>
+data block) to the output file. Default is <strong>true </strong>at startup.
+Optionally, <strong>-<span class=SpellE>isotope_r</span></strong> [<strong> <span
+class=SpellE>atios</span></strong> ]. Note the hyphen is required to avoid a
+conflict with the keyword <a href="phreeqc3-23.htm#50593793_17097">ISOTOPE_RATIOS</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-562928"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, isotope ratios are printed to the
+output file; if false, isotope ratios are not printed to the output file. If
+neither <strong>true</strong> nor <strong>false</strong> is entered on the
+line, <strong>true</strong> is assumed. Optionally, <strong>t</strong> [<strong>
+rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-498382"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+12: <strong>-kinetics </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563089"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-kinetics</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints the compositions of kinetic-reaction assemblages to the output file.
+Default is <strong>true </strong>at startup. Optionally, <strong>-k</strong> [<strong>
+<span class=SpellE>inetics</span></strong> ]. Note the hyphen is required to
+avoid a conflict with the keyword <a href="phreeqc3-24.htm#50593793_55637">KINETICS</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563019"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, the compositions of kinetic-reaction
+assemblages are printed to the output file; if false, the compositions of
+kinetic-reaction assemblages are not printed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255295"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+13: <strong>-other </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-255296"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-other</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Controls all printing to the output file not controlled by any of the other
+identifiers, including lines that identify the solution or mixture, exchange
+assemblage, solid-solution assemblage, surface assemblage, pure-phase
+assemblage, kinetic reaction, and gas phase to be used in each calculation; and
+description of the stoichiometric reaction. Default is <strong>true </strong>at
+startup. Optionally, <strong>other</strong> , <strong>-o</strong> [<strong> <span
+class=SpellE>ther</span></strong> ], <strong>use</strong> , or <strong>-u</strong>
+[<strong> se</strong> ].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563166"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, output items controlled by the <strong>-other</strong>
+identifier are printed to the output file; if false, output items controlled by
+the <strong>-other</strong> identifier are not printed to the output file. If
+neither <strong>true</strong> nor <strong>false</strong> is entered on the
+line, <strong>true</strong> is assumed. Optionally, <strong>t</strong> [<strong>
+rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255297"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+14: <strong>-<span class=SpellE>saturation_indices</span> </strong>[(<em> True</em>
+or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563314"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>saturation_indices</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints saturation
+indices to the output file. Default is <strong>true </strong>at startup.
+Optionally, <strong>-<span class=SpellE>si</span></strong> ,<strong> <span
+class=SpellE>si</span></strong> ,<strong> <span class=SpellE>saturation_indices</span></strong>
+, or<strong> -<span class=SpellE>sa</span></strong> [<strong> <span
+class=SpellE>turation_indices</span></strong> ]. <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563244"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, saturation indices are printed to the
+output file; if false, saturation indices are not printed to the output file.
+If neither <strong>true</strong> nor <strong>false</strong> is entered on the
+line, <strong>true</strong> is assumed. Optionally, <strong>t</strong> [<strong>
+rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255299"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+15: <strong>-<span class=SpellE>solid_solutions</span> </strong>[(<em> True</em>
+or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563451"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>solid_solutions</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints the
+compositions of solid-solution assemblages to the output file. Default is <strong>true</strong>
+at startup. Optionally, <strong>-so</strong> [<strong> <span class=SpellE>lid_solutions</span></strong>
+]. Note the hyphen is required to avoid a conflict with the keyword <a
+href="phreeqc3-47.htm#50593793_77444">SOLID_SOLUTIONS</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563384"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, the compositions of solid-solution
+assemblages are printed to the output file; if false, the compositions of
+solid-solution assemblages are not printed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255301"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+16: <strong>-species </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563579"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-species</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints the distributions of aqueous species (including molality, activity,
+and activity coefficient) to the output file. Default is <strong>true </strong>at
+startup. Optionally, <strong>species </strong>or<strong> -<span class=SpellE>sp</span></strong>
+[<strong> <span class=SpellE>ecies</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563524"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, the distributions of aqueous species
+are printed to the output file; if false, the distributions of aqueous species
+are not printed to the output file. If neither <strong>true</strong> nor <strong>false</strong>
+is entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255303"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+17: <strong>-surface </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563716"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-surface</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints the compositions of surface assemblages to the output file. Default is
+<strong>true </strong>at startup. Optionally, <strong>-<span class=SpellE>su</span></strong>
+[<strong> <span class=SpellE>rface</span></strong> ]. Note the hyphen is
+required to avoid a conflict with the keyword <a
+href="phreeqc3-52.htm#50593793_56392">SURFACE</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563649"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, the compositions of surface assemblages
+are printed to the output file; if false, the compositions of surface
+assemblages are not printed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-255305"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line
+18: <strong>-totals </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563859"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-totals</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints the total <span class=SpellE>molalities</span> of elements (or element
+valence states in initial solutions), pH, pe, temperature, and other solution
+characteristics to the output file. Default is <strong>true</strong> at
+startup. Optionally, <strong>totals </strong>or<strong> -t</strong> [<strong> <span
+class=SpellE>otals</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563789"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, the total <span class=SpellE>molalities</span>
+of elements and other solution characteristics are printed to the output file;
+if false, the total <span class=SpellE>molalities</span> of elements and other
+solution characteristics are not printed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-255307"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 19: <strong>-<span
+class=SpellE>user_print</span> </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-564007"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>user_print</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Prints the
+information defined in a <a href="phreeqc3-59.htm#50593793_55085">USER_PRINT</a>
+data block to the output file. Default is <strong>true </strong>at startup.
+Optionally, <strong>-u</strong> [<strong> <span class=SpellE>ser_print</span></strong>
+]. Note the hyphen is required to avoid a conflict with the keyword <a
+href="phreeqc3-59.htm#50593793_55085">USER_PRINT</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-563937"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, the information defined in a <a
+href="phreeqc3-59.htm#50593793_55085">USER_PRINT</a> data block is printed to
+the output file; if false, the information defined in a <a
+href="phreeqc3-59.htm#50593793_55085">USER_PRINT</a> data block is not printed
+to the output file. If neither <strong>true</strong> nor <strong>false</strong>
+is entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-255309"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 20: <strong>-alkalinity
+</strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-564187"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-alkalinity</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Prints listings of the species that contribute to alkalinity to the output
+file. Default is <strong>false</strong> at startup. Optionally, <strong>alkalinity
+</strong>or<strong> -a</strong> [<strong> <span class=SpellE>lkalinity</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-564089"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, listings of the species that contribute
+to alkalinity are printed to the output file; if false, listings of the species
+that contribute to alkalinity are not printed to the output file. If neither <strong>true</strong>
+nor <strong>false</strong> is entered on the line, <strong>true</strong> is
+assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-716762"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 21: <strong>-dump </strong>[(<em>
+True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-716763"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-dump</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Controls writing dump files. Default is <strong>true </strong>at startup.
+Optionally, <strong>dump </strong>or<strong> -d</strong> [<strong> ump</strong>
+].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-716764"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, dump files are written as specified in <a
+href="phreeqc3-11.htm#50593793_49635">DUMP</a> and <a
+href="phreeqc3-56.htm#50593793_87317">TRANSPORT</a> data blocks. If false, dump
+files are not written. If neither <strong>true</strong> nor <strong>false</strong>
+is entered on the line, <strong>true</strong> is assumed. Optionally, <strong>t</strong>
+[<strong> rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-498545"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 22: <strong>-<span
+class=SpellE>censor_species</span> </strong><em>fraction</em> <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-498546"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>censor_species</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Sets a criterion for
+exclusion of species with small <span class=SpellE>molalities</span> from the
+distribution of species blocks of the output file (see <strong>-species</strong>
+). When <em>fraction</em> is 0, all species of each element or element redox
+state are printed. When fraction is a small number greater than zero, if the
+molality of an element or element redox state in a species is less than <em>fraction</em>
+times the total molality of the element or element redox state, then the
+species is excluded from the distribution of species for that element or
+element redox state. Default is 0.0 at startup. Optionally, <span class=SpellE><strong>censor_species</strong></span><strong>
+</strong>or<strong> -c</strong> [<strong> <span class=SpellE>ensor_species</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-498560"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>fraction</span></em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Small number greater than zero (1<em> ×</em> 10<sup> -8</sup> , for example).<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-498628"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 23: <strong>-<span
+class=SpellE>selected_output</span> </strong>[(<em> True</em> or <em>False</em>
+)]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-498543"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>selected_output</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Controls printing of
+information defined in <a href="phreeqc3-45.htm#50593793_20239">SELECTED_OUTPUT</a>
+and <a href="phreeqc3-60.htm#50593793_56415">USER_PUNCH</a> data blocks to the
+selected-output file. This identifier has no effect unless the <a
+href="phreeqc3-45.htm#50593793_20239">SELECTED_OUTPUT</a> data block is
+included in the input file. If a <a href="phreeqc3-45.htm#50593793_20239">SELECTED_OUTPUT</a>
+data block is included, <strong>-<span class=SpellE>selected_output</span></strong>
+enables or disables printing to the selected-output file. This print-control
+option is not affected by <strong>-reset</strong> . Default is <strong>true </strong>at
+startup. Optionally, <strong>-se</strong> [<strong> <span class=SpellE>lected_output</span></strong>
+]. Note the hyphen is required to avoid a conflict with the keyword <a
+href="phreeqc3-45.htm#50593793_20239">SELECTED_OUTPUT</a>. <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-564257"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, printing to the selected-output file is
+enabled; if false, printing to the selected-output file is disabled. If neither
+<strong>true</strong> nor <strong>false</strong> is entered on the line, <strong>true</strong>
+is assumed. Optionally, <strong>t</strong> [<strong> rue</strong> ] or <strong>f</strong>
+[<strong> <span class=SpellE>alse</span></strong> ].<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-255311"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 24: <strong>-status
+</strong>[(<em> True</em> or <em>False </em>or <span class=SpellE><em>time_interval</em></span>
+)]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-255312"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-status</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Controls printing of information that monitors calculations to the screen.
+When set to <strong>true</strong> , a status line is printed to the screen
+identifying the simulation number and the type of calculation that is being
+processed by the program. When set to <strong>false</strong> , no status line
+is printed to the screen. When set to an integer number, the printout will be
+suspended for that number of milliseconds. This print-control option is not
+affected by <strong>-reset</strong> . Default is <strong>true </strong>at
+startup. Optionally, <strong>status </strong>or<strong> -<span class=SpellE>st</span></strong>
+[<strong> <span class=SpellE>atus</span></strong> ]. <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-498680"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False </em>or <span class=SpellE><em>time_interval</em></span>
+)--<strong> True</strong> enables printing the status line to the screen; <strong>false</strong>
+disables printing the status line; and <span class=SpellE>time_interval</span>
+sets the frequency for refreshing the status line (milliseconds). <o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-498712"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 25: <strong>-<span
+class=SpellE>user_graph</span> </strong>[(<em> True</em> or <em>False</em> )]<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-564501"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-<span
+class=SpellE>user_graph</span></span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> --Enables plotting
+graphs defined by the <a href="phreeqc3-58.htm#50593793_26121">USER_GRAPH</a>
+data blocks. Default is <strong>true</strong> at startup. Optionally, <strong>-<span
+class=SpellE>user_g</span></strong> [<strong> <span class=SpellE>raph</span></strong>
+]. Note the hyphen is required to avoid a conflict with the keyword <a
+href="phreeqc3-58.htm#50593793_26121">USER_GRAPH</a>.<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-937086"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>(<em>
+True</em> or <em>False</em> )--If true, plotting of graphs defined by the <a
+href="phreeqc3-58.htm#50593793_26121">USER_GRAPH</a> data blocks is enabled; if
+false, plotting of graphs defined by the <a
+href="phreeqc3-58.htm#50593793_26121">USER_GRAPH</a> data blocks is disabled.
+If neither <strong>true</strong> nor <strong>false</strong> is entered on the
+line, <strong>true</strong> is assumed. Optionally, <strong>t</strong> [<strong>
+rue</strong> ] or <strong>f</strong> [<strong> <span class=SpellE>alse</span></strong>
+].<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-937090"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Line 26: <strong>-warnings
+</strong><em>count</em> <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-498759"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>-warnings</span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Sets a limit to the number of warnings that are printed to the screen and the
+output file. Default is 100 at startup; up to 100 warnings are printed.
+Optionally, <strong>warning</strong> ,<strong> warnings</strong> , or<strong>
+-w</strong> [<strong> <span class=SpellE>arnings</span></strong> ].<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-987012"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>count</span></em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Maximum number of warnings written to the screen and the output file.<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-987028"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:#218921'>Line 27: -<span class=SpellE>high_precision</span> [(True or
+False)]</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast'> <o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-987029"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:#218921'>-<span class=SpellE>high_precision</span>--Prints results for
+the PRINT Basic command for USER_PRINT with extra numerical precision (12
+decimal places, default is 3 or 4). Default is false at startup. Optionally, <span
+class=SpellE>high_precision</span> or -hi[<span class=SpellE>gh_precision</span>].</span></em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+<o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-987033"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:#218921'>(True or False)--If true, PRINT Basic command is written with
+extra decimal places; if false, PRINT Basic command is written with normal
+precision. If neither true nor false is entered on the line, true is assumed.
+Optionally, t[rue] or f[<span class=SpellE>alse</span>].</span></em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-987014"></a><a name="50593793_59204"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Notes<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-987015"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>By default, all print
+options are set to <strong>true</strong> at the beginning of a run, with the
+exception of <strong>-alkalinity</strong> . Once set by the keyword data block <strong>PRINT</strong>
+, options remain in effect until the end of the run or until changed in another
+<strong>PRINT</strong> data block. <o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-255317"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>Unlike most PHREEQC
+input, the order in which the identifiers are entered is important when using
+the <strong>-reset</strong> identifier. For the identifiers controlled by <strong>-reset</strong>
+, any identifier set before <strong>-reset</strong> in the data block will be
+reset when <strong>-reset</strong> is encountered. Thus, <strong>-reset</strong>
+should be the first identifier in the data block. Using <strong>-reset false</strong>
+will eliminate all printing to the output file except the echoing of the input
+file and the printing of warning and error messages.<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-255318"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>For long <a
+href="phreeqc3-56.htm#50593793_87317">TRANSPORT</a> and <strong>ADVECTION </strong>calculations
+with <a href="phreeqc3-24.htm#50593793_55637">KINETICS</a>, printing the status
+line [<strong> -status true</strong> (default)] may cause a significant
+increase in run time. This has been the case on some Macintosh systems. If
+printing to the screen is unbuffered, the program must wait for the status line
+to be written before continuing calculations, which slows overall execution
+time. In this case, setting <strong>-status false</strong> may speed up run
+times. Alternatively, the time interval for updating the status line may be set
+to be an integer number of milliseconds. For example, <strong>-status</strong>
+500 will suspend any printout to the status line for 500 milliseconds while
+computations continue unhindered. With a set time interval, the on-screen
+status line may not show the actual final status of the program when it reports
+“Done”.<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-255319"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>The identifiers <strong>-species</strong>
+and <strong>-<span class=SpellE>saturation_indices</span> </strong>control the
+longest output data blocks in the output file and are the most likely to be
+selectively excluded from long computer runs. Use of the <strong>-<span
+class=SpellE>censor_species</span></strong> identifier also will decrease the
+size of the output file and simplify the results. If transport calculations are
+made, the output file could become very large unless some or all of the output
+is excluded though the <strong>PRINT</strong> data block (<strong> -reset</strong>
+<strong>false</strong> ). Alternatively, the output in transport calculations
+may be limited by using the <strong>-<span class=SpellE>print_cells</span></strong>
+and <strong>-<span class=SpellE>print_frequency</span> </strong>identifiers in
+the <strong>ADVECTION </strong>and <a href="phreeqc3-56.htm#50593793_87317">TRANSPORT</a>
+data block. For transport calculations, the <a
+href="phreeqc3-45.htm#50593793_20239">SELECTED_OUTPUT</a> data block usually is
+used to produce a compact file of selected results.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255320"></a><a name="50593793_67998"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Example
+problems<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-255324"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>The keyword <strong>PRINT
+</strong>is used in example problems <a href="phreeqc3-68.htm#50593807_49505">6</a>,
+<a href="phreeqc3-72.htm#50593807_24858">10</a>, <a
+href="phreeqc3-74.htm#50593807_12946">12</a>, <a
+href="phreeqc3-75.htm#50593807_22265">13</a>, <a
+href="phreeqc3-76.htm#50593807_89290">14</a>, <a
+href="phreeqc3-77.htm#50593807_40270">15</a>, <a
+href="phreeqc3-81.htm#50593807_18716">19</a>, <a
+href="phreeqc3-82.htm#50593807_33272">20</a>, and <a
+href="phreeqc3-83.htm#50593807_68313">21</a>.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-255325"></a><a name="50593793_86549"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Related
+keywords<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-255335"></a><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'><a
+href="phreeqc3-6.htm#50593793_87438">ADVECTION</a>: <strong>-<span
+class=SpellE>print_cells</span> </strong>and<strong> -<span class=SpellE>print_frequency</span></strong>
+, <a href="phreeqc3-45.htm#50593793_20239">SELECTED_OUTPUT</a>, <a
+href="phreeqc3-56.htm#50593793_87317">TRANSPORT</a>: <strong>-<span
+class=SpellE>print_cells</span> </strong>and<strong> -<span class=SpellE>print_frequency</span></strong>
+, <a href="phreeqc3-58.htm#50593793_26121">USER_GRAPH</a>, <a
+href="phreeqc3-59.htm#50593793_55085">USER_PRINT</a>, and <a
+href="phreeqc3-60.htm#50593793_56415">USER_PUNCH</a>.<o:p></o:p></span></p>
+
+</div>
+
+<div class=MsoNormal align=center style='text-align:center'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+<p><span style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>| <a href="rate-parameters_hermanska.htm">Next</a> || <a
+href="phreeqc3-37.htm">Previous</a> || <a href="phreeqc3.htm">Top</a> | <o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

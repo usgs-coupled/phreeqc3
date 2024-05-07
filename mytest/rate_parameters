@@ -1,0 +1,135 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 rate_parameters_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+RATE_PARAMETERS_PK
+#               Acid                    Neutral         Base
+#               log_k   E       n       log_k   E       log_k   E       n
+#              ==============================================================
+Albite         -10.16   65.0    0.457   -12.56  69.8    -15.60  71.0    -0.572 
+Oligoclase      -9.67   65.0    0.457   -11.84  69.8    -30     1       0
+Andesine        -8.88   53.5    0.541   -11.47  57.4    -30     1       0
+Labradorite     -7.87   42.1    0.626   -10.91  45.2    -30     1       0
+Bytownite       -5.85   29.3    1.018   -9.82   31.5    -30     1       0
+Anorthite       -3.50   16.6    1.411   -9.12   17.8    -30     1       0
+RATE_PARAMETERS_SVD
+Albite 3350 2500 1680 1200 3100 \
+       14.6 0.5 0.4 0.4 0.4 0.5 \  
+	   16.8 0.15 4 0.15 200 3 900 \   
+	   16.05 0.6 \
+	   14.7 0.5 5 \   
+	   15.4 0.3 0.1 12 0.5 5 3 900 
+RATE_PARAMETERS_HERMANSKA
+#         temperature_factors (TABLE 2): 
+#        logK25  Aa  Eaa  na  ogK25   Ab  Eab logK25     Ac  Eac    nc
+Albite   -10.32 0.7 58.0 0.3 -11.19 0.21 60.0 -13.58 1.5e-5 50.0 -0.30 
+END
+RATES
+
+Albite_PK # Palandri and Kharaka, 2004
+5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+20 rate = RATE_PK("Albite")
+30 IF M0 > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+40 SAVE area*rate*affinity*TIME
+-end 
+
+Albite_Svd # Sverdrup, 2019
+5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+20 rate = RATE_SVD("Albite")
+30 IF M0 > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+40 SAVE area*rate*affinity*TIME
+-end 
+
+Albite_Hermanska # 
+5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+20 rate = RATE_HERMANSKA("Albite")
+30 IF M0 > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+40 SAVE area*rate*affinity*TIME
+-end 
+
+KINETICS 1
+Albite_PK
+-formula NaAlSi3O8
+-m0 1; -time 1
+# parms affinity_factor m^2/mol roughness, exponent
+-parms    0 1 1 0.67
+END
+
+SOLUTION 1
+
+PHASES 
+  Fix_pH; H+ = H+ 
+  LiBr; LiBr = Li+ + Br-; -log_k -20  # (very) unsoluble phase with base cation and acid anion, permits to use HBr or LiOH as reactant 
+SELECTED_OUTPUT 1
+     -file rate_parameters.inc 
+     -reset false 
+USER_PUNCH 1   # write out the pH's to equilibrate... 
+     10 FOR i = 0 to 14 STEP 0.5
+     20   punch EOL$ + 'USE solution 1' 
+     30   punch EOL$ + 'EQUILIBRIUM_PHASES 1' 
+     40   punch EOL$ + ' LiBr' 
+     50   punch EOL$ + ' Fix_pH ' + TRIM(STR$(-i)) + ' LiOH 10' # ...or HBr as reactant 
+     60   punch EOL$ + 'USE kinetics 1' 
+     70   punch EOL$ + 'END' 
+     80 NEXT i 
+END 
+
+#PRINT; -reset false
+SELECTED_OUTPUT 1; -active false
+USER_GRAPH 1
+-headings pH Palandri
+-axis_titles  pH "log10(rate / (mol / m2 / s))"
+-axis_scale x_axis 0 14
+-axis_scale y_axis  -14 -9
+-axis_scale sy_axis -14 -9
+10 graph_x -la("H+")
+20 graph_sy log10(tot("Al"))
+INCLUDE$ rate_parameters.inc 
+END
+
+KINETICS 1
+Albite_Svd
+-formula NaAlSi3O8
+-m0 1; -time 1
+# parms affinity_factor m^2/mol roughness, exponent
+-parms    0 1 1 0.67
+USER_GRAPH 1
+-headings pH Sverdup
+INCLUDE$ rate_parameters.inc
+END
+
+KINETICS 1
+Albite_Hermanska
+-formula NaAlSi3O8
+-m0 1; -time 1
+# parms affinity_factor m^2/mol roughness, exponent
+-parms    0 1 1 0.67
+USER_GRAPH 1
+-headings pH Hermanska
+INCLUDE$ rate_parameters.inc
+END
+
+
+USER_GRAPH 1
+-connect_simulations false
+END
+
+USE solution 1
+REACTION_TEMPERATURE 1; 25 25 in 21
+USER_GRAPH 1
+-headings Albite_data
+
+10 data 1.1, 2.05, 2.45, 2.9, 3, 3.5, 4.1, 5.1, 5.35, 5.47, 5.63, 5.63, 5.73, 7.73, 9.95, 9.95, 9.95, 10.6, 11.2, 11.55, 12.3
+20 data -10.25, -10.55, -10.82, -11.25, -11.1, -11.4, -11.47, -11.82, -11.75, -11.65, -11.83, -11.92, -11.92, -11.83, -10.97, -11.05, -11.13, -10.95, -10.55, -10.6, -10.38 # Chou, L., Wollast, R., 1985. Steady-state kinetics and dissolution mechanisms of albite. Am. J. Sci. 285, 963–993.
+30 restore 10 : dim ph(21) : for i = 1 to step_no : read ph(i) : next i
+40 restore 20 : dim lk(21) : for i = 1 to step_no : read lk(i) : next i
+50 i = step_no : plot_xy ph(i), lk(i), line_width = 0, color = Black, y_axis = 2, symbol_size = 10, symbol = Circle   

@@ -1,0 +1,44 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 mean_gammas_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+MEAN_GAMMAS
+CaCl2    Ca+2  1  Cl-    2
+CaSO4    Ca+2  1  SO4-2  1
+CaCO3    Ca+2  1  CO3-2  1
+Ca(OH)2  Ca+2  1  OH-    2
+MgCl2    Mg+2  1  Cl-    2
+MgSO4    Mg+2  1  SO4-2  1
+MgCO3    Mg+2  1  CO3-2  1
+Mg(OH)2  Mg+2  1  OH-    2
+NaCl     Na+   1  Cl-    1
+Na2SO4   Na+   2  SO4-2  1
+NaHCO3   Na+   1  HCO3-  1
+Na2CO3   Na+   2  CO3-2  1
+NaOH     Na+   1  OH-    1
+KCl      K+    1  Cl-    1
+K2SO4    K+    2  SO4-2  1
+HCO3     K+    1  HCO3-  1
+K2CO3    K+    2  CO3-2  1
+KOH      K+    1  OH-    1
+HCl      H+    1  Cl-    1
+H2SO4    H+    2  SO4-2  1
+HBr      H+    1  Br-    1
+END
+SOLUTION
+Na 1
+Ca 1
+Cl 1
+S(6) 0.5
+USER_PRINT
+10 PRINT "NaCl:      ", MEANG("NaCl")
+20 PRINT "Na2SO4:    ", MEANG("Na2SO4")
+30 PRINT "CaCl2:     ", MEANG("CaCl2")
+40 PRINT "CaSO4:     ", MEANG("CaSO4")
+END

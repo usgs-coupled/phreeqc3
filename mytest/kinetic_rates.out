@@ -1,4 +1,3 @@
-WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: kinetic_rates
   Output file: kinetic_rates.out
 Database file: ../database/phreeqc.dat
@@ -14,7 +13,7 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
-	CALCULATE_VALUES
+	MEAN_GAMMAS
 	RATES
 	END
 ------------------------------------
@@ -30,6 +29,116 @@ Reading input data for simulation 1.
 	10 PUNCH STR_F$(MU, 20, 12)
 	20 PUNCH STR_F$(SC, 20, 10)
 	    end
+		CALCULATE_VALUES
+	Palandri_rate
+	10  affinity = get(-99, 1) # retrieve number from memory
+	20 
+	30  REM # specific area m2/mol, surface roughness
+	40  sp_area  = get(-99, 2) : roughness = get(-99, 3) 
+	50 
+	60  REM # temperature factor, gas constant
+	70  dif_temp = 1 / TK - 1 / 298 : R = 2.303 * 8.314e-3 : dT_R = dif_temp / R
+	80  
+	90  REM # rate by H+
+	100 lgk_H    = get(-99, 4) : e_H = get(-99, 5) : nH = get(-99, 6)
+	110 rate_H   = 10^(lgk_H - e_H * dT_R) * ACT("H+")^nH 
+	120 
+	130 REM # rate by hydrolysis
+	140 lgk_H2O  = get(-99, 7) : e_H2O = get(-99, 8)
+	150 rate_H2O = 10^(lgk_H2O - e_H2O * dT_R)
+	160 
+	170 REM # rate by OH-
+	180 lgk_OH   = get(-99, 9) : e_OH = get(-99, 10) : nOH = get(-99, 11)
+	190 rate_OH  = 10^(lgk_OH - e_OH * dT_R) * ACT("H+")^nOH
+	200 
+	210 rate     = rate_H + rate_H2O + rate_OH
+	220 area     = sp_area * M0 * (M / M0)^0.67
+	230 
+	240 rate     = area * roughness * rate * affinity
+	250 SAVE rate * TIME
+	end
+	Sverdrup_rate
+	10  affinity = get(-99, 1)
+	20 
+	30  REM # specific area m2/mol, surface roughness
+	40  sp_area = get(-99, 2) : roughness = get(-99, 3) 
+	50 
+	60  REM # temperature factors
+	70  dif_temp = 1 / TK - 1 / 281
+	80  e_H = get(-99, 4) : e_H2O = get(-99, 5) : e_CO2 = get(-99, 6) : e_OA = get(-99, 7) : e_OH = get(-99, 8) 
+	90  
+	100 BC       = ACT("Na+") + ACT("K+") + ACT("Mg+2") + ACT("Ca+2")
+	110 aAl      = act("Al+3")
+	120 aSi      = act("H4SiO4")
+	130 R        = tot("OrganicMatter")
+	140 
+	150 REM # rate by H+
+	160 pkH = get(-99, 9) : nH = get(-99, 10) : yAl = get(-99, 11) : CAl = get(-99, 12) : xBC = get(-99, 13) : CBC = get(-99, 14)
+	170 pk_H     = pkH - 3 + e_H * dif_temp
+	180 CAl      = CAl * 1e-6
+	190 CBC      = CBC * 1e-6
+	200 rate_H   = 10^-pk_H * ACT("H+")^nH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC)
+	210 
+	220 REM # rate by hydrolysis
+	230 pkH2O = get(-99, 15) : yAl = get(-99, 16) : CAl = get(-99, 17) : xBC = get(-99, 18) : CBC = get(-99, 19) : zSi = get(-99, 20) : CSi = get(-99, 21)
+	240 CAl      = CAl * 1e-6
+	250 CBC      = CBC * 1e-6
+	260 CSi      = CSi * 1e-6
+	270 pk_H2O   = pkH2O - 3 + e_H2O * dif_temp
+	280 rate_H2O = 10^-pk_H2O / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)
+	290 
+	300 REM # rate by CO2
+	310 pKCO2 = get(-99, 22) : nCO2 = get(-99, 23)
+	320 pk_CO2   = pkCO2 - 3 + e_CO2 * dif_temp
+	330 rate_CO2 = 10^-pk_CO2 * SR("CO2(g)")^nCO2
+	340 
+	350 REM # rate by Organic Acids
+	360 pkOrg = get(-99, 24) : nOrg = get(-99, 25) : COrg = get(-99, 26)
+	370 COrg     = COrg * 1e-6
+	380 pk_Org   = pkOrg - 3 + e_OA * dif_temp
+	390 rate_Org = 10^-pk_Org * (R / (1 + R / COrg))^nOrg
+	400 
+	410 REM # rate by OH-
+	420 pkOH = get(-99, 27) : wOH = get(-99, 28) : yAl = get(-99, 29) : CAl = get(-99, 30) : xBC = get(-99, 31) : CBC = get(-99, 32) : zSi = get(-99, 33) : CSi = get(-99, 34)
+	430 CAl      = CAl * 1e-6
+	440 CBC      = CBC * 1e-6
+	450 CSi      = CSi * 1e-6
+	460 pk_OH    = pkOH - 3 + e_OH * dif_temp
+	470 rate_OH  = 10^-pk_OH * ACT("OH-")^wOH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)# : print rate_OH
+	480 
+	490 rate     = rate_H + rate_H2O + rate_CO2 + rate_Org + rate_OH
+	500 area     = sp_area * M0 * (M / M0)^0.67
+	510 
+	520 rate     = roughness * area * rate * affinity
+	530 SAVE rate * TIME
+	end
+	Hermanska_rate
+	10  affinity = get(-99, 1) # retrieve number from memory
+	20 
+	30  REM # specific area m2/mol, surface roughness
+	40  sp_area  = get(-99, 2) : roughness = get(-99, 3) 
+	50 
+	60  REM # gas constant * Tk, act("H+")
+	70  RT = 8.314e-3 * TK     : aH = act("H+")
+	80  
+	90  REM # rate by H+
+	100 lgk_H    = get(-99, 4) : Aa = get(-99, 5) : e_H = get(-99, 6) : nH = get(-99, 7)
+	110 rate_H   = Aa * exp(- e_H / RT) * aH^nH 
+	120 
+	130 REM # rate by hydrolysis
+	140 lgk_H2O  = get(-99, 8) : Ab = get(-99, 9) : e_H2O = get(-99, 10)
+	150 rate_H2O = Ab * exp(- e_H2O / RT)
+	160 
+	170 REM # rate by OH-
+	180 lgk_OH   = get(-99, 11) : Ac = get(-99, 12) : e_OH = get(-99, 13) : nOH = get(-99, 14)
+	190 rate_OH  = Ac * exp(- e_OH / RT) * aH^nOH
+	200 
+	210 rate     = rate_H + rate_H2O + rate_OH
+	220 area     = sp_area * M0 * (M / M0)^0.67
+	230 
+	240 rate     = area * roughness * rate * affinity
+	250 SAVE rate * TIME
+	end
 	RATES
 	Albite_PK # Palandri and Kharaka, 2004
 	10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
@@ -153,6 +262,8 @@ Reading input data for simulation 3.
 	SELECTED_OUTPUT 1
 	 active false
 	USER_GRAPH 1
+
+	Reading data from kinetic_rates.inc ...
 	-headings pH Palandri
 	-axis_titles  pH "log10(rate / (mol / m2 / s))"
 	-axis_scale x_axis 0 14
@@ -160,8 +271,6 @@ Reading input data for simulation 3.
 	-axis_scale sy_axis -14 -9
 	10 graph_x -la("H+")
 	20 graph_sy log10(tot("Al"))
-
-	Reading data from kinetic_rates.inc ...
 	USE solution 1	
 	EQUILIBRIUM_PHASES 1	      
 	 LiBr	
@@ -3658,9 +3767,9 @@ Reading input data for simulation 33.
 	 time_steps 1 
 	parms   1 1 1,    3350 2500 1680 1200 3100,          14.6 0.5 0.4 0.4 0.4 0.5,  16.8 0.15 4 0.15 200 3 900,   16.05 0.6 14.7 0.5 5,   15.4 0.3 0.1 12 0.5 5 3 900 
 	USER_GRAPH 1
-	-headings pH Sverdup
 
 	Reading data from kinetic_rates.inc ...
+	-headings pH Sverdup
 	USE solution 1	
 	EQUILIBRIUM_PHASES 1	      
 	 LiBr	
@@ -7155,9 +7264,9 @@ Reading input data for simulation 63.
 	formula NaAlSi3O8
 	parms   1 1 1,                         -10.32 0.7 58.0 0.3 -11.19 0.21 60.0 -13.58 1.5e-5 50.0 -0.30 
 	USER_GRAPH 1
-	-headings pH Hermanska
 
 	Reading data from kinetic_rates.inc ...
+	-headings pH Hermanska
 	USE solution 1	
 	EQUILIBRIUM_PHASES 1	      
 	 LiBr	
@@ -10664,7 +10773,7 @@ Reading input data for simulation 94.
 	USER_GRAPH 1
 	-headings Albite_data
 	10 data 1.1, 2.05, 2.45, 2.9, 3, 3.5, 4.1, 5.1, 5.35, 5.47, 5.63, 5.63, 5.73, 7.73, 9.95, 9.95, 9.95, 10.6, 11.2, 11.55, 12.3
-	20 data -10.25, -10.55, -10.82, -11.25, -11.1, -11.4, -11.47, -11.82, -11.75, -11.65, -11.83, -11.92, -11.92, -11.83, -10.97, -11.05, -11.13, -10.95, -10.55, -10.6, -10.38 # Chou, L., Wollast, R., 1985. Steady-state kinetics and dissolution mechanisms of albite. Am. J. Sci. 285, 963–993.
+	20 data -10.25, -10.55, -10.82, -11.25, -11.1, -11.4, -11.47, -11.82, -11.75, -11.65, -11.83, -11.92, -11.92, -11.83, -10.97, -11.05, -11.13, -10.95, -10.55, -10.6, -10.38 
 	30 restore 10 : dim ph(21) : for i = 1 to step_no : read ph(i) : next i
 	40 restore 20 : dim lk(21) : for i = 1 to step_no : read lk(i) : next i
 	50 i = step_no : plot_xy ph(i), lk(i), line_width = 0, color = Black, y_axis = 2, symbol_size = 10, symbol = Circle   
@@ -11834,4 +11943,8 @@ End of simulation.
 -------------------------------------
 Reading input data for simulation 95.
 -------------------------------------
+
+-------------------------------
+End of Run after 1.634 Seconds.
+-------------------------------
 

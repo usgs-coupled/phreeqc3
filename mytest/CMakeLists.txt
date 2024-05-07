@@ -163,6 +163,7 @@ set(TESTS
   gas_phase_pressure
   gas_type_switch
   gas9
+  get_put_
   gfw
   Goldsack
   gyps_Na2SO4
@@ -219,6 +220,8 @@ set(TESTS
   KCl-SO4
   kin_time
   kinetic_rates
+  kinetic_rates_plus
+  kinetic_rates_carbfix
   kinex
   KinSorbNp
   kinsurf
@@ -237,6 +240,7 @@ set(TESTS
   MassWater
   McBride_rho
   McClesk
+  mean_gammas
   membrane
   MgCl2
   mgcl2mgso4_pz
@@ -330,6 +334,7 @@ set(TESTS
   pyrite_34s
   R-04_01_PHRC
   rahn
+  rate_parameters
   Ratework
   raw
   reaction_p
@@ -383,6 +388,7 @@ set(TESTS
   SrSO4_P
   SrSO4_tc
   ss_incr
+  ss_kinetics
   ss_r
   stag_diss_only
   str_f

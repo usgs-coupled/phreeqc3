@@ -63,14 +63,14 @@ SOLUTION_SPECIES
 H+ = H+
 	-gamma	9.0     0
 	-viscosity  9.35e-2  -8.31e-2  2.487e-2  4.49e-4  2.01e-2  1.570 # for viscosity parameters see ref. 4
-	-dw	9.31e-9  838  16.315  0.809  2.376  24.01  0
-#		Dw(25 C) dw_T  a      a2      visc   a3    a_v_dif
+	-dw	9.31e-9  838  16.315  0  2.376  24.01  0
+#		Dw(25 C) dw_T  a      a2  visc   a3    a_v_dif
 # Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc
 # a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
 
-# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^2.376
-# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn.
-# a3 = -10 ? ka = DH_B * a * mu^a2  (Define a3 = -10) (not used in this database.)
+# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^visc (visc = 2.376 for H+)
+# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn. (a2 = Vm = 0 for H+, the reference for Vm)
+# a3 = -10 ? ka = DH_B * a * mu^a2  (Define a3 = -10, not used in this database.) (a3 = 24.01 for H+, a flag.)
 # -3 < a3 < 4 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka)) (Sr+2 in this database)
 
 # If a_v_dif <> 0, Dw(TK) *= (viscos_0_tc / viscos)^a_v_dif in TRANSPORT.
@@ -373,10 +373,10 @@ Ca+2 + CO3-2 = CaCO3
 	-dw 4.46e-10    # complexes: calc'd with the Pikal formula
 	-Vm	-.2430  -8.3748  9.0417  -2.4328  -.0300 # supcrt
 Ca+2 + CO3-2 + H+ = CaHCO3+
-	-log_k  11.435; -delta_h -0.871 kcal
-	-analytic  1317.0071  0.34546894  -39916.84  -517.70761  563713.9
+	-log_k  10.91; -delta_h 4.38 kcal
+	-analytic  -6.009  3.377e-2  2044
 	-gamma  6.0	0
-	-Vm	3.1911  .0104  5.7459  -2.7794  .3084 5.4 # supcrt
+	-Vm	30.19  .010  5.75  -2.78  .308 5.4
 	-dw	5.06e-10
 Ca+2 + SO4-2 = CaSO4
 	-log_k  2.25
@@ -1570,163 +1570,28 @@ SURFACE_SPECIES
 	Hfo_wOH + H4SiO4 = Hfo_wH2SiO4- + H+ + H2O  ; log_K  -3.22
 	Hfo_wOH + H4SiO4 = Hfo_wHSiO4-2 + 2H+ + H2O ; log_K -11.69
 
-
-CALCULATE_VALUES
-
-#INCLUDE$ \phreeqc\database\kinetic_rates.dat
-# Loads subroutines for calculating mineral dissolution rates compiled by Palandri and Kharaka (2004), Sverdrup et al. (2019), and Hermanska et al., 2022, 2023.
-# Numbers can be copied from the tables in the publications; when unavailable enter -30 for log_k, 0 for exponents and 1 for other parameters.
-
-# For an example file using the rates, see: kinetic_rates.phr from https://www.hydrochemistry.eu/exmpls/kin_silicates.html
-
-# References
-# Palandri, J.L. and Kharaka, J.K. (2004). A compilation of rate parameters of water-mineral interaction kinetics for application to geochemical modeling. USGS Open-File Report 2004-1068.
-# Sverdrup, H.U., Oelkers, E., Erlandsson Lampa, M., Belyazid, S., Kurz, D. and Akselsson, C. (2019). Reviews and Syntheses: weathering of silicate minerals in soils and watersheds: parameterization of the weathering kinetics module in the PROFILE and ForSAFE models. Biogeosciences Discuss. 1-58.
-# Hermanská, M., Voigt, M.J., Marieni, C., Declercq, J. and Oelkers, E.H., 2022. A comprehensive and internally consistent mineral dissolution rate database: Part I: Primary silicate minerals and glasses. Chemical Geology, 597, p.120807
-# Hermanská, M., Voigt, M.J., Marieni, C., Declercq, J. and Oelkers, E.H., 2023. A comprehensive and consistent mineral dissolution rate database: Part II: Secondary silicate minerals. Chemical Geology, p.121632.
-# Subroutines for calculating mineral dissolution rates from compilations by Palandri and Kharaka (2004), Sverdrup et al. (2019), and Hermanska et al., 2022, 2023.
-# Numbers can be copied from the tables in the publications; when unavailable enter -30 for log_k, 0 for exponents and 1 for other parameters.
-  # The data are entered in a KINETICS block with -parms. For example for the Albite rate of Palandri and Kharaka, Table 13:
-
-    # KINETICS 1
-    # Albite_PK
-    # -formula NaAlSi3O8
-
-    # # parms affinity_factor m^2/mol roughness, lgkH  e_H  nH, lgkH2O e_H2O, lgkOH e_OH nOH
-    # # parm number        1       2          3,    4    5   6,      7     8,   9     10  11
-
-    # -parms    0 1 1,    -10.16 65.0 0.457,   -12.56 69.8,   -15.60 71.0 -0.572  # parms 4-11 from TABLE 13
-
-    # In the RATES block, they are stored in memory, and retrieved by the subroutine calc_value("Palandri_rate").
-
-    # RATES
-    # Albite_PK # Palandri and Kharaka, 2004
-    # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
-    # 20 put(affinity, -99, 1) # store value in memory
-    # 30 for i = 2 to 11 : put(parm(i), -99, i) : next i
-    # 40 SAVE calc_value("Palandri_rate")
-    # -end 
-
-Palandri_rate
-# in KINETICS, define 11 parms:
-# affinity_factor m^2/mol roughness, lgkH  e_H  nH, lgkH2O e_H2O, lgkOH e_OH nOH
-# parm number  1       2          3,    4    5   6,      7     8,   9     10  11
-10  affinity = get(-99, 1) # retrieve number from memory
-20 
-30  REM # specific area m2/mol, surface roughness
-40  sp_area  = get(-99, 2) : roughness = get(-99, 3) 
-50 
-60  REM # temperature factor, gas constant
-70  dif_temp = 1 / TK - 1 / 298 : R = 2.303 * 8.314e-3 : dT_R = dif_temp / R
-80  
-90  REM # rate by H+
-100 lgk_H    = get(-99, 4) : e_H = get(-99, 5) : nH = get(-99, 6)
-110 rate_H   = 10^(lgk_H - e_H * dT_R) * ACT("H+")^nH 
-120 
-130 REM # rate by hydrolysis
-140 lgk_H2O  = get(-99, 7) : e_H2O = get(-99, 8)
-150 rate_H2O = 10^(lgk_H2O - e_H2O * dT_R)
-160 
-170 REM # rate by OH-
-180 lgk_OH   = get(-99, 9) : e_OH = get(-99, 10) : nOH = get(-99, 11)
-190 rate_OH  = 10^(lgk_OH - e_OH * dT_R) * ACT("H+")^nOH
-200 
-210 rate     = rate_H + rate_H2O + rate_OH
-220 area     = sp_area * M0 * (M / M0)^0.67
-230 
-240 rate     = area * roughness * rate * affinity
-250 SAVE rate * TIME
--end
-
-Sverdrup_rate
-# in KINETICS, define 34 parms:
-#          affinity m^2/mol roughness, temperature_factors (TABLE 4): e_H e_H2O e_CO2 e_OA e_OH,\
-# (TABLE 3): pkH  nH yAl CAl xBC CBC,   pKH2O yAl CAl xBC CBC zSi CSi,  pKCO2 nCO2  pkOrg nOrg COrg, pkOH wOH yAl CAl xBC CBC zSi CSi
-10  affinity = get(-99, 1)
-20 
-30  REM # specific area m2/mol, surface roughness
-40  sp_area = get(-99, 2) : roughness = get(-99, 3) 
-50 
-60  REM # temperature factors
-70  dif_temp = 1 / TK - 1 / 281
-80  e_H = get(-99, 4) : e_H2O = get(-99, 5) : e_CO2 = get(-99, 6) : e_OA = get(-99, 7) : e_OH = get(-99, 8) 
-90  
-100 BC       = ACT("Na+") + ACT("K+") + ACT("Mg+2") + ACT("Ca+2")
-110 aAl      = act("Al+3")
-120 aSi      = act("H4SiO4")
-130 R        = tot("OrganicMatter")
-140 
-150 REM # rate by H+
-160 pkH = get(-99, 9) : nH = get(-99, 10) : yAl = get(-99, 11) : CAl = get(-99, 12) : xBC = get(-99, 13) : CBC = get(-99, 14)
-170 pk_H     = pkH - 3 + e_H * dif_temp
-180 CAl      = CAl * 1e-6
-190 CBC      = CBC * 1e-6
-200 rate_H   = 10^-pk_H * ACT("H+")^nH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC)
-210 
-220 REM # rate by hydrolysis
-230 pkH2O = get(-99, 15) : yAl = get(-99, 16) : CAl = get(-99, 17) : xBC = get(-99, 18) : CBC = get(-99, 19) : zSi = get(-99, 20) : CSi = get(-99, 21)
-240 CAl      = CAl * 1e-6
-250 CBC      = CBC * 1e-6
-260 CSi      = CSi * 1e-6
-270 pk_H2O   = pkH2O - 3 + e_H2O * dif_temp
-280 rate_H2O = 10^-pk_H2O / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)
-290 
-300 REM # rate by CO2
-310 pKCO2 = get(-99, 22) : nCO2 = get(-99, 23)
-320 pk_CO2   = pkCO2 - 3 + e_CO2 * dif_temp
-330 rate_CO2 = 10^-pk_CO2 * SR("CO2(g)")^nCO2
-340 
-350 REM # rate by Organic Acids
-360 pkOrg = get(-99, 24) : nOrg = get(-99, 25) : COrg = get(-99, 26)
-370 COrg     = COrg * 1e-6
-380 pk_Org   = pkOrg - 3 + e_OA * dif_temp
-390 rate_Org = 10^-pk_Org * (R / (1 + R / COrg))^nOrg
-400 
-410 REM # rate by OH-
-420 pkOH = get(-99, 27) : wOH = get(-99, 28) : yAl = get(-99, 29) : CAl = get(-99, 30) : xBC = get(-99, 31) : CBC = get(-99, 32) : zSi = get(-99, 33) : CSi = get(-99, 34)
-430 CAl      = CAl * 1e-6
-440 CBC      = CBC * 1e-6
-450 CSi      = CSi * 1e-6
-460 pk_OH    = pkOH - 3 + e_OH * dif_temp
-470 rate_OH  = 10^-pk_OH * ACT("OH-")^wOH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)# : print rate_OH
-480 
-490 rate     = rate_H + rate_H2O + rate_CO2 + rate_Org + rate_OH
-500 area     = sp_area * M0 * (M / M0)^0.67
-510 
-520 rate     = roughness * area * rate * affinity
-530 SAVE rate * TIME
--end
-
-Hermanska_rate
-# in KINETICS, define 14 parms:
-# parms affinity m^2/mol roughness, (TABLE 2): (acid)logk25 Aa Ea na (neutral)logk25 Ab Eb (basic)logk25 Ac Ec nc
-# (Note that logk25 values are not used, they were transformed to A's.)
-10  affinity = get(-99, 1) # retrieve number from memory
-20 
-30  REM # specific area m2/mol, surface roughness
-40  sp_area  = get(-99, 2) : roughness = get(-99, 3) 
-50 
-60  REM # gas constant * Tk, act("H+")
-70  RT = 8.314e-3 * TK     : aH = act("H+")
-80  
-90  REM # rate by H+
-100 lgk_H    = get(-99, 4) : Aa = get(-99, 5) : e_H = get(-99, 6) : nH = get(-99, 7)
-110 rate_H   = Aa * exp(- e_H / RT) * aH^nH 
-120 
-130 REM # rate by hydrolysis
-140 lgk_H2O  = get(-99, 8) : Ab = get(-99, 9) : e_H2O = get(-99, 10)
-150 rate_H2O = Ab * exp(- e_H2O / RT)
-160 
-170 REM # rate by OH-
-180 lgk_OH   = get(-99, 11) : Ac = get(-99, 12) : e_OH = get(-99, 13) : nOH = get(-99, 14)
-190 rate_OH  = Ac * exp(- e_OH / RT) * aH^nOH
-200 
-210 rate     = rate_H + rate_H2O + rate_OH
-220 area     = sp_area * M0 * (M / M0)^0.67
-230 
-240 rate     = area * roughness * rate * affinity
-250 SAVE rate * TIME
--end
+MEAN_GAMMAS
+CaCl2    Ca+2  1  Cl-    2
+CaSO4    Ca+2  1  SO4-2  1
+CaCO3    Ca+2  1  CO3-2  1
+Ca(OH)2  Ca+2  1  OH-    2
+MgCl2    Mg+2  1  Cl-    2
+MgSO4    Mg+2  1  SO4-2  1
+MgCO3    Mg+2  1  CO3-2  1
+Mg(OH)2  Mg+2  1  OH-    2
+NaCl     Na+   1  Cl-    1
+Na2SO4   Na+   2  SO4-2  1
+NaHCO3   Na+   1  HCO3-  1
+Na2CO3   Na+   2  CO3-2  1
+NaOH     Na+   1  OH-    1
+KCl      K+    1  Cl-    1
+K2SO4    K+    2  SO4-2  1
+HCO3     K+    1  HCO3-  1
+K2CO3    K+    2  CO3-2  1
+KOH      K+    1  OH-    1
+HCl      H+    1  Cl-    1
+H2SO4    H+    2  SO4-2  1
+HBr      H+    1  Br-    1
 
 RATES
 
@@ -2031,26 +1896,6 @@ Pyrolusite
 200 SAVE moles * SOLN_VOL
   -end
 
-Albite_PK # Palandri and Kharaka, 2004
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
-20 put(affinity, -99, 1) # store value in memory
-30 for i = 2 to 11 : put(parm(i), -99, i) : next i
-40 SAVE calc_value("Palandri_rate")
--end 
-
-Albite_Svd # Sverdrup, 2019
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
-20 put(affinity, -99, 1)
-30 for i = 2 to 34 : put(parm(i), -99, i) : next i
-40 save calc_value("Sverdrup_rate")
--end 
-
-Albite_Hermanska # Hermanska et al., 2022, 2023
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
-20 put(affinity, -99, 1) # store value in memory
-30 for i = 2 to 14 : put(parm(i), -99, i) : next i
-40 SAVE calc_value("Hermanska_rate")
--end 
 END
 # =============================================================================================
 #(a) means amorphous. (d) means disordered, or less crystalline. 
