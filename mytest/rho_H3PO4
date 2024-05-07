@@ -1,88 +1,88 @@
 DATABASE ../database/phreeqc.dat
 SELECTED_OUTPUT 101
-    -file                 rho_H3PO4_101.sel
+ -file                 rho_H3PO4_101.sel
 USER_PUNCH 101
-    -headings Mu SC
-    -start
+ -headings Mu SC
+ -start
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
-    -end
+ -end
 #PRINT; -reset false
-SOLUTION_SPECIES
-PO4-3 = PO4-3
-	-gamma	4.0	0
-	-dw	0.612e-9
-	-Vm  -.5259  -9.0654  9.3131  -2.4042  5.6114 # supcrt
-PO4-3 + H+ = HPO4-2
-	-log_k	12.346
-	-delta_h -3.530	kcal
-	-gamma	5.0	0
-	-dw	0.69e-9
-	-Vm  3.6315  1.0857  5.3233  -2.8239  3.3363 # supcrt
-PO4-3 + 2 H+ = H2PO4- # minteq.v4.dat, NIST46.3
-	-log_k	19.573
-	-delta_h	-18	kJ
-	-gamma	5.4	0
-	-dw	 0.846e-9
-	-Vm  6.4875  8.0594  2.5823  -3.1122  1.3003 # supcrt
-PO4-3 + 3H+ = H3PO4 # minteq.v4.dat, NIST46.3
-	log_k	21.721
-	delta_h	-10.1	kJ
-	-Vm  8.2727     12.4182      0.8691     -3.2924  -0.22 # supcrt
-
-# P < 4.2
-
-SOLUTION_SPECIES
-PO4-3 = PO4-3
-	-gamma	4.0	0
-	-dw	0.612e-9
-	-Vm  -.5259  -9.0654  9.3131  -2.4042  5.6114 # supcrt
-	-Vm   1.2391163E+00 -9.0700000E+00   9.3100000E+00  -2.4000000E+00   5.6100000E+00  0.0000000E+00   0.0000000E+00   0.0000000E+00  -1.4148347E-02    1.0000000E+00
-	-Vm   1.24  -9.07  9.31  -2.4  5.61  0  0  0  -1.41e-2  1 # ref. 2
-PO4-3 + H+ = HPO4-2
-	-log_k	12.346
-	-delta_h -3.530	kcal
-	-gamma	5.0	0
-	# -log_k	12.375 # log_k and delta_h from minteq.v4.dat, NIST46.3
-	# -delta_h -15	kJ
+# SOLUTION_SPECIES
+# PO4-3 = PO4-3
+	# -gamma	4.0	0
+	# -dw	0.612e-9
+	# -Vm  -.5259  -9.0654  9.3131  -2.4042  5.6114 # supcrt
+# PO4-3 + H+ = HPO4-2
+	# -log_k	12.346
+	# -delta_h -3.530	kcal
 	# -gamma	5.0	0
-	-dw	0.69e-9
-	-Vm  3.6315  1.0857  5.3233  -2.8239  3.3363 # supcrt
-	-Vm    3.5184654E+00   1.0900000E+00    8.3884226E-01   -2.8200000E+00    3.3400000E+00   0.0000000E+00    0.0000000E+00    0.0000000E+00    0.0000000E+00    1.0000000E+00
-	-Vm   3.52  1.09  8.39  -2.82  3.34  0  0  0  0  1 # ref. 2
-PO4-3 + 2 H+ = H2PO4-
-	-log_k	19.553
-	-delta_h -4.520	kcal
-	-gamma	5.4	0
-	# -log_k	19.573 # log_k and delta_h from minteq.v4.dat, NIST46.3
+	# -dw	0.69e-9
+	# -Vm  3.6315  1.0857  5.3233  -2.8239  3.3363 # supcrt
+# PO4-3 + 2 H+ = H2PO4- # minteq.v4.dat, NIST46.3
+	# -log_k	19.573
 	# -delta_h	-18	kJ
 	# -gamma	5.4	0
-	-dw	 0.846e-9
-	-Vm  6.4875  8.0594  2.5823  -3.1122  1.3003 # supcrt
-	-Vm    5.5819275E+00   8.0600000E+00    1.2243286E+01   -3.1100000E+00    1.3000000E+00   0.0000000E+00    0.0000000E+00    0.0000000E+00    1.6193384E-02    1.0000000E+00
-	-Vm   5.58  8.06  12.2  -3.11  1.3  0  0  0  1.62e-2  1 # ref. 2
-PO4-3 + 3H+ = H3PO4 # minteq.v4.dat, NIST46.3
-	log_k	21.721
-	delta_h	-10.1	kJ
-	-Vm  8.2727     12.4182      0.8691     -3.2924  -0.22 # supcrt
-	-Vm    7.4700000E+00   1.2400000E+01    6.2900000E+00   -3.2900000E+00    0.0000000E+00 #  0.0000000E+00    0.0000000E+00    0.0000000E+00    0.0000000E+00    0.0000000E+00
-	-Vm   7.47  12.4  6.29  -3.29  0
-Na+ + HPO4-2 = NaHPO4-
-	-log_k	0.29
-	-gamma	5.4	0
-# Na+ + H+ + PO4-3 = NaHPO4-
-	# -log_k	13.445 # log_k from minteq.v4.dat, NIST46.3
-	# -gamma	5.4	0 #     0.0000000E+00
-	-Vm    5.2000000E+00   8.1000000E+00    1.3000000E+01   -3.0000000E+00    9.0000000E-01   0.0000000E+00    0.0000000E+00    0.0000000E+00    1.6193384E-02    1.0000000E+00
-	-Vm    5.2  8.1  13  -3  0.9  0  0  1.62e-2  1 # ref. 2
-K+ + HPO4-2 = KHPO4-
-	-log_k	0.29
-	-gamma	5.4	0
-# K+ + H+ + PO4-3 = KHPO4-
-	# -log_k	13.255 # log_k from minteq.v4.dat, NIST46.3
-	# -gamma	5.4	0 #     0.0000000E+00
-	-Vm    5.4000000E+00   8.1000000E+00    1.9000000E+01   -3.1000000E+00    7.0000000E-01   0.0000000E+00    0.0000000E+00    0.0000000E+00    1.6193384E-02    1.0000000E+00
-	-Vm   5.4  8.1  19  -3.1  0.7  0  0  0  1.62e-2  1 # ref. 2
+	# -dw	 0.846e-9
+	# -Vm  6.4875  8.0594  2.5823  -3.1122  1.3003 # supcrt
+# PO4-3 + 3H+ = H3PO4 # minteq.v4.dat, NIST46.3
+	# log_k	21.721
+	# delta_h	-10.1	kJ
+	# -Vm  8.2727     12.4182      0.8691     -3.2924  -0.22 # supcrt
+
+# # P < 4.2
+
+# SOLUTION_SPECIES
+# PO4-3 = PO4-3
+	# -gamma	4.0	0
+	# -dw	0.612e-9
+	# -Vm  -.5259  -9.0654  9.3131  -2.4042  5.6114 # supcrt
+	# -Vm   1.2391163E+00 -9.0700000E+00   9.3100000E+00  -2.4000000E+00   5.6100000E+00  0.0000000E+00   0.0000000E+00   0.0000000E+00  -1.4148347E-02    1.0000000E+00
+	# -Vm   1.24  -9.07  9.31  -2.4  5.61  0  0  0  -1.41e-2  1 # ref. 2
+# PO4-3 + H+ = HPO4-2
+	# -log_k	12.346
+	# -delta_h -3.530	kcal
+	# -gamma	5.0	0
+	# # -log_k	12.375 # log_k and delta_h from minteq.v4.dat, NIST46.3
+	# # -delta_h -15	kJ
+	# # -gamma	5.0	0
+	# -dw	0.69e-9
+	# -Vm  3.6315  1.0857  5.3233  -2.8239  3.3363 # supcrt
+	# -Vm    3.5184654E+00   1.0900000E+00    8.3884226E-01   -2.8200000E+00    3.3400000E+00   0.0000000E+00    0.0000000E+00    0.0000000E+00    0.0000000E+00    1.0000000E+00
+	# -Vm   3.52  1.09  8.39  -2.82  3.34  0  0  0  0  1 # ref. 2
+# PO4-3 + 2 H+ = H2PO4-
+	# -log_k	19.553
+	# -delta_h -4.520	kcal
+	# -gamma	5.4	0
+	# # -log_k	19.573 # log_k and delta_h from minteq.v4.dat, NIST46.3
+	# # -delta_h	-18	kJ
+	# # -gamma	5.4	0
+	# -dw	 0.846e-9
+	# -Vm  6.4875  8.0594  2.5823  -3.1122  1.3003 # supcrt
+	# -Vm    5.5819275E+00   8.0600000E+00    1.2243286E+01   -3.1100000E+00    1.3000000E+00   0.0000000E+00    0.0000000E+00    0.0000000E+00    1.6193384E-02    1.0000000E+00
+	# -Vm   5.58  8.06  12.2  -3.11  1.3  0  0  0  1.62e-2  1 # ref. 2
+# PO4-3 + 3H+ = H3PO4 # minteq.v4.dat, NIST46.3
+	# log_k	21.721
+	# delta_h	-10.1	kJ
+	# -Vm  8.2727     12.4182      0.8691     -3.2924  -0.22 # supcrt
+	# -Vm    7.4700000E+00   1.2400000E+01    6.2900000E+00   -3.2900000E+00    0.0000000E+00 #  0.0000000E+00    0.0000000E+00    0.0000000E+00    0.0000000E+00    0.0000000E+00
+	# -Vm   7.47  12.4  6.29  -3.29  0
+# Na+ + HPO4-2 = NaHPO4-
+	# -log_k	0.29
+	# -gamma	5.4	0
+# # Na+ + H+ + PO4-3 = NaHPO4-
+	# # -log_k	13.445 # log_k from minteq.v4.dat, NIST46.3
+	# # -gamma	5.4	0 #     0.0000000E+00
+	# -Vm    5.2000000E+00   8.1000000E+00    1.3000000E+01   -3.0000000E+00    9.0000000E-01   0.0000000E+00    0.0000000E+00    0.0000000E+00    1.6193384E-02    1.0000000E+00
+	# -Vm    5.2  8.1  13  -3  0.9  0  0  1.62e-2  1 # ref. 2
+# K+ + HPO4-2 = KHPO4-
+	# -log_k	0.29
+	# -gamma	5.4	0
+# # K+ + H+ + PO4-3 = KHPO4-
+	# # -log_k	13.255 # log_k from minteq.v4.dat, NIST46.3
+	# # -gamma	5.4	0 #     0.0000000E+00
+	# -Vm    5.4000000E+00   8.1000000E+00    1.9000000E+01   -3.1000000E+00    7.0000000E-01   0.0000000E+00    0.0000000E+00    0.0000000E+00    1.6193384E-02    1.0000000E+00
+	# -Vm   5.4  8.1  19  -3.1  0.7  0  0  0  1.62e-2  1 # ref. 2
 
 
 
@@ -96,8 +96,8 @@ REACTION_PRESSURE; 1.000000
 # from 0 to 5.
 REACTION; H3PO4 1
 0 0.466800 1.031500 2.377900 4.150500 6.434100 
-USER_GRAPH; -headings 16.ºC, 1.atm density
- -axis_titles "H3PO4 / (mol/kg H2O)" "(measured - calculated) density / (g/L)" "density / (g/L)"
+USER_GRAPH; -headings 16.oC,.1.atm
+ -axis_titles "H3PO4 / (mol/kg H2O)" "density / (g/L)"
 10 data 0, 1023.200000, 1051.400000, 1111.400000, 1179.100000, 1251.100000, 
 20 dim d(6)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), 
@@ -109,7 +109,7 @@ USER_GRAPH; -headings 16.ºC, 1.atm density
 # 64 if tc <> 25 then end # dif = 0 
 90 if step_no = 6 then put(step_no + get(1), 1)
 100 if step_no = 1 then end
-110 plot_xy tot("P"), 1e3 * rho -  d(step_no), symbol = Square, line_w = 0, color = Red
+110 plot_xy tot("P"), d(step_no), symbol = Square, line_w = 0, color = Red
 120 plot_xy tot("P"), 1e3 * rho, symbol = None, color = Red, y_axis = 2 
 150 end
 END
@@ -127,7 +127,7 @@ REACTION; H3PO4 1
 1.111200 1.210700 1.236000 1.363700 1.494300 1.628000 1.764800 1.904800 2.048300 2.195200 2.345800 2.377900 2.500100 2.658400 2.820600 2.987200 3.158000 3.333500 3.513700 3.698800 3.889100 \ 
 4.084700 4.150500 4.285900 4.493000 4.706100 4.925600 5.151800 5.384900 5.625300 5.873300 6.129300 6.393700 6.434100 6.667000 6.949500 7.241700 7.544200 7.857500 8.182200 8.518900 8.868300 \ 
 9.231200 9.608300 10.000500 10.408600 10.833800 11.277100 11.739700 12.222800 12.727900 13.256400 13.810200 14.390900 
-USER_GRAPH; -headings 25.ºC, 1.atm density
+USER_GRAPH; -headings 25.oC,.1.atm density
 # -axis_titles "H3PO4 / (mol/kg H2O)" "(measured - calculated) density / (g/L)"
 10 data 0, 997.600000, 998.100000, 998.700000, 999.300000, 999.730000, 999.770000, 999.800000, 1000.400000, 1000.360000, 1000.900000, 1001.500000, 1002.000000, 1002.140000, 1002.430000, 1002.600000, 1002.900000, 1003.100000, 1003.700000, 1004.080000, 1004.200000, 1004.700000, \ 
 1005.300000, 1005.800000, 1006.400000, 1006.900000, 1007.500000, 1008.000000, 1008.500000, 1009.100000, 1009.600000, 1010.100000, 1010.700000, 1011.200000, 1011.100000, 1011.800000, 1012.300000, 1012.900000, 1012.690000, 1013.400000, 1014.000000, 1014.270000, 1014.500000, \ 
@@ -152,7 +152,7 @@ d(127), d(128), d(129), d(130), d(131), d(132), d(133), d(134), d(135), d(136), 
 # 64 if tc <> 25 then end # dif = 0 
 90 if step_no = 139 then put(step_no + get(1), 1)
 100 if step_no = 1 then end
-110 plot_xy tot("P"), 1e3 * rho -  d(step_no), symbol = Diamond, line_w = 0, color = Green
+110 plot_xy tot("P"), d(step_no), symbol = Diamond, line_w = 0, color = Green
 120 plot_xy tot("P"), 1e3 * rho, symbol = None, color = Green, y_axis = 2 
 150 end
 END
@@ -163,7 +163,7 @@ REACTION_PRESSURE; 1.000000
 # from 143 to 150.
 REACTION; H3PO4 1
 0 0.466800 1.031500 2.377900 4.150500 6.434100 9.747700 14.716400 
-USER_GRAPH; -headings 41.ºC, 1.atm density
+USER_GRAPH; -headings 41.oC,.1.atm density
 # -axis_titles "H3PO4 / (mol/kg H2O)" "(measured - calculated) density / (g/L)"
 10 data 0, 1015.900000, 1042.800000, 1100.900000, 1166.700000, 1237.100000, 1318.300000, 1407.600000, 
 20 dim d(8)
@@ -176,7 +176,7 @@ USER_GRAPH; -headings 41.ºC, 1.atm density
 # 64 if tc <> 25 then end # dif = 0 
 90 if step_no = 8 then put(step_no + get(1), 1)
 100 if step_no = 1 then end
-110 plot_xy tot("P"), 1e3 * rho -  d(step_no), symbol = Triangle, line_w = 0, color = Blue
+110 plot_xy tot("P"), d(step_no), symbol = Triangle, line_w = 0, color = Blue
 120 plot_xy tot("P"), 1e3 * rho, symbol = None , color = Blue, y_axis = 2 
 150 end
 END
@@ -187,7 +187,7 @@ REACTION_PRESSURE; 1.000000
 # from 150 to 157.
 REACTION; H3PO4 1
 0 0.466800 1.031500 2.377900 4.150500 6.434100 9.747700 14.716400 
-USER_GRAPH; -headings 61.ºC, 1.atm density
+USER_GRAPH; -headings 61.oC,.1.atm density
 # -axis_titles "H3PO4 / (mol/kg H2O)" "(measured - calculated) density / (g/L)"
 10 data 0, 1006.400000, 1032.900000, 1091.000000, 1156.100000, 1225.600000, 1305.400000, 1393.800000, 
 20 dim d(8)
@@ -200,7 +200,7 @@ USER_GRAPH; -headings 61.ºC, 1.atm density
 # 64 if tc <> 25 then end # dif = 0 
 90 if step_no = 8 then put(step_no + get(1), 1)
 100 if step_no = 1 then end
-110 plot_xy tot("P"), 1e3 * rho -  d(step_no), symbol = Circle, line_w = 0, color = Orange
+110 plot_xy tot("P"), d(step_no), symbol = Circle, line_w = 0, color = Orange
 120 plot_xy tot("P"), 1e3 * rho, symbol = None , color = Orange, y_axis = 2 
 150 end
 END
@@ -211,7 +211,7 @@ REACTION_PRESSURE; 1.000000
 # from 157 to 164.
 REACTION; H3PO4 1
 0 0.466800 1.031500 2.377900 4.150500 6.434100 9.747700 14.716400 
-USER_GRAPH; -headings 81.ºC, 1.atm density
+USER_GRAPH; -headings 81.oC,.1.atm density
 # -axis_titles "H3PO4 / (mol/kg H2O)" "(measured - calculated) density / (g/L)"
 10 data 0, 994.500000, 1021.000000, 1077.600000, 1141.500000, 1211.600000, 1291.100000, 1378.800000, 
 20 dim d(8)
@@ -224,7 +224,7 @@ USER_GRAPH; -headings 81.ºC, 1.atm density
 # 64 if tc <> 25 then end # dif = 0 
 90 if step_no = 8 then put(step_no + get(1), 1)
 100 if step_no = 1 then end
-110 plot_xy tot("P"), 1e3 * rho -  d(step_no), symbol = XCross, line_w = 0, color = Magenta
+110 plot_xy tot("P"), d(step_no), symbol = XCross, line_w = 0, color = Magenta
 120 plot_xy tot("P"), 1e3 * rho , symbol = None , color = Magenta, y_axis = 2 
 150 end
 END
