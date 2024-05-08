@@ -1,4 +1,4 @@
-   Input file: ../examples/ex21
+   Input file: ex21
   Output file: ex21.out
 Database file: ../database/phreeqc.dat
 
@@ -13,7 +13,7 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
-	CALCULATE_VALUES
+	MEAN_GAMMAS
 	RATES
 	END
 ------------------------------------
@@ -33,21 +33,21 @@ Reading input data for simulation 1.
 	  Hto = Hto
 	        log_k 0
 	 gamma 1e5   0
-	 dw 2.3e-9 0 0 0 0 0 0.5 # diffusion coefficient is multiplied by (viscos_0 /viscos)^0.5
+	   dw 2.3e-9  0 0 0 0 0 0.5 # diffusion coefficient is multiplied by (viscos_0 /viscos)^0.5, the viscosity of the DDL is calculated.
 	  Cl_tr- = Cl_tr-
 	  log_k 0
 	 gamma 3.5 0.015
-	 dw 1.17e-9  0 0 0 0 0 0.5 # increase tortuosity for anions: 2.03e-9 / 1.73
+	 dw 1.35e-9 0 0 0 0 0 0.5 # increase tortuosity for anions: 2.03e-9 / 1.35e-9 = 1.5
 	  Na_tr+ = Na_tr+
 	  log_k 0
 	 gamma 4.0 0.075
-	 dw 1.33e-9  0 0 0 0 0 0.5 
-	 erm_ddl 1.39 
+	 dw 1.33e-9 0 0 0 0 0 0.5 
+	 erm_ddl 1.3 
 	  Cs+ = Cs+
 	        log_k 0
 	 gamma 3.5 0.015
-	 dw 2.07e-9  0 0 0 0 0 0.5 
-	 erm_ddl 1.39
+	 dw 2.07e-9 0 0 0 0 0 0.5 
+	 erm_ddl 1.3
 	SURFACE_MASTER_SPECIES
 	  Su_fes Su_fes-   # Frayed Edge Sites
 	  Su_ii Su_ii-     # Type II sites of intermediate strength
@@ -199,7 +199,7 @@ Reading input data for simulation 2.
 	110  thickn_clay = r_ext - r_int # clay thickness / m
 	120  por_clay = 0.159
 	130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
-	140  CEC = 0.09 * rho_b_eps   # CEC / (eq/L porewater)
+	140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
 	150  A_por = 37e3 * rho_b_eps # pore surface area / (m²/L porewater)
 	151  correct_$  = ' false'
 	160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1$(4), profile_y2$(4)
@@ -219,9 +219,9 @@ Reading input data for simulation 2.
 	360  nfilt1 = 1               # number of cells in filter 1
 	370  nfilt2 = 1               # number of cells in filter 2
 	380  nclay = 11               # number of clay cells
-	390  f_free = 0.02           # fraction of free pore water (0.01 - 1)
-	400  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer
-	410  tort_n = -0.975           # exponent in Archie's law, found from HTO
+	390  f_free = 0.11             # fraction of free pore water (0.01 - 1)
+	400  f_DL_charge = 0.48       # fraction of CEC charge in electrical double layer
+	410  tort_n = -1.00           # exponent in Archie's law, found from HTO
 	420  G_clay = por_clay^tort_n # geometrical factor
 	430  interlayer_D$ = 'true'  # 'true' or 'false' for interlayer diffusion
 	440  G_IL = 1300               # geometrical factor for clay interlayers... the initial rise of Cs suggests stagnant water, see Appelo et al for the calculation
@@ -436,15 +436,15 @@ WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
                                        pH  =   7.600    
                                        pe  =  13.120      Equilibrium with O2(g)
-      Specific Conductance (µS/cm,  23°C)  = 29068
+      Specific Conductance (µS/cm,  23°C)  = 29069
                           Density (g/cm³)  =   1.01168
-                               Volume (L)  =   0.20146
-                        Viscosity (mPa s)  =   0.96933
+                               Volume (L)  =   0.20147
+                        Viscosity (mPa s)  =   0.96935
                         Activity of water  =   0.990
                  Ionic strength (mol/kgw)  =   3.633e-01
                        Mass of water (kg)  =   2.000e-01
-                    Total carbon (mol/kg)  =   4.808e-04
-                       Total CO2 (mol/kg)  =   4.808e-04
+                    Total carbon (mol/kg)  =   4.811e-04
+                       Total CO2 (mol/kg)  =   4.811e-04
                          Temperature (°C)  =  23.00
                   Electrical balance (eq)  =  -1.312e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.10
@@ -460,26 +460,26 @@ WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
    OH-             5.188e-07   3.419e-07    -6.285    -6.466    -0.181     -3.26
    H+              3.237e-08   2.512e-08    -7.490    -7.600    -0.110      0.00
    H2O             5.551e+01   9.899e-01     1.744    -0.004     0.000     18.06
-C(4)          4.808e-04
-   HCO3-           3.732e-04   2.653e-04    -3.428    -3.576    -0.148     25.30
-   NaHCO3          3.141e-05   3.713e-05    -4.503    -4.430     0.073     31.75
-   CaHCO3+         3.053e-05   2.211e-05    -4.515    -4.655    -0.140      9.84
-   MgHCO3+         2.162e-05   1.458e-05    -4.665    -4.836    -0.171      5.70
-   CO2             1.470e-05   1.553e-05    -4.833    -4.809     0.024     34.33
-   CaCO3           4.764e-06   5.180e-06    -5.322    -5.286     0.036    -14.61
-   MgCO3           1.916e-06   2.083e-06    -5.718    -5.681     0.036    -17.09
-   CO3-2           1.860e-06   4.753e-07    -5.731    -6.323    -0.593     -1.75
-   SrHCO3+         6.993e-07   4.972e-07    -6.155    -6.303    -0.148     (0)  
-   KHCO3           1.203e-07   1.212e-07    -6.920    -6.916     0.003     41.01
-   SrCO3           3.451e-08   3.752e-08    -7.462    -7.426     0.036    -14.14
-   (CO2)2          3.810e-12   4.142e-12   -11.419   -11.383     0.036     68.67
+C(4)          4.811e-04
+   HCO3-           3.911e-04   2.781e-04    -3.408    -3.556    -0.148     25.30
+   NaHCO3          3.292e-05   3.892e-05    -4.483    -4.410     0.073     31.75
+   MgHCO3+         2.266e-05   1.528e-05    -4.645    -4.816    -0.171      5.70
+   CO2             1.541e-05   1.628e-05    -4.812    -4.788     0.024     34.33
+   CaHCO3+         9.133e-06   6.615e-06    -5.039    -5.179    -0.140    122.80
+   CaCO3           4.998e-06   5.434e-06    -5.301    -5.265     0.036    -14.61
+   MgCO3           2.008e-06   2.184e-06    -5.697    -5.661     0.036    -17.09
+   CO3-2           1.949e-06   4.981e-07    -5.710    -6.303    -0.593     -1.75
+   SrHCO3+         7.330e-07   5.211e-07    -6.135    -6.283    -0.148     (0)  
+   KHCO3           1.261e-07   1.271e-07    -6.899    -6.896     0.003     41.01
+   SrCO3           3.617e-08   3.932e-08    -7.442    -7.405     0.036    -14.14
+   (CO2)2          4.185e-12   4.551e-12   -11.378   -11.342     0.036     68.67
 Ca            2.580e-02
-   Ca+2            2.427e-02   6.744e-03    -1.615    -2.171    -0.556    -17.03
-   CaSO4           1.495e-03   1.625e-03    -2.825    -2.789     0.036      7.42
-   CaHCO3+         3.053e-05   2.211e-05    -4.515    -4.655    -0.140      9.84
-   CaCO3           4.764e-06   5.180e-06    -5.322    -5.286     0.036    -14.61
-   CaOH+           6.029e-08   4.411e-08    -7.220    -7.355    -0.136     (0)  
-   CaHSO4+         3.566e-10   2.609e-10    -9.448    -9.584    -0.136     (0)  
+   Ca+2            2.429e-02   6.749e-03    -1.615    -2.171    -0.556    -17.03
+   CaSO4           1.496e-03   1.626e-03    -2.825    -2.789     0.036      7.42
+   CaHCO3+         9.133e-06   6.615e-06    -5.039    -5.179    -0.140    122.80
+   CaCO3           4.998e-06   5.434e-06    -5.301    -5.265     0.036    -14.61
+   CaOH+           6.034e-08   4.414e-08    -7.219    -7.355    -0.136     (0)  
+   CaHSO4+         3.568e-10   2.610e-10    -9.448    -9.583    -0.136     (0)  
 Cl            3.000e-01
    Cl-             3.000e-01   2.018e-01    -0.523    -0.695    -0.172     18.53
    HCl             1.239e-09   1.768e-09    -8.907    -8.752     0.155     (0)  
@@ -489,50 +489,50 @@ Hto           1.140e-09
    Hto             1.140e-09   1.140e-09    -8.943    -8.943     0.000     (0)  
 K             1.610e-03
    K+              1.584e-03   1.057e-03    -2.800    -2.976    -0.176      9.40
-   KSO4-           2.634e-05   2.196e-05    -4.579    -4.658    -0.079     13.22
-   KHCO3           1.203e-07   1.212e-07    -6.920    -6.916     0.003     41.01
+   KSO4-           2.634e-05   2.195e-05    -4.579    -4.659    -0.079     13.22
+   KHCO3           1.261e-07   1.271e-07    -6.899    -6.896     0.003     41.01
 Mg            1.690e-02
-   Mg+2            1.548e-02   4.737e-03    -1.810    -2.324    -0.514    -20.64
-   MgSO4           1.371e-03   1.621e-03    -2.863    -2.790     0.073     -8.62
-   Mg(SO4)2-2      2.393e-05   7.622e-06    -4.621    -5.118    -0.497     27.97
-   MgHCO3+         2.162e-05   1.458e-05    -4.665    -4.836    -0.171      5.70
-   MgCO3           1.916e-06   2.083e-06    -5.718    -5.681     0.036    -17.09
-   MgOH+           7.695e-07   5.652e-07    -6.114    -6.248    -0.134     (0)  
+   Mg+2            1.548e-02   4.737e-03    -1.810    -2.325    -0.514    -20.64
+   MgSO4           1.371e-03   1.620e-03    -2.863    -2.790     0.073     -8.62
+   Mg(SO4)2-2      2.392e-05   7.620e-06    -4.621    -5.118    -0.497     27.97
+   MgHCO3+         2.266e-05   1.528e-05    -4.645    -4.816    -0.171      5.70
+   MgCO3           2.008e-06   2.184e-06    -5.697    -5.661     0.036    -17.09
+   MgOH+           7.694e-07   5.651e-07    -6.114    -6.248    -0.134     (0)  
 Na            2.400e-01
    Na+             2.347e-01   1.701e-01    -0.629    -0.769    -0.140     -0.85
-   NaSO4-          5.252e-03   3.746e-03    -2.280    -2.426    -0.147      2.97
-   NaHCO3          3.141e-05   3.713e-05    -4.503    -4.430     0.073     31.75
+   NaSO4-          5.251e-03   3.746e-03    -2.280    -2.426    -0.147      2.97
+   NaHCO3          3.292e-05   3.892e-05    -4.483    -4.410     0.073     31.75
    NaOH            5.351e-18   5.818e-18   -17.272   -17.235     0.036     (0)  
 O(0)          2.438e-04
    O2              1.219e-04   1.325e-04    -3.914    -3.878     0.036     30.24
 S(6)          1.410e-02
-   SO4-2           5.877e-03   1.376e-03    -2.231    -2.861    -0.631     32.28
-   NaSO4-          5.252e-03   3.746e-03    -2.280    -2.426    -0.147      2.97
-   CaSO4           1.495e-03   1.625e-03    -2.825    -2.789     0.036      7.42
-   MgSO4           1.371e-03   1.621e-03    -2.863    -2.790     0.073     -8.62
-   SrSO4           3.161e-05   3.437e-05    -4.500    -4.464     0.036     24.16
-   KSO4-           2.634e-05   2.196e-05    -4.579    -4.658    -0.079     13.22
-   Mg(SO4)2-2      2.393e-05   7.622e-06    -4.621    -5.118    -0.497     27.97
+   SO4-2           5.877e-03   1.376e-03    -2.231    -2.862    -0.631     32.29
+   NaSO4-          5.251e-03   3.746e-03    -2.280    -2.426    -0.147      2.97
+   CaSO4           1.496e-03   1.626e-03    -2.825    -2.789     0.036      7.42
+   MgSO4           1.371e-03   1.620e-03    -2.863    -2.790     0.073     -8.62
+   SrSO4           3.160e-05   3.436e-05    -4.500    -4.464     0.036     24.16
+   KSO4-           2.634e-05   2.195e-05    -4.579    -4.659    -0.079     13.22
+   Mg(SO4)2-2      2.392e-05   7.620e-06    -4.621    -5.118    -0.497     27.97
    HSO4-           4.398e-09   3.217e-09    -8.357    -8.493    -0.136     40.64
-   CaHSO4+         3.566e-10   2.609e-10    -9.448    -9.584    -0.136     (0)  
+   CaHSO4+         3.568e-10   2.610e-10    -9.448    -9.583    -0.136     (0)  
 Sr            5.050e-04
-   Sr+2            4.727e-04   1.312e-04    -3.325    -3.882    -0.557    -16.74
-   SrSO4           3.161e-05   3.437e-05    -4.500    -4.464     0.036     24.16
-   SrHCO3+         6.993e-07   4.972e-07    -6.155    -6.303    -0.148     (0)  
-   SrCO3           3.451e-08   3.752e-08    -7.462    -7.426     0.036    -14.14
-   SrOH+           3.781e-10   2.652e-10    -9.422    -9.576    -0.154     (0)  
+   Sr+2            4.726e-04   1.312e-04    -3.325    -3.882    -0.557    -16.74
+   SrSO4           3.160e-05   3.436e-05    -4.500    -4.464     0.036     24.16
+   SrHCO3+         7.330e-07   5.211e-07    -6.135    -6.283    -0.148     (0)  
+   SrCO3           3.617e-08   3.932e-08    -7.442    -7.405     0.036    -14.14
+   SrOH+           3.780e-10   2.652e-10    -9.422    -9.576    -0.154     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(296 K,   1 atm)
 
   Anhydrite        -0.78     -5.03   -4.26  CaSO4
-  Aragonite        -0.17     -8.49   -8.32  CaCO3
+  Aragonite        -0.15     -8.47   -8.32  CaCO3
   Arcanite         -6.91     -8.81   -1.91  K2SO4
-  Calcite          -0.03     -8.49   -8.47  CaCO3
+  Calcite          -0.01     -8.47   -8.47  CaCO3
   Celestite        -0.10     -6.74   -6.65  SrSO4
-  CO2(g)           -3.36     -4.81   -1.44  CO2
-  Dolomite         -0.09    -17.14  -17.05  CaMg(CO3)2
+  CO2(g)           -3.34     -4.79   -1.44  CO2
+  Dolomite         -0.05    -17.10  -17.05  CaMg(CO3)2
   Epsomite         -3.47     -5.22   -1.75  MgSO4:7H2O
   Gypsum           -0.46     -5.04   -4.58  CaSO4:2H2O
   H2(g)           -41.48    -44.58   -3.10  H2
@@ -542,7 +542,7 @@ Sr            5.050e-04
   Kieserite        -4.02     -5.19   -1.17  MgSO4:H2O
   Mirabilite       -3.12     -4.44   -1.33  Na2SO4:10H2O
   O2(g)            -1.00     -3.88   -2.88  O2	 Pressure   0.1 atm, phi 1.000
-  Strontianite     -0.94    -10.21   -9.27  SrCO3
+  Strontianite     -0.92    -10.18   -9.27  SrCO3
   Sylvite          -4.56     -3.67    0.89  KCl
   Thenardite       -4.11     -4.40   -0.29  Na2SO4
 
@@ -579,7 +579,7 @@ Reading input data for simulation 3.
 	 Fe(2) 0.0
 	 Alkalinity 0.476
 	SOLUTION 5
-	 water   1.3217e-05	
+	 water   7.2695e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -594,15 +594,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 5
 	 equilibrate 5
-	 Su_ 3.8224e-04  5.2840e+05   6.6087e-04	
+	 Su_ 5.4363e-04  5.2840e+05   6.6087e-04	
 	 Su_ii 7.4371e-06	
 	 Su_fes 6.9841e-07	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 5
 	 equilibrate 5
-	 X 4.6718e-04
+	 X 5.8893e-04
 	SOLUTION 6
-	 water   1.6259e-05	
+	 water   8.9423e-05	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -617,15 +617,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 6
 	 equilibrate 6
-	 Su_ 4.7019e-04  5.2840e+05   8.1293e-04	
+	 Su_ 6.6871e-04  5.2840e+05   8.1293e-04	
 	 Su_ii 9.1484e-06	
 	 Su_fes 8.5911e-07	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 6
 	 equilibrate 6
-	 X 5.7468e-04
+	 X 7.2444e-04
 	SOLUTION 7
-	 water   1.9300e-05	
+	 water   1.0615e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -640,15 +640,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 7
 	 equilibrate 7
-	 Su_ 5.5814e-04  5.2840e+05   9.6500e-04	
+	 Su_ 7.9380e-04  5.2840e+05   9.6500e-04	
 	 Su_ii 1.0860e-05	
 	 Su_fes 1.0198e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 7
 	 equilibrate 7
-	 X 6.8218e-04
+	 X 8.5995e-04
 	SOLUTION 8
-	 water   2.2341e-05	
+	 water   1.2288e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -663,15 +663,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 8
 	 equilibrate 8
-	 Su_ 6.4610e-04  5.2840e+05   1.1171e-03	
+	 Su_ 9.1889e-04  5.2840e+05   1.1171e-03	
 	 Su_ii 1.2571e-05	
 	 Su_fes 1.1805e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 8
 	 equilibrate 8
-	 X 7.8967e-04
+	 X 9.9547e-04
 	SOLUTION 9
-	 water   2.5383e-05	
+	 water   1.3960e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -686,15 +686,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 9
 	 equilibrate 9
-	 Su_ 7.3405e-04  5.2840e+05   1.2691e-03	
+	 Su_ 1.0440e-03  5.2840e+05   1.2691e-03	
 	 Su_ii 1.4282e-05	
 	 Su_fes 1.3412e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 9
 	 equilibrate 9
-	 X 8.9717e-04
+	 X 1.1310e-03
 	SOLUTION 10
-	 water   2.8424e-05	
+	 water   1.5633e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -709,15 +709,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 10
 	 equilibrate 10
-	 Su_ 8.2200e-04  5.2840e+05   1.4212e-03	
+	 Su_ 1.1691e-03  5.2840e+05   1.4212e-03	
 	 Su_ii 1.5994e-05	
 	 Su_fes 1.5019e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 10
 	 equilibrate 10
-	 X 1.0047e-03
+	 X 1.2665e-03
 	SOLUTION 11
-	 water   3.1465e-05	
+	 water   1.7306e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -732,15 +732,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 11
 	 equilibrate 11
-	 Su_ 9.0996e-04  5.2840e+05   1.5733e-03	
+	 Su_ 1.2942e-03  5.2840e+05   1.5733e-03	
 	 Su_ii 1.7705e-05	
 	 Su_fes 1.6626e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 11
 	 equilibrate 11
-	 X 1.1122e-03
+	 X 1.4020e-03
 	SOLUTION 12
-	 water   3.4507e-05	
+	 water   1.8979e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -755,15 +755,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 12
 	 equilibrate 12
-	 Su_ 9.9791e-04  5.2840e+05   1.7253e-03	
+	 Su_ 1.4192e-03  5.2840e+05   1.7253e-03	
 	 Su_ii 1.9416e-05	
 	 Su_fes 1.8233e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 12
 	 equilibrate 12
-	 X 1.2197e-03
+	 X 1.5375e-03
 	SOLUTION 13
-	 water   3.7548e-05	
+	 water   2.0651e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -778,15 +778,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 13
 	 equilibrate 13
-	 Su_ 1.0859e-03  5.2840e+05   1.8774e-03	
+	 Su_ 1.5443e-03  5.2840e+05   1.8774e-03	
 	 Su_ii 2.1127e-05	
 	 Su_fes 1.9840e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 13
 	 equilibrate 13
-	 X 1.3272e-03
+	 X 1.6730e-03
 	SOLUTION 14
-	 water   4.0589e-05	
+	 water   2.2324e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -801,15 +801,15 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 14
 	 equilibrate 14
-	 Su_ 1.1738e-03  5.2840e+05   2.0295e-03	
+	 Su_ 1.6694e-03  5.2840e+05   2.0295e-03	
 	 Su_ii 2.2839e-05	
 	 Su_fes 2.1448e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 14
 	 equilibrate 14
-	 X 1.4347e-03
+	 X 1.8085e-03
 	SOLUTION 15
-	 water   4.3631e-05	
+	 water   2.3997e-04	
 	 pH 7.6
 	 pe 14 O2(g) -1.0
 	 temp 23
@@ -824,13 +824,13 @@ Reading input data for simulation 3.
 	 Alkalinity 0.476	
 	SURFACE 15
 	 equilibrate 15
-	 Su_ 1.2618e-03  5.2840e+05   2.1815e-03	
+	 Su_ 1.7945e-03  5.2840e+05   2.1815e-03	
 	 Su_ii 2.4550e-05	
 	 Su_fes 2.3055e-06	
-	 donnan 1.8546e-09 viscosity calc correct  false	
+	 donnan 1.6843e-09 viscosity calc correct  false	
 	EXCHANGE 15
 	 equilibrate 15
-	 X 1.5422e-03
+	 X 1.9441e-03
 	SOLUTION 16
 	 water   5.0266e-03	
 	 pH 7.6
@@ -879,29 +879,29 @@ Reading input data for simulation 3.
 	MIX 3
 	           4  6.6932e-04	
 	MIX 4
-	           5  2.0070e-04	
+	           5  1.9357e-04	
 	MIX 5
-	           6  1.6165e-04	
+	           6  1.5439e-04	
 	MIX 6
-	           7  1.9501e-04	
+	           7  1.8625e-04	
 	MIX 7
-	           8  2.2837e-04	
+	           8  2.1811e-04	
 	MIX 8
-	           9  2.6173e-04	
+	           9  2.4997e-04	
 	MIX 9
-	          10  2.9509e-04	
+	          10  2.8183e-04	
 	MIX 10
-	          11  3.2845e-04	
+	          11  3.1369e-04	
 	MIX 11
-	          12  3.6180e-04	
+	          12  3.4555e-04	
 	MIX 12
-	          13  3.9516e-04	
+	          13  3.7741e-04	
 	MIX 13
-	          14  4.2852e-04	
+	          14  4.0927e-04	
 	MIX 14
-	          15  4.6188e-04	
+	          15  4.4113e-04	
 	MIX 15
-	          16  7.9394e-04	
+	          16  7.6509e-04	
 	MIX 16
 	          17  4.2533e-03	        
 	END	  
@@ -913,7 +913,7 @@ Reading input data for simulation 3.
 	 bcond 1 2
 	 stagnant 15	
 	 timest   1.5429e+03	
-	 multi_d true   2.5000e-09  1.5900e-01 0.0 9.7500e-01	
+	 multi_d true   2.5000e-09  1.5900e-01 0.0 1	
 	 interlayer_d true 0.001 0.0 1300	
 	 punch_frequency 14
 	 punch_cells 17	
@@ -939,3 +939,7 @@ Calculating transport: 1 (mobile) cells, 1120 shifts, 1 mixruns...
 
 
 	END
+--------------------------------
+End of Run after 54.706 Seconds.
+--------------------------------
+
