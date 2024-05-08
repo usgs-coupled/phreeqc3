@@ -1,0 +1,149 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+  -file                 kin_r_101.sel
+USER_PUNCH 101
+  -headings Mu SC
+  -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+  -end
+END
+RATE_PARAMETERS_HERMANSKA
+#                       Acid mechanism                          Neutral mechanism       Basic mechanism
+#                       logk25  Aa              Eaa     n(H+)   logk25  Ab              Eab     logk25  Ac              Eac     n(OH)   #       also valid for
+#                       ================================================================================================================================
+Montmorillonite(MgNa)   -11.7   1.66E-03        50.8    0.55    -14.3   9.00e-20        30      -17.2   1.50E-09        48      -0.3    #       Saponite, Smectite
+
+KNOBS; -diag true
+
+PHASES
+Montmorillonite(MgNa)
+Na0.34Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.340Mg+2 + 0.340Na+ + 4H4SiO4
+     log_k     3.411
+Montmorillonite(MgK)
+K0.34Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.340K+ + 0.340Mg+2 + 4H4SiO4
+     log_k     2.830
+Montmorillonite(MgMg)
+Mg0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.510Mg+2 + 4H4SiO4
+     log_k     3.708
+Montmorillonite(MgCa)
+Ca0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.170Ca+2 + 0.340Mg+2 + 4H4SiO4
+     log_k     4.222
+
+EXCHANGE_MASTER_SPECIES
+X_montm_mg   X_montm_mg-0.34
+EXCHANGE_SPECIES
+# The Gapon formulation is easiest...
+              X_montm_mg-0.34 =  X_montm_mg-0.34
+0.34 Na+  +   X_montm_mg-0.34 = Na0.34X_montm_mg; log_k -3.411 #  0     # 
+0.34 K+   +   X_montm_mg-0.34 =  K0.34X_montm_mg; log_k -2.830 #  0.581 # 
+0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -3.708 # -0.297 # 
+0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -4.222 # -0.811 # 
+
+# # The divalent cations have rather low log_k, cf. A&P, p.254, log_k Ca0.5X ~ log_k KX
+# 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -2.73
+# 0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -2.83
+# PHASES
+# Montmorillonite(MgMg)
+# Mg0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.510Mg+2 + 4H4SiO4
+     # log_k     2.73
+# Montmorillonite(MgCa)
+# Ca0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.170Ca+2 + 0.340Mg+2 + 4H4SiO4
+     # log_k     2.83
+
+# Gaines-Thomas...
+# EXCHANGE_SPECIES
+               # X_montm_mg-0.34 =  X_montm_mg-0.34
+# 0.34 Na+  +    X_montm_mg-0.34 = Na0.34X_montm_mg ; log_k -3.411 #  0     # 
+# 0.34 K+   +    X_montm_mg-0.34 =  K0.34X_montm_mg ; log_k -2.830 #  0.581 # 
+# 0.34 Mg+2 + 2  X_montm_mg-0.34 = Mg0.34X_montm_mg2 ; log_k -7.416 # -0.297 # 
+# 0.34 Ca+2 + 2  X_montm_mg-0.34 = Ca0.34X_montm_mg2 ; log_k -8.444 # -0.811 # 
+
+RATES
+Montmorillonite(MgNa)
+5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+7  f_Na = (mol("Na0.34X_montm_mg") / tot("X_montm_mg"))
+# 7  f_Na = (mol("NaX") / tot("X")) # when running with the default X exchange
+10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Montmorillonite(MgNa)") / f_Na
+20 rate = RATE_HERMANSKA("Montmorillonite(MgNa)") / f_Na
+30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+40 SAVE area * rate * affinity * TIME
+-end 
+
+# with default exchanger X:
+# PHASES
+# Montmorillonite(MgK)
+# K0.34Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.340K+ + 0.340Mg+2 + 4H4SiO4
+     # log_k   2.6 # 3.41 - 0.7 * 0.34 = 3.17 expected, but is fraction-dependent, A&P, problems p. 305
+# Montmorillonite(MgMg)
+# Mg0.34(Mg0.34Al1.66Si4O10(OH)2)2 + 12 H+ + 8 H2O = 3.32 Al+3 + 1.02 Mg+2 + 8 H4SiO4
+     # log_k   6.27 # 3.41 * 2 - 0.6 * 0.34 = 6.62
+# Montmorillonite(MgCa)
+# Ca0.34(Mg0.34Al1.66Si4O10(OH)2)2 + 12 H+ + 8 H2O = 3.32 Al+3 + 0.68 Mg+2 + 8 H4SiO4 + 0.34 Ca+2
+     # log_k   6.2 #  3.41 * 2 - 0.8 * 0.34 = 6.55
+END
+
+SOLUTION 1
+pH 7 charge; 
+Na 1e-5
+K  1e-5
+Mg 1e-5
+Ca 1e-5
+END
+
+# initial exchanger
+SOLUTION 99
+pH 7 charge
+EQUILIBRIUM_PHASES 1
+Montmorillonite(MgNa)  -0.602  1e-2
+Montmorillonite(MgCa)  -0.602  1e-2
+Montmorillonite(MgK)   -0.602  1e-2
+Montmorillonite(MgMg)  -0.602  1e-2
+Kaolinite 0 0
+SAVE solution 99
+END
+
+# # with Gapon only, define exchanger explicitly
+EXCHANGE 1
+Na0.34X_montm_mg  1e-2
+Ca0.17X_montm_mg  1e-2
+K0.34X_montm_mg   1e-2
+Mg0.17X_montm_mg  1e-2
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Kaolinite 0 0
+# USE EXCHANGE 1 # uncomment in KINETICS: # X_montm_mg -1
+EXCHANGE 1
+X_montm_mg Montmorillonite(MgNa) kin 1; -equil 99 # comment in KINETICS: # X_montm_mg -1
+# X Montmorillonite(MgNa) kin 0.34; -equil 99 # default exchanger X, comment in KINETICS: # X_montm_mg -1
+KINETICS 1
+Montmorillonite(MgNa) 
+-formula Mg0.34Al1.66Si4O10(OH)2 1 # X_montm_mg -1
+-m  4e-2
+-parms 0  2.5e5 1 0.67
+-step 30 100 1e3 1e4 2e4 2e4 3e4 3e4 3e4 3e4 1e5 1e5 1e5 3e5 6e5 1e6 3e6# 3e6 3e6 1e7 1e8 1e9
+# -step 10*1e7 9*1e8
+-cvode true
+INCREMENTAL_REACTIONS true
+USER_GRAPH 4
+    -headings               time Na K Mg Ca
+    -axis_titles            "Time / days" "Molality" ""
+    -axis_scale x_axis      auto auto auto auto log
+    -axis_scale y_axis      auto auto auto auto log
+1  t = TOTAL_TIME / (3600 * 24) : put(t, 1)
+10 GRAPH_X t
+12 mg = tot("Mg") : if mg < 1e-24 then mg = 1e-24
+14 ca = tot("Ca") : if ca < 1e-24 then ca = 1e-24
+20 GRAPH_Y TOT("Na"), TOT("K"), mg, ca
+END
+USE solution 99; REACTION 
+USER_GRAPH 4; -connect_simulations false
+1 t = get(1)
+10 plot_xy t, tot("Na"), symbol = Circle , symbol_size = 15, color = Red 
+20 plot_xy t, tot("K"),  symbol = Circle , symbol_size = 15, color = Green 
+30 plot_xy t, tot("Mg"), symbol = Circle , symbol_size = 15, color = Blue  
+40 plot_xy t, tot("Ca"), symbol = Circle , symbol_size = 15, color = Orange 
+
+
