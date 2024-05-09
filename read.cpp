@@ -2439,7 +2439,7 @@ read_mean_gammas(void)
 /* ---------------------------------------------------------------------- */
 {
 	/*
-	 *      Reads kinetics data
+	 *      Reads MEAN_GAMMAS data
 	 *
 	 *      Arguments:
 	 *	 none
@@ -2540,7 +2540,7 @@ read_mean_gammas(void)
 		break;
 		case OPTION_ERROR:
 			input_error++;
-			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg("Unknown input in MEAN_GAMMAS keyword.", CONTINUE);
 			error_msg(line_save, CONTINUE);
 			break;
 		}
