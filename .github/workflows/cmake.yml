@@ -173,7 +173,7 @@ jobs:
       run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: CMemCheck (Linux)
-      if: runner.os == 'Linux' && (github.event_name == 'schedule' || input.CMemCheck)
+      if: runner.os == 'Linux' && (github.event_name == 'schedule' || inputs.CMemCheck)
       run: ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: Upload results
