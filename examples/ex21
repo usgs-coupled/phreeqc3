@@ -12,13 +12,13 @@ SOLUTION_MASTER_SPECIES
   Cs        Cs+       0.0  132.905   132.905
 SOLUTION_SPECIES
 # start with finding tortuosity from HTO
-  Hto = Hto;        log_k 0; -gamma 1e5   0; -dw 2.3e-9 0 0 0 0 0 0.5 # diffusion coefficient is multiplied by (viscos_0 /viscos)^0.5
-# estimate f_free and f_DL_charge, increase tortuosity  
-  Cl_tr- = Cl_tr-;  log_k 0; -gamma 3.5 0.015; -dw 1.17e-9  0 0 0 0 0 0.5 # increase tortuosity for anions: 2.03e-9 / 1.73
+  Hto = Hto;        log_k 0; -gamma 1e5   0;   -dw 2.3e-9  0 0 0 0 0 0.5 # diffusion coefficient is multiplied by (viscos_0 /viscos)^0.5, the viscosity of the DDL is calculated.
+# estimate f_free and f_DL_charge, increase tortuosity
+  Cl_tr- = Cl_tr-;  log_k 0; -gamma 3.5 0.015; -dw 1.35e-9 0 0 0 0 0 0.5 # increase tortuosity for anions: 2.03e-9 / 1.35e-9 = 1.5
 # use erm_ddl to fit Na
-  Na_tr+ = Na_tr+;  log_k 0; -gamma 4.0 0.075; -dw 1.33e-9  0 0 0 0 0 0.5 ; -erm_ddl 1.39 
+  Na_tr+ = Na_tr+;  log_k 0; -gamma 4.0 0.075; -dw 1.33e-9 0 0 0 0 0 0.5 ; -erm_ddl 1.3 
 # use interlayer diffusion to fit Cs
-  Cs+ = Cs+;        log_k 0; -gamma 3.5 0.015; -dw 2.07e-9  0 0 0 0 0 0.5 ; -erm_ddl 1.39
+  Cs+ = Cs+;        log_k 0; -gamma 3.5 0.015; -dw 2.07e-9 0 0 0 0 0 0.5 ; -erm_ddl 1.3
 SURFACE_MASTER_SPECIES
   Su_fes Su_fes-   # Frayed Edge Sites
   Su_ii Su_ii-     # Type II sites of intermediate strength
@@ -81,7 +81,7 @@ USER_PUNCH
 130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
 # 140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
  # adapted for the harmonic mean calc's in version 3.4.2
-140  CEC = 0.09 * rho_b_eps   # CEC / (eq/L porewater)
+140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
 150  A_por = 37e3 * rho_b_eps # pore surface area / (m²/L porewater)
 151  correct_$  = ' false'
 # 152  correct_$ =  ' true' # if 'true' correct the co-ion concentrations in the Donnan volume
@@ -110,10 +110,10 @@ USER_PUNCH
 360  nfilt1 = 1               # number of cells in filter 1
 370  nfilt2 = 1               # number of cells in filter 2
 380  nclay = 11               # number of clay cells
-390  f_free = 0.02           # fraction of free pore water (0.01 - 1)
-400  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer
-# 400  f_free = 0.1 : f_DL_charge = 0.47  # higher f_free ===> higher f_DL_charge, found from Cl- and Na+
-410  tort_n = -0.975           # exponent in Archie's law, found from HTO
+390  f_free = 0.11             # fraction of free pore water (0.01 - 1)
+400  f_DL_charge = 0.48       # fraction of CEC charge in electrical double layer
+# 400  f_free = 0.2 : f_DL_charge = 0.5  # higher f_free ===> higher f_DL_charge, found from Cl- and Na+
+410  tort_n = -1.00           # exponent in Archie's law, found from HTO
 420  G_clay = por_clay^tort_n # geometrical factor
 430  interlayer_D$ = 'true'  # 'true' or 'false' for interlayer diffusion
 440  G_IL = 1300               # geometrical factor for clay interlayers... the initial rise of Cs suggests stagnant water, see Appelo et al for the calculation

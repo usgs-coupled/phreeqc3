@@ -1759,7 +1759,7 @@ pr_pressure(const char* phase_name)
 			class phase* phase_ptr_gas = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 			if (phase_ptr == phase_ptr_gas)
 			{
-				if (gas_phase_ptr->Get_pr_in())
+				if (gas_phase_ptr->Get_pr_in() && phase_ptr->moles_x)
 				{
 					return phase_ptr->pr_p;
 				}
@@ -1807,7 +1807,7 @@ pr_phi(const char* phase_name)
 			class phase* phase_ptr_gas = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 			if (phase_ptr == phase_ptr_gas)
 			{
-				if (gas_phase_ptr->Get_pr_in())
+				if (gas_phase_ptr->Get_pr_in() && phase_ptr->moles_x)
 					return phase_ptr->pr_phi;
 				else
 					return gas_comp_ptr->Get_phi();

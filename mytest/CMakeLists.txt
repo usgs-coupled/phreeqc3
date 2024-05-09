@@ -7,6 +7,7 @@ set(TESTS
   adapted_minteq
   advect_ranges
   aj1
+  albite_rates
   alkalinity
   all_llnl
   andra_kin_ss
@@ -218,6 +219,7 @@ set(TESTS
   katz
   KCl
   KCl-SO4
+  kin_r
   kin_time
   kinetic_rates
   kinetic_rates_plus

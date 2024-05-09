@@ -1,4 +1,4 @@
-# PHREEQC.DAT for calculating temperature and pressure dependence of reactions, and the specific conductance and viscosity of the solution. Based on:
+# PHREEQC.DAT for calculating temperature and pressure dependence of reactions, and the specific conductance and viscosity of the solution. Augmented with kinetic rates for minerals from compilations. Based on:
 #   diffusion coefficients and molal volumina of aqueous species, solubility and volume of minerals, and critical temperatures and pressures of gases in Peng-Robinson's EOS.
 # Details are given at the end of this file.
 
@@ -1897,24 +1897,27 @@ Pyrolusite
 #
 #  Additional definition of PHASES, RATE parameters, and RATES examples
 #
-#  RATE_PARAMETERS_PK has parameters from Palandri and Kharaka (2004).
+#  RATE_PARAMETERS_PK has parameters from Palandri and Kharaka (2004). A compilation of rate parameters of water-mineral interaction kinetics for application to geochemical modeling. USGS Open-File Report 2004-1068.
 #
-#  RATE_PARAMETERS_SVD has two examples from Sverdrup, Oelkers, Lampa,  
-#  Belyazid, Kurz, and Akselsson (2019).
+#  RATE_PARAMETERS_SVD has two examples from Sverdrup, Oelkers, Lampa, Belyazid, Kurz, and Akselsson (2019). Reviews and Syntheses: weathering of silicate minerals in soils and watersheds: parameterization of the weathering kinetics module in the PROFILE and ForSAFE models. Biogeosciences Discuss. 1-58.
 #
-#  RATE_PARAMETERS_HERMANSKA has parameters from Hermanska, Voigt, Marieni, 
-#  Declercq, and Oelkers (2023).
+#  RATE_PARAMETERS_HERMANSKA has parameters from Hermanska, Voigt, Marieni, Declercq, and Oelkers (2022, 2023). A comprehensive and internally consistent mineral dissolution rate database: Part I: Primary silicate minerals and glasses. Chemical Geology, 597, p.120807, Part II: Secondary silicate minerals. Chemical Geology, p.121632.
+
 #
-#  Example RATES definitions include
+#  Example RATES definitions and input files with KINETICS show the application in
 #  Albite_PK # Palandri and Kharaka
 #  Albite_Svd # Sverdrup
-#  Albite_Hermanska # 
+#  Albite_Hermanska
+#  Calcite_PK # Palandri and Kharaka
+#  Calcite # Plummer, Wigley, Parkhurst 1978, AJS 278, 179-216.
 #  Quartz_PK # Palandri and Kharaka
 #  Quartz_Svd # Sverdrup
 #  Quartz_Hermanska # 
 #  Quartz_Rimstidt_Barnes
+#  Montmorillonite # Na, K, Mg, Ca exchange, Hermanska rate for the TOT layer
 #
 PHASES # defined for formulas and affinities of kinetic (mostly) dissolving minerals
+#        Unless noted otherwise, data from ThermoddemV1.10_15Dec2020.dat.
 Actinolite # Hornblende, Ferroactinolite
 Ca2(Mg2.25Fe2.5Al0.25)(Si7.75Al0.25)O22(OH)2 + 15H+ + 7H2O = 0.500Al+3 + 2Ca+2 + 2.500Fe+2 + 2.250Mg+2 + 7.750H4SiO4
      log_k     7.128
@@ -2610,9 +2613,18 @@ Albite_Hermanska #
 40 SAVE area * rate * affinity * TIME
 -end 
 #
+# Example RATES definition for Calcite
+#
+Calcite_PK # Palandri and Kharaka, 2004
+5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("calcite") : if affinity < parm(1) then SAVE 0 : END
+20 rate = RATE_PK("calcite")
+30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+40 SAVE area * rate * affinity * TIME
+-end 
+#
 # Example RATES definitions for Quartz
 #
-RATES
 Quartz_PK # Palandri and Kharaka, 2004
 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
@@ -2645,8 +2657,329 @@ Quartz_Rimstidt_Barnes
 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
 40 SAVE area * rate * affinity * TIME
 -end
-
+#
+# Example RATES definition for Montmorillonite, a solid solution with exchangeable cations reacting fast; their ratios are related to the changing solution composition and their amounts are connected to the kinetic reacting TOT layer.
+#
+# The affinity is related to a solid soution member, given by the fraction of the exchangeable cation (here Na+). The exchange species are defined in the (example) input file, below.
+#
+Montmorillonite
+5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+7  f_Na = (mol("Na0.34X_montm_mg") / tot("X_montm_mg"))
+# 7  f_Na = (mol("NaX") / tot("X")) # when running with the default X exchange
+10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Montmorillonite(MgNa)") / f_Na
+20 rate = RATE_HERMANSKA("Montmorillonite") / f_Na
+30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+40 SAVE area * rate * affinity * TIME
+-end 
 END
+
+# Example input files for KINETICS calculations
+#
+# compare Albite kinetics using rates from the compilations
+# =========================================================
+
+# KINETICS 1
+# Albite_PK
+# -formula NaAlSi3O8; -parms  0  1  1  0.67
+# -m0 1; -time 1 # default
+# END
+
+# SOLUTION 1
+# PHASES 
+  # Fix_pH; H+ = H+ 
+  # LiBr; LiBr = Li+ + Br-; -log_k -20  # (very) unsoluble phase with base cation and acid anion, permits to use HBr or LiOH as reactant 
+# SELECTED_OUTPUT 1
+        # -file kinetic_rates_pH.inc 
+        # -reset false 
+# USER_PUNCH 1    # write out the pH's to equilibrate... 
+        # 10 FOR i = 0 to 14 STEP 0.5
+        # 20      punch EOL$ + 'USE solution 1' 
+        # 30      punch EOL$ + 'EQUILIBRIUM_PHASES 1' 
+        # 40      punch EOL$ + ' LiBr' 
+        # 50      punch EOL$ + ' Fix_pH ' + TRIM(STR$(-i)) + ' LiOH 10' # ...or HBr as reactant 
+        # 60      punch EOL$ + 'USE kinetics 1' 
+        # 70      punch EOL$ + 'END' 
+        # 80 NEXT i 
+# END 
+
+# PRINT; -reset false
+# SELECTED_OUTPUT 1; -active false
+# USER_GRAPH 1; -headings pH Palandri
+# -axis_titles  pH "log10(initial rate / (mol / m2 / s))"
+# -axis_scale x_axis 0 14
+# 10 graph_x -la("H+")
+# 20 graph_sy log10(tot("Al"))
+# INCLUDE$ kinetic_rates_pH.inc 
+# END
+
+# KINETICS 1
+# Albite_Svd
+# -formula NaAlSi3O8; -parms  0  1  20  0.67 # roughness = 20
+# USER_GRAPH 1; -headings pH Sverdup*20
+# INCLUDE$ kinetic_rates_pH.inc
+# END
+
+# KINETICS 1
+# Albite
+# -formula NaAlSi3O8; -parms  1  20 # roughness = 20
+# USER_GRAPH 1; -headings pH Sverdup`95*20
+# INCLUDE$ kinetic_rates_pH.inc
+# END
+
+# KINETICS 1
+# Albite_Hermanska
+# -formula NaAlSi3O8; -parms  0  1  1  0.67
+# USER_GRAPH 1; -headings pH Hermanska
+# INCLUDE$ kinetic_rates_pH.inc
+# END
+
+# USE solution 1
+# REACTION_TEMPERATURE 1; 25 25 in 21
+# USER_GRAPH 1; -headings Albite_data 
+# 10 data 1.1, 2.05, 2.45, 2.9, 3, 3.5, 4.1, 5.1, 5.35, 5.47, 5.63, 5.63, 5.73, 7.73, 9.95, 9.95, 9.95, 10.6, 11.2, 11.55, 12.3
+# 20 data -10.25, -10.55, -10.82, -11.25, -11.1, -11.4, -11.47, -11.82, -11.75, -11.65, -11.83, -11.92, -11.92, -11.83, -10.97, -11.05, -11.13, -10.95, -10.55, -10.6, -10.38 # Chou, L., Wollast, R., 1985. Steady-state kinetics and dissolution mechanisms of albite. Am. J. Sci. 285, 963–993.
+# 30 restore 10 : dim ph(21) : for i = 1 to step_no : read ph(i) : next i
+# 40 restore 20 : dim lk(21) : for i = 1 to step_no : read lk(i) : next i
+# 50 i = step_no : plot_xy ph(i), lk(i), line_width = 0, color = Black, y_axis = 2, symbol_size = 10, symbol = Circle
+# END
+
+# compare rates for calcite dissolution
+# =====================================
+
+# USER_GRAPH 1; -active false
+
+# SOLUTION 1
+# pH 7 charge; C(4) 1 CO2(g) -2.5
+# KINETICS 1
+# calcite_PK
+# -formula CaCO3; -parms  0  1e-2  1  0.67
+# -time 0.1 10*1 hour
+# INCREMENTAL_REACTIONS true
+# USER_GRAPH 2; -headings h Palandri_SI(CO2_g).=.-2.5
+# -axis_titles "time / hours" "Calcite dissolved / (mmol/kgw)"
+# 10 graph_x total_time / 3600 : graph_sy tot("Ca") * 1e3
+# END
+
+# USE solution 1
+# KINETICS 1
+# Calcite
+# -parms  1e2  0.67  # cm^2/mol calcite, exp factor
+# -time  0.1 10*1 hour
+# USER_GRAPH 2; -headings h Plummer.Wigley.Parkhurst
+# END
+
+# SOLUTION 1
+# pH 7 charge; C(4) 1 CO2(g) -1.5
+# KINETICS 1
+# calcite_PK
+# -formula CaCO3
+# -parms  0  1e-2  1  0.67
+# -time 0.1 10*1 hour
+# USER_GRAPH 2; -headings h Palandri_SI(CO2_g).=.-1.5
+# END
+
+# USE solution 1
+# KINETICS 1
+# Calcite
+# -parms  1e2  0.67
+# -time  0.1 10*1 hour
+# USER_GRAPH 2; -headings h Plummer.Wigley.Parkhurst
+# END
+
+# compare rates for quartz dissolution
+# =====================================
+
+# USER_GRAPH 2; -active false
+# SOLUTION 1
+# pH 7 charge
+# KINETICS 1
+# Quartz_PK
+# -formula SiO2
+# -parms  0  6  1  0.67
+# -time 0.1 10*1 year
+# INCREMENTAL_REACTIONS true
+# USER_GRAPH 3; -headings h Palandri
+# -axis_titles "time / years" "Quartz dissolved / (mmol/kgw)"
+# 10 graph_x total_time / 3.15e7 : graph_sy tot("Si") * 1e3
+# END
+
+# USE solution 1
+# KINETICS 1
+# Quartz_Hermanska
+# -formula SiO2
+# -parms  0  6  1  0.67
+# -time 0.1 10*1 year
+# USER_GRAPH 3
+# -headings H Hermanska
+# END
+
+# USE solution 1
+# KINETICS 1
+# Quartz_Svd
+# -formula SiO2
+# -parms  0  6  1  0.67
+# -time 0.1 10*1 year
+# USER_GRAPH 3
+# -headings H Sverdup
+# END
+
+# USE solution 1
+# KINETICS 1
+# Quartz_Rimstidt_Barnes
+# -formula SiO2
+# -parms  0  6  1  0.67
+# -time 0.1 10*1 year
+# USER_GRAPH 3
+# -headings H Rimstidt.et.al
+# END
+
+# SOLUTION 1
+# pH 7 charge; Na 30; Cl 30
+# KINETICS 1
+# Quartz_Svd
+# -formula SiO2
+# -parms  0  6  1  0.67
+# -time 0.1 10*1 year
+# USER_GRAPH 3
+# -headings H Sverdup_NaCl
+# END
+
+# USE solution 1
+# KINETICS 1
+# Quartz_Rimstidt_Barnes
+# -formula SiO2
+# -parms  0  6  1  0.67
+# -time 0.1 10*1 year
+# USER_GRAPH 3
+# -headings H Rimstidt.et.al._NaCl
+# END
+
+# Example input file for calculating montmorillonite dissolution
+# ==============================================================
+
+# USER_GRAPH 3; -active false
+
+# EXCHANGE_MASTER_SPECIES
+# X_montm_mg   X_montm_mg-0.34
+# EXCHANGE_SPECIES
+# # The Gapon formulation is easiest...
+              # X_montm_mg-0.34 =  X_montm_mg-0.34
+# 0.34 Na+  +   X_montm_mg-0.34 = Na0.34X_montm_mg; log_k -3.411 #  0     # 
+# 0.34 K+   +   X_montm_mg-0.34 =  K0.34X_montm_mg; log_k -2.830 #  0.581 # 
+# 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -3.708 # -0.297 # 
+# 0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -4.222 # -0.811 # 
+
+# # # The divalent cations have rather low log_k, cf. A&P, p.254, log_k Ca0.5X ~ log_k KX
+# # # uncomment the following lines to see the effect...
+# # 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -2.73
+# # 0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -2.83
+# # # also adapt the log_k`s of the solids...
+# # PHASES
+# # Montmorillonite(MgMg)
+# # Mg0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.510Mg+2 + 4H4SiO4
+     # # log_k     2.73
+# # Montmorillonite(MgCa)
+# # Ca0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.170Ca+2 + 0.340Mg+2 + 4H4SiO4
+     # # log_k     2.83
+
+# # # The divalent cations can be defined with the Gaines-Thomas convention...
+# # EXCHANGE_SPECIES
+# # # undefine the previous set...
+# # 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -3.708e10
+# # 0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -4.222e10
+# # # write the Gaines-Thomas formulas...
+# # 0.34 Mg+2 + 2  X_montm_mg-0.34 = Mg0.34X_montm_mg2 ; log_k -7.416 # -0.297 # 
+# # 0.34 Ca+2 + 2  X_montm_mg-0.34 = Ca0.34X_montm_mg2 ; log_k -8.444 # -0.811 # 
+
+# # # The default exchanger X can be used, uncomment the follwing lines
+# # # redefine f_Na in the rate...
+# # RATES
+# # Montmorillonite
+# # 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# # 7  f_Na = (mol("NaX") / tot("X")) # when running with the default X exchange
+# # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Montmorillonite(MgNa)") / f_Na
+# # 20 rate = RATE_HERMANSKA("Montmorillonite") / f_Na
+# # 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# # 40 SAVE area * rate * affinity * TIME
+# # -end 
+# # # adapt log_k`s of the solids with default exchanger X:
+# # PHASES
+# # Montmorillonite(MgK)
+# # K0.34Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.340K+ + 0.340Mg+2 + 4H4SiO4
+     # # log_k   2.6 # 3.41 - 0.7 * 0.34 = 3.17 expected, but is fraction-dependent, A&P, problems p. 305
+# # Montmorillonite(MgMg)
+# # Mg0.34(Mg0.34Al1.66Si4O10(OH)2)2 + 12 H+ + 8 H2O = 3.32 Al+3 + 1.02 Mg+2 + 8 H4SiO4
+     # # log_k   6.27 # 3.41 * 2 - 0.6 * 0.34 = 6.62
+# # Montmorillonite(MgCa)
+# # Ca0.34(Mg0.34Al1.66Si4O10(OH)2)2 + 12 H+ + 8 H2O = 3.32 Al+3 + 0.68 Mg+2 + 8 H4SiO4 + 0.34 Ca+2
+     # # log_k   6.2 #  3.41 * 2 - 0.8 * 0.34 = 6.55
+# # # in EXCHANGE 1, comment X_montm_mg, uncomment X...
+# END
+
+# SOLUTION 1
+# pH 7 charge; 
+# Na 1e-5
+# K  1e-5
+# Mg 1e-5
+# Ca 1e-5
+# END
+
+# # Give the solution composition for calculating the ininitial exchanger
+# SOLUTION 99
+# pH 7 charge
+# EQUILIBRIUM_PHASES 1
+# # solid solution of the end-members, SI = log10(fraction = 0.25)
+# Montmorillonite(MgNa)  -0.602  1e-2
+# Montmorillonite(MgCa)  -0.602  1e-2
+# Montmorillonite(MgK)   -0.602  1e-2
+# Montmorillonite(MgMg)  -0.602  1e-2
+# Kaolinite 0 0
+# SAVE solution 99
+# END
+
+# # # with Gapon only, initial exchanger can be defined explicitly
+# EXCHANGE 1
+# Na0.34X_montm_mg  1e-2
+# Ca0.17X_montm_mg  1e-2
+# K0.34X_montm_mg   1e-2
+# Mg0.17X_montm_mg  1e-2
+# END
+
+# USE solution 1
+# EQUILIBRIUM_PHASES 1
+# Kaolinite 0 0
+# # USE EXCHANGE 1 # with Gapon only, uncomment in KINETICS: # X_montm_mg -1
+# EXCHANGE 1
+# X_montm_mg Montmorillonite kin 1; -equil 99 # comment in KINETICS: # X_montm_mg -1
+# # X Montmorillonite kin 0.34; -equil 99 # default exchanger X, comment in KINETICS: # X_montm_mg -1
+# KINETICS 1
+# Montmorillonite 
+# -formula Mg0.34Al1.66Si4O10(OH)2 1 # X_montm_mg -1
+# -m  4e-2
+# -parms 0  2.5e5 1 0.67
+# -step 30 100 1e3 1e4 2e4 2e4 3e4 3e4 3e4 3e4 1e5 1e5 1e5 3e5 6e5 1e6 3e6
+# -cvode true
+# INCREMENTAL_REACTIONS true
+# USER_GRAPH 4
+    # -headings               time Na K Mg Ca
+    # -axis_titles            "Time / days" "Molality" "Montmorillonite dissolved / (mmol/kgw)"
+    # -axis_scale x_axis      auto auto auto auto log
+    # -axis_scale y_axis      auto auto auto auto log
+# 1  t = TOTAL_TIME / (3600 * 24) : put(t, 1)
+# 10 GRAPH_X t
+# 12 mg = tot("Mg") : if mg < 1e-24 then mg = 1e-24
+# 14 ca = tot("Ca") : if ca < 1e-24 then ca = 1e-24
+# 20 GRAPH_Y TOT("Na"), TOT("K"), mg, ca
+# 30 GRAPH_SY (4e-2 - kin("Montmorillonite")) * 1e3
+# END
+# USE solution 99; REACTION 
+# USER_GRAPH 4; -connect_simulations false; -headings Solution_99
+# 1 t = get(1)
+# 10 plot_xy t, tot("Na"), symbol = Circle , symbol_size = 15, color = Red 
+# 20 plot_xy t, tot("K"),  symbol = Circle , symbol_size = 15, color = Green 
+# 30 plot_xy t, tot("Mg"), symbol = Circle , symbol_size = 15, color = Blue  
+# 40 plot_xy t, tot("Ca"), symbol = Circle , symbol_size = 15, color = Orange 
+
 # =============================================================================================
 #(a) means amorphous. (d) means disordered, or less crystalline. 
 #(14A) refers to 14 angstrom spacing of clay planes. FeS(ppt), 
