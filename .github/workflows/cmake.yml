@@ -26,6 +26,12 @@ on:
   schedule:
     - cron: '1 2 * * 2'
   workflow_dispatch:
+    inputs:
+      CMemCheck:
+        description: 'CMemCheck: Uncheck to skip running the CMake valgrind tests'
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   # check_files:
@@ -167,7 +173,7 @@ jobs:
       run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: CMemCheck (Linux)
-      if: runner.os == 'Linux' && github.event_name == 'schedule'
+      if: runner.os == 'Linux' && (github.event_name == 'schedule' || input.CMemCheck)
       run: ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: Upload results
