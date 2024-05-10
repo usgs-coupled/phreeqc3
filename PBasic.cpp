@@ -3211,13 +3211,15 @@ factor(struct LOC_exec * LINK)
 	case tokpad_:
 	case tokpad:
 	{
+		char* str;
 		n.stringval = true;
 		require(toklp, LINK);
-		string1 = strexpr(LINK);
+		str = strexpr(LINK);
 		require(tokcomma, LINK);
 		i = intexpr(LINK);
 		require(tokrp, LINK);
-		n.UU.sval = PhreeqcPtr->string_pad(string1, i);
+		n.UU.sval = PhreeqcPtr->string_pad(str, i);
+		PhreeqcPtr->PHRQ_free(str);
 	}
 	break;
 
@@ -3249,6 +3251,7 @@ factor(struct LOC_exec * LINK)
 			break;
 		}
 		std::string min_string = min_name;
+		PhreeqcPtr->PHRQ_free(min_name);
 		Utilities::str_tolower(min_string);
 		std::map<std::string, std::vector<double> >::const_iterator it = PhreeqcPtr->rate_parameters_pk.find(min_string);
 		if (it == PhreeqcPtr->rate_parameters_pk.end())
@@ -3420,6 +3423,7 @@ factor(struct LOC_exec * LINK)
 			break;
 		}
 		std::string min_string = min_name;
+		PhreeqcPtr->PHRQ_free(min_name);
 		Utilities::str_tolower(min_string);
 		std::map<std::string, std::vector<double> >::const_iterator it = PhreeqcPtr->rate_parameters_svd.find(min_string);
 		if (it == PhreeqcPtr->rate_parameters_svd.end())
@@ -3574,6 +3578,7 @@ factor(struct LOC_exec * LINK)
 			break;
 		}
 		std::string min_string = min_name;
+		PhreeqcPtr->PHRQ_free(min_name);
 		Utilities::str_tolower(min_string);
 		std::map<std::string, std::vector<double> >::const_iterator it = PhreeqcPtr->rate_parameters_hermanska.find(min_string);
 		if (it == PhreeqcPtr->rate_parameters_hermanska.end())
@@ -3667,6 +3672,7 @@ factor(struct LOC_exec * LINK)
 			break;
 		}
 		std::string min_string = min_name;
+		PhreeqcPtr->PHRQ_free(min_name);
 		Utilities::str_tolower(min_string);
 		std::map<std::string, cxxNameDouble>::const_iterator it = PhreeqcPtr->mean_gammas.find(min_string);
 		if (it == PhreeqcPtr->mean_gammas.end() || it->second.size() == 0)
@@ -5403,7 +5409,9 @@ cmdput_(struct LOC_exec* LINK)
 	require(toklp, LINK);
 
 	/* get first argumen */
-	std::string s_value = strexpr(LINK);
+	char* str = strexpr(LINK);
+	std::string s_value = str;
+	PhreeqcPtr->PHRQ_free(str);
 
 	for (;;)
 	{
