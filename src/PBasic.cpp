@@ -3211,13 +3211,15 @@ factor(struct LOC_exec * LINK)
 	case tokpad_:
 	case tokpad:
 	{
+		char* str;
 		n.stringval = true;
 		require(toklp, LINK);
-		string1 = strexpr(LINK);
+		str = strexpr(LINK);
 		require(tokcomma, LINK);
 		i = intexpr(LINK);
 		require(tokrp, LINK);
-		n.UU.sval = PhreeqcPtr->string_pad(string1, i);
+		n.UU.sval = PhreeqcPtr->string_pad(str, i);
+		PhreeqcPtr->PHRQ_free(str);
 	}
 	break;
 
