@@ -7,13 +7,13 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	-dw Dw(25C) dw_T a a2 visc a3 a_v_dif  
 	
 	where,
-	Dw(25C)—Tracer diffusion coefficient for the species at 25 °C, m 2 /s. 
-	dw_T—Temperature dependence for diffusion coefficient.
-	a—Debye-Huckel ion size.
-	a2—exponent.
-	Visc—Viscosity exponent.
-	a3—Ionic strength exponent.
-	A_v_dif—Exponent for (viscosity_0/viscosity).
+	Dw(25C)ï¿½Tracer diffusion coefficient for the species at 25 ï¿½C, m 2 /s. 
+	dw_Tï¿½Temperature dependence for diffusion coefficient.
+	aï¿½Debye-Huckel ion size.
+	a2ï¿½exponent.
+	Viscï¿½Viscosity exponent.
+	a3ï¿½Ionic strength exponent.
+	A_v_difï¿½Exponent for (viscosity_0/viscosity).
 	
 	The diffusion coefficient is calculated as follows:
 	Dw = Dw(25C) * exp(dw_T / T - dw_T / 298.15)
@@ -145,9 +145,9 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 	April 21, 2024
   	-----------------
 	PHREEQC: Added Basic functions GET$ and PUT$. They are are the same as
-	GET and PUT, except the first argument is a character string. You may
-	one or more indices as needed to identify the value that is put or
-	gotten.
+	GET and PUT, except the first argument for PUT$ is a character string, 
+	and GET$ returns a character string. You may use one or more indices as
+	needed to identify the value that is saved (PUT$) or retrieved (GET$).
 	
 	PUT$("MgCl2", 1, 1, 1)
 	x$ = GET$(1, 1, 1)
@@ -181,11 +181,11 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 	March 25, 2024
   	-----------------
 	DATABASES phreeqc.dat, Amm.dat, and pitzer.dat: The calculation of the 
-	specific conductance can now be done with a Debye-Hückel-Onsager equation 
+	specific conductance can now be done with a Debye-Hï¿½ckel-Onsager equation 
 	that has both the electrophoretic and the relaxation term. (The standard 
 	phreeqc calculation uses a simple electrophoretic term only.) For 
 	individual ions, the equation can be multiplied with the viscosity ratio of 
-	the solvent and the solution, and the ion-size a in the Debye-Hückel term 
+	the solvent and the solution, and the ion-size a in the Debye-Hï¿½ckel term 
 	kappa_a can be made a function of the apparent molar volume of the ion. The 
 	options are described and used in the databases. The additions extend the 
 	applicability of the DHO equation to concentrations in the molar range, 
@@ -270,7 +270,7 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 	first viscosity parameter was set to 0.
 
 	Defined -analytical_expression and -gamma for Na2SO4, K2SO4 and MgSO4 and Mg(SO4)2-2 species in 
-	phreeqc.dat and Amm.dat, fitting the activities from pitzer.dat from 0-200 °C, and the solubilities of 
+	phreeqc.dat and Amm.dat, fitting the activities from pitzer.dat from 0-200 ï¿½C, and the solubilities of 
 	mirabilite/thenardite (Na2SO4), arcanite (K2SO4), and epsomite, hexahydrite, kieserite (MgSO4 
 	and new species Mg(SO4)2-2). The parameters for calculating the apparent volume (-Vm) and the 
 	diffusion coefficients (-Dw) of the species were adapted using measured data of density and 
@@ -297,7 +297,7 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 		
 	where eta is the viscosity of the solution (mPa s), eta0 is viscosity of pure water at the 
 	temperature and pressure of the solution, mi is the molality of species i, made dimensionless 
-	by dividing by 1 molal, and zi is the absolute charge number. A is derived from Debye-Hückel 
+	by dividing by 1 molal, and zi is the absolute charge number. A is derived from Debye-Hï¿½ckel 
 	theory, and fan, B, D and n are coefficients that incorporate volume, ionic strength and 
 	temperature effects. 
 	
@@ -305,8 +305,8 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 
 		B = b0 + b1 exp(-b2 tC)
 		
-	where b0, b1, and b2 are coefficients, and tC is the temperature in ºC. The temperature is 
-	limited to 200°C.
+	where b0, b1, and b2 are coefficients, and tC is the temperature in ï¿½C. The temperature is 
+	limited to 200ï¿½C.
 
 		fan = (2 - tan * Van / VCl-)
 		
@@ -361,8 +361,8 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 	It will set Dw(TK) = 9.31e-9 * exp(1000 / TK - 1000 / 298.15) * viscos_0_25 / viscos_0_tc
 	and Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |zi| * I 0.5 / (1 + DH_B * I 0.5 * 1e-10 / (1 + I 0.75))),
 
-	where viscos_0_25 is the viscosity of pure water at 25 °C, viscos_0_tc is the viscosity of pure 
-	water at the temperature of the solution. DH_A and DH_B are Debye-Hückel parameters, 
+	where viscos_0_25 is the viscosity of pure water at 25 ï¿½C, viscos_0_tc is the viscosity of pure 
+	water at the temperature of the solution. DH_A and DH_B are Debye-Hï¿½ckel parameters, 
 	retrievable with PHREEQC Basic.
 
 
@@ -373,7 +373,7 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 	The correction is applied when the option is set true in TRANSPORT, item -multi_D:
 		-multi_d true 1e-9 0.3 0.05 1.0 true # multicomponent diffusion
 		
-	# true/false, default tracer diffusion coefficient (Dw = 1e-9 m2/s) in water at 25 °C (used in 
+	# true/false, default tracer diffusion coefficient (Dw = 1e-9 m2/s) in water at 25 ï¿½C (used in 
 	case -dw is not defined for a species), porosity (por = 0.3), limiting porosity (0.05) below 
 	which diffusion stops, exponent n (1.0) used in calculating the porewater diffusion coefficient 
 	Dp = Dw * por^n, true/false: correct Dw for ionic strength (false by default). 
@@ -846,8 +846,8 @@ DH_BDOT("Na+")  					Debye-Huckel species-specific ionic strength coefficient.
 	Busenberg (1982) used in pitzer.dat.
 
 	Modified the -analytical_expression for dolomite in 
-	phreeqc.dat and pitzer.dat, using data at 25°C from Hemingway 
-	and Robie (1994) and 50-175°C from Bénézeth et al. (2018), GCA 
+	phreeqc.dat and pitzer.dat, using data at 25ï¿½C from Hemingway 
+	and Robie (1994) and 50-175ï¿½C from Bï¿½nï¿½zeth et al. (2018), GCA 
 	224, 262-275. 
 
   	-------------
@@ -1793,7 +1793,7 @@ Version 3.4.0: November 9, 2017 (svn 12927)
 		
 	where the first number is the diffusion coeficient at 25 C, and the second number is a damping
 	factor for the temperature correction, as proposed by Smolyakov, according to Anderko and Lencka,
-	1997, Ind. Chem. Eng. Res. 36, 1932–1943:
+	1997, Ind. Chem. Eng. Res. 36, 1932ï¿½1943:
 	
 	Dw(TK) = 9.31e-9 * exp(763 / TK - 763 / 298.15) * TK * 0.89 / (298.15 * viscos).
 	
@@ -2041,7 +2041,7 @@ Version 3.3.8: September 13, 2016 (svn 11728)
 	
 	This function identifies all of the kinetic reactants in the current KINETICS definition
 	and returns the sum of moles of all kinetic reactants. Count is number of kinetic
-	reactants. Name$ contains the kinetic reactant names. Type$ is “kin”. Moles contains the
+	reactants. Name$ contains the kinetic reactant names. Type$ is ï¿½kinï¿½. Moles contains the
 	moles of each kinetic reactant. The chemical formula used in the kinetic reaction can be
 	determined by using a reaction name from Name$ as the first argument of the
 	KINETICS_FORMULA$ Basic function.
@@ -3252,11 +3252,11 @@ Version 3.0.0: February 1, 2013
 	reactions, the nonideal gas formulation of Peng and
 	Robinson, and charting. All features of PHREEQC
 	Version 3 are documented in U.S. Geological Survey
-	Techniques and Methods 6-A43, “Description of input
+	Techniques and Methods 6-A43, ï¿½Description of input
 	and examples for PHREEQC Version 3--A computer
 	program for speciation, batch-reaction, one-
 	dimensional transport, and inverse geochemical
-	calculations”, available at
+	calculationsï¿½, available at
 	http://pubs.usgs.gov/tm/06/a43/. Features not
 	previously documented include Pitzer and SIT aqueous
 	models, CD-MUSIC surface complexation, isotopic
@@ -4283,12 +4283,12 @@ Version 2.17.0: February 25, 2010
         log(K) of an exchange-half reaction depends on the equivalent
         fraction on the exchanger:
 
-                log(K) = log_k + a_f * (1 - ß_i)
+                log(K) = log_k + a_f * (1 - ï¿½_i)
 
         where log_k is the log of the equilibrium constant when all the 
                         sites are occupied by ion i,
                 a_f is an empirical coefficient, and
-                ß_i is the equivalent fraction of i.
+                ï¿½_i is the equivalent fraction of i.
 
         a_f can be defined in EXCHANGE_SPECIES with -gamma after the WATEQ
         Debye-Hueckel parameters.
@@ -4299,7 +4299,7 @@ Version 2.17.0: February 25, 2010
                  -gamma 4.0 0.075 0.50
 
         The association constant for NaX becomes:
-                  log(K) = -0.5 + 0.50 * (1 - ß_Na)
+                  log(K) = -0.5 + 0.50 * (1 - ï¿½_Na)
                   
         --------
         svn 3453
