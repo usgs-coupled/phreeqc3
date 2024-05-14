@@ -3668,6 +3668,7 @@ factor(struct LOC_exec * LINK)
 		char* min_name = strexpr(LINK);
 		require(tokrp, LINK);
 		if (parse_all) {
+			PhreeqcPtr->PHRQ_free(min_name);
 			n.UU.val = 1;
 			break;
 		}
