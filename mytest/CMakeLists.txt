@@ -337,6 +337,7 @@ set(TESTS
   R-04_01_PHRC
   rahn
   rate_parameters
+  rate_xmpls
   Ratework
   raw
   reaction_p
