@@ -229,12 +229,12 @@ std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_RATE_P
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_RATE_PARAMETERS_SVD,		    "RATE_PARAMETERS_SVD"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_RATE_PARAMETERS_HERMANSKA,    "RATE_PARAMETERS_HERMANSKA"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_MEAN_GAMMAS,		            "RATE_MEAN_GAMMAS"),
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLUTION_MIX,		            "SOLUTION_MIX"),	
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_EXCHANGE_MIX,		            "EXCHANGE_MIX"),	
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_GAS_PHASE_MIX,		        "GAS_PHASE_MIX"),	
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_KINETICS_MIX,		            "KINETICS_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLUTION_MIX,		            "SOLUTION_MIX"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_EXCHANGE_MIX,		            "EXCHANGE_MIX"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_GAS_PHASE_MIX,		        "GAS_PHASE_MIX"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_KINETICS_MIX,		            "KINETICS_MIX"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_PPASSEMBLAGE_MIX,		        "EQUILIBRIUM_PHASES_MIX"),
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SSASSEMBLAGE_MIX,		        "SOLID_SOLUTIONS_MIX"),	
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SURFACE_MIX,		            "SURFACE_MIX")	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SSASSEMBLAGE_MIX,		        "SOLID_SOLUTIONS_MIX"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SURFACE_MIX,		            "SURFACE_MIX")
 };
 const std::map<Keywords::KEYWORDS, const std::string> Keywords::phreeqc_keyword_names(temp_keyword_names, temp_keyword_names + sizeof temp_keyword_names / sizeof temp_keyword_names[0]);
