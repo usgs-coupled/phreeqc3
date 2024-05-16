@@ -1569,6 +1569,7 @@ SURFACE_SPECIES
 	Hfo_wOH + H4SiO4 = Hfo_wH3SiO4 + H2O	; log_K   4.28
 	Hfo_wOH + H4SiO4 = Hfo_wH2SiO4- + H+ + H2O  ; log_K  -3.22
 	Hfo_wOH + H4SiO4 = Hfo_wHSiO4-2 + 2H+ + H2O ; log_K -11.69
+
 MEAN_GAMMAS
 CaCl2    Ca+2  1  Cl-    2
 CaSO4    Ca+2  1  SO4-2  1
@@ -1894,6 +1895,7 @@ Pyrolusite
 110 moles = 2e-3 * 6.98e-5 * (1 - sr_pl) * TIME
 200 SAVE moles * SOLN_VOL
   -end
+
 #
 #  Additional definition of PHASES, RATE parameters, and RATES examples
 #
@@ -2676,98 +2678,21 @@ Sepiolite       -11     5.89E-03        50.2    0.25    -13.2   8.00E-07        
 Spodumene       -5.38   4.90E+02        46.1    0.5     -8.95   5.40E+06        89.5    0       0               0       0
 Talc            -11.1   4.42E-03        50.2    0.36    -12.9   1.56E-06        40.7    0       0               0       0
 Wollastonite    -6.97   700             56      0.4     0       0               0       -7.81   200             52      0.15
-#
-# Example RATES definitions for Albite
-#
-RATES
-Albite_PK # Palandri and Kharaka, 2004
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
-20 rate = RATE_PK("Albite")
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
 
-Albite_Svd # Sverdrup, 2019
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
-20 rate = RATE_SVD("Albite")
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
-
-Albite_Hermanska # 
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
-20 rate = RATE_HERMANSKA("Albite")
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
-#
-# Example RATES definition for Calcite
-#
-Calcite_PK # Palandri and Kharaka, 2004
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("calcite") : if affinity < parm(1) then SAVE 0 : END
-20 rate = RATE_PK("calcite")
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
-#
-# Example RATES definitions for Quartz
-#
-Quartz_PK # Palandri and Kharaka, 2004
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
-20 rate = RATE_PK("Quartz")
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
-
-Quartz_Svd # Sverdrup, 2019
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
-20 rate = RATE_SVD("Quartz")
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
-
-Quartz_Hermanska # 
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
-20 rate = RATE_HERMANSKA("Quartz")
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
-
-Quartz_Rimstidt_Barnes
-#1 rem Specific rate k = 10^-13.7 mol/m2/s (25 C), Ea = 90 kJ/mol, Rimstidt and Barnes, 1980, GCA 44, 1683
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
-20 rate = 10^-(13.7 + 4700 * (1 / 298 - 1 / TK)) * (1 + 1500*tot("Na")) # salt correction, Dove and Rimstidt, MSA Rev. 29, 259
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end
-#
-# Example RATES definition for Montmorillonite, a solid solution with exchangeable cations reacting fast; their ratios are related to the changing solution composition and their amounts are connected to the kinetic reacting TOT layer.
-#
-# The affinity is related to a solid soution member, given by the fraction of the exchangeable cation (here Na+). The exchange species are defined in the (example) input file, below.
-#
-Montmorillonite
-5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
-7  f_Na = (mol("Na0.34X_montm_mg") / tot("X_montm_mg"))
-# 7  f_Na = (mol("NaX") / tot("X")) # when running with the default X exchange
-10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Montmorillonite(MgNa)") / f_Na
-20 rate = RATE_HERMANSKA("Montmorillonite") / f_Na
-30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
-40 SAVE area * rate * affinity * TIME
--end 
-END
-
-# # Example input files for KINETICS calculations
+# # Example input files with RATES for KINETICS calculations
 # #
 # # compare Albite kinetics using rates from the compilations
+ # # for the PARMS, see https://www.hydrochemistry.eu/exmpls/kin_silicates.html
 # # =========================================================
+#
+# RATES
+# Albite_PK # Palandri and Kharaka, 2004
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = RATE_PK("Albite")
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
 
 # KINETICS 1
 # Albite_PK
@@ -2803,6 +2728,15 @@ END
 # INCLUDE$ kinetic_rates_pH.inc 
 # END
 
+# RATES
+# Albite_Svd # Sverdrup, 2019
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = RATE_SVD("Albite")
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
+
 # KINETICS 1
 # Albite_Svd
 # -formula NaAlSi3O8; -parms  0  1  20  0.67 # roughness = 20
@@ -2811,11 +2745,20 @@ END
 # END
 
 # KINETICS 1
-# Albite
+# Albite # from Sverdrup and Warfvinge, 1995
 # -formula NaAlSi3O8; -parms  1  20 # roughness = 20
 # USER_GRAPH 1; -headings pH Sverdup`95*20
 # INCLUDE$ kinetic_rates_pH.inc
 # END
+
+# RATES
+# Albite_Hermanska # 2022
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = RATE_HERMANSKA("Albite")
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
 
 # KINETICS 1
 # Albite_Hermanska
@@ -2835,9 +2778,20 @@ END
 # END
 
 # # compare rates for calcite dissolution
+# #   of Palandri and Kharaka, 2004 and Plummer, Wigley and Parkhurst, 1978
+# #   at different initial CO2 concentrations.
 # # =====================================
 
 # USER_GRAPH 1; -active false
+
+# RATES
+# Calcite_PK # Palandri and Kharaka, 2004
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("calcite") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = RATE_PK("calcite")
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
 
 # SOLUTION 1
 # pH 7 charge; C(4) 1 CO2(g) -2.5
@@ -2878,9 +2832,20 @@ END
 # END
 
 # # compare rates for quartz dissolution
+# #   and the effect of NaCl
 # # =====================================
 
 # USER_GRAPH 2; -active false
+
+# RATES
+# Quartz_PK # Palandri and Kharaka, 2004
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = RATE_PK("Quartz")
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
+
 # SOLUTION 1
 # pH 7 charge
 # KINETICS 1
@@ -2894,6 +2859,15 @@ END
 # 10 graph_x total_time / 3.15e7 : graph_sy tot("Si") * 1e3
 # END
 
+# RATES
+# Quartz_Hermanska # 
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = RATE_HERMANSKA("Quartz")
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
+
 # USE solution 1
 # KINETICS 1
 # Quartz_Hermanska
@@ -2904,6 +2878,15 @@ END
 # -headings H Hermanska
 # END
 
+# RATES
+# Quartz_Svd # Sverdrup, 2019
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = RATE_SVD("Quartz")
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
+
 # USE solution 1
 # KINETICS 1
 # Quartz_Svd
@@ -2913,6 +2896,16 @@ END
 # USER_GRAPH 3
 # -headings H Sverdup
 # END
+
+# RATES
+# Quartz_Rimstidt_Barnes
+# #1 rem Specific rate k = 10^-13.7 mol/m2/s (25 C), Ea = 90 kJ/mol, Rimstidt and Barnes, 1980, GCA 44, 1683
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
+# 20 rate = 10^-(13.7 + 4700 * (1 / 298 - 1 / TK)) * (1 + 1500*tot("Na")) # salt correction, Dove and Rimstidt, MSA Rev. 29, 259
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end
 
 # USE solution 1
 # KINETICS 1
@@ -2945,10 +2938,42 @@ END
 # -headings H Rimstidt.et.al._NaCl
 # END
 
-# # Example input file for calculating montmorillonite dissolution
-# # ==============================================================
+# # Example input file for calculating kinetic dissolution of Montmorillonite,
+# # a solid solution with exchangeable cations reacting fast;
+# # their ratios are related to the changing solution composition,
+# # and their amounts are connected to the kinetic reacting TOT layer.
+# #
+# # The affinity is related to a solid solution member, given by the fraction of the
+# # exchangeable cation (here Na+ or Ca+2). For the Gapon exchange formula, 
+# # the exchange species and their log_k`s are from the solid solution members in ThermoddemV1
+# # For the Gaines Thomas formula, the Mg+2 and Ca+2 species are redefined.
+# # It also shows how the default X exchanger can be invkoed.
+# # # ==============================================================
 
 # USER_GRAPH 3; -active false
+
+# RATES
+# Montmorillonite
+# 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+# # Gapon and Gaines-Tomas exchange formulas
+# 7  f_Na = (mol("Na0.34X_montm_mg") / tot("X_montm_mg"))
+# 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Montmorillonite(MgNa)") / f_Na
+# 20 rate = RATE_HERMANSKA("Montmorillonite") / f_Na
+
+# # #  Gapon, with Ca as exchange species...
+# # 7  f_Ca = (mol("Ca0.17X_montm_mg") / tot("X_montm_mg"))
+# # #  use SR("Montmorillonite(Mgca)")
+# # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Montmorillonite(MgCa)") / f_Ca
+# # 20 rate = RATE_HERMANSKA("Montmorillonite") / f_Ca
+
+# # #  Gaines-Thomas exchange formula, with Ca as exchange species, uncomment the Gaines-Thomas EXCHANGE_SPECIES
+# # 7  f_Ca = (mol("Ca0.34X_montm_mg2") / 2 / tot("X_montm_mg")) : ex = 0.5
+# # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Montmorillonite(MgCa)") / f_Ca^ex
+# # 20 rate = RATE_HERMANSKA("Montmorillonite") / f_Ca^ex
+
+# 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+# 40 SAVE area * rate * affinity * TIME
+# -end 
 
 # EXCHANGE_MASTER_SPECIES
 # X_montm_mg   X_montm_mg-0.34

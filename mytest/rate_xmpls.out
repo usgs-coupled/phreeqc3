@@ -19,8 +19,6 @@ Reading data base.
 	RATE_PARAMETERS_PK
 	RATE_PARAMETERS_SVD
 	RATE_PARAMETERS_HERMANSKA
-	RATES
-	END
 ------------------------------------
 Reading input data for simulation 1.
 ------------------------------------
@@ -33,7 +31,14 @@ Reading input data for simulation 1.
 	    start
 	10 PUNCH STR_F$(MU, 20, 12)
 	20 PUNCH STR_F$(SC, 20, 10)
-	    end
+	RATES
+	Albite_PK # Palandri and Kharaka, 2004
+	5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+	10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+	20 rate = RATE_PK("Albite")
+	30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+	40 SAVE area * rate * affinity * TIME
+	end 
 	KINETICS 1
 	Albite_PK
 	formula NaAlSi3O8
