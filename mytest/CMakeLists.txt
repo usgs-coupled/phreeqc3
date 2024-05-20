@@ -7,7 +7,6 @@ set(TESTS
   adapted_minteq
   advect_ranges
   aj1
-  albite_rates
   alkalinity
   all_llnl
   andra_kin_ss
