@@ -7,7 +7,6 @@ set(TESTS
   adapted_minteq
   advect_ranges
   aj1
-  albite_rates
   alkalinity
   all_llnl
   andra_kin_ss
@@ -337,6 +336,7 @@ set(TESTS
   R-04_01_PHRC
   rahn
   rate_parameters
+  rate_xmpls
   Ratework
   raw
   reaction_p

@@ -1,6 +1,5 @@
-WARNING: Database file from DATABASE keyword is used; command line argument ignored.
-   Input file: albite_rates
-  Output file: albite_rates.out
+   Input file: rate_xmpls
+  Output file: rate_xmpls.out
 Database file: ../database/phreeqc_rates.dat
 
 ------------------
@@ -20,30 +19,26 @@ Reading data base.
 	RATE_PARAMETERS_PK
 	RATE_PARAMETERS_SVD
 	RATE_PARAMETERS_HERMANSKA
-	RATES
-	END
 ------------------------------------
 Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc_rates.dat
 	SELECTED_OUTPUT 101
-	    file                 albite_rates_101.sel
+	    file                 rate_xmpls_101.sel
 	USER_PUNCH 101
 	    headings Mu SC
 	    start
 	10 PUNCH STR_F$(MU, 20, 12)
 	20 PUNCH STR_F$(SC, 20, 10)
-	    end
-	END
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 2.
-------------------------------------
-
+	RATES
+	Albite_PK # Palandri and Kharaka, 2004
+	5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
+	10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+	20 rate = RATE_PK("Albite")
+	30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
+	40 SAVE area * rate * affinity * TIME
+	end 
 	KINETICS 1
 	Albite_PK
 	formula NaAlSi3O8
@@ -56,7 +51,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 3.
+Reading input data for simulation 2.
 ------------------------------------
 
 	SOLUTION 1
@@ -67,7 +62,7 @@ Reading input data for simulation 3.
 	 LiBr = Li+ + Br-
 	 log_k -20  # (very) unsoluble phase with base cation and acid anion, permits to use HBr or LiOH as reactant 
 	SELECTED_OUTPUT 1
-	        file albite_rates.inc 
+	        file kinetic_rates_pH.inc 
 	        reset false 
 	USER_PUNCH 1    # write out the pH's to equilibrate... 
 	        10 FOR i = 0 to 14 STEP 0.5
@@ -142,25 +137,19 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 4.
+Reading input data for simulation 3.
 ------------------------------------
 
 	PRINT
 	 reset false
 
-	Reading data from albite_rates.inc ...
+	Reading data from kinetic_rates_pH.inc ...
 
-	Reading data from albite_rates.inc ...
+	Reading data from kinetic_rates_pH.inc ...
 
-	Reading data from albite_rates.inc ...
+	Reading data from kinetic_rates_pH.inc ...
 
-	Reading data from albite_rates.inc ...
-WARNING: Unknown input, no keyword has been specified.
-WARNING: Unknown input, no keyword has been specified.
-WARNING: Unknown input, no keyword has been specified.
-WARNING: Unknown input, no keyword has been specified.
-WARNING: Unknown input, no keyword has been specified.
-WARNING: Unknown input, no keyword has been specified.
+	Reading data from kinetic_rates_pH.inc ...
 WARNING: Element Al is contained in Kaolinite (which has 0.0 mass),	
 but is not in solution or other phases.
 WARNING: Element Si is contained in Kaolinite (which has 0.0 mass),	
