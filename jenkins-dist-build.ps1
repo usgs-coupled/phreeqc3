@@ -18,11 +18,14 @@ $Env:RELEASE_DATE = date -d $Env:DATE "+%B %e, %G"
 #
 if ([string]::IsNullOrEmpty($Env:VER)) {
   $request = Invoke-WebRequest https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/phreeqc-version.txt -UseBasicParsing
-  $v = ($request.Content) -split "\."
+  $v = ($request.Content.Trim()) -split "\."
   if ([string]::IsNullOrEmpty($v[2])) {
-    $v[2] = 0
+    # append a new element to the array
+    $v += 0
   }
-  $v[2] = 1 + $v[2]
+  else {
+    $v[2] = 1 + $v[2]
+  }
   $Env:ver_major = $v[0]
   $Env:ver_minor = $v[1]
   $Env:ver_patch = $v[2]
