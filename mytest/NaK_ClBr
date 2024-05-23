@@ -1,0 +1,236 @@
+DATABASE ../database/pitzer.dat
+#PRINT; -reset false
+# Data from Stearn 1922, JACS 44, 670-678.
+SELECTED_OUTPUT 101
+    -file                 NaK_ClBr_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+
+SOLUTION_SPREAD 1
+-units mol/kgw; -density 1 calc
+number	Na	Cl
+1	0.10	0.10
+2	0.25	0.25
+3	0.50	0.50
+4	1.00	1.00
+5	2.00	2.00
+6	4.00	4.00
+USER_GRAPH 1
+-headings NaCl
+-initial_solutions true
+-connect_simulations false
+-axis_titles "mol / L" "LL / (mS.cm2/eq)" "rho / (kg/L)"
+-axis_scale x_axis 0 4
+10 c = (tot("Cl") / soln_vol) : llc = sc / 1e3 / c
+20 data 106.82, 100.11, 93.92, 86.36, 75.90, 60.11, 
+30 restore 20 : dim ll(10) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 plot_xy c, sc / 1e3 / c, color = Red, symbol = None 
+60 data 1.0012, 1.0073, 1.0172, 1.0363, 1.0710, 1.1357 
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Red , symbol = Square 
+90 plot_xy c, rho, color = Red, symbol = None , y_axis = 2 
+END
+
+SOLUTION_SPREAD 2
+-units mol/kgw; -density 1 calc
+number	K	Cl
+11	0.10	0.10
+12	0.25	0.25
+13	0.50	0.50
+14	1.00	1.00
+15	2.00	2.00
+16	4.00	4.00
+USER_GRAPH 1
+-headings KCl
+10 c = (tot("Cl") / soln_vol) : llc = sc / 1e3 / c
+20 data 128.34, 121.98, 117.06, 111.60, 105.70, 96.25	 
+30 restore 20 : dim ll(20) : for i = 11 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 plot_xy c, sc / 1e3 / c, color = Green, symbol = None 
+60 data 1.0017, 1.0087, 1.0197, 1.0410, 1.0806, 1.1513
+70 restore 60 : dim rr(20) : for i = 11 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Green , symbol = Diamond 
+90 plot_xy c, rho, color = Green, symbol = None , y_axis = 2 
+END
+
+USER_GRAPH 1
+-headings 2NaCl:KCl
+-connect_simulations true
+10 c = (tot("Cl") / soln_vol) : llc = sc / 1e3 / c
+20 data 114.12, 107.02, 101.51, 94.14, 85.17, 71.21	 
+30 restore 20 : dim ll(20) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 sce = sc / 1e3 / c : plot_xy c, sce, color = Blue, symbol = None 
+52 put(abs(ll(i1) / sce - 1) + get(31), 31) : put(1 + get(32), 32)
+60 data 1.0015, 1.0079, 1.0180, 1.0378, 1.0747, 1.1413
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Blue , symbol = Triangle  
+90 plot_xy c, rho, color = Blue, symbol = None , y_axis = 2 
+MIX  1; 1 0.6666; 11 0.3334; END
+MIX  2; 2 0.6666; 12 0.3334; END
+MIX  3; 3 0.6666; 13 0.3334; END
+MIX  4; 4 0.6666; 14 0.3334; END
+MIX  5; 5 0.6666; 15 0.3334; END
+MIX  6; 6 0.6666; 16 0.3334; END
+
+USER_GRAPH 1
+-headings NaCl:KCl
+-connect_simulations true
+10 c = (tot("Cl") / soln_vol) : llc = sc / 1e3 / c
+20 data 117.46, 110.69, 105.16,  98.75,  90.12,  77.06 
+30 restore 20 : dim ll(20) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 sce = sc / 1e3 / c : plot_xy c, sce, color = Orange, symbol = None 
+52 put(abs(ll(i1) / sce - 1) + get(31), 31) : put(1 + get(32), 32)
+60 data 1.0014,  1.0081,  1.0185,  1.0384,  1.0767,  1.1437
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Orange , symbol = Triangle  
+90 plot_xy c, rho, color = Orange, symbol = None , y_axis = 2 
+MIX  1; 1 0.5; 11 0.5; END
+MIX  2; 2 0.5; 12 0.5; END
+MIX  3; 3 0.5; 13 0.5; END
+MIX  4; 4 0.5; 14 0.5; END
+MIX  5; 5 0.5; 15 0.5; END
+MIX  6; 6 0.5; 16 0.5; END
+
+USER_GRAPH 1
+-headings NaCl:2KCl
+-connect_simulations true
+10 c = (tot("Cl") / soln_vol) : llc = sc / 1e3 / c
+20 data 120.97, 114.58, 109.10, 102.82,  95.20,  83.31 
+30 restore 20 : dim ll(20) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 sce = sc / 1e3 / c : plot_xy c, sce, color = Magenta, symbol = None 
+52 put(abs(ll(i1) / sce - 1) + get(31), 31) : put(1 + get(32), 32)
+54 if cell_no = 6 then print 'AARD of mixed Na,KCl: ' + str_f$(get(31) / get(32) * 100, 0, 2 ) + ' %'
+60 data 1.0015,  1.0082,  1.0188,  1.0394,  1.0780, 1.1459
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Magenta , symbol = Triangle  
+90 plot_xy c, rho, color = Magenta, symbol = None , y_axis = 2 
+MIX  1; 1 0.3334; 11 0.6666; END
+MIX  2; 2 0.3334; 12 0.6666; END
+MIX  3; 3 0.3334; 13 0.6666; END
+MIX  4; 4 0.3334; 14 0.6666; END
+MIX  5; 5 0.3334; 15 0.6666; END
+MIX  6; 6 0.3334; 16 0.6666; END
+
+USER_GRAPH 1; -active false
+
+SOLUTION_SPREAD 1
+-units mol/kgw; -density 1 calc
+number	Na	Br
+1	0.10	0.10
+2	0.25	0.25
+3	0.50	0.50
+4	1.00	1.00
+5	2.00	2.00
+6	3.00	3.00
+7	4.00	4.00
+USER_GRAPH 2
+-headings NaBr
+-initial_solutions true
+-connect_simulations false
+-axis_titles "mol / L" "LL / (mS.cm2/eq)" "rho / (kg/L)"
+-axis_scale x_axis 0 4
+10 c = (tot("Br") / soln_vol) : llc = sc / 1e3 / c
+20 data 110.60, 103.42,  97.86,  90.60,  80.50,  72.39,  64.85 
+30 restore 20 : dim ll(10) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 plot_xy c, sc / 1e3 / c, color = Red, symbol = None 
+60 data  1.0042,  1.0160,  1.0350,  1.0724,  1.1424,  1.2084,  1.2707 
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Red , symbol = Square 
+90 plot_xy c, rho, color = Red, symbol = None , y_axis = 2 
+END
+ 
+SOLUTION_SPREAD 2
+-units mol/kgw; -density 1 calc
+number	K	Br
+11	0.10	0.10
+12	0.25	0.25
+13	0.50	0.50
+14	1.00	1.00
+15	2.00	2.00
+16	3.00	3.00
+17	4.00	4.00
+USER_GRAPH 2
+-headings KBr
+10 c = (tot("Br") / soln_vol) : llc = sc / 1e3 / c
+20 data 130.95, 126.55, 120.90, 117.20, 111.10, 106.96, 101.09 
+30 restore 20 : dim ll(20) : for i = 11 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 plot_xy c, sc / 1e3 / c, color = Green, symbol = None 
+60 data 1.0054,  1.0172,  1.0375,  1.0764,  1.1497,  1.2191,  1.2792
+70 restore 60 : dim rr(20) : for i = 11 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Green , symbol = Diamond 
+90 plot_xy c, rho, color = Green, symbol = None , y_axis = 2 
+END
+
+USER_GRAPH 2
+-headings 2NaBr:KBr
+-connect_simulations true
+10 c = (tot("Br") / soln_vol) : llc = sc / 1e3 / c
+20 data 117.82, 110.83, 104.91,  99.04,  90.28,  82.67,  75.52 
+30 restore 20 : dim ll(20) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 sce = sc / 1e3 / c : plot_xy c, sce, color = Blue, symbol = None 
+52 put(abs(ll(i1) / sce - 1) + get(31), 31) : put(1 + get(32), 32)
+60 data 1.0045,  1.0161,  1.0353,  1.0731,  1.1443,  1.2107,  1.2722
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Blue , symbol = Triangle  
+90 plot_xy c, rho, color = Blue, symbol = None , y_axis = 2 
+MIX  1; 1 0.6666; 11 0.3334; END
+MIX  2; 2 0.6666; 12 0.3334; END
+MIX  3; 3 0.6666; 13 0.3334; END
+MIX  4; 4 0.6666; 14 0.3334; END
+MIX  5; 5 0.6666; 15 0.3334; END
+MIX  6; 6 0.6666; 16 0.3334; END
+MIX  7; 7 0.6666; 17 0.3334; END
+
+USER_GRAPH 2
+-headings NaBr:KBr
+-connect_simulations true
+10 c = (tot("Br") / soln_vol) : llc = sc / 1e3 / c
+20 data 120.81, 114.68, 108.90, 103.30,  95.26,  88.30,  81.63 
+30 restore 20 : dim ll(20) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 sce = sc / 1e3 / c : plot_xy c, sce, color = Orange, symbol = None 
+52 put(abs(ll(i1) / sce - 1) + get(31), 31) : put(1 + get(32), 32)
+60 data 1.0048, 1.0165, 1.0358, 1.0740, 1.1461, 1.2144, 1.2743
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Orange , symbol = Triangle  
+90 plot_xy c, rho, color = Orange, symbol = None , y_axis = 2 
+MIX  1; 1 0.5; 11 0.5; END
+MIX  2; 2 0.5; 12 0.5; END
+MIX  3; 3 0.5; 13 0.5; END
+MIX  4; 4 0.5; 14 0.5; END
+MIX  5; 5 0.5; 15 0.5; END
+MIX  6; 6 0.5; 16 0.5; END
+MIX  7; 7 0.5; 17 0.5; END
+
+USER_GRAPH 2
+-headings NaBr:2KBr
+-connect_simulations true
+10 c = (tot("Br") / soln_vol) : llc = sc / 1e3 / c
+20 data 124.20, 118.70, 113.10, 107.88, 100.52,  94.03,  87.95 
+30 restore 20 : dim ll(20) : for i = 1 to cell_no : read ll(i) : next i : i1 = i - 1 : put(ll(i1), i1)
+40 plot_xy c, ll(i1), line_width = 0
+50 sce = sc / 1e3 / c : plot_xy c, sce, color = Magenta, symbol = None 
+52 put(abs(ll(i1) / sce - 1) + get(31), 31) : put(1 + get(32), 32)
+54 if cell_no = 6 then print 'AARD of mixed Na,KBr: ' + str_f$(get(31) / get(32) * 100, 0, 2 ) + ' %'
+60 data 1.0048, 1.0168, 1.0370, 1.0754, 1.1476, 1.2167, 1.2770
+70 restore 60 : dim rr(10) : for i = 1 to cell_no : read rr(i) : next i : i1 = i - 1 : put(rr(i1), i1)
+80 plot_xy c, rr(i1), line_width = 0, y_axis = 2 , color = Magenta , symbol = Triangle  
+90 plot_xy c, rho, color = Magenta, symbol = None , y_axis = 2 
+MIX  1; 1 0.3334; 11 0.6666; END
+MIX  2; 2 0.3334; 12 0.6666; END
+MIX  3; 3 0.3334; 13 0.6666; END
+MIX  4; 4 0.3334; 14 0.6666; END
+MIX  5; 5 0.3334; 15 0.6666; END
+MIX  6; 6 0.3334; 16 0.6666; END
+MIX  7; 7 0.3334; 17 0.6666; END

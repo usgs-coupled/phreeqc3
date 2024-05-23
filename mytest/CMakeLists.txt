@@ -279,6 +279,7 @@ set(TESTS
   NaK_Mg_ClSO4
   NaKCl
   NaKCl_Lang
+  NaK_ClBr
   NaMgCl
   NaNH4K_ClBrSO4
   NaOH_density
