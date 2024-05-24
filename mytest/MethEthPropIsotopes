@@ -1,0 +1,81 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 MethEthPropIsotopes_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION_MASTER_SPECIES
+    [C1]          [C1]             0     12.0111              12.0111
+    [C2]          [C2]             0     24.0222              24.0222             
+    [C3]          [C3]             0     36.0333              36.0333     
+    [13C1]        [13C1]             0     12.0111              12.0111
+    [13C2]        [13C2]             0     24.0222              24.0222             
+    [13C3]        [13C3]             0     36.0333              36.0333  
+SOLUTION_SPECIES
+   [C1] = [C1]
+	log_k 0
+   [C2] = [C2]
+	log_k 0
+   [C3] = [C3]
+	log_k 0
+   [13C1] = [13C1]
+	log_k 0
+   [13C2] = [13C2]
+	log_k 0
+   [13C3] = [13C3]
+	log_k 0
+ISOTOPES
+[C1]       
+     -isotope        [13C1]   permil  0.0111802              
+[C2]       
+     -isotope        [13C2]   permil  0.0111802   
+[C3]       
+     -isotope        [13C3]   permil  0.0111802          
+
+ISOTOPE_RATIOS
+	R(13C)_C1(aq)	[13C1]
+	R(13C)_C2(aq)	[13C2]
+	R(13C)_C3(aq)	[13C3]
+CALCULATE_VALUES
+R(13C)_C1(aq)
+     -start
+10 ratio = -9999.999
+20 if (TOT("[C1]") <= 0) THEN GOTO 100
+30 total_13C1 = TOT("[13C1]")
+40 total_C1 = TOT("[C1]")
+50 ratio = total_13C1/total_C1
+100 save ratio
+-end
+R(13C)_C2(aq)
+     -start
+10 ratio = -9999.999
+20 if (TOT("[C2]") <= 0) THEN GOTO 100
+30 total_13C2 = TOT("[13C2]")
+40 total_C2 = TOT("[C2]")
+50 ratio = total_13C2/total_C2
+100 save ratio
+-end
+R(13C)_C3(aq)
+     -start
+10 ratio = -9999.999
+20 if (TOT("[C3]") <= 0) THEN GOTO 100
+30 total_13C3 = TOT("[13C3]")
+40 total_C3 = TOT("[C3]")
+50 ratio = total_13C3/total_C3
+100 save ratio
+     -end
+END
+SOLUTION
+[C1] 1
+[13C1] 0 permil
+[C2] 1
+[13C2] 10 permil
+[C3] 1
+[13C3] 20 permil
+END
+RUN_CELLS
+-cell 1
+END

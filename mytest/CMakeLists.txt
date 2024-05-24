@@ -243,6 +243,7 @@ set(TESTS
   McClesk
   mean_gammas
   membrane
+  MethEthPropIsotopes
   MgCl2
   mgcl2mgso4_pz
   MgCl-SO4

@@ -1,0 +1,295 @@
+   Input file: MethEthPropIsotopes
+  Output file: MethEthPropIsotopes.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	MEAN_GAMMAS
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 MethEthPropIsotopes_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION_MASTER_SPECIES
+	    [C1]          [C1]             0     12.0111              12.0111
+	    [C2]          [C2]             0     24.0222              24.0222             
+	    [C3]          [C3]             0     36.0333              36.0333     
+	    [13C1]        [13C1]             0     12.0111              12.0111
+	    [13C2]        [13C2]             0     24.0222              24.0222             
+	    [13C3]        [13C3]             0     36.0333              36.0333  
+	SOLUTION_SPECIES
+	   [C1] = [C1]
+		log_k 0
+	   [C2] = [C2]
+		log_k 0
+	   [C3] = [C3]
+		log_k 0
+	   [13C1] = [13C1]
+		log_k 0
+	   [13C2] = [13C2]
+		log_k 0
+	   [13C3] = [13C3]
+		log_k 0
+	ISOTOPES
+	[C1]       
+	     isotope        [13C1]   permil  0.0111802              
+	[C2]       
+	     isotope        [13C2]   permil  0.0111802   
+	[C3]       
+	     isotope        [13C3]   permil  0.0111802          
+	ISOTOPE_RATIOS
+		R(13C)_C1(aq)	[13C1]
+		R(13C)_C2(aq)	[13C2]
+		R(13C)_C3(aq)	[13C3]
+	CALCULATE_VALUES
+	R(13C)_C1(aq)
+	     start
+	10 ratio = -9999.999
+	20 if (TOT("[C1]") <= 0) THEN GOTO 100
+	30 total_13C1 = TOT("[13C1]")
+	40 total_C1 = TOT("[C1]")
+	50 ratio = total_13C1/total_C1
+	100 save ratio
+	end
+	R(13C)_C2(aq)
+	     start
+	10 ratio = -9999.999
+	20 if (TOT("[C2]") <= 0) THEN GOTO 100
+	30 total_13C2 = TOT("[13C2]")
+	40 total_C2 = TOT("[C2]")
+	50 ratio = total_13C2/total_C2
+	100 save ratio
+	end
+	R(13C)_C3(aq)
+	     start
+	10 ratio = -9999.999
+	20 if (TOT("[C3]") <= 0) THEN GOTO 100
+	30 total_13C3 = TOT("[13C3]")
+	40 total_C3 = TOT("[C3]")
+	50 ratio = total_13C3/total_C3
+	100 save ratio
+	     end
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION
+	[C1] 1
+	[13C1] 0 permil
+	[C2] 1
+	[13C2] 10 permil
+	[C3] 1
+	[13C3] 20 permil
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------------Isotopes------------------------------------
+
+   Isotope	    Molality	       Moles	       Ratio	       Units
+
+      [C1]	 9.88943e-04	 9.88943e-04
+    [13C1]	 1.10566e-05	 1.10566e-05	 0.00000e+00	      permil
+
+      [C2]	 9.88834e-04	 9.88834e-04
+    [13C2]	 1.11659e-05	 1.11659e-05	 1.00000e+01	      permil
+
+      [C3]	 9.88725e-04	 9.88725e-04
+    [13C3]	 1.12752e-05	 1.12752e-05	 2.00000e+01	      permil
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	[C1]              1.000e-03   1.000e-03
+	[C2]              1.000e-03   1.000e-03
+	[C3]              1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99711
+                               Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.006e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.211e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.211e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.012e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+[C1]          1.000e-03
+   [C1]            1.000e-03   1.000e-03    -3.000    -3.000     0.000     (0)  
+[C2]          1.000e-03
+   [C2]            1.000e-03   1.000e-03    -3.000    -3.000     0.000     (0)  
+[C3]          1.000e-03
+   [C3]            1.000e-03   1.000e-03    -3.000    -3.000     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	RUN_CELLS
+	-cell 1
+	END
+--------------------------
+Beginning of run as cells.
+--------------------------
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+
+--------------------------------Isotope Ratios---------------------------------
+
+            Isotope Ratio	       Ratio	    Input Units
+
+     R(13C) C1(aq)       	 1.11802e-02	    -5.4734e-11  permil    
+     R(13C) C2(aq)       	 1.12920e-02	             10  permil    
+     R(13C) C3(aq)       	 1.14038e-02	             20  permil    
+
+--------------------------------Isotope Alphas---------------------------------
+
+                                                              1000ln(Alpha)
+                                                         ----------------------
+     Isotope Ratio                   Solution alpha      Solution        25.0 C
+
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	[13C1]            1.106e-05   1.106e-05
+	[13C2]            1.117e-05   1.117e-05
+	[13C3]            1.128e-05   1.128e-05
+	[C1]              9.889e-04   9.889e-04
+	[C2]              9.888e-04   9.888e-04
+	[C3]              9.887e-04   9.887e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  11.583      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99711
+                               Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.006e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.211e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.211e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   8
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.012e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.316   -40.316     0.000     28.61
+O(0)          3.569e-12
+   O2              1.784e-12   1.784e-12   -11.748   -11.748     0.000     30.40
+[13C1]        1.106e-05
+   [13C1]          1.106e-05   1.106e-05    -4.956    -4.956     0.000     (0)  
+[13C2]        1.117e-05
+   [13C2]          1.117e-05   1.117e-05    -4.952    -4.952     0.000     (0)  
+[13C3]        1.128e-05
+   [13C3]          1.128e-05   1.128e-05    -4.948    -4.948     0.000     (0)  
+[C1]          9.889e-04
+   [C1]            9.889e-04   9.889e-04    -3.005    -3.005     0.000     (0)  
+[C2]          9.888e-04
+   [C2]            9.888e-04   9.888e-04    -3.005    -3.005     0.000     (0)  
+[C3]          9.887e-04
+   [C3]            9.887e-04   9.887e-04    -3.005    -3.005     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -37.21    -40.32   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)            -8.86    -11.75   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
