@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: sit_edl
   Output file: sit_edl.out
 Database file: ../database/sit.dat
@@ -6,6 +7,7 @@ Database file: ../database/sit.dat
 Reading data base.
 ------------------
 
+	SOLUTION_SPECIES
 	SOLUTION_MASTER_SPECIES
 	SIT
 	SOLUTION_SPECIES
@@ -209,7 +211,9 @@ H(0)          4.420e-29
    H2              2.210e-29   2.210e-29   -28.656   -28.656     0.000     (0)  
 K             1.000e-04
    K+              1.000e-04   9.781e-05    -4.000    -4.010    -0.010     (0)  
-Mo            5.500e-06
+Mo(3)         0.000e+00
+   Mo+3            0.000e+00   0.000e+00   -65.754   -65.840    -0.087     (0)  
+Mo(6)         5.500e-06
    MoO4-2          5.500e-06   5.034e-06    -5.260    -5.298    -0.038     (0)  
    HMoO4-          1.081e-10   1.057e-10    -9.966    -9.976    -0.010     (0)  
    H2MoO4          1.889e-15   1.889e-15   -14.724   -14.724     0.000     (0)  
@@ -217,7 +221,6 @@ Mo            5.500e-06
    Mo7O24-6        0.000e+00   0.000e+00   -56.693   -57.039    -0.346     (0)  
    Mo7O23(OH)-5    0.000e+00   0.000e+00   -58.726   -58.967    -0.241     (0)  
    Mo7O22(OH)2-4   0.000e+00   0.000e+00   -62.100   -62.255    -0.154     (0)  
-   Mo+3            0.000e+00   0.000e+00   -65.754   -65.840    -0.087     (0)  
    Mo7O21(OH)3-3   0.000e+00   0.000e+00   -67.186   -67.272    -0.087     (0)  
    Mo19O59-4       0.000e+00   0.000e+00  -202.995  -203.148    -0.154     (0)  
 N(5)          1.000e-05
@@ -231,7 +234,6 @@ S(6)          1.000e-04
    SO4-2           1.000e-04   9.152e-05    -4.000    -4.038    -0.038     (0)  
    H(SO4)-         1.457e-11   1.425e-11   -10.837   -10.846    -0.010     (0)  
    Al(SO4)+        4.938e-19   4.830e-19   -18.306   -18.316    -0.010     (0)  
-   HSO5-           0.000e+00   0.000e+00   -47.451   -47.461    -0.010     (0)  
    S2O8-2          0.000e+00   0.000e+00   -65.419   -65.457    -0.038     (0)  
 Sb(3)         2.446e-18
    Sb(OH)3         2.444e-18   2.444e-18   -17.612   -17.612     0.000     (0)  
@@ -374,12 +376,6 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
 Using solution 1.	
 Using pure phase assemblage 1.	
 
@@ -391,10 +387,10 @@ Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 Aragonite         0.00    -8.31     -8.31    4.960e-02   4.929e-02  -3.141e-04
 Brucite          -5.10    12.00     17.10    0.000e+00           0   0.000e+00
 CO2(g)           -3.40   -21.55    -18.15    1.000e+01   1.000e+01  -4.981e-04
-CaMgSr(CO3)2      0.00     2.75      2.75    2.850e-02   2.842e-02  -7.528e-05
+CaMgSr(CO3)2      0.00     2.75      2.75    2.850e-02   2.842e-02  -7.529e-05
 Calcite           0.17    -8.31     -8.48    6.700e-01   6.700e-01   0.000e+00
-Ferrihydrite(am)   -0.00     3.92      3.92    1.800e-03   1.800e-03  -1.210e-07
-Gibbsite         -0.00     7.74      7.74    0.000e+00   6.884e-06   6.884e-06
+Ferrihydrite(am)    0.00     3.92      3.92    1.800e-03   1.800e-03  -1.211e-07
+Gibbsite          0.00     7.74      7.74    0.000e+00   6.884e-06   6.884e-06
 Gypsum           -1.64    -6.25     -4.61    9.000e-04           0  -9.000e-04
 O2(g)            -0.70    -3.60     -2.90    1.000e+01   1.000e+01  -2.518e-04
 Strontianite     -1.79   -11.06     -9.27    0.000e+00           0   0.000e+00
@@ -428,9 +424,9 @@ Strontianite     -1.79   -11.06     -9.27    0.000e+00           0   0.000e+00
                  Total alkalinity (eq/kg)  =   9.760e-04
                        Total CO2 (mol/kg)  =   9.627e-04
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.686e-15
+                  Electrical balance (eq)  =  -1.001e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  25 (226 overall)
+                               Iterations  =  22
                          Gamma iterations  =   4
                       Osmotic coefficient  =   0.94484
                                   Total H  = 1.110225e+02
@@ -456,6 +452,8 @@ Al            1.156e-07
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -148.400  -148.400     0.000     (0)  
    CH3-            0.000e+00   0.000e+00  -186.215  -186.247    -0.032     (0)  
+C(2)          0.000e+00
+   CO              0.000e+00   0.000e+00   -51.145   -51.145     0.000     (0)  
 C(4)          9.627e-04
    HCO3-           9.224e-04   8.566e-04    -3.035    -3.067    -0.032     (0)  
    CO2             1.349e-05   1.349e-05    -4.870    -4.870     0.000     (0)  
@@ -472,7 +470,6 @@ C(4)          9.627e-04
    Fe(CO3)3-3      1.042e-12   5.351e-13   -11.982   -12.272    -0.289     (0)  
    FeCO3           1.237e-20   1.237e-20   -19.907   -19.907     0.000     (0)  
    Fe(CO3)2-2      5.582e-24   4.151e-24   -23.253   -23.382    -0.129     (0)  
-   CO              0.000e+00   0.000e+00   -51.145   -51.145     0.000     (0)  
 Ca            1.289e-03
    Ca+2            1.156e-03   8.598e-04    -2.937    -3.066    -0.129     (0)  
    Ca(SO4)         1.148e-04   1.148e-04    -3.940    -3.940     0.000     (0)  
@@ -536,7 +533,9 @@ Mg            7.303e-05
    Mg(S2O3)        0.000e+00   0.000e+00  -151.369  -151.369     0.000     (0)  
    Mg(NH3)3+2      0.000e+00   0.000e+00  -208.671  -208.799    -0.129     (0)  
    Mg(NH3)4+2      0.000e+00   0.000e+00  -277.436  -277.564    -0.129     (0)  
-Mo            5.508e-06
+Mo(3)         0.000e+00
+   Mo+3            0.000e+00   0.000e+00   -85.895   -86.184    -0.289     (0)  
+Mo(6)         5.508e-06
    MoO4-2          5.508e-06   4.096e-06    -5.259    -5.388    -0.129     (0)  
    HMoO4-          3.997e-10   3.711e-10    -9.398    -9.430    -0.032     (0)  
    H2MoO4          2.862e-14   2.862e-14   -13.543   -13.543     0.000     (0)  
@@ -545,7 +544,6 @@ Mo            5.508e-06
    Mo7O23(OH)-5    0.000e+00   0.000e+00   -53.075   -53.879    -0.804     (0)  
    Mo7O22(OH)2-4   0.000e+00   0.000e+00   -56.017   -56.531    -0.515     (0)  
    Mo7O21(OH)3-3   0.000e+00   0.000e+00   -60.625   -60.914    -0.290     (0)  
-   Mo+3            0.000e+00   0.000e+00   -85.895   -86.184    -0.289     (0)  
    Mo19O59-4       0.000e+00   0.000e+00  -182.746  -183.260    -0.515     (0)  
 N(-3)         0.000e+00
    NH4+            0.000e+00   0.000e+00   -66.946   -66.978    -0.032     (0)  
@@ -620,8 +618,9 @@ S(6)          1.000e-03
    Fe(SO4)+        3.626e-20   3.367e-20   -19.441   -19.473    -0.032     (0)  
    Fe(SO4)2-       2.213e-21   2.055e-21   -20.655   -20.687    -0.032     (0)  
    Fe(SO4)         2.101e-21   2.101e-21   -20.677   -20.677     0.000     (0)  
-   HSO5-           4.785e-31   4.444e-31   -30.320   -30.352    -0.032     (0)  
    S2O8-2          0.000e+00   0.000e+00   -46.731   -46.859    -0.129     (0)  
+S(8)          4.785e-31
+   HSO5-           4.785e-31   4.444e-31   -30.320   -30.352    -0.032     (0)  
 Sb(3)         2.435e-33
    Sb(OH)3         2.435e-33   2.435e-33   -32.614   -32.614     0.000     (0)  
    Sb(OH)4-        5.642e-37   5.239e-37   -36.249   -36.281    -0.032     (0)  
@@ -709,8 +708,8 @@ Sr            2.259e-06
   Beidellite-K      2.44      7.04    4.60  K0.34Al2.34Si3.66O10(OH)2
   Beidellite-Mg     2.45      7.68    5.23  Mg0.17Al2.34Si3.66O10(OH)2
   Beidellite-Na     2.02      7.12    5.10  Na0.34Al2.34Si3.66O10(OH)2
-  Beidellite_SBld-1   1.96      9.54    7.58  Ca0.185K0.104(Si3.574Al0.426)(Al1.812Mg0.090Fe0.112)O10(OH)2
-  Beidellite_SBld-1(4.576H2O)   5.28      9.54    4.26  Ca0.185K0.104Si3.574Al2.238Mg0.090Fe0.112O10(OH)2:4.576H2O
+  Beidellite_SBld-1   1.96      9.54    7.58  Ca0.185K0.104(Si3.574Al0.426)(Al1.812Mg0.09Fe0.112)O10(OH)2
+  Beidellite_SBld-1(4.576H2O)   5.28      9.54    4.26  Ca0.185K0.104Si3.574Al2.238Mg0.09Fe0.112O10(OH)2:4.576H2O
   Berthierine(FeII) -29.79      4.82   34.61  (Fe2Al)(SiAl)O5(OH)4
   Berthierine(FeIII) -32.95     -4.10   28.85  (Fe2.34Fe0.33Al0.33)(Si1.34Al0.66)O5(OH)4
   Berthierine_ISGS -22.38      5.56   27.94  (Si1.332Al0.668)(Al0.976Fe0.182Fe1.44Mg0.157)O5(OH)4
@@ -778,7 +777,7 @@ Sr            2.259e-06
   FeAl2O4(s)      -15.35     11.85   27.20  FeAl2O4
   FeMoO4(s)       -17.00    -25.32   -8.32  FeMoO4
   FeO(s)          -17.02     -3.63   13.39  FeO
-  Ferrihydrite(am)  -0.00      3.92    3.92  Fe(OH)3
+  Ferrihydrite(am)   0.00      3.92    3.92  Fe(OH)3
   Ferrihydrite(cr)   2.70      3.92    1.22  Fe(OH)3
   Ferrihydrite(s)   1.14      3.92    2.78  Fe(OH)3
   Ferroselite    -156.45   -173.55  -17.10  FeSe2
@@ -786,7 +785,7 @@ Sr            2.259e-06
   FeS(am)        -151.26   -154.21   -2.95  FeS
   Foshagite       -23.22     42.74   65.96  Ca4Si3O9(OH)2:0.5H2O
   Gaylussite      -11.73    -21.16   -9.43  CaNa2(CO3)2:5H2O
-  Gibbsite         -0.00      7.74    7.74  Al(OH)3
+  Gibbsite          0.00      7.74    7.74  Al(OH)3
   Gismondine        4.84     43.81   38.97  Ca2Al4Si4O16:9H2O
   Glaserite       -36.92    -44.53   -7.61  Na2K6(SO4)4
   Glauberite      -19.01    -17.04    1.97  Na2Ca(SO4)2
@@ -834,10 +833,10 @@ Sr            2.259e-06
   HSaponite-K      -0.93     27.56   28.49  K0.34Mg3Al0.34Si3.66O10(OH)2:1.96H2O
   HSaponite-Mg     -0.28     28.20   28.48  Mg0.17Mg3Al0.34Si3.66O10(OH)2:4.61H2O
   HSaponite-Na     -0.39     27.64   28.03  Na0.34Mg3Al0.34Si3.66O10(OH)2:3.84H2O
-  HVermiculite-Ca -60.17     37.65   97.82  Ca0.43Mg3.00Si3.14Al0.86O10(OH)2:4.45H2O
-  HVermiculite-K  -52.18     35.50   87.68  K0.86Mg3.00Si3.14Al0.86O10(OH)2:1.96H2O
-  HVermiculite-Mg -31.06     37.12   68.18  Mg0.43Mg3.00Si3.14Al0.86O10(OH)2:4.61H2O
-  HVermiculite-Na -60.82     35.70   96.52  Na0.86Mg3.00Si3.14Al0.86O10(OH)2:3.84H2O
+  HVermiculite-Ca -60.17     37.65   97.82  Ca0.43Mg3Si3.14Al0.86O10(OH)2:4.45H2O
+  HVermiculite-K  -52.18     35.50   87.68  K0.86Mg3Si3.14Al0.86O10(OH)2:1.96H2O
+  HVermiculite-Mg -31.06     37.12   68.18  Mg0.43Mg3Si3.14Al0.86O10(OH)2:4.61H2O
+  HVermiculite-Na -60.82     35.70   96.52  Na0.86Mg3Si3.14Al0.86O10(OH)2:3.84H2O
   Hydrotalcite    -10.26     63.48   73.74  Mg4Al2(OH)14:3H2O
   Hydrotalcite-CO3  -8.93     41.93   50.86  Mg4Al2(OH)12CO3:2H2O
   Illite-Al         1.81     14.83   13.02  K0.85Al2.85Si3.15O10(OH)2
@@ -1001,9 +1000,9 @@ Sr            2.259e-06
   Valentinite     -56.75    -65.23   -8.48  Sb2O3
   Vaterite         -0.41     -8.31   -7.90  CaCO3
   Vermiculite-Ca   -1.90     37.65   39.55  Ca0.43Mg3Si3.14Al0.86O10(OH)2
-  Vermiculite-K    -1.94     35.50   37.44  K0.86Mg3.00Si3.14Al0.86O10(OH)2
+  Vermiculite-K    -1.94     35.50   37.44  K0.86Mg3Si3.14Al0.86O10(OH)2
   Vermiculite-Mg   -0.92     37.12   38.04  Mg0.43Mg3Si3.14Al0.86O10(OH)2
-  Vermiculite-Na   -2.69     35.70   38.39  Na0.86Mg3.00Si3.14Al0.86O10(OH)2
+  Vermiculite-Na   -2.69     35.70   38.39  Na0.86Mg3Si3.14Al0.86O10(OH)2
   Vermiculite_SO   -7.84     38.04   45.88  (Ca0.445)(Si2.778Al1.222)(Al0.216Fe0.226Fe0.028Mg2.475)O10(OH)2
   Wairakite         0.67     15.09   14.42  CaAl2Si4O12:2H2O
   Xonotlite       -32.35     58.99   91.34  Ca6Si6O17(OH)2
@@ -1051,7 +1050,7 @@ WARNING: -diffuse_layer option not tested for SIT model
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.475e-19  Surface + diffuse layer charge, eq
+	 -2.114e-19  Surface + diffuse layer charge, eq
 	  7.410e-09  Surface charge, eq
 	  1.192e-03  sigma, C/m²
 	  7.469e-03  psi, V
@@ -1161,7 +1160,7 @@ Kinetics 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.469e-19  Surface + diffuse layer charge, eq
+	 -1.021e-20  Surface + diffuse layer charge, eq
 	  7.410e-09  Surface charge, eq
 	  1.192e-03  sigma, C/m²
 	  7.469e-03  psi, V
@@ -1263,7 +1262,7 @@ Hfo_w
                  Total alkalinity (eq/kg)  =   9.760e-04
                        Total CO2 (mol/kg)  =   9.627e-04
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.690e-15
+                  Electrical balance (eq)  =  -1.001e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   5 (19 overall)
                          Gamma iterations  =   1
@@ -1291,6 +1290,8 @@ Al            1.156e-07
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -148.400  -148.400     0.000     (0)  
    CH3-            0.000e+00   0.000e+00  -186.215  -186.247    -0.032     (0)  
+C(2)          0.000e+00
+   CO              0.000e+00   0.000e+00   -51.145   -51.145     0.000     (0)  
 C(4)          9.627e-04
    HCO3-           9.224e-04   8.566e-04    -3.035    -3.067    -0.032     (0)  
    CO2             1.349e-05   1.349e-05    -4.870    -4.870     0.000     (0)  
@@ -1307,7 +1308,6 @@ C(4)          9.627e-04
    Fe(CO3)3-3      1.042e-12   5.351e-13   -11.982   -12.272    -0.289     (0)  
    FeCO3           1.237e-20   1.237e-20   -19.907   -19.907     0.000     (0)  
    Fe(CO3)2-2      5.582e-24   4.151e-24   -23.253   -23.382    -0.129     (0)  
-   CO              0.000e+00   0.000e+00   -51.145   -51.145     0.000     (0)  
 Ca            1.289e-03
    Ca+2            1.156e-03   8.598e-04    -2.937    -3.066    -0.129     (0)  
    Ca(SO4)         1.148e-04   1.148e-04    -3.940    -3.940     0.000     (0)  
@@ -1371,7 +1371,9 @@ Mg            7.303e-05
    Mg(S2O3)        0.000e+00   0.000e+00  -151.369  -151.369     0.000     (0)  
    Mg(NH3)3+2      0.000e+00   0.000e+00  -208.671  -208.799    -0.129     (0)  
    Mg(NH3)4+2      0.000e+00   0.000e+00  -277.436  -277.564    -0.129     (0)  
-Mo            5.508e-06
+Mo(3)         0.000e+00
+   Mo+3            0.000e+00   0.000e+00   -85.895   -86.184    -0.289     (0)  
+Mo(6)         5.508e-06
    MoO4-2          5.508e-06   4.096e-06    -5.259    -5.388    -0.129     (0)  
    HMoO4-          3.997e-10   3.711e-10    -9.398    -9.430    -0.032     (0)  
    H2MoO4          2.862e-14   2.862e-14   -13.543   -13.543     0.000     (0)  
@@ -1380,7 +1382,6 @@ Mo            5.508e-06
    Mo7O23(OH)-5    0.000e+00   0.000e+00   -53.075   -53.879    -0.804     (0)  
    Mo7O22(OH)2-4   0.000e+00   0.000e+00   -56.017   -56.531    -0.515     (0)  
    Mo7O21(OH)3-3   0.000e+00   0.000e+00   -60.625   -60.914    -0.290     (0)  
-   Mo+3            0.000e+00   0.000e+00   -85.895   -86.184    -0.289     (0)  
    Mo19O59-4       0.000e+00   0.000e+00  -182.746  -183.260    -0.515     (0)  
 N(-3)         0.000e+00
    NH4+            0.000e+00   0.000e+00   -66.946   -66.978    -0.032     (0)  
@@ -1455,8 +1456,9 @@ S(6)          1.000e-03
    Fe(SO4)+        3.626e-20   3.367e-20   -19.441   -19.473    -0.032     (0)  
    Fe(SO4)2-       2.213e-21   2.055e-21   -20.655   -20.687    -0.032     (0)  
    Fe(SO4)         2.101e-21   2.101e-21   -20.677   -20.677     0.000     (0)  
-   HSO5-           4.785e-31   4.444e-31   -30.320   -30.352    -0.032     (0)  
    S2O8-2          0.000e+00   0.000e+00   -46.731   -46.859    -0.129     (0)  
+S(8)          4.785e-31
+   HSO5-           4.785e-31   4.444e-31   -30.320   -30.352    -0.032     (0)  
 Sb(3)         2.435e-33
    Sb(OH)3         2.435e-33   2.435e-33   -32.614   -32.614     0.000     (0)  
    Sb(OH)4-        5.642e-37   5.239e-37   -36.249   -36.281    -0.032     (0)  
@@ -1544,8 +1546,8 @@ Sr            2.259e-06
   Beidellite-K      2.44      7.04    4.60  K0.34Al2.34Si3.66O10(OH)2
   Beidellite-Mg     2.45      7.68    5.23  Mg0.17Al2.34Si3.66O10(OH)2
   Beidellite-Na     2.02      7.12    5.10  Na0.34Al2.34Si3.66O10(OH)2
-  Beidellite_SBld-1   1.96      9.54    7.58  Ca0.185K0.104(Si3.574Al0.426)(Al1.812Mg0.090Fe0.112)O10(OH)2
-  Beidellite_SBld-1(4.576H2O)   5.28      9.54    4.26  Ca0.185K0.104Si3.574Al2.238Mg0.090Fe0.112O10(OH)2:4.576H2O
+  Beidellite_SBld-1   1.96      9.54    7.58  Ca0.185K0.104(Si3.574Al0.426)(Al1.812Mg0.09Fe0.112)O10(OH)2
+  Beidellite_SBld-1(4.576H2O)   5.28      9.54    4.26  Ca0.185K0.104Si3.574Al2.238Mg0.09Fe0.112O10(OH)2:4.576H2O
   Berthierine(FeII) -29.79      4.82   34.61  (Fe2Al)(SiAl)O5(OH)4
   Berthierine(FeIII) -32.95     -4.10   28.85  (Fe2.34Fe0.33Al0.33)(Si1.34Al0.66)O5(OH)4
   Berthierine_ISGS -22.38      5.56   27.94  (Si1.332Al0.668)(Al0.976Fe0.182Fe1.44Mg0.157)O5(OH)4
@@ -1570,7 +1572,7 @@ Sr            2.259e-06
   CaFe2O4(s)       -0.16     21.08   21.24  CaFe2O4
   Calcite           0.17     -8.31   -8.48  CaCO3
   CaMg3(CO3)4(s)   -6.15    -36.96  -30.81  CaMg3(CO3)4
-  CaMgSr(CO3)2      0.00      2.75    2.75  CaMg0.97Sr0.03(MoO4)0.00011(Sb(OH)6)0.0000033(SeO3)0.00001(CO3)1.9998767
+  CaMgSr(CO3)2     -0.00      2.75    2.75  CaMg0.97Sr0.03(MoO4)0.00011(Sb(OH)6)0.0000033(SeO3)0.00001(CO3)1.9998767
   CaMoO4(s)        -0.55     -8.45   -7.90  CaMoO4
   CaO(cr)         -19.46     13.24   32.70  CaO
   Celadonite-Fe   -11.85     -5.40    6.45  KFeAlSi4O10(OH)2
@@ -1669,10 +1671,10 @@ Sr            2.259e-06
   HSaponite-K      -0.93     27.56   28.49  K0.34Mg3Al0.34Si3.66O10(OH)2:1.96H2O
   HSaponite-Mg     -0.28     28.20   28.48  Mg0.17Mg3Al0.34Si3.66O10(OH)2:4.61H2O
   HSaponite-Na     -0.39     27.64   28.03  Na0.34Mg3Al0.34Si3.66O10(OH)2:3.84H2O
-  HVermiculite-Ca -60.17     37.65   97.82  Ca0.43Mg3.00Si3.14Al0.86O10(OH)2:4.45H2O
-  HVermiculite-K  -52.18     35.50   87.68  K0.86Mg3.00Si3.14Al0.86O10(OH)2:1.96H2O
-  HVermiculite-Mg -31.06     37.12   68.18  Mg0.43Mg3.00Si3.14Al0.86O10(OH)2:4.61H2O
-  HVermiculite-Na -60.82     35.70   96.52  Na0.86Mg3.00Si3.14Al0.86O10(OH)2:3.84H2O
+  HVermiculite-Ca -60.17     37.65   97.82  Ca0.43Mg3Si3.14Al0.86O10(OH)2:4.45H2O
+  HVermiculite-K  -52.18     35.50   87.68  K0.86Mg3Si3.14Al0.86O10(OH)2:1.96H2O
+  HVermiculite-Mg -31.06     37.12   68.18  Mg0.43Mg3Si3.14Al0.86O10(OH)2:4.61H2O
+  HVermiculite-Na -60.82     35.70   96.52  Na0.86Mg3Si3.14Al0.86O10(OH)2:3.84H2O
   Hydrotalcite    -10.26     63.48   73.74  Mg4Al2(OH)14:3H2O
   Hydrotalcite-CO3  -8.93     41.93   50.86  Mg4Al2(OH)12CO3:2H2O
   Illite-Al         1.81     14.83   13.02  K0.85Al2.85Si3.15O10(OH)2
@@ -1836,9 +1838,9 @@ Sr            2.259e-06
   Valentinite     -56.75    -65.23   -8.48  Sb2O3
   Vaterite         -0.41     -8.31   -7.90  CaCO3
   Vermiculite-Ca   -1.90     37.65   39.55  Ca0.43Mg3Si3.14Al0.86O10(OH)2
-  Vermiculite-K    -1.94     35.50   37.44  K0.86Mg3.00Si3.14Al0.86O10(OH)2
+  Vermiculite-K    -1.94     35.50   37.44  K0.86Mg3Si3.14Al0.86O10(OH)2
   Vermiculite-Mg   -0.92     37.12   38.04  Mg0.43Mg3Si3.14Al0.86O10(OH)2
-  Vermiculite-Na   -2.69     35.70   38.39  Na0.86Mg3.00Si3.14Al0.86O10(OH)2
+  Vermiculite-Na   -2.69     35.70   38.39  Na0.86Mg3Si3.14Al0.86O10(OH)2
   Vermiculite_SO   -7.84     38.04   45.88  (Ca0.445)(Si2.778Al1.222)(Al0.216Fe0.226Fe0.028Mg2.475)O10(OH)2
   Wairakite         0.67     15.09   14.42  CaAl2Si4O12:2H2O
   Xonotlite       -32.35     58.99   91.34  Ca6Si6O17(OH)2
