@@ -5431,6 +5431,16 @@ tidy_isotope_ratios(void)
 		/*
 		 * Mark master species list as minor isotope
 		 */
+		if (isotope_ratio[i]->isotope_name == NULL)
+		{
+
+			input_error++;
+			error_string = sformatf(
+				"For ISOTOPE_RATIO, did not find ISOTOPE name for this isotope ratio %s",
+				isotope_ratio[i]->name);
+			error_msg(error_string, CONTINUE);
+			continue;
+		}
 		master_isotope_ptr =
 			master_isotope_search(isotope_ratio[i]->isotope_name);
 		if (master_isotope_ptr == NULL)
