@@ -41,6 +41,10 @@ calc_alk(CReaction& rxn_ref)
 			break;
 		}
 		return_value += r_token->coef * master_ptr->alk;
+		//if (strcmp(r_token->name, "e-") == 0 && strcmp(rxn_ref.token[0].name,"e-") != 0)
+		//{
+		//	std::cerr << rxn_ref.token[0].name << "   Non-master species has e- in reaction.\n";
+		//}
 		r_token++;
 	}
 	return (return_value);
