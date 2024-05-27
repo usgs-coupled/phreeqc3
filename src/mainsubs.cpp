@@ -409,6 +409,8 @@ initial_solutions(int print)
 					set(TRUE);
 					converge = model();
 				}
+				calc_dens();
+				kgw_kgs = mass_water_aq_x / solution_mass_x;
 				density_iterations++;
 				if (solution_ref.Get_initial_data()->Get_calc_density())
 				{

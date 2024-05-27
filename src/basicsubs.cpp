@@ -592,6 +592,8 @@ calc_dens(void)
 	{
 		density_x = rho_0 * (1e3 + M_T / mass_water_aq_x) / (rho_0 * V_solutes / mass_water_aq_x + 1e3);
 	}
+	solution_mass_x = 1e-3*(M_T + s_h2o->moles * s_h2o->gfw);
+	solution_volume_x = solution_mass_x / density_x;
 	return density_x;
 	//M_T /= 1e3;
 	//solution_mass =  mass_water_aq_x + M_T;
@@ -604,7 +606,7 @@ calc_dens(void)
 }
 /* VP: Density End */
 /* DP: Function for interval halving */
-
+#ifdef NOT_USED
 LDBLE Phreeqc::
 f_rho(LDBLE rho_old, void* cookie)
 /* ---------------------------------------------------------------------- */
@@ -622,7 +624,8 @@ f_rho(LDBLE rho_old, void* cookie)
 	rho = rho + pThis->rho_0;
 	return (rho - rho_old);
 }
-
+#endif
+#ifdef original
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_solution_volume(void)
@@ -653,7 +656,19 @@ calc_solution_volume(void)
 	LDBLE vol = 1e-3 * total_mass / rho;
 	return (vol);
 }
-
+#endif
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_solution_volume(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Calculates solution volume based on sum of mass of element plus density
+	 */
+	LDBLE rho = calc_dens();
+	LDBLE vol = solution_volume_x;
+	return (vol);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_logk_n(const char* name)
