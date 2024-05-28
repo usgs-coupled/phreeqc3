@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: NH4_2_SO4
   Output file: NH4_2_SO4.out
 Database file: ../database/Amm.dat
@@ -69,11 +70,11 @@ Reading input data for simulation 2.
 	-chart_title "Handbook of Chemistry data of (NH4)2SO4, 20 oC"
 	-axis_titles "molality" "rho (kg/L) or viscos / viscos_0" "specific conductance / (mmho/cm)"
 	-headings rho visc/visc_0 SC
-	10  DATA 1.0012,  1.0042,  1.0101,  1.0160,  1.0220,  1.0279,  1.0338,  1.0397,  1.0456,  1.0515,  1.0574,  1.0691,  1.0808,  1.0924,  1.1039,  1.1154,  1.1269,  1.1383,  1.1496 
+	10  DATA 1.0012,  1.0042,  1.0101,  1.0160,  1.0220,  1.0279,  1.0338,  1.0397,  1.0456,  1.0515,  1.0574,  1.0691,  1.0808,  1.0924,  1.1039,  1.1154,  1.1269,  1.1383,  1.1496 # rho
 	20  dim dens(50) : restore 10 : for i = 1 to cell_no : read dens(i) : next i
-	30  DATA  1.006,  1.012,  1.025,  1.039,  1.055,  1.071,  1.088,  1.106,  1.125,  1.145,  1.166,  1.208,  1.253,  1.302,  1.356,  1.418,  1.487,  1.563,  1.647 
+	30  DATA  1.006,  1.012,  1.025,  1.039,  1.055,  1.071,  1.088,  1.106,  1.125,  1.145,  1.166,  1.208,  1.253,  1.302,  1.356,  1.418,  1.487,  1.563,  1.647 # visc/visc_0
 	40  dim v_v0(50) : restore 30 : for i = 1 to cell_no : read v_v0(i) : next i 
-	50  DATA  7.4,  14.2,  25.7,  36.7,  47.2,  57.4,  67.4,  77,  86.3,  95.5,  105,  122,  139,  156,  171,  185,  198,  210,  220 
+	50  DATA  7.4,  14.2,  25.7,  36.7,  47.2,  57.4,  67.4,  77,  86.3,  95.5,  105,  122,  139,  156,  171,  185,  198,  210,  220 #  sc*1e3
 	60  dim cond(50) : restore 50 : for i = 1 to cell_no : read cond(i) : next i
 	62  put((1 - rho / dens(cell_no))^2 + get(1), 1) : put((1 - viscos / viscos_0 / v_v0(cell_no ))^2 + get(2), 2) : put((1 - sc / 1e3 / cond(cell_no ))^2 + get(3), 3)
 	64  x = tot("S")
@@ -1203,9 +1204,6 @@ S(6)          2.391e+00
 
 Initial solution 19.	
 
-s.d. in density  0.05 % 
-s.d. in viscosity  1.84 % 
-s.d. in conductivity  4.64 % 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles

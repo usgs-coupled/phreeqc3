@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: salt_sc
   Output file: salt_sc.out
 Database file: ../database/phreeqc.dat
@@ -815,7 +816,6 @@ O(0)          0.000e+00
 
 Initial solution 12.	
 
-KCl, AARD: 1.20 % 
 ----------------------------------User print-----------------------------------
 
 Na, mol/L:                0 
@@ -1672,7 +1672,6 @@ O(0)          0.000e+00
 
 Initial solution 12.	
 
-NaCl, AARD: 0.35 % 
 ----------------------------------User print-----------------------------------
 
 Na, mol/L:       1.6770e+00 
@@ -2519,7 +2518,6 @@ O(0)          0.000e+00
 
 Initial solution 12.	
 
-CaCl2, AARD: 1.87 % 
 ----------------------------------User print-----------------------------------
 
 Na, mol/L:                0 
@@ -3229,7 +3227,6 @@ O(0)          0.000e+00
 
 Initial solution 10.	
 
-MgCl2, AARD: 2.80 % 
 ----------------------------------User print-----------------------------------
 
 Na, mol/L:                0 
@@ -3333,7 +3330,7 @@ Reading input data for simulation 5.
 	-headings MgSO4
 	10 DATA 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 40000, 42700, 48400, 53300, 55200, 53700, 51100, 48800, 45900, 42300
 	20 restore 10 : dim EC_meas(50) : for i = 1 to cell_no : READ EC_meas(i) : next i
-	30 data  1.0, 1.025, 1.052, 1.110, 1.175, 1.247, 1.325, 1.408, 1.495, 1.590, 1.699, 1.825, 2.100, 2.407, 2.803, 3.353, 4.139, 5.189, 6.485, 8.050 
+	30 data  1.0, 1.025, 1.052, 1.110, 1.175, 1.247, 1.325, 1.408, 1.495, 1.590, 1.699, 1.825, 2.100, 2.407, 2.803, 3.353, 4.139, 5.189, 6.485, 8.050 # viscosities
 	40 restore 30 : dim vc(50) : for i = 1 to cell_no : READ vc(i) : next i
 	42 lim = 2.7
 	50 if vc(cell_no) < lim then scc = SC else scc = SC * lim / vc(cell_no)
@@ -4680,7 +4677,6 @@ S(6)          2.623e+00
 
 Initial solution 19.	
 
-MgSO4, AARD: 2.80 % 
 ----------------------------------User print-----------------------------------
 
 Na, mol/L:                0 
@@ -5593,7 +5589,6 @@ O(0)          3.287e-07
 
 Reaction step 9.
 
-La(NO3)3, AARD: 0.21 % 
 Using solution 1.	
 Using reaction 1.	
 
