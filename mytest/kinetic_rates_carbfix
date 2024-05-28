@@ -33,7 +33,7 @@ PHASES
  # LiBr; LiBr = Li+ + Br-; -log_k -20  # (very) unsoluble phase with base cation and acid anion, permits to use HBr or LiOH as reactant 
  LiCl; LiCl = Li+ + Cl-; -log_k -20  # (very) unsoluble phase with base cation and acid anion, permits to use HBr or LiOH as reactant 
 SELECTED_OUTPUT 1
-     -file kinetic_rates.inc 
+     -file kinetic_rates_carbfix.inc 
      -reset false 
 USER_PUNCH 1   # write out the pH's to equilibrate... 
      10 FOR i = 0 to 14 STEP 0.5
@@ -56,7 +56,7 @@ USER_GRAPH 1
 -axis_scale sy_axis -14 -9
 10 graph_x -la("H+")
 20 graph_sy log10(tot("Al"))
-INCLUDE$ kinetic_rates.inc 
+INCLUDE$ kinetic_rates_carbfix.inc 
 END
 
 
@@ -66,7 +66,7 @@ USER_GRAPH 1
 -headings Albite_data
 
 10 data 1.1, 2.05, 2.45, 2.9, 3, 3.5, 4.1, 5.1, 5.35, 5.47, 5.63, 5.63, 5.73, 7.73, 9.95, 9.95, 9.95, 10.6, 11.2, 11.55, 12.3
-20 data -10.25, -10.55, -10.82, -11.25, -11.1, -11.4, -11.47, -11.82, -11.75, -11.65, -11.83, -11.92, -11.92, -11.83, -10.97, -11.05, -11.13, -10.95, -10.55, -10.6, -10.38 # Chou, L., Wollast, R., 1985. Steady-state kinetics and dissolution mechanisms of albite. Am. J. Sci. 285, 963–993.
+20 data -10.25, -10.55, -10.82, -11.25, -11.1, -11.4, -11.47, -11.82, -11.75, -11.65, -11.83, -11.92, -11.92, -11.83, -10.97, -11.05, -11.13, -10.95, -10.55, -10.6, -10.38 # Chou, L., Wollast, R., 1985. Steady-state kinetics and dissolution mechanisms of albite. Am. J. Sci. 285, 963ï¿½993.
 30 restore 10 : dim ph(21) : for i = 1 to step_no : read ph(i) : next i
 40 restore 20 : dim lk(21) : for i = 1 to step_no : read lk(i) : next i
 50 i = step_no : plot_xy ph(i), lk(i), line_width = 0, color = Black, y_axis = 2, symbol_size = 10, symbol = Circle   
