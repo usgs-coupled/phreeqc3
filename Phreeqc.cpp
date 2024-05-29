@@ -1722,7 +1722,10 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	viscos_0 = pSrc->viscos_0;
 	viscos_0_25 = pSrc->viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
 	density_x = pSrc->density_x;
-	cell_pore_volume = pSrc->cell_pore_volume;;
+	solution_volume_x = pSrc->solution_volume_x;
+	solution_mass_x = pSrc->solution_mass_x;
+	kgw_kgs = pSrc->kgw_kgs;
+	cell_pore_volume = pSrc->cell_pore_volume;
 	cell_porosity = pSrc->cell_porosity;
 	cell_volume = pSrc->cell_volume;
 	cell_saturation = pSrc->cell_saturation;
