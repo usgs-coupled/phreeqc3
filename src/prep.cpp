@@ -1942,6 +1942,10 @@ convert_units(cxxSolution *solution_ptr)
 		strstr(initial_data_ptr->Get_units().c_str(), "/l") != NULL)
 	{
 		mass_water_aq_x = 1.0 - 1e-3 * sum_solutes;
+		if (density_iterations > 0)
+		{
+			mass_water_aq_x = kgw_kgs;
+		}
 		if (mass_water_aq_x <= 0)
 		{
 			error_string = sformatf( "Solute mass exceeds solution mass in conversion from /kgs to /kgw.\n"

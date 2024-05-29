@@ -1,0 +1,40 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 convert_units_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+USER_PRINT
+10 PRINT "N(5), mol/L:      ", TOT("N(5)") / SOLN_VOL
+20 PRINT "N(5), mol/kgs:    ", TOT("N(5)") / (RHO * SOLN_VOL)
+30 PRINT "N(5), mol/kgw:    ", TOT("N(5)") 
+40 PRINT "Mass H2O per kgs: ", TOT("water") / (RHO * SOLN_VOL)
+50 PRINT "Mass H2O:         ", TOT("water")
+60 PRINT "Rho:              ", RHO
+70 PRINT "Volume, L:        ", SOLN_VOL
+80 PRINT "Kgs:              ", RHO * SOLN_VOL
+100 t = SYS("aq",  count , name$ , type$ , moles )
+110 FOR i = 1 TO count
+120   g = GFW(name$(i))
+130   ts = ts + g * MOL(name$(i)) * TOT("water")
+140 NEXT i
+150 kgs = TOT("water") + ts*1e-3
+160 PRINT "Kgs, summed:      ", kgs
+170 PRINT "kgw/kgs:          ", TOT("water") / kgs
+180 PRINT "mol/kgs:          ", 1/kgs
+190 PRINT "L/kgs:            ", 1/SOLN_VOL
+200 PRINT "correct mol/kgs:  ", 1*SOLN_VOL / kgs
+210 PRINT "correct mol/kgw:  ", 1*SOLN_VOL / TOT("water")
+300 PRINT "correct kgw/L:    ", TOT("water") / soln_vol
+
+
+SOLUTION
+-units mol/L
+-density 1 calc
+pH 3 charge
+N(5) 1 as N
+-water 0.1
+END

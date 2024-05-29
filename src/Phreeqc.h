@@ -1523,6 +1523,7 @@ protected:
 	int iterations;
 	int gamma_iterations;
 	size_t density_iterations;
+	LDBLE kgw_kgs;
 	int run_reactions_iterations;
 	int overall_iterations;
 
@@ -1629,6 +1630,8 @@ protected:
 	int print_viscosity;
 	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
 	LDBLE density_x;
+	LDBLE solution_volume_x;
+	LDBLE solution_mass_x;
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
 	LDBLE cell_volume;

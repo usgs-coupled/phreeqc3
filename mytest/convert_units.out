@@ -1,0 +1,144 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: convert_units
+  Output file: convert_units.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	MEAN_GAMMAS
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 convert_units_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	USER_PRINT
+	10 PRINT "N(5), mol/L:      ", TOT("N(5)") / SOLN_VOL
+	20 PRINT "N(5), mol/kgs:    ", TOT("N(5)") / (RHO * SOLN_VOL)
+	30 PRINT "N(5), mol/kgw:    ", TOT("N(5)") 
+	40 PRINT "Mass H2O per kgs: ", TOT("water") / (RHO * SOLN_VOL)
+	50 PRINT "Mass H2O:         ", TOT("water")
+	60 PRINT "Rho:              ", RHO
+	70 PRINT "Volume, L:        ", SOLN_VOL
+	80 PRINT "Kgs:              ", RHO * SOLN_VOL
+	100 t = SYS("aq",  count , name$ , type$ , moles )
+	110 FOR i = 1 TO count
+	120   g = GFW(name$(i))
+	130   ts = ts + g * MOL(name$(i)) * TOT("water")
+	140 NEXT i
+	150 kgs = TOT("water") + ts*1e-3
+	160 PRINT "Kgs, summed:      ", kgs
+	170 PRINT "kgw/kgs:          ", TOT("water") / kgs
+	180 PRINT "mol/kgs:          ", 1/kgs
+	190 PRINT "L/kgs:            ", 1/SOLN_VOL
+	200 PRINT "correct mol/kgs:  ", 1*SOLN_VOL / kgs
+	210 PRINT "correct mol/kgw:  ", 1*SOLN_VOL / TOT("water")
+	300 PRINT "correct kgw/L:    ", TOT("water") / soln_vol
+	SOLUTION
+	units mol/L
+	density 1 calc
+	pH 3 charge
+	N(5) 1 as N
+	water 0.1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+N(5), mol/L:         1.0000e+01 
+N(5), mol/kgs:       9.7122e+00 
+N(5), mol/kgw:       1.0345e+00 
+Mass H2O per kgs:    9.3880e-01 
+Mass H2O:            1.0000e-01 
+Rho:                 1.0296e+00 
+Volume, L:           1.0345e-01 
+Kgs:                 1.0652e-01 
+Kgs, summed:         1.0652e-01 
+kgw/kgs:             9.3880e-01 
+mol/kgs:             9.3880e+00 
+L/kgs:               9.6662e+00 
+correct mol/kgs:     9.7122e-01 
+correct mol/kgw:     1.0345e+00 
+correct kgw/L:       9.6662e-01 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N(5)              1.035e+00   1.035e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.115      Charge balance
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 346914
+                          Density (g/cm³)  =   1.02964 (Iterated) 
+                               Volume (L)  =   0.10345
+                        Viscosity (mPa s)  =   0.92116
+                        Activity of water  =   0.965
+                 Ionic strength (mol/kgw)  =   1.035e+00
+                       Mass of water (kg)  =   1.000e-01
+                 Total alkalinity (eq/kg)  =  -1.035e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.194e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9 (54 overall)
+                                  Total H  = 1.120470e+01
+                                  Total O  = 5.860981e+00
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.035e+00   7.679e-01     0.015    -0.115    -0.129      0.00
+   OH-             2.206e-14   1.272e-14   -13.656   -13.896    -0.239     -2.05
+   H2O             5.551e+01   9.648e-01     1.744    -0.016     0.000     18.07
+H(0)          6.579e-12
+   H2              3.289e-12   4.174e-12   -11.483   -11.379     0.103     28.61
+N(5)          1.035e+00
+   NO3-            1.035e+00   5.697e-01     0.015    -0.244    -0.259     30.51
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -69.756   -69.652     0.103     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)            -8.28    -11.38   -3.10  H2
+  H2O(g)           -1.52     -0.02    1.50  H2O
+  O2(g)           -66.76    -69.65   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+

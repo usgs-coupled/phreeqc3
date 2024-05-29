@@ -7,6 +7,14 @@ USER_PUNCH 101
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
     -end
+USER_PRINT
+10 PRINT "Na, mol/L:    ", TOTMOL("Na") / SOLN_VOL
+20 PRINT "K, mol/L:     ", TOTMOL("K") / SOLN_VOL
+30 PRINT "Ca, mol/L:    ", TOTMOL("Ca") / SOLN_VOL
+40 PRINT "Mg, mol/L:    ", TOTMOL("Mg") / SOLN_VOL
+40 PRINT "La, mol/L:    ", TOTMOL("La") / SOLN_VOL
+50 PRINT "Cl, mol/L:    ", TOTMOL("Cl") / SOLN_VOL
+60 PRINT "SO4, mol/L:   ", TOTMOL("S(6)") / SOLN_VOL
 SOLUTION_SPREAD
  -temp 20
  -units mol/L; -density 1 calculate

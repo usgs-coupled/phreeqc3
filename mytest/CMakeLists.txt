@@ -76,6 +76,7 @@ set(TESTS
   colt5
   comments
   connect_graph
+  convert_units
   count_database_species
   count_database_species_core10
   Cub
