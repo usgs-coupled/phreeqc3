@@ -44,7 +44,7 @@ N(+5)       NO3-    0   N
 N(+3)       NO2-    0   N
 N(0)        N2      0   N
 N(-3)       NH4+    0   N               14.0067
-#Amm        AmmH+   0   AmmH            17.031
+#Amm         AmmH+   0   AmmH            17.031
 B           H3BO3   0   B               10.81
 P           PO4-3   2   P               30.9738
 F           F-      0   F               18.9984
@@ -67,8 +67,8 @@ SOLUTION_SPECIES
 H+ = H+
 	-gamma 9 0
 	-viscosity 9.35e-2 -8.31e-2 2.487e-2 4.49e-4 2.01e-2 1.57 # for viscosity parameters see ref. 4
-	-dw 9.31e-9 838 16.315 0 2.376 24.01 0
-#		Dw(25 C) dw_T  a      a2  visc   a3    a_v_dif
+	-dw 9.31e-9  823   5.55  0  3.07  24.01 0
+#	    Dw(25 C) dw_T  a     a2 visc  a3    a_v_dif
 # Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc
 # a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
 
@@ -156,11 +156,11 @@ NO3- = NO3-
 	-Vm 6.32 6.78 0 -3.06 0.346 0 0.93 0 -0.012 1
 	-viscosity 8.37e-2 -0.458 1.54e-2 0.34 1.79e-2 5.02e-2 0.7381
 	-dw 1.9e-9 104 1.11
-#AmmH+ = AmmH+
-#	-gamma	2.5	0
-#	-Vm	5.35  2.345  3.72  -2.88 1.55  2.5  -4.54  217  2.344e-2  0.569
-#	-viscosity  9.9e-2  -0.159  1.36e-2  6.51e-3  3.21e-2  0.972
-#	-dw 1.98e-9 203 1.47 2.644 6.81e-2
+# AmmH+ = AmmH+
+	# -gamma 2.50
+	# -Vm 5.35 2.345 3.72 -2.88 1.55 2.5 -4.54 217 2.344e-2 0.569
+	# -viscosity 9.9e-2 -0.159 1.36e-2 6.51e-3 3.21e-2 0.972
+	# -dw 1.98e-9 203 1.47 2.644 6.81e-2
 H3BO3 = H3BO3
 	-Vm 7.0643 8.8547 3.5844 -3.1451 -0.2 # supcrt
 	-dw 1.1e-9
@@ -203,7 +203,7 @@ Mtg = Mtg # CH4
 	-Vm 9.01 -1.11 0 -1.85 -1.5 # Hnedkovsky et al., 1996, JCT 28, 125
 	-dw 1.85e-9
 Ntg = Ntg # N2
-	-Vm 7 # Pray et al., 1952, IEC 44 1146
+	-Vm 7 # Pray et al., 1952, IEC 44, 1146
 	-dw 1.96e-9 -90 # Cadogan et al. 2014, JCED 59, 519
 H2Sg = H2Sg # H2S
 	-Vm 1.39 28.3 0 -7.22 -0.59 # Hnedkovsky et al., 1996, JCT 28, 125
@@ -316,11 +316,6 @@ NH4+ = NH3 + H+
 	-Vm 6.69 2.8 3.58 -2.88 1.43
 	-viscosity 0.08 0 0 7.82e-3 -0.134 -0.986
 	-dw 2.28e-9
-#NO3- + 10 H+ + 8 e- = AmmH+ + 3 H2O
-#	  -log_k  119.077
-#	  -delta_h -187.055	  kcal
-#	  -gamma  2.5	0
-#	  -Vm	4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
 #AmmH+ + SO4-2 = AmmHSO4-
 NH4+ + SO4-2 = NH4SO4-
 	-gamma 6.54 -0.08
@@ -1247,7 +1242,7 @@ CH4(g)
 #Amm(g)
 #	Amm = Amm
 NH3(g)
-	NH3 = NH3	
+	NH3 = NH3
 	-log_k 1.7966
 	-analytic -18.758 3.367e-4 2.5113e3 4.8619 39.192
 	-T_c 405.6; -P_c 111.3; -Omega 0.25
@@ -1574,27 +1569,27 @@ SURFACE_SPECIES
 	Hfo_wOH + H4SiO4 = Hfo_wHSiO4-2 + 2 H+ + H2O; log_K -11.69
 
 MEAN_GAMMAS
-CaCl2 Ca+2 1 Cl- 2
-CaSO4 Ca+2 1 SO4-2 1
-CaCO3 Ca+2 1 CO3-2 1
-Ca(OH)2 Ca+2 1 OH- 2
-MgCl2 Mg+2 1 Cl- 2
-MgSO4 Mg+2 1 SO4-2 1
-MgCO3 Mg+2 1 CO3-2 1
-Mg(OH)2 Mg+2 1 OH- 2
-NaCl Na+ 1 Cl- 1
-Na2SO4 Na+ 2 SO4-2 1
-NaHCO3 Na+ 1 HCO3- 1
-Na2CO3 Na+ 2 CO3-2 1
-NaOH Na+ 1 OH- 1
-KCl K+ 1 Cl- 1
-K2SO4 K+ 2 SO4-2 1
-HCO3 K+ 1 HCO3- 1
-K2CO3 K+ 2 CO3-2 1
-KOH K+ 1 OH- 1
-HCl H+ 1 Cl- 1
-H2SO4 H+ 2 SO4-2 1
-HBr H+ 1 Br- 1
+CaCl2    Ca+2  1  Cl-    2
+CaSO4    Ca+2  1  SO4-2  1
+CaCO3    Ca+2  1  CO3-2  1
+Ca(OH)2  Ca+2  1  OH-    2
+MgCl2    Mg+2  1  Cl-    2
+MgSO4    Mg+2  1  SO4-2  1
+MgCO3    Mg+2  1  CO3-2  1
+Mg(OH)2  Mg+2  1  OH-    2
+NaCl     Na+   1  Cl-    1
+Na2SO4   Na+   2  SO4-2  1
+NaHCO3   Na+   1  HCO3-  1
+Na2CO3   Na+   2  CO3-2  1
+NaOH     Na+   1  OH-    1
+KCl      K+    1  Cl-    1
+K2SO4    K+    2  SO4-2  1
+HCO3     K+    1  HCO3-  1
+K2CO3    K+    2  CO3-2  1
+KOH      K+    1  OH-    1
+HCl      H+    1  Cl-    1
+H2SO4    H+    2  SO4-2  1
+HBr      H+    1  Br-    1
 
 RATES
 
@@ -1669,7 +1664,7 @@ K-feldspar
 1 REM Sverdrup and Warfvinge, 1995, mol m^-2 s^-1
 2 REM PARM(1) = Specific area of Kspar m^2/mol Kspar
 3 REM PARM(2) = Adjusts lab rate to field rate
-4 REM temp corr: from A&P, p. 162 E (kJ/mol) / R / 2.303 = H in H*(1/T-1/281)
+4 REM temp corr: from A&P, p. 162: E (kJ/mol) / R / 2.303 = H in H*(1/T-1/281)
 5 REM K-Feldspar parameters
 10 DATA 11.7, 0.5, 4e-6, 0.4, 500e-6, 0.15, 14.5, 0.14, 0.15, 13.1, 0.3
 20 RESTORE 10
@@ -2523,7 +2518,7 @@ Labradorite -7.87 42.1 0.626 -10.91 45.2 -30 0 0
 Bytownite -5.85 29.3 1.018 -9.82 31.5 -30 0 0
 Anorthite -3.5 16.6 1.411 -9.12 17.8 -30 0 0
 #
-K-feldspar -10.06 51.7 0.5 -12.41 38 -21.2 94.1 -0.823 # Table 14
+K-feldspar -10.06 51.7 0.5 -12.41 38 -21.2 94.1 -0.823 # Table 15
 #
 Nepheline -2.73 62.9 1.13 -8.56 65.4 -10.76 37.8 -0.2 # Table 18
 Leucite -6 132.2 0.7 -9.2 75.5 -10.66 56.6 -0.2
@@ -2901,48 +2896,39 @@ Wollastonite    -6.97   700             56      0.4     0       0               
 # END
 
 # RATES
-# Quartz_Rimstidt_Barnes
-# #1 rem Specific rate k = 10^-13.7 mol/m2/s (25 C), Ea = 90 kJ/mol, Rimstidt and Barnes, 1980, GCA 44, 1683
+# Quartz_Rimstidt
+# #1 rem Specific rate k = 10^-13.34 mol/m2/s (25 C), Ea = 74 kJ/mol, Rimstidt, 2015, GCA 167, 195
 # 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
 # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
-# 20 rate = 10^-(13.7 + 4700 * (1 / 298 - 1 / TK)) * (1 + 1500*tot("Na")) # salt correction, Dove and Rimstidt, MSA Rev. 29, 259
+# 20 rate = 10^-(13.3 + 4700 * (1 / 298 - 1 / TK)) * (1 + 1500*tot("Na")) # salt correction, Dove and Rimstidt, 1994, MSA Rev. 29, 259
+# 20 rate = 10^-(13.3 + 4700 * (1 / 298 - 1 / TK)) + 11.2e3 * act("Na+")^0.33 * act("OH-")^0.44 * exp(-71.6/(8.314e-3 * TK)) # salt correction,  Rimstidt, 2015, GCA 167, 195
 # 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
 # 40 SAVE area * rate * affinity * TIME
 # -end
 
 # USE solution 1
 # KINETICS 1
-# Quartz_Rimstidt_Barnes
+# Quartz_Rimstidt
 # -formula SiO2
 # -parms  0  6  1  0.67
 # -time 0.1 10*1 year
 # USER_GRAPH 3
-# -headings H Rimstidt.et.al
+# -headings H Rimstidt
 # END
 
 # SOLUTION 1
-# pH 7 charge; Na 30; Cl 30
+# pH 7 charge; Na 1; Cl 1
 # KINETICS 1
-# Quartz_Svd
+# Quartz_Rimstidt
 # -formula SiO2
 # -parms  0  6  1  0.67
 # -time 0.1 10*1 year
 # USER_GRAPH 3
-# -headings H Sverdup_NaCl
-# END
-
-# USE solution 1
-# KINETICS 1
-# Quartz_Rimstidt_Barnes
-# -formula SiO2
-# -parms  0  6  1  0.67
-# -time 0.1 10*1 year
-# USER_GRAPH 3
-# -headings H Rimstidt.et.al._NaCl
+# -headings H Rimstidt_1.mM.NaCl
 # END
 
 # # Example input file for calculating kinetic dissolution of Montmorillonite,
-# # a solid solution with exchangeable cations reacting fast
+# # a solid solution with exchangeable cations reacting fast;
 # # their ratios are related to the changing solution composition,
 # # and their amounts are connected to the kinetic reacting TOT layer.
 # #

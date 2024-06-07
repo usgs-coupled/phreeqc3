@@ -43,8 +43,8 @@ N           NO3-    0   N               14.0067
 N(+5)       NO3-    0   NO3
 N(+3)       NO2-    0   NO2
 N(0)        N2      0   N
-#N(-3)      NH4+    0   NH4	            14.0067
-Amm	        AmmH+   0   AmmH            17.031
+#N(-3)      NH4+    0   NH4             14.0067
+Amm         AmmH+   0   AmmH            17.031
 B           H3BO3   0   B               10.81
 P           PO4-3   2   P               30.9738
 F           F-      0   F               18.9984
@@ -62,12 +62,13 @@ Oxg         Oxg     0   Oxg             32      #   O2  gas
 Mtg         Mtg     0   Mtg             16.032  #   CH4 gas
 Sg          H2Sg    0   H2Sg            32.064  #   H2S gas
 Ntg         Ntg     0   Ntg             28.0134 #   N2  gas
+
 SOLUTION_SPECIES
 H+ = H+
 	-gamma 9 0
 	-viscosity 9.35e-2 -8.31e-2 2.487e-2 4.49e-4 2.01e-2 1.57 # for viscosity parameters see ref. 4
-	-dw 9.31e-9 838 16.315 0 2.376 24.01 0
-#		Dw(25 C) dw_T  a      a2  visc   a3    a_v_dif
+	-dw 9.31e-9  823   5.55  0  3.07  24.01 0
+#	    Dw(25 C) dw_T  a     a2 visc  a3    a_v_dif
 # Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc
 # a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
 
@@ -300,19 +301,23 @@ NO3- + 2 H+ + 2 e- = NO2- + H2O
 	-delta_h -312.13 kcal
 	-Vm 7 # Pray et al., 1952, IEC 44 1146
 	-dw 1.96e-9 -90 # Cadogan et al. 2014, JCED 59, 519
+#NO3- + 10 H+ + 8 e- = AmmH+ + 3 H2O
+#	  -log_k  119.077
+#	  -delta_h -187.055	  kcal
+#	-gamma 2.5 0
+#	-Vm 5.35 2.345 3.72 -2.88 1.55 2.5 -4.54 217 2.344e-2 0.569
+#	-viscosity 9.9e-2 -0.159 1.36e-2 6.51e-3 3.21e-2 0.972
+#	-dw 1.98e-9 203 1.47 2.644 6.81e-2
 AmmH+ = Amm + H+
+#NH4+ = NH3 + H+
 	-log_k -9.252
 	-delta_h 12.48 kcal
 	-analytic 0.6322 -0.001225 -2835.76
 	-Vm 6.69 2.8 3.58 -2.88 1.43
 	-viscosity 0.08 0 0 7.82e-3 -0.134 -0.986
 	-dw 2.28e-9
-#NO3- + 10 H+ + 8 e- = AmmH+ + 3 H2O
-#	  -log_k  119.077
-#	  -delta_h -187.055	  kcal
-#	  -gamma  2.5	0
-#	  -Vm	4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1
 AmmH+ + SO4-2 = AmmHSO4-
+#NH4+ + SO4-2 = NH4SO4-
 	-gamma 6.54 -0.08
 	-log_k 1.106;	-delta_h 4.3 kcal
 	-Vm -3.23 0 -68.42 0 -14.27 0 68.51 0 -0.4099 0.2339
@@ -669,7 +674,7 @@ H4SiO4 = H3SiO4- + H+
 	-delta_h 6.12 kcal
 	-analytic -302.3724 -0.050698 15669.69 108.18466 -1119669
 	-gamma 4 0
-	-Vm 7.94 1.0881 5.3224 -2.824 1.4767 # supcrt  H2O in a1
+	-Vm 7.94 1.0881 5.3224 -2.824 1.4767 # supcrt + H2O in a1
 H4SiO4 = H2SiO4-2 + 2 H+
 	-log_k -23
 	-delta_h 17.6 kcal
@@ -1236,6 +1241,8 @@ CH4(g)
 	-T_c 190.6; -P_c 45.4; -Omega 0.008
 Amm(g)
 	Amm = Amm
+#NH3(g)
+#	NH3 = NH3	
 	-log_k 1.7966
 	-analytic -18.758 3.367e-4 2.5113e3 4.8619 39.192
 	-T_c 405.6; -P_c 111.3; -Omega 0.25
@@ -1345,6 +1352,7 @@ EXCHANGE_SPECIES
 #	  -gamma  9.0	0
 
 	AmmH+ + X- = AmmHX
+#	NH4+ + X- = NH4X
 	-log_k 0.6
 	-gamma 2.5 0
 	-delta_h -2.4 # Laudelout et al., 1968
@@ -1583,7 +1591,6 @@ HCl      H+    1  Cl-    1
 H2SO4    H+    2  SO4-2  1
 HBr      H+    1  Br-    1
 
-
 RATES
 
 ###########
@@ -1657,7 +1664,7 @@ K-feldspar
 1 REM Sverdrup and Warfvinge, 1995, mol m^-2 s^-1
 2 REM PARM(1) = Specific area of Kspar m^2/mol Kspar
 3 REM PARM(2) = Adjusts lab rate to field rate
-4 REM temp corr: from A&P, p. 162 E (kJ/mol) / R / 2.303 = H in H*(1/T-1/281)
+4 REM temp corr: from A&P, p. 162: E (kJ/mol) / R / 2.303 = H in H*(1/T-1/281)
 5 REM K-Feldspar parameters
 10 DATA 11.7, 0.5, 4e-6, 0.4, 500e-6, 0.15, 14.5, 0.14, 0.15, 13.1, 0.3
 20 RESTORE 10
