@@ -493,7 +493,7 @@ calc_SC(void)
 				if (av)
 					t1 *= pow(viscos_0 / viscos, av);
 				if (correct_Dw)
-					s_x[i]->dw_corr *= t1 / Dw;
+					s_x[i]->dw_corr *= t1 / Dw * pow(mass_water_aq_x / calc_solution_volume(), 2);
 
 				// fractional contribution in mu, and correct for charge imbalance
 				a2 = 2 / (eq_plus + eq_min);
