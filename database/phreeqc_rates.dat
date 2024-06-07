@@ -113,7 +113,7 @@ Sr+2 = Sr+2
 	-gamma 5.26 0.121
 	-Vm -1.57e-2 -10.15 10.18 -2.36 0.86 5.26 0.859 -27 -4.1e-3 1.97
 	-viscosity 0.472 -0.252 5.51e-3 3.67e-3 0 1.876
-	-dw 0.794e-9 160 0.68 0.767 1e-9 0.912
+	-dw 0.794e-9 149 0.805 1.961 1e-9 0.7876
 Ba+2 = Ba+2
 	-gamma 5 0
 	-gamma 4 0.153 # Barite solubility
@@ -160,7 +160,7 @@ NO3- = NO3-
 #	-gamma	2.5	0
 #	-Vm	5.35  2.345  3.72  -2.88 1.55  2.5  -4.54  217  2.344e-2  0.569
 #	-viscosity  9.9e-2  -0.159  1.36e-2  6.51e-3  3.21e-2  0.972
-#	-dw	1.98e-9  178  3.747  0  1.220
+#	-dw 1.98e-9 203 1.47 2.644 6.81e-2
 H3BO3 = H3BO3
 	-Vm 7.0643 8.8547 3.5844 -3.1451 -0.2 # supcrt
 	-dw 1.1e-9
@@ -307,8 +307,7 @@ NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
 	-gamma 2.5 0
 	-Vm 5.35 2.345 3.72 -2.88 1.55 2.5 -4.54 217 2.344e-2 0.569
 	-viscosity 9.9e-2 -0.159 1.36e-2 6.51e-3 3.21e-2 0.972
-	-dw 1.98e-9 178 3.747 0 1.22
-
+	-dw 1.98e-9 203 1.47 2.644 6.81e-2
 #AmmH+ = Amm + H+
 NH4+ = NH3 + H+
 	-log_k -9.252
@@ -2982,7 +2981,7 @@ Wollastonite    -6.97   700             56      0.4     0       0               
 # EXCHANGE_MASTER_SPECIES
 # X_montm_mg   X_montm_mg-0.34
 # EXCHANGE_SPECIES
-# # The Gapon formulation is easiest...
+# # The Gapon formulation is easiest, with constants from Montmorillonite(Mg..) in PHASES
               # X_montm_mg-0.34 =  X_montm_mg-0.34
 # 0.34 Na+  +   X_montm_mg-0.34 = Na0.34X_montm_mg; log_k -3.411 # 0 #
 # 0.34 K+   +   X_montm_mg-0.34 =  K0.34X_montm_mg; log_k -2.83 # 0.581 #
@@ -2991,13 +2990,13 @@ Wollastonite    -6.97   700             56      0.4     0       0               
 
 # # # The divalent cations have rather low log_k, cf. A&P, p.254, log_k Ca0.5X ~ log_k KX
 # # # uncomment the following lines to see the effect...
-# # 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -2.73
+# # 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -2.86
 # # 0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -2.83
 # # # also adapt the log_k`s of the solids...
 # # PHASES
 # # Montmorillonite(MgMg)
 # # Mg0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.510Mg+2 + 4H4SiO4
-     # # log_k     2.73
+     # # log_k     2.86
 # # Montmorillonite(MgCa)
 # # Ca0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.170Ca+2 + 0.340Mg+2 + 4H4SiO4
      # # log_k     2.83
@@ -3008,8 +3007,8 @@ Wollastonite    -6.97   700             56      0.4     0       0               
 # # 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -3.708e10
 # # 0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -4.222e10
 # # # write the Gaines-Thomas formulas...
-# # 0.34 Mg+2 + 2  X_montm_mg-0.34 = Mg0.34X_montm_mg2 ; log_k -7.416 # -0.297 #
-# # 0.34 Ca+2 + 2  X_montm_mg-0.34 = Ca0.34X_montm_mg2 ; log_k -8.444 # -0.811 #
+# # 0.34 Mg+2 + 2  X_montm_mg-0.34 = Mg0.34X_montm_mg2 ; log_k -7.416 # -0.297 # 
+# # 0.34 Ca+2 + 2  X_montm_mg-0.34 = Ca0.34X_montm_mg2 ; log_k -8.444 # -0.811 # 
 
 # # # The default exchanger X can be used, uncomment the follwing lines
 # # # redefine f_Na in the rate...
@@ -3021,7 +3020,7 @@ Wollastonite    -6.97   700             56      0.4     0       0               
 # # 20 rate = RATE_HERMANSKA("Montmorillonite") / f_Na
 # # 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
 # # 40 SAVE area * rate * affinity * TIME
-# # -end
+# # -end 
 # # # adapt log_k`s of the solids with default exchanger X:
 # # PHASES
 # # Montmorillonite(MgK)

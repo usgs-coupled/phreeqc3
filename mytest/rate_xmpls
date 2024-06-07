@@ -229,7 +229,7 @@ Quartz_Rimstidt_Barnes
 #1 rem Specific rate k = 10^-13.7 mol/m2/s (25 C), Ea = 90 kJ/mol, Rimstidt and Barnes, 1980, GCA 44, 1683
 5  REM PARMS: 1 affinity, 2 m^2/mol, 3 roughness, 4 exponent
 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Quartz") : if affinity < parm(1) then SAVE 0 : END
-20 rate = 10^-(13.7 + 4700 * (1 / 298 - 1 / TK)) * (1 + 1500*tot("Na")) # salt correction, Dove and Rimstidt, MSA Rev. 29, 259
+20 rate = 10^-(13.7 + 4700 * (1 / 298 - 1 / TK)) * (1 + 1500*tot("Na")) # salt correction, Dove and Rimstidt, 1994, MSA Rev. 29, 259
 30 IF M > 0 THEN area = M * parm(2) * parm(3) * (M/M0)^parm(4) ELSE area = 0
 40 SAVE area * rate * affinity * TIME
 -end
@@ -246,16 +246,6 @@ END
 
 SOLUTION 1
 pH 7 charge; Na 30; Cl 30
-KINETICS 1
-Quartz_Svd
--formula SiO2
--parms  0  6  1  0.67
--time 0.1 10*1 year
-USER_GRAPH 3
--headings H Sverdup_NaCl
-END
-
-USE solution 1
 KINETICS 1
 Quartz_Rimstidt_Barnes
 -formula SiO2
@@ -274,7 +264,7 @@ END
 # exchangeable cation (here Na+ or Ca+2). For the Gapon exchange formula, 
 # the exchange species and their log_k`s are from the solid solution members in ThermoddemV1
 # For the Gaines Thomas formula, the Mg+2 and Ca+2 species are redefined.
-# It also shows how the default X exchanger can be invkoed.
+# It also shows how the default X exchanger can be invoked.
 # # ==============================================================
 
 USER_GRAPH 3; -active false
@@ -305,7 +295,7 @@ Montmorillonite
 EXCHANGE_MASTER_SPECIES
 X_montm_mg   X_montm_mg-0.34
 EXCHANGE_SPECIES
-# The Gapon formulation is easiest...
+# The Gapon formulation is easiest, with constants from Montmorillonite(Mg..) in PHASES
               X_montm_mg-0.34 =  X_montm_mg-0.34
 0.34 Na+  +   X_montm_mg-0.34 = Na0.34X_montm_mg; log_k -3.411 #  0     # 
 0.34 K+   +   X_montm_mg-0.34 =  K0.34X_montm_mg; log_k -2.830 #  0.581 # 
@@ -314,13 +304,13 @@ EXCHANGE_SPECIES
 
 # # The divalent cations have rather low log_k, cf. A&P, p.254, log_k Ca0.5X ~ log_k KX
 # # uncomment the following lines to see the effect...
-# 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -2.73
+# 0.17 Mg+2 +   X_montm_mg-0.34 = Mg0.17X_montm_mg; log_k -2.86
 # 0.17 Ca+2 +   X_montm_mg-0.34 = Ca0.17X_montm_mg; log_k -2.83
 # # also adapt the log_k`s of the solids...
 # PHASES
 # Montmorillonite(MgMg)
 # Mg0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.510Mg+2 + 4H4SiO4
-     # log_k     2.73
+     # log_k     2.86
 # Montmorillonite(MgCa)
 # Ca0.17Mg0.34Al1.66Si4O10(OH)2 + 6H+ + 4H2O = 1.660Al+3 + 0.170Ca+2 + 0.340Mg+2 + 4H4SiO4
      # log_k     2.83
