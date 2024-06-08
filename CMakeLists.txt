@@ -1,16 +1,18 @@
 set(phreeqc_DATABASE
   Amm.dat
-  core10.dat
   ColdChem.dat
+  Concrete_PHR.dat
+  Concrete_PZ.dat
+  core10.dat
   frezchem.dat
   iso.dat
-  llnl.dat
   Kinec.v2.dat
+  llnl.dat
   minteq.dat
   minteq.v4.dat
-  phreeqc.dat
   phreeqc_rates.dat
   PHREEQC_ThermoddemV1.10_15Dec2020.dat
+  phreeqc.dat
   pitzer.dat
   sit.dat
   Tipping_Hurley.dat
