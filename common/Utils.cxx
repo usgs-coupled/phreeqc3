@@ -199,13 +199,17 @@ strcpy_safe(char* dest, size_t max, const char* src)
 	{
 		if (dest == nullptr || src == nullptr)
 		{
+#if !defined(R_SO)
 			std::cerr << "nullptr in Utilities::strcpy_safe." << std::endl;
+#endif
 			throw;
 		}
 		lsrc = strlen(src);
 		if (lsrc + 1 > max)
 		{
+#if !defined(R_SO)
 			std::cerr << "Buffer overrun in Utilities::strcpy_safe." << std::endl;
+#endif
 			throw;
 		}
 		memcpy(dest, src, (lsrc + 1) * sizeof(char));
@@ -224,14 +228,18 @@ strcat_safe(char* dest, size_t max, const char* src)
 	{
 		if (dest == nullptr || src == nullptr)
 		{
+#if !defined(R_SO)
 			std::cerr << "nullptr in Utilities::strcat_safe." << std::endl;
+#endif
 			throw;
 		}
 		lsrc = strlen(src);
 		ldest = strlen(dest);
 		if (ldest + lsrc + 1 > max)
 		{
+#if !defined(R_SO)
 			std::cerr << "Buffer overrun in Utilities::strcat_safe." << std::endl;
+#endif
 			throw;
 		}
 		memcpy(&dest[ldest], src, (lsrc + 1) * sizeof(char));

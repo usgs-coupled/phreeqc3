@@ -201,6 +201,10 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 #if !defined(R_SO)
 			std::cerr << "Unknown pack type in deserialize " << type << std::endl;
 			exit(4);
+#else
+			std::ostringstream oss;
+			oss << "Unknown pack type in deserialize " << type << std::endl;
+			phreeqc_ref.error_msg(oss.str().c_str(), STOP);
 #endif
 			break;
 		}
