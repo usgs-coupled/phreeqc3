@@ -167,6 +167,8 @@ public:
 	std::string kinetics_formula(std::string kinetics_name, cxxNameDouble& stoichiometry);
 	std::string phase_formula(std::string phase_name, cxxNameDouble& stoichiometry);
 	std::string species_formula(std::string phase_name, cxxNameDouble& stoichiometry);
+	std::string phase_equation(std::string phase_name, std::vector<std::pair<std::string, double> >& stoichiometry);
+	std::string species_equation(std::string species_name, std::vector<std::pair<std::string, double> >& stoichiometry);
 	LDBLE list_ss(std::string ss_name, cxxNameDouble& composition);
 	int system_total_elements(void);
 	int system_total_si(void);
