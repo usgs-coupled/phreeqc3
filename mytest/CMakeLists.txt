@@ -9,6 +9,7 @@ set(TESTS
   aj1
   alkalinity
   all_llnl
+  Amm
   andra_kin_ss
   andsurfcomplex4
   anh_P_NaCl
@@ -387,6 +388,7 @@ set(TESTS
   soln_vol
   solution_s
   spec_cond
+  species_equation
   species_formula
   spread_redox
   spread_solution

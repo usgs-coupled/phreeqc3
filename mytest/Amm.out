@@ -1,0 +1,115 @@
+   Input file: Amm
+  Output file: Amm.out
+Database file: ../database/Amm.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	MEAN_GAMMAS
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/Amm.dat
+	SELECTED_OUTPUT 101
+	    file                 Amm_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	USER_PRINT
+	10 PRINT "Amm, ug/L: ", TOTMOL("Amm")*GFW("Amm")*1e6/SOLN_VOL
+	SOLUTION 1
+	   units      ug/L
+	   temp      10
+	   pH                 7.0      charge
+	   density      0.99970 calc
+	   Amm        25 #as Amm
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+Amm, ug/L:    2.5000e+01 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Amm               1.468e-06   1.468e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.663      Charge balance
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  10°C)  = 0
+                          Density (g/cm³)  =   0.99970 (Iterated) 
+                               Volume (L)  =   1.00030
+                        Viscosity (mPa s)  =   1.30978
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.355e-06
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.468e-06
+                         Temperature (°C)  =  10.00
+                  Electrical balance (eq)  =  -7.016e-16
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7 (14 overall)
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.355e-06   1.353e-06    -5.868    -5.869    -0.001     -5.04
+   H+              2.177e-09   2.174e-09    -8.662    -8.663    -0.001      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.02
+Amm           1.468e-06
+   AmmH+           1.353e-06   1.351e-06    -5.869    -5.869    -0.001     17.00
+   Amm             1.158e-07   1.158e-07    -6.936    -6.936     0.000     23.51
+H(0)          7.833e-29
+   H2              3.917e-29   3.917e-29   -28.407   -28.407     0.000     28.63
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -40.663   -40.663     0.000     28.95
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(283 K,   1 atm)
+
+  Amm(g)           -9.06     -6.94    2.13  Amm
+  H2(g)           -25.35    -28.41   -3.05  H2
+  H2O(g)           -1.91     -0.00    1.91  H2O
+  O2(g)           -37.90    -40.66   -2.77  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.085 Seconds.
+-------------------------------
+
