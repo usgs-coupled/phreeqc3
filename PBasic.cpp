@@ -1548,6 +1548,14 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokspecies_formula_:
 			output_msg("SPECIES_FORMULA$");
 			break;
+		case tokphase_equation:
+		case tokphase_equation_:
+			output_msg("PHASE_EQUATION$");
+			break;
+		case tokspecies_equation:
+		case tokspecies_equation_:
+			output_msg("SPECIES_EQUATION$");
+			break;
 		case toksr:
 			output_msg("SR");
 			break;
@@ -4072,6 +4080,202 @@ factor(struct LOC_exec * LINK)
 		// fill in arrays
 		i = 1;
 		for (cxxNameDouble::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
+		{
+			elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
+			coef_varrec->UU.U0.arr[i] = it->second;
+			i++;
+		}
+	}
+	break;
+
+	case tokphase_equation:
+	case tokphase_equation_:
+	{
+		require(toklp, LINK);
+		std::string phase_name(stringfactor(STR1, LINK));
+		varrec* elts_varrec = NULL, * coef_varrec = NULL;
+		std::vector<std::pair<std::string, double> > stoichiometry;
+		/*
+		*  Parse arguments
+		*/
+		require(tokcomma, LINK);
+
+		count_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+			snerr(": Cannot find count variable");
+
+		/* return number of names of species */
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		elts_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
+			snerr(": Cannot find species string variable");
+
+		/* return coefficients of species */
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		coef_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
+			snerr(": Cannot find coefficient variable");
+		LINK->t = LINK->t->next;
+
+		require(tokrp, LINK);
+
+		free_dim_stringvar(elts_varrec);
+		PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
+		coef_varrec->UU.U0.arr = NULL;
+		/*
+		*  Call subroutine
+		*/
+		std::string eq = PhreeqcPtr->phase_equation(phase_name, stoichiometry);
+
+		// put type as return value
+		n.stringval = true;
+		n.UU.sval = PhreeqcPtr->string_duplicate(eq.c_str());
+
+		/*
+		*  fill in varrec structure
+		*/
+
+		size_t count = stoichiometry.size();
+		*count_varrec->UU.U0.val = (LDBLE)count;
+		/*
+		* malloc space
+		*/
+		elts_varrec->UU.U1.sarr = (char**)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char*));
+		if (elts_varrec->UU.U1.sarr == NULL)
+		{
+			PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+		coef_varrec->UU.U0.arr = (LDBLE*)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
+		if (coef_varrec->UU.U0.arr == NULL)
+		{
+			PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+
+		// first position not used
+		elts_varrec->UU.U1.sarr[0] = NULL;
+		coef_varrec->UU.U0.arr[0] = 0;
+
+		// set dims for Basic array
+		for (i = 0; i < maxdims; i++)
+		{
+			elts_varrec->dims[i] = 0;
+			coef_varrec->dims[i] = 0;
+		}
+		// set dims for first dimension and number of dims
+		elts_varrec->dims[0] = (long)(count + 1);
+		coef_varrec->dims[0] = (long)(count + 1);
+		elts_varrec->numdims = 1;
+		coef_varrec->numdims = 1;
+
+		// fill in arrays
+		i = 1;
+		for (std::vector<std::pair<std::string, double > >::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
+		{
+			elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
+			coef_varrec->UU.U0.arr[i] = it->second;
+			i++;
+		}
+	}
+	break;
+
+	case tokspecies_equation:
+	case tokspecies_equation_:
+	{
+		require(toklp, LINK);
+		std::string species_name(stringfactor(STR1, LINK));
+		varrec* elts_varrec = NULL, * coef_varrec = NULL;
+		std::vector<std::pair<std::string, double> > stoichiometry;
+		/*
+		*  Parse arguments
+		*/
+		require(tokcomma, LINK);
+
+		count_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+			snerr(": Cannot find count variable");
+
+		/* return number of names of species */
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		elts_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
+			snerr(": Cannot find species string variable");
+
+		/* return coefficients of species */
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		coef_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
+			snerr(": Cannot find coefficient variable");
+		LINK->t = LINK->t->next;
+
+		require(tokrp, LINK);
+
+		free_dim_stringvar(elts_varrec);
+		PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
+		coef_varrec->UU.U0.arr = NULL;
+		/*
+		*  Call subroutine
+		*/
+		std::string eq = PhreeqcPtr->species_equation(species_name, stoichiometry);
+
+		// put type as return value
+		n.stringval = true;
+		n.UU.sval = PhreeqcPtr->string_duplicate(eq.c_str());
+
+		/*
+		*  fill in varrec structure
+		*/
+
+		size_t count = stoichiometry.size();
+		*count_varrec->UU.U0.val = (LDBLE)count;
+		/*
+		* malloc space
+		*/
+		elts_varrec->UU.U1.sarr = (char**)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char*));
+		if (elts_varrec->UU.U1.sarr == NULL)
+		{
+			PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+		coef_varrec->UU.U0.arr = (LDBLE*)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
+		if (coef_varrec->UU.U0.arr == NULL)
+		{
+			PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+
+		// first position not used
+		elts_varrec->UU.U1.sarr[0] = NULL;
+		coef_varrec->UU.U0.arr[0] = 0;
+
+		// set dims for Basic array
+		for (i = 0; i < maxdims; i++)
+		{
+			elts_varrec->dims[i] = 0;
+			coef_varrec->dims[i] = 0;
+		}
+		// set dims for first dimension and number of dims
+		elts_varrec->dims[0] = (long)(count + 1);
+		coef_varrec->dims[0] = (long)(count + 1);
+		elts_varrec->numdims = 1;
+		coef_varrec->numdims = 1;
+
+		// fill in arrays
+		i = 1;
+		for (std::vector<std::pair<std::string, double > >::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
 		{
 			elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
 			coef_varrec->UU.U0.arr[i] = it->second;
@@ -8088,6 +8292,10 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("soln_vol",           PBasic::toksoln_vol),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula",    PBasic::tokspecies_formula),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_equation",     PBasic::tokphase_equation),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_equation$",    PBasic::tokphase_equation_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_equation",   PBasic::tokspecies_equation),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_equation$",  PBasic::tokspecies_equation_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sr",                 PBasic::toksr),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("step_no",            PBasic::tokstep_no),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_e$",             PBasic::tokstr_e_),
