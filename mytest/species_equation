@@ -1,0 +1,63 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 species_equation_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+	Na	1
+	Cl	1
+	Al	2
+	S(6)	3
+END
+EXCHANGE 1
+	CaX2 0.5
+END
+SURFACE 1
+	Hfo_wOH  .01 600 1
+EQUILIBRIUM_PHASES 1
+Calcite 0 10
+Gypsum 0 10
+Gibbsite 0 10
+Halite 0 10
+END
+USE solution 1
+USE exchange 1
+USE surface 1
+USE equilibrium_phases 1
+USER_PRINT
+10 t = SYS("aq", count, name$, type$, moles)
+20 for i = 1 to count
+30   eq$ = SPECIES_EQUATION(name$(i), count_s, s$, coef)
+40   PRINT eq$
+50   for j = 1 to count_s
+60     print pad(blank$, 5), pad(s$(j),5), str_f$(coef(j), 5, 0)
+70   next j
+80 next i
+110 t = SYS("ex", count, name$, type$, moles)
+120 for i = 1 to count
+130   eq$ = SPECIES_EQUATION(name$(i), count_s, s$, coef)
+140   PRINT eq$
+150   for j = 1 to count_s
+160     print pad(blank$, 5), pad(s$(j),5), str_f$(coef(j), 5, 0)
+170   next j
+180 next i
+210 t = SYS("surf", count, name$, type$, moles)
+220 for i = 1 to count
+230   eq$ = SPECIES_EQUATION(name$(i), count_s, s$, coef)
+240   PRINT eq$
+250   for j = 1 to count_s
+260     print pad(blank$, 5), pad(s$(j),5), str_f$(coef(j), 5, 0)
+270   next j
+280 next i
+210 t = SYS("equi", count, name$, type$, moles)
+220 for i = 1 to count
+230   eq$ = PHASE_EQUATION(name$(i), count_s, s$, coef)
+240   PRINT eq$
+250   for j = 1 to count_s
+260     print pad(blank$, 5), pad(s$(j),5), str_f$(coef(j), 5, 0)
+270   next j
+280 next i

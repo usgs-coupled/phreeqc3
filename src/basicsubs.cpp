@@ -3010,6 +3010,109 @@ species_formula(std::string phase_name, cxxNameDouble& stoichiometry)
 }
 
 /* ---------------------------------------------------------------------- */
+std::string Phreeqc::
+phase_equation(std::string phase_name, std::vector<std::pair<std::string, double> >& stoichiometry)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Returns equation
+	 *   Also returns arrays of species and stoichiometry in stoichiometry
+	 */
+	stoichiometry.clear();
+	std::ostringstream eq, lhs, rhs;
+	int j = -1;
+	class phase* phase_ptr = phase_bsearch(phase_name.c_str(), &j, FALSE);
+	bool rhs_started = false;
+	bool lhs_started = false;
+	if (phase_ptr != NULL)
+	{
+		std::vector<rxn_token>::iterator it = phase_ptr->rxn.Get_tokens().begin();
+		for (; it->name != NULL; it++)
+		{
+			if (!lhs_started)
+			{
+				std::pair<std::string, double> item(phase_ptr->formula, it->coef);
+				stoichiometry.push_back(item);
+			}
+			else
+			{
+				std::pair<std::string, double> item(it->name, it->coef);
+				stoichiometry.push_back(item);
+			}
+			if (it->coef < 0.0)
+			{
+				if (lhs_started) lhs << "+ ";
+				if (it->coef != -1.0)
+				{
+					lhs << -it->coef;
+				}
+				lhs << it->name << " ";
+				lhs_started = true;
+			}
+			else if (it->coef > 0.0)
+			{
+				if (rhs_started) rhs << "+ ";
+				if (it->coef != 1.0)
+				{
+					rhs << it->coef;
+				}
+				rhs << it->name << " ";
+				rhs_started = true;
+			}
+		}
+	}
+	eq << lhs.str() << "= " << rhs.str();
+	return (eq.str());
+}
+
+/* ---------------------------------------------------------------------- */
+std::string Phreeqc::
+species_equation(std::string species_name, std::vector<std::pair<std::string, double> >& stoichiometry)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Returns equation
+	 *   Also returns arrays of species and stoichiometry in stoichiometry
+	 */
+	stoichiometry.clear();
+	std::ostringstream eq, lhs, rhs;;
+	class species* s_ptr = s_search(species_name.c_str());
+	bool rhs_started = false;
+	bool lhs_started = false;
+	if (s_ptr != NULL)
+	{
+		std::vector<rxn_token>::iterator it = s_ptr->rxn.Get_tokens().begin();
+		for ( ; it->name != NULL; it++)
+		{
+			std::pair<std::string, double> item(it->name, it->coef);
+			stoichiometry.push_back(item);
+			if (it->coef > 0.0)
+			{
+				if (lhs_started) lhs << "+ ";
+				if (it->coef != 1.0)
+				{
+					lhs << it->coef;
+				}
+				lhs << it->name << " ";
+				lhs_started = true;
+			}
+			else if (it->coef < 0.0)
+			{
+				if (rhs_started) rhs << "+ ";
+				if (it->coef != -1.0)
+				{
+					rhs << -it->coef;
+				}
+				rhs << it->name << " ";
+				rhs_started = true;
+			}
+		}
+	}
+	eq << lhs.str() << "= " << rhs.str();
+	return (eq.str());
+}
+
+/* ---------------------------------------------------------------------- */
 int Phreeqc::
 system_total_elements(void)
 /* ---------------------------------------------------------------------- */

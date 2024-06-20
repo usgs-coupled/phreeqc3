@@ -1,0 +1,18 @@
+DATABASE ../database/Amm.dat
+SELECTED_OUTPUT 101
+    -file                 Amm_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+USER_PRINT
+10 PRINT "Amm, ug/L: ", TOTMOL("Amm")*GFW("Amm")*1e6/SOLN_VOL
+SOLUTION 1
+   units      ug/L
+   temp      10
+   pH                 7.0      charge
+   density      0.99970 calc
+   Amm        25 #as Amm
+END
