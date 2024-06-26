@@ -13,6 +13,9 @@ if ([string]::IsNullOrEmpty($Env:DATE)) {
 $Env:DATE = date -d $Env:DATE +%x
 $Env:RELEASE_DATE = date -d $Env:DATE "+%B %e, %G"
 
+# prep for calls to Invoke_WebRequest
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 #
 # set VER
 #
