@@ -210,6 +210,20 @@ struct Change_Surf
 /*----------------------------------------------------------------------
  *   CReaction
  *---------------------------------------------------------------------- */
+class rxn_token
+{
+public:
+	~rxn_token() {};
+	rxn_token()
+	{
+		s = NULL;
+		coef = 0.0;
+		name = NULL;
+	}
+	class species* s;
+	LDBLE coef;
+	const char* name;
+};
 class CReaction
 {
 public:
@@ -228,20 +242,6 @@ public:
 	double logk[MAX_LOG_K_INDICES];
 	double dz[3];
 	std::vector<class rxn_token> token;
-};
-class rxn_token
-{
-public:
-	~rxn_token() {};
-	rxn_token()
-	{
-		s = NULL;
-		coef = 0.0;
-		name = NULL;
-	}
-	class species* s;
-	LDBLE coef;
-	const char* name;
 };
 class save
 {
@@ -322,6 +322,86 @@ public:
 /*----------------------------------------------------------------------
  *   Inverse
  *---------------------------------------------------------------------- */
+class inv_elts
+{
+public:
+	~inv_elts() {};
+	inv_elts()
+	{
+		name = NULL;
+		master = NULL;
+		row = 0;
+		//uncertainties.clear();
+	}
+	const char* name;
+	class master* master;
+	size_t row;
+	std::vector<double> uncertainties;
+};
+class isotope
+{
+public:
+	~isotope() {};
+	isotope()
+	{
+		isotope_number = 0;
+		elt_name = NULL;
+		isotope_name = NULL;
+		total = 0;
+		ratio = 0;
+		ratio_uncertainty = 0;
+		x_ratio_uncertainty = 0;
+		master = NULL;
+		primary = NULL;
+		coef = 0;					/* coefficient of element in phase */
+	}
+	LDBLE isotope_number;
+	const char* elt_name;
+	const char* isotope_name;
+	LDBLE total;
+	LDBLE ratio;
+	LDBLE ratio_uncertainty;
+	LDBLE x_ratio_uncertainty;
+	class master* master;
+	class master* primary;
+	LDBLE coef;
+};
+class inv_isotope
+{
+public:
+	~inv_isotope() {};
+	inv_isotope()
+	{
+		isotope_name = NULL;
+		isotope_number = 0;
+		elt_name = NULL;
+		//uncertainties.clear();
+	}
+	const char* isotope_name;
+	LDBLE isotope_number;
+	const char* elt_name;
+	std::vector<double> uncertainties;
+};
+class inv_phases
+{
+public:
+	~inv_phases() {};
+	inv_phases()
+	{
+		name = NULL;
+		phase = NULL;
+		column = 0;
+		constraint = EITHER;
+		force = FALSE;
+		//isotopes.clear();
+	}
+	const char* name;
+	class phase* phase;
+	int column;
+	int constraint;
+	int force;
+	std::vector<class isotope> isotopes;
+};
 class inverse
 {
 public:
@@ -385,58 +465,6 @@ public:
 	std::vector<class isotope> isotope_unknowns;
 	const char* netpath;
 	const char* pat;
-};
-class inv_elts
-{
-public:
-	~inv_elts() {};
-	inv_elts()
-	{
-		name = NULL;
-		master = NULL;
-		row = 0;
-		//uncertainties.clear();
-	}
-	const char* name;
-	class master* master;
-	size_t row;
-	std::vector<double> uncertainties;
-};
-class inv_isotope
-{
-public:
-	~inv_isotope() {};
-	inv_isotope()
-	{
-		isotope_name = NULL;
-		isotope_number = 0;
-		elt_name = NULL;
-		//uncertainties.clear();
-	}
-	const char* isotope_name;
-	LDBLE isotope_number;
-	const char* elt_name;
-	std::vector<double> uncertainties;
-};
-class inv_phases
-{
-public:
-	~inv_phases() {};
-	inv_phases()
-	{
-		name = NULL;
-		phase = NULL;
-		column = 0;
-		constraint = EITHER;
-		force = FALSE;
-		//isotopes.clear();
-	}
-	const char* name;
-	class phase* phase;
-	int column;
-	int constraint;
-	int force;
-	std::vector<class isotope> isotopes;
 };
 /*----------------------------------------------------------------------
  *   Jacobian and Mass balance lists
@@ -536,34 +564,6 @@ public:
 	}
 	LDBLE* source;
 	LDBLE* target;
-	LDBLE coef;
-};
-class isotope
-{
-public:
-	~isotope() {};
-	isotope()
-	{
-		isotope_number = 0;
-		elt_name = NULL;
-		isotope_name = NULL;
-		total = 0;
-		ratio = 0;
-		ratio_uncertainty = 0;
-		x_ratio_uncertainty = 0;
-		master = NULL;
-		primary = NULL;
-		coef = 0;					/* coefficient of element in phase */
-	}
-	LDBLE isotope_number;
-	const char* elt_name;
-	const char* isotope_name;
-	LDBLE total;
-	LDBLE ratio;
-	LDBLE ratio_uncertainty;
-	LDBLE x_ratio_uncertainty;
-	class master* master;
-	class master* primary;
 	LDBLE coef;
 };
 class iso
@@ -1107,20 +1107,6 @@ public:
 /*----------------------------------------------------------------------
  *   Reaction work space
  *---------------------------------------------------------------------- */
-class reaction_temp
-{
-public:
-	~reaction_temp() {};
-	reaction_temp()
-	{
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) logk[i] = 0;
-		for (size_t i = 0; i < 3; i++) dz[i] = 0;
-		//token.clear();
-	}
-	LDBLE logk[MAX_LOG_K_INDICES];
-	LDBLE dz[3];
-	std::vector<class rxn_token_temp> token;
-};
 class rxn_token_temp
 {
 public:
@@ -1138,6 +1124,20 @@ public:
 	class species* s;
 	class unknown* unknown;
 	LDBLE coef;
+};
+class reaction_temp
+{
+public:
+	~reaction_temp() {};
+	reaction_temp()
+	{
+		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) logk[i] = 0;
+		for (size_t i = 0; i < 3; i++) dz[i] = 0;
+		//token.clear();
+	}
+	LDBLE logk[MAX_LOG_K_INDICES];
+	LDBLE dz[3];
+	std::vector<class rxn_token_temp> token;
 };
 class unknown_list
 {
