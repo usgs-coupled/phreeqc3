@@ -4242,7 +4242,7 @@ basic_callback(double x1, double x2, const char * str)
 
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 double Phreeqc::
-basic_callback(double x1, double x2, char * str)
+basic_callback(double x1, double x2, const char * str)
 #else
 double Phreeqc::
 basic_callback(double x1, double x2, const char * str)
@@ -4253,7 +4253,7 @@ basic_callback(double x1, double x2, const char * str)
 
 	if (basic_callback_ptr != NULL)
 	{
-		return (*basic_callback_ptr) (x1, x2, (const char *) str, basic_callback_cookie);
+		return (*basic_callback_ptr) (x1, x2, str, basic_callback_cookie);
 	}
 	if (basic_fortran_callback_ptr != NULL)
 	{
@@ -4274,7 +4274,7 @@ Phreeqc::register_basic_callback(double (*fcn)(double x1, double x2, const char 
 }
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 void 
-Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l))
+Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, const char *str, size_t l))
 {
 	this->basic_fortran_callback_ptr = fcn;
 }
