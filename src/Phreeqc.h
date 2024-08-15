@@ -93,13 +93,13 @@ public:
 	int basic_run(char* commands, void* lnbase, void* vbase, void* lpbase);
 	void basic_free(void);
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
-	double basic_callback(double x1, double x2, char* str);
+	double basic_callback(double x1, double x2, const char* str);
 #else
 	double basic_callback(double x1, double x2, const char* str);
 #endif
 	void register_basic_callback(double (*fcn)(double x1, double x2, const char* str, void* cookie), void* cookie1);
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
-	void register_fortran_basic_callback(double (*fcn)(double* x1, double* x2, char* str, size_t l));
+	void register_fortran_basic_callback(double (*fcn)(double* x1, double* x2, const char* str, size_t l));
 #else
 	void register_fortran_basic_callback(double (*fcn)(double* x1, double* x2, const char* str, int l));
 #endif
@@ -1661,7 +1661,7 @@ protected:
 	double (*basic_callback_ptr) (double x1, double x2, const char* str, void* cookie);
 	void* basic_callback_cookie;
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
-	double (*basic_fortran_callback_ptr) (double* x1, double* x2, char* str, size_t l);
+	double (*basic_fortran_callback_ptr) (double* x1, double* x2, const char* str, size_t l);
 #else
 	double (*basic_fortran_callback_ptr) (double* x1, double* x2, const char* str, int l);
 #endif
