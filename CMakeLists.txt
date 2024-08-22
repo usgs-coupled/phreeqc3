@@ -6,6 +6,7 @@ set(phreeqc_DATABASE
   core10.dat
   frezchem.dat
   iso.dat
+  Kinec_v3.dat
   Kinec.v2.dat
   llnl.dat
   minteq.dat
