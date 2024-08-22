@@ -1,4 +1,38 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+
+  	-----------------
+	August 20, 2024
+  	-----------------
+	PhreeqcRM (Python): Expanded documentation in BMI Python example notebook for
+	PHREEQC example 11 (ex11-advect.ipynb), courtesy of LimnoTech.
+	
+	-----------------
+	August 14, 2024
+	-----------------
+	IPhreeqc: Pull request for modifications of class definition order and header file to 
+	accommodate Clang 15 on Mac.
+
+	-----------------
+	August 13, 2024
+	-----------------
+
+	IPhreeqc: This resolves an issue when building shared libraries (DLLs) on Windows with
+	BUILD_SHARED_LIBS=ON and BUILD_TESTING=ON enabled in CMake.
+
+	Sets BUILD_SHARED_LIBS=OFF when building the googletest framework.
+	Adds ctest-shared.cmake for testing shared library builds.
+
+	It also resolves a build error that occurred when building shared libraries (DLLs) on
+	Windows using the Ninja generator.
+
+	Adds the _WINDLL preprocessor definition for shared Windows builds.
+	
+	-----------------
+	August 8, 2024
+  	-----------------
+	PhreeqcRM (Python): Fixed one docstring. Added code to handle numpy arrays 
+	in yamlphreeqc.
+	
   	-----------------
 	July 11, 2024
   	-----------------
@@ -6,6 +40,8 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	erroneous output was dumped for a user number.  In most cases, the
 	correct output was dumped following the erroneous output, which
 	caused the erroneous output to be ignored.
+	
+Version 3.8.0: July  3, 2024
 
   	-----------------
 	May 18, 2024
