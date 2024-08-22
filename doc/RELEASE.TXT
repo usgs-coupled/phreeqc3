@@ -8,9 +8,24 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	
 	-----------------
 	August 14, 2024
-  	-----------------
+	-----------------
 	IPhreeqc: Pull request for modifications of class definition order and header file to 
 	accommodate Clang 15 on Mac.
+
+	-----------------
+	August 13, 2024
+	-----------------
+
+	IPhreeqc: This resolves an issue when building shared libraries (DLLs) on Windows with
+	BUILD_SHARED_LIBS=ON and BUILD_TESTING=ON enabled in CMake.
+
+	Sets BUILD_SHARED_LIBS=OFF when building the googletest framework.
+	Adds ctest-shared.cmake for testing shared library builds.
+
+	It also resolves a build error that occurred when building shared libraries (DLLs) on
+	Windows using the Ninja generator.
+
+	Adds the _WINDLL preprocessor definition for shared Windows builds.
 	
 	-----------------
 	August 8, 2024
