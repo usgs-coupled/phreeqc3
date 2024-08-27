@@ -233,6 +233,7 @@ main_method(int argc, char *argv[])
 #endif
 		write_banner();
 #endif
+#endif
 
 		/*
 		*   Initialize arrays
