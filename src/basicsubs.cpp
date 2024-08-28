@@ -1187,10 +1187,14 @@ diff_layer_total(const char* total_name, const char* surface_name)
 			if (charge_ptr->Get_mass_water() > 0)
 			{
 				cxxSurface * surf_ptr = use.Get_surface_ptr();
-				surf_ptr->Calc_DDL_viscosity(true);
-				viscosity(surf_ptr);
-				viscosity(nullptr);
-				return charge_ptr->Get_DDL_viscosity();
+				if (surf_ptr->Get_calc_viscosity())
+				{
+					viscosity(surf_ptr);
+					viscosity(nullptr);
+					return charge_ptr->Get_DDL_viscosity();
+				}
+				else
+					return charge_ptr->Get_DDL_viscosity() * viscos;
 			}
 		}
 		else

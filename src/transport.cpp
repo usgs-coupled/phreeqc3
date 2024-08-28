@@ -3939,17 +3939,20 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	{
 		if (s_ptr1->Get_dl_type() != cxxSurface::NO_DL)
 		{
-			s_ptr1->Calc_DDL_viscosity(true);
-			viscosity(s_ptr1);
+			if (s_ptr1->Get_calc_viscosity())
+			{
+				viscosity(s_ptr1);
+				ct[icell].visc1 = s_ptr1->Get_DDL_viscosity();
+			}
+			else
+			ct[icell].visc1 = s_ptr1->Get_DDL_viscosity() * Utilities::Rxn_find(Rxn_solution_map, icell)->Get_viscosity();
+
 			s_charge_p.assign(s_ptr1->Get_surface_charges().begin(), s_ptr1->Get_surface_charges().end());
 			s_com_p.assign(s_ptr1->Get_surface_comps().begin(), s_ptr1->Get_surface_comps().end());
 
 			if (s_ptr1->Get_only_counter_ions())
 				only_counter = TRUE;
 
-			ct[icell].visc1 = s_ptr1->Get_DDL_viscosity();
-			if (s_ptr1->Get_calc_viscosity())
-				ct[icell].visc1 /= Utilities::Rxn_find(Rxn_solution_map, icell)->Get_viscosity();
 			/* find the immobile surface charges with DL... */
 			for (i = 0; i < (int)s_charge_p.size(); i++)
 			{
@@ -3970,17 +3973,19 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	{
 		if (s_ptr2->Get_dl_type() != cxxSurface::NO_DL)
 		{
-			s_ptr2->Calc_DDL_viscosity(true);
-			viscosity(s_ptr2);
+			if (s_ptr2->Get_calc_viscosity())
+			{
+				viscosity(s_ptr2);
+				ct[icell].visc2 = s_ptr2->Get_DDL_viscosity();
+			}
+			else
+				ct[icell].visc2 = s_ptr2->Get_DDL_viscosity() * Utilities::Rxn_find(Rxn_solution_map, jcell)->Get_viscosity();
+
 			s_charge_p.assign(s_ptr2->Get_surface_charges().begin(), s_ptr2->Get_surface_charges().end());
 			s_com_p.assign(s_ptr2->Get_surface_comps().begin(), s_ptr2->Get_surface_comps().end());
 
 			if (s_ptr2->Get_only_counter_ions())
 				only_counter = TRUE;
-
-			ct[icell].visc2 = s_ptr2->Get_DDL_viscosity();
-			if (s_ptr2->Get_calc_viscosity())
-				ct[icell].visc2 /= Utilities::Rxn_find(Rxn_solution_map, jcell)->Get_viscosity();
 
 			for (i = 0; i < (int)s_charge_p.size(); i++)
 			{
@@ -5982,8 +5987,11 @@ viscosity(cxxSurface *surf_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	if (surf_ptr && !surf_ptr->Get_calc_viscosity())
+	{
+		for (int i = 0; i < (int)surf_ptr->Get_surface_charges().size(); i++)
+			surf_ptr->Get_surface_charges()[i].Set_DDL_viscosity(surf_ptr->Get_DDL_viscosity());
 		return surf_ptr->Get_DDL_viscosity();
-
+	}
 
 	/* from Atkins, 1994. Physical Chemistry, 5th ed. */
 	//viscos =
@@ -6147,6 +6155,8 @@ viscosity(cxxSurface *surf_ptr)
 			{
 				dw_t_visc = 0;
 				t1 = l_moles / l_water;
+				if (t1 < 1e-9)
+					continue;
 				l_z = fabs(s_x[i]->z);
 				if (l_z)
 					f_z = (l_z * l_z + l_z) / 2;

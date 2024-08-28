@@ -274,15 +274,20 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	if (print_viscosity && d > 0)
 	{
 		cxxSurface * surf_ptr = use.Get_surface_ptr();
-		surf_ptr->Calc_DDL_viscosity(true);
-		viscosity(surf_ptr);
-		viscosity(nullptr);
-		if (d == 100)
-			output_msg(sformatf(
-				"\t\t      viscosity: %7.5f mPa s.\n", (double)charge_ptr->Get_DDL_viscosity()));
+		if (surf_ptr->Get_calc_viscosity())
+		{
+			viscosity(surf_ptr);
+			viscosity(nullptr);
+			if (d == 100)
+				output_msg(sformatf(
+					"\t\t      calculated viscosity: %7.5f mPa s.\n", (double)charge_ptr->Get_DDL_viscosity()));
+			else
+				output_msg(sformatf(
+					"\t\t      calculated viscosity: %7.5f mPa s for this DDL water. (%7.5f mPa s for total DDL-water.)\n", (double)charge_ptr->Get_DDL_viscosity(), (double)use.Get_surface_ptr()->Get_DDL_viscosity()));
+		}
 		else
 			output_msg(sformatf(
-				"\t\t      viscosity: %7.5f mPa s for this DDL water. (%7.5f mPa s for total DDL-water.)\n", (double)charge_ptr->Get_DDL_viscosity(), (double)use.Get_surface_ptr()->Get_DDL_viscosity()));
+				"\t\t      viscosity: %7.5f mPa s for DDL water.\n", (double)charge_ptr->Get_DDL_viscosity() * viscos));
 	}
 
 	if (use.Get_surface_ptr()->Get_debye_lengths() > 0 && d > 0)
