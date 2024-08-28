@@ -1,4 +1,4 @@
-﻿#ifndef NPP
+#ifndef NPP
 #ifdef DOS
 #include <windows.h>
 #endif
@@ -581,7 +581,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		/*
 		*   local cleanup
 		*/
-							  
+
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 
