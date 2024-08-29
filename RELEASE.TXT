@@ -1,4 +1,21 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+  	-----------------
+	August 27, 2024
+  	-----------------
+	Added variable "viscos_DDL" in EDL("viscos_DDL", "surface_name") to give the
+	viscosity of a Donnan layer on a surface in BASIC. Note that the "surface_name"
+	should not contain an underscore "_", the Donnan properties are for the surface,
+	not for surface charge, thus use the surface name "Hfo", not "Hfo_w". If
+	"surface_name" is omitted, the viscosity is given for the first surface in the
+	alphabetical order.
+
+	The viscosity of the Donnan layer on a surface is printed now in the output file.
+
+	The viscosity calculation was adapted for high concentrations of neutral species
+	and gases. Viscosity parameters for CO2 were added using data from McBride et
+	al., 2015, JCED 60, 171-180. See example c:\phreeqc\viscosity\CO2.phr.
+
+Version 3.8.1: August 23, 2024
 
   	-----------------
 	August 20, 2024
