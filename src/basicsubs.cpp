@@ -205,8 +205,11 @@ diff_c(const char *species_name)
 
 		Dw *= viscos_0_25 / viscos_0;
 	}
-	if (s_ptr->dw_a_v_dif)
+	if (s_ptr->dw_a_v_dif && print_viscosity)
+	{
+		viscosity(nullptr);
 		Dw *= pow(viscos_0 / viscos, s_ptr->dw_a_v_dif);
+	}
 	return Dw;
 }
 
@@ -235,8 +238,11 @@ setdiff_c(const char *species_name, double d, double d_v_d)
 
 		Dw *= viscos_0_25 / viscos_0;
 	}
-	if (d_v_d)
-		Dw *= pow(viscos_0 / viscos, d_v_d);
+	if (d_v_d && print_viscosity)
+	{
+		viscosity(nullptr);
+		Dw *= pow(viscos_0 / viscos, s_ptr->dw_a_v_dif);
+	}
 	return Dw;
 }
 /* ---------------------------------------------------------------------- */
@@ -269,6 +275,8 @@ calc_SC(void)
 	//	}
 	//}
 	av = 0;
+	if (print_viscosity)
+		viscosity(nullptr);
 	if (!Falk)
 	{
 		for (i = 0; i < (int)this->s_x.size(); i++)
@@ -1165,6 +1173,29 @@ diff_layer_total(const char* total_name, const char* surface_name)
 		{
 			cxxSurfaceCharge* charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 			return (charge_ptr->Get_mass_water());
+		}
+		else
+		{
+			return (0);
+		}
+	}
+	else if (strcmp_nocase("viscos_ddl", total_name) == 0)
+	{
+		if (dl_type_x != cxxSurface::NO_DL)
+		{
+			cxxSurfaceCharge* charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			if (charge_ptr->Get_mass_water() > 0)
+			{
+				cxxSurface * surf_ptr = use.Get_surface_ptr();
+				if (surf_ptr->Get_calc_viscosity())
+				{
+					viscosity(surf_ptr);
+					viscosity(nullptr);
+					return charge_ptr->Get_DDL_viscosity();
+				}
+				else
+					return charge_ptr->Get_DDL_viscosity() * viscos;
+			}
 		}
 		else
 		{

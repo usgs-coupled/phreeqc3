@@ -1,3 +1,4 @@
+//Note to encode in ANSI with NP++
 #include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
@@ -270,14 +271,23 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	output_msg(sformatf(
 			   "\tWater in diffuse layer: %8.3e kg, %4.1f%% of total DDL-water.\n",
 			   (double) charge_ptr->Get_mass_water(), (double) d));
-	if (charge_ptr->Get_DDL_viscosity())
+	if (print_viscosity && d > 0)
 	{
-		if (d == 100)
-		output_msg(sformatf(
-			"\t\t      viscosity: %7.5f mPa s.\n", (double)charge_ptr->Get_DDL_viscosity()));
+		cxxSurface * surf_ptr = use.Get_surface_ptr();
+		if (surf_ptr->Get_calc_viscosity())
+		{
+			viscosity(surf_ptr);
+			viscosity(nullptr);
+			if (d == 100)
+				output_msg(sformatf(
+					"\t\t      calculated viscosity: %7.5f mPa s.\n", (double)charge_ptr->Get_DDL_viscosity()));
+			else
+				output_msg(sformatf(
+					"\t\t      calculated viscosity: %7.5f mPa s for this DDL water. (%7.5f mPa s for total DDL-water.)\n", (double)charge_ptr->Get_DDL_viscosity(), (double)use.Get_surface_ptr()->Get_DDL_viscosity()));
+		}
 		else
-		output_msg(sformatf(
-			"\t\t      viscosity: %7.5f mPa s for this DDL water. (%7.5f mPa s for total DDL-water.)\n", (double)charge_ptr->Get_DDL_viscosity(), (double)use.Get_surface_ptr()->Get_DDL_viscosity()));
+			output_msg(sformatf(
+				"\t\t      viscosity: %7.5f mPa s for DDL water.\n", (double)charge_ptr->Get_DDL_viscosity() * viscos));
 	}
 
 	if (use.Get_surface_ptr()->Get_debye_lengths() > 0 && d > 0)
@@ -2256,8 +2266,8 @@ print_totals(void)
 //#ifdef NPP
 	if (print_viscosity)
 	{
-		output_msg(sformatf("%45s%9.5f", "Viscosity (mPa s)  = ",
-			   (double) viscos));
+		viscosity(nullptr);
+		output_msg(sformatf("%45s%9.5f", "Viscosity (mPa s)  = ", (double) viscos));
 		if (tc_x > 200 && !pure_water) 
 		{
 #ifdef NO_UTF8_ENCODING

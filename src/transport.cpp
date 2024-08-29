@@ -962,6 +962,7 @@ transport(void)
 		{
 			snprintf(token, sizeof(token),
 				"\nFor balancing negative concentrations in MCD, added in total to the system:");
+			count_warnings = pr.warnings - 1;
 			warning_msg(token);
 			for (i = 0; i < count_moles_added; i++)
 			{
@@ -970,6 +971,7 @@ transport(void)
 				snprintf(token, sizeof(token),
 					"\t %.4e moles %s.",
 					(double)moles_added[i].moles, moles_added[i].name);
+				count_warnings = pr.warnings - 1;
 				warning_msg(token);
 			}
 		}
@@ -3937,15 +3939,20 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	{
 		if (s_ptr1->Get_dl_type() != cxxSurface::NO_DL)
 		{
+			if (s_ptr1->Get_calc_viscosity())
+			{
+				viscosity(s_ptr1);
+				ct[icell].visc1 = s_ptr1->Get_DDL_viscosity();
+			}
+			else
+			ct[icell].visc1 = s_ptr1->Get_DDL_viscosity() * Utilities::Rxn_find(Rxn_solution_map, icell)->Get_viscosity();
+
 			s_charge_p.assign(s_ptr1->Get_surface_charges().begin(), s_ptr1->Get_surface_charges().end());
 			s_com_p.assign(s_ptr1->Get_surface_comps().begin(), s_ptr1->Get_surface_comps().end());
 
 			if (s_ptr1->Get_only_counter_ions())
 				only_counter = TRUE;
 
-			ct[icell].visc1 = s_ptr1->Get_DDL_viscosity();
-			if (s_ptr1->Get_calc_viscosity())
-				ct[icell].visc1 /= Utilities::Rxn_find(Rxn_solution_map, icell)->Get_viscosity();
 			/* find the immobile surface charges with DL... */
 			for (i = 0; i < (int)s_charge_p.size(); i++)
 			{
@@ -3966,15 +3973,19 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	{
 		if (s_ptr2->Get_dl_type() != cxxSurface::NO_DL)
 		{
+			if (s_ptr2->Get_calc_viscosity())
+			{
+				viscosity(s_ptr2);
+				ct[icell].visc2 = s_ptr2->Get_DDL_viscosity();
+			}
+			else
+				ct[icell].visc2 = s_ptr2->Get_DDL_viscosity() * Utilities::Rxn_find(Rxn_solution_map, jcell)->Get_viscosity();
+
 			s_charge_p.assign(s_ptr2->Get_surface_charges().begin(), s_ptr2->Get_surface_charges().end());
 			s_com_p.assign(s_ptr2->Get_surface_comps().begin(), s_ptr2->Get_surface_comps().end());
 
 			if (s_ptr2->Get_only_counter_ions())
 				only_counter = TRUE;
-
-			ct[icell].visc2 = s_ptr2->Get_DDL_viscosity();
-			if (s_ptr2->Get_calc_viscosity())
-				ct[icell].visc2 /= Utilities::Rxn_find(Rxn_solution_map, jcell)->Get_viscosity();
 
 			for (i = 0; i < (int)s_charge_p.size(); i++)
 			{
@@ -3990,6 +4001,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			}
 		}
 	}
+	viscosity(nullptr);
 	if (!stagnant)
 	{
 		if (icell == 0)
@@ -5975,8 +5987,11 @@ viscosity(cxxSurface *surf_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	if (surf_ptr && !surf_ptr->Get_calc_viscosity())
+	{
+		for (int i = 0; i < (int)surf_ptr->Get_surface_charges().size(); i++)
+			surf_ptr->Get_surface_charges()[i].Set_DDL_viscosity(surf_ptr->Get_DDL_viscosity());
 		return surf_ptr->Get_DDL_viscosity();
-
+	}
 
 	/* from Atkins, 1994. Physical Chemistry, 5th ed. */
 	//viscos =
@@ -6120,7 +6135,7 @@ viscosity(cxxSurface *surf_ptr)
 					eq_plus += l_moles;
 				l_mu_x += l_moles * s_x[i]->z;
 			}
-			l_mu_x += fabs(eq_plus + eq_min);
+			l_mu_x += fabs(eq_plus + eq_min); // add surface charge
 			l_mu_x /= (2 * l_water);
 			eq_plus = eq_min = 0;
 		}
@@ -6140,6 +6155,8 @@ viscosity(cxxSurface *surf_ptr)
 			{
 				dw_t_visc = 0;
 				t1 = l_moles / l_water;
+				if (t1 < 1e-9)
+					continue;
 				l_z = fabs(s_x[i]->z);
 				if (l_z)
 					f_z = (l_z * l_z + l_z) / 2;
@@ -6172,16 +6189,21 @@ viscosity(cxxSurface *surf_ptr)
 				if (!surf_ptr) s_x[i]->dw_t_visc = dw_t_visc + t3;
 				//output_msg(sformatf("\t%s\t%e\t%e\t%e\n", s_x[i]->name, t1, Bc, Dc ));
 			}
-			// parms for A...
+			// parms for A and V_an. 7/26/24: added V_an calculation for gases z = 0
 			if ((l_z = s_x[i]->z) == 0)
-				continue;
-			Dw = s_x[i]->dw;
-			if (Dw)
 			{
-				Dw *= (0.89 / viscos_0 * tk_x / 298.15);
-				if (s_x[i]->dw_t)
-					Dw *= exp(s_x[i]->dw_t / tk_x - s_x[i]->dw_t / 298.15);
+				if (s_x[i]->Jones_Dole[6])
+				{
+					V_an += s_x[i]->logk[vm_tc] * s_x[i]->Jones_Dole[6] * l_moles;
+					m_an += l_moles;
+				}
+				continue;
 			}
+			if ((Dw = s_x[i]->dw) == 0)
+				continue;
+			Dw *= (0.89 / viscos_0 * tk_x / 298.15);
+			if (s_x[i]->dw_t)
+				Dw *= exp(s_x[i]->dw_t / tk_x - s_x[i]->dw_t / 298.15);
 			if (l_z < 0)
 			{
 				if (!strcmp(s_x[i]->name, "Cl-"))
@@ -6191,21 +6213,18 @@ viscosity(cxxSurface *surf_ptr)
 					V_an += V_Cl * l_moles;
 					m_an += l_moles;
 				}
-				else// if (s_x[i]->Jones_Dole[6])
+				else if (s_x[i]->Jones_Dole[6])
 				{
 					V_an += s_x[i]->logk[vm_tc] * s_x[i]->Jones_Dole[6] * l_moles;
 					m_an += l_moles;
 				}
-				if (Dw)
-				{
-					// anions for A...
-					m_min += l_moles;
-					t1 = l_moles * l_z;
-					eq_min -= t1;
-					eq_dw_min -= t1 / Dw;
-				}
+				// anions for A...
+				m_min += l_moles;
+				t1 = l_moles * l_z;
+				eq_min -= t1;
+				eq_dw_min -= t1 / Dw;
 			}
-			else if (Dw)
+			else
 			{
 				// cations for A...
 				m_plus += l_moles;
