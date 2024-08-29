@@ -4732,6 +4732,8 @@ factor(struct LOC_exec * LINK)
 
 	case tokviscos:
 	{
+		if (PhreeqcPtr->print_viscosity)
+			PhreeqcPtr->viscosity(nullptr);
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
 	}
 	break;
