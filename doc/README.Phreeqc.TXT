@@ -221,7 +221,7 @@ D.4. Compile and install PHREEQC
       Phreeqc_2_1999_manual.pdf         Manual for PHREEQC version 2
       phreeqc.txt                       Short explanation for PHREEQC
       phreeqc3.chm                      Latest PHREEQC documentation
-      wrir02-4172.pdf                   Documenation of isotope calculations
+      wrir02-4172.pdf                   Documentation of isotope calculations
     
    Install\examples files:
       Input files for the 22 examples described in the version 3 manual
@@ -332,7 +332,7 @@ E.8. Install the program.
       install/share/doc/phreeqc
          Phreeqc_3_2013_manual.pdf         Manual for Phreeqc version 3
          Phreeqc_2_1999_manual.pdf         Manual for Phreeqc version 2
-         wrir02-4172.pdf                   Documenation of isotope calculations
+         wrir02-4172.pdf                   Documentation of isotope calculations
          phreeqc.txt                       Short explanation for Phreeqc
          RELEASE                           Release notes
          README                            this readme file

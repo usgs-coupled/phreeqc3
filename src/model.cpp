@@ -1964,7 +1964,7 @@ jacobian_sums(void)
 		*sum_jacob2[k].target += *sum_jacob2[k].source * sum_jacob2[k].coef;
 	}
 /*
- *   Make final adustments to jacobian array
+ *   Make final adjustments to jacobian array
  */
 /*
  *   Ionic strength

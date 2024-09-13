@@ -334,7 +334,7 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 	Added Basic function f_visc("H+") that returns the fractional contribution of a species to 
 	viscosity of the solution when parameters are defined for the species with -viscosity. 
 	Actually, it gives the contribution of the species to the B and D terms in the Jones-Dole 
-	eqution, assuming that the A term is small. The fractional contribution can be negative, for 
+	equation, assuming that the A term is small. The fractional contribution can be negative, for
 	example f_visc("K+") is usually less than zero.
 	
 	Bug-fix: When -Vm parameters of SOLUTION_SPECIES were read after -viscosity parameters, the 
@@ -599,7 +599,7 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 	The YAML capability would be especially useful if a GUI (Graphical User Interface)
 	is used to set up model initial conditions. The GUI could write a YAML file
 	that contains directives for PhreeqcRM methods that need to be run and 
-	the corresonding data needed to initialize a PhreeqcRM instance--for example, 
+	the corresponding data needed to initialize a PhreeqcRM instance--for example,
 	setting units; running a PHREEQC input	file to define initial and 
 	boundary conditions; distribution of initial conditions to the model cells; 
 	setting initial porosity, saturation, temperature, and pressure. 
@@ -674,7 +674,7 @@ Anthophyllite   -12.4    5.70E-04  52       0.4      -13.7    5.00E-06  48      
 		identified by name.
 		
 	int GetVarNbytes(std::string name)
-		Returns the total number of bytes neded to store the value or vector
+		Returns the total number of bytes needed to store the value or vector
 		of values identified by name.
 		
 	std::string GetVarType(std::string name)
@@ -1110,7 +1110,7 @@ USER_PUNCH 2
 	related to the decay of the surface potential with distance from the 
 	surface. Theory says that the potential at distance d from the surface 
 	is equal to psi0*exp(d/DL), where psi0 is the surface potential and DL is 
-	the Debye length. The lengh is inversely related to ionic strength.
+	the Debye length. The length is inversely related to ionic strength.
 	Example: 
 	
 	10 DL = DEBYE_LENGTH
@@ -1181,7 +1181,7 @@ Version 3.6.2: January 28, 2020
  	----------------
 	January 28, 2020
 	----------------
-	PhreeqcRM: Documenation for Fortran RM_RunString had incorrect order for instances.
+	PhreeqcRM: Documentation for Fortran RM_RunString had incorrect order for instances.
 	The order is workers, initial_phreeqc, utilities.
 	
  	----------------
@@ -1862,7 +1862,7 @@ Version 3.4.0: November 9, 2017 (svn 12927)
 	H+ = H+
 		-dw	9.31e-9  763  0.46  1e-10
 		
-	where the first number is the diffusion coeficient at 25 C, and the second number is a damping
+	where the first number is the diffusion coefficient at 25 C, and the second number is a damping
 	factor for the temperature correction, as proposed by Smolyakov, according to Anderko and Lencka,
 	1997, Ind. Chem. Eng. Res. 36, 1932-1943:
 	
@@ -2465,7 +2465,7 @@ Version 3.2.2: August 24, 2015
         svn 9998
         --------
         Pitzer.dat was adjusted to fit CO2 pressure and density by changing
-        Vm, analytical expression, and adding a CO2-CO2 iteraction parameter.
+        Vm, analytical expression, and adding a CO2-CO2 interaction parameter.
                 
         --------
         svn 9995
@@ -2517,7 +2517,7 @@ Version 3.2.1: July 7, 2015
         --------
         svn 9930
         --------
-        PhreeqcRM had a serious error in the convertion of units from transport 
+        PhreeqcRM had a serious error in the conversion of units from transport
         to themodule. The error occurred when using H2O as a component and mg/L 
         as the transport unit. 
 
@@ -2721,7 +2721,7 @@ Version 3.1.5: December 18, 2014
         --------
         svn 9000
         --------
-        Kinetic names were not saved correctly to allow unique retrival by name. 
+        Kinetic names were not saved correctly to allow unique retrieval by name.
         The error could have lead to misidentification of kinetic reactions for a
         cell.
         
@@ -2840,7 +2840,7 @@ Version 3.1.2: March 1, 2014
         svn 8520
         --------
         
-        Changes in MCD to accomodate unequal cell lengths.
+        Changes in MCD to accommodate unequal cell lengths.
         
         --------
         svn 8502
@@ -2949,7 +2949,7 @@ Version 3.1.1: December 6, 2013
 	automatic -reset false.
         
         A file may be defined for each SELECTED_OUTPUT n that will
-	recieve the output from the data block. Using i to
+	receive the output from the data block. Using i to
 	represent a specific integer, USER_PUNCH i will write to
 	the file defined for SELECTED_OUTPUT i. If USER_PUNCH i is
 	defined, but SELECTED_OUTPUT i is not, then no data will
@@ -2967,7 +2967,7 @@ Version 3.1.1: December 6, 2013
         If SELECTED_OUTPUT i has been defined, a new data block
         of SELECTED_OUTPUT i will retain the previous definition
         if only -active and (or) -user_punch are defined. Defining
-        any other identifier will cause the old definiton
+        any other identifier will cause the old definition
         to be removed and its file closed; the data for 
         SELECTED_OUTPUT i will be defined entirely by the new 
         data block. 
@@ -3121,7 +3121,7 @@ Version 3.1.1: December 6, 2013
         svn 7829
         --------
         
-        Added Basic fuction EQUIV_FRAC that returns the
+        Added Basic function EQUIV_FRAC that returns the
         equivalent fraction of a surface or exchange
         species. The three arguments are
         (1) Species name (input),
@@ -3133,7 +3133,7 @@ Version 3.1.1: December 6, 2013
         
         10 f = EQUIV_FRAC("AlX3", eq, x$)
         
-        f = equivlalent fraction of AlX3 relative to 
+        f = equivalent fraction of AlX3 relative to
             total equivalents of X sites.
         eq = 3.0
         x$ = "X"
@@ -3154,7 +3154,7 @@ Version 3.1.1: December 6, 2013
         svn 7828
         --------
         
-        Added Basic fuction SPECIES_FORMULA that returns the
+        Added Basic function SPECIES_FORMULA that returns the
         stoichiometry of an aqueous, exchange, or surface 
         species. The function returns a string: "aq" for 
         aqueous, "ex" for exchange, "surf" for surface, 
@@ -3477,7 +3477,7 @@ Version 2.18.0: April  9, 2011
 	This automatic adjustment is suggested rather than
 	explicit definition of the initial guesses through
 	SOLUTION_MODIFY; -activities. However, the -activities
-	identifier may be used and will supercede the automatic
+	identifier may be used and will supersede the automatic
 	adjustment.  
 
 	The adjustment of the initial guesses for activities
@@ -3717,7 +3717,7 @@ Version 2.18.0: April  9, 2011
 	
 	The example below is indented to indicate which 
 	information is necessary to change a data item.
-	Working back through the indention levels for
+	Working back through the indentation levels for
 	and item, each heading of a lower order is 
 	necessary to define the data item. In the example
 	below, to change the number of moles of barite from
@@ -4183,7 +4183,7 @@ Version 2.18.0: April  9, 2011
         --------
         svn 4830
         --------
-        Changed default for exchange species activty 
+        Changed default for exchange species activity
         coefficients to be equal to the Pitzer
         aqueous activity coefficients when using Pitzer
         aqueous model. Default is
@@ -4467,7 +4467,7 @@ Version 2.17.0: February 25, 2010
         phi(i,inf) = a + bt +ct^2
         beta(i) = d + et + ft^2
         
-        where a, b, c, d, e, and f are empirical constants and t in Celcius.
+        where a, b, c, d, e, and f are empirical constants and t in Celsius.
         Data input of the constants are in the keyword data block SOLUTION_SPECIES
         using the new identifier -millero.
         
@@ -4585,7 +4585,7 @@ Version 2.15.0: February 5, 2008
         svn 2680
         --------
 
-        Identifiers for paramaters controlling the integration by
+        Identifiers for parameters controlling the integration by
         CVODE have been added in the KINETICS data block. 
         
         -bad_step_max     bad_steps
@@ -5202,7 +5202,7 @@ Version 2.9:
 ------------------------------------------------------------
 *       Added new keyword COPY that allows a data entity 
                 to be copied from one index to a new index 
-                or to a range of indicies. Format is 
+                or to a range of indices. Format is
 
         COPY keyword index index_start[-index_end]
 
@@ -5241,7 +5241,7 @@ Version 2.9:
         10 t = SYS("As")
 
         the function will return the total arsenic in the system.
-        (2) 5 argumens
+        (2) 5 arguments
 
         10 t = SYS("As", count_species, names$, types$, moles)
 
@@ -5667,7 +5667,7 @@ Version 2.18.0: April  9, 2011
         --------
         svn 5212
         --------
-        Subscript error in solver (ineq) when reseting deltas 
+        Subscript error in solver (ineq) when resetting deltas
         after optimization failed.
         
         --------
@@ -5817,7 +5817,7 @@ Version 2.17.0: February 25, 2010
         --------
         svn 4115
         --------
-        Fixed bugs with unititialized strings in Basic, which 
+        Fixed bugs with uninitialized strings in Basic, which
         caused an error in renumbering with PhreeqcI. Tested
         most Basic functions. Fixed bugs with LG and GAMMA 
         functions, which did not return the correct values
@@ -5833,7 +5833,7 @@ Version 2.17.0: February 25, 2010
         SIT and Pitzer, each species has an unknown, so the
         number of unknowns is large for a system with many
         elements. Now set the maximum iterations to be 
-        equal to the number of unknows plus the number of
+        equal to the number of unknowns plus the number of
         equations/inequalities. 
 
         --------
@@ -6193,7 +6193,7 @@ Version 2.13.1: January 16, 2007
 
         svn 1368: (1) Added multicomponent diffusion in transport and
         SOLUTION_SPECIES. (2) Added BASIC functions to obtain and
-        modify the porosity in a cell. (3) Aded mobile surface and Donnan
+        modify the porosity in a cell. (3) Added mobile surface and Donnan
         option in SURFACE.  (4) Added special BASIC function to change
         the diffusion coefficient of a SURFACE, and hence to
         change the status from mobile to immobile or immobile to
@@ -6295,7 +6295,7 @@ SURFACE_SPECIES
                   Plane 2 (or d) is 0.
 
 
-        svn 1030: Fixed bug in tranport. Mixing was not printed
+        svn 1030: Fixed bug in transport. Mixing was not printed
         when using -cvode in kinetics.
 
         svn 984: Fixed bug in transport when cell without a
@@ -6558,7 +6558,7 @@ Version 2.9 Date: Wed September 15, 2004
 
         Added new keyword COPY that allows a data entity 
                 to be copied from one index to a new index 
-                or to a range of indicies. Format is 
+                or to a range of indices. Format is
 
                 COPY keyword index index_start[-index_end]
         
@@ -6603,7 +6603,7 @@ Version 2.9 Date: Wed September 15, 2004
         10 t = SYS("As")
 
         the function will return the total arsenic in the system.
-        (2) 5 argumens
+        (2) 5 arguments
 
         10 t = SYS("As", count_species, names$, types$, moles)
 

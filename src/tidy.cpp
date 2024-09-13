@@ -4661,7 +4661,7 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 			{
 				if (print == TRUE)
 					output_msg(sformatf(
-							   "\nLocal minimum in the solidus curve coresponding to a maximum\nin the minimum stoichiometric saturation curve.\n\n"));
+							   "\nLocal minimum in the solidus curve corresponding to a maximum\nin the minimum stoichiometric saturation curve.\n\n"));
 			}
 			else
 			{

@@ -17,7 +17,7 @@
 #   from the top-level of a branches/0.24.2 working copy will create
 #   the 0.24.2 release tarball.
 #
-#   When building a alpha, beta or rc tarballs pass the apppropriate flag
+#   When building a alpha, beta or rc tarballs pass the appropriate flag
 #   followed by the number for that release.  For example you'd do
 #   the following for a Beta 1 release:
 #      ./dist.sh -v 1.1.0 -r 10277 -pr branches/1.1.x -beta 1

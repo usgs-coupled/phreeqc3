@@ -1966,7 +1966,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//count_tally_table_rows  = 0;
 
 	/* transport.cpp ------------------------------- */
-	/* storage is created and freed in tranport.cpp */
+	/* storage is created and freed in transport.cpp */
 	sol_D = NULL;
 	sol_D_dbg = NULL;
 	J_ij = NULL;

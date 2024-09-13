@@ -12,7 +12,7 @@
  *------------------------------------------------------------------------*
  * This is the implementation file for a serial implementation            *
  * of the NVECTOR package. It contains the implementation of              *
- * the serial machine environment intialization and free                  *
+ * the serial machine environment initialization and free                  *
  * routines (and of the Fortran callable interfaces to them)              *
  * and of the N_Vector kernels listed in nvector_serial.h.                *
  *                                                                        *

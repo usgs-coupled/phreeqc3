@@ -58,7 +58,7 @@ echo                     Done Example 19
 egrep '<H1' -v phreeqc3.htm | egrep '/H1>' -v > temp3; mv temp3 phreeqc3.htm
 
 #echo
-#echo "(1) Need to mannually delete extra table of contents in phreeqc3.htm"
+#echo "(1) Need to manually delete extra table of contents in phreeqc3.htm"
 echo
 echo "(1) Compile HTML, double click on phreeqc3.hhp and hit compile button"
 

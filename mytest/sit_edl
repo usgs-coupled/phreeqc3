@@ -16,7 +16,7 @@ Goethite
 30 S = 0.1 # average BET; suggested value in m2/g
 40 Mm = 106.847 # molar mass in g/mol
 50 If (SR("Goethite") > 1) Then GoTo 250
-########## start dissolution bloc ##########
+########## start dissolution block ##########
 60 knu = 1.14815E-08  * exp((-86500 / 8.314) * ((1 / TK) - (1 / 298.15)))
 80 k = knu
 # kinetic data extracted from 92nag/las 93nag/las 08ben/pal
@@ -24,8 +24,8 @@ Goethite
 100 eta = 1 # default value
 110 rate = S * m * Mm *(m/m0)^0.67 * k * ((1 - SR("Goethite") ^ theta) ^ eta)
 120 GoTo 240
-########## end dissolution bloc ##########
-########## start precipitation bloc ##########
+########## end dissolution block ##########
+########## start precipitation block ##########
 130 knu = 1.14815E-08 * exp((-86500 / 8.314) * ((1 / TK) - (1 / 298.15)))
 150 kpre = (-1) * knu
 160 theta = 1
@@ -37,7 +37,7 @@ Goethite
 #start nucleation
 210 rate = -1e-10
 #end nucleation
-########## end precipitation bloc ##########
+########## end precipitation block ##########
 240 mole = rate * Time
 250 Save mole
 -end

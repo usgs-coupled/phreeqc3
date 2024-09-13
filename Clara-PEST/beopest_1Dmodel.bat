@@ -1,7 +1,7 @@
 @echo off
 SETLOCAL
 
-REM Sychronize latest WEBMOD executable, create the tsproc and PEST command files, and start beopest as master
+REM Synchronize latest WEBMOD executable, create the tsproc and PEST command files, and start beopest as master
 REM Help printed if command entered with no arguments
 IF %1.==. GOTO :USAGE
 

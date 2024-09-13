@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.3)
 
 project(phreeqc)
 
-# overide docdir on windows
+# override docdir on windows
 if(WIN32 AND NOT CMAKE_INSTALL_DOCDIR)
   set(CMAKE_INSTALL_DOCDIR "" CACHE PATH "documentation root (doc)")
   set(CMAKE_INSTALL_DOCDIR "doc")

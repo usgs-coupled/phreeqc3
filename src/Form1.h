@@ -673,7 +673,7 @@ namespace zdg_ui2 {
 			// Respond to a Zoom Event
 			void MyZoomEvent( ZedGraphControl ^control, ZoomState ^oldState, ZoomState ^newState )
 			{
-				// Here we get notification everytime the user zooms
+				// Here we get notification every time the user zooms
 			}
 			void SetChartOptions( System::Object ^sender, System::EventArgs ^e )
 			{

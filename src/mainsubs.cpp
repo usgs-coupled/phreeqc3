@@ -931,7 +931,7 @@ saver(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Save results of calcuations (data in variables with _x,
+ *   Save results of calculations (data in variables with _x,
  *   in unknown structure x, in master, or s) into structure
  *   arrays.  Structure "save" has info on whether to save
  *   data for each entity (solution, ex, surf, pp, gas, or s_s).

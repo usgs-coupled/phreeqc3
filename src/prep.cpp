@@ -674,7 +674,7 @@ build_ss_assemblage(void)
 		/* include mole fraction */
 		store_mb(&(x[i]->phase->log10_fraction_x), &(x[i]->f), 1.0);
 
-		/* include activity coeficient */
+		/* include activity coefficient */
 		store_mb(&(x[i]->phase->log10_lambda), &(x[i]->f), 1.0);
 /*
  *   Put coefficients into mass action equations
@@ -4478,7 +4478,7 @@ setup_solution(void)
 		(ph_unknown == charge_balance_unknown)
 		&& (alkalinity_unknown != NULL))
 	{
-		error_msg("pH adustment cannot attain charge balance"
+		error_msg("pH adjustment cannot attain charge balance"
 				  " when alkalinity is fixed.", CONTINUE);
 		input_error++;
 	}

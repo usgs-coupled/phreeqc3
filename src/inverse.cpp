@@ -74,7 +74,7 @@ inverse_models(void)
 				fprintf(netpath_file, "2.14               # File format\n");
 			}
 /*
- *  Fill in stucture "use".  
+ *  Fill in structure "use".
  */
 			use.Set_inverse_in(true);
 			use.Set_inverse_ptr(&inverse[n]);

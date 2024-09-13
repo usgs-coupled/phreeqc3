@@ -1,6 +1,6 @@
 """Advection with COM server.
 
-Using MODFIY we update the concentration on every
+Using MODIFY we update the concentration on every
 time step. We shift by one cell per step.
 """
 
@@ -184,14 +184,14 @@ def main(ncells, shifts):
     """
 
     def measure_time(func, *args, **kwargs):
-        """Convinience function to measure run times.
+        """Convenience function to measure run times.
         """
         import sys
         if sys.platform == 'win32':
             # time.clock is more accurate on Windows
             timer_func = time.clock
         else:
-            # but behaves differently on other platfroms
+            # but behaves differently on other platforms
             timer_func = time.time
         start = timer_func()
         result = func(*args, **kwargs)

@@ -483,7 +483,7 @@ get_token(const char** eqnaddr, std::string& string, LDBLE* l_z, int* l)
 	cptr = *eqnaddr;
 	i = 0;
 	/*
-	 *   Find end of token or begining of charge
+	 *   Find end of token or beginning of charge
 	 */
 	while (((c = *cptr) != '+') && (c != '-') && (c != '=') && (c != '\0'))
 	{
