@@ -23,6 +23,7 @@ set(TESTS
   As
   as.ex
   asf
+  bad_graph
   ball
   balonis
   Barite_MCl2
