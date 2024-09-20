@@ -610,7 +610,7 @@ add_surface(cxxSurface *surface_ptr)
 	}
 	return (OK);
 }
-//#define USE_NEW_ACCOUNTING
+#define USE_NEW_ACCOUNTING
 #ifdef USE_NEW_ACCOUNTING
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
