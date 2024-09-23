@@ -23,6 +23,7 @@ set(TESTS
   As
   as.ex
   asf
+  bad_graph
   ball
   balonis
   Barite_MCl2
@@ -189,6 +190,7 @@ set(TESTS
   hard.tests
   harm_mean
   Hebach
+  Hefter_KClNaOH
   high_mu
   HighTPwaterGas
   hittorf1

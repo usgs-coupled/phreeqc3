@@ -213,7 +213,7 @@ H2O = OH- + H+
 	-analytic 293.29227 0.1360833 -10576.913 -123.73158 0 -6.996455e-5
 	-gamma 3.5 0
 	-Vm -9.66 28.5 80 -22.9 1.89 0 1.09 0 0 1
-	-viscosity -1.02e-1 0.189 9.4e-3 -4e-5 0 3.281 -2.053 # < 5 M Li,Na,KOH
+	-viscosity -2.26e-2 0.106 2.184e-2  -3.2e-3 0 0.4082 -1.634 # < 5 M Li,Na,KOH
 	-dw 5.27e-9 478 0.8695
 2 H2O = O2 + 4 H+ + 4 e-
 	-log_k -86.08
@@ -243,11 +243,13 @@ CO3-2 + 2 H+ = CO2 + H2O
 	-analytic 464.1965 0.09344813 -26986.16 -165.75951 2248628.9
 	-Vm 7.29 0.92 2.07 -1.23 -1.6 # McBride et al. 2015, JCED 60, 171
 	-gamma 0 0.066 # Rumpf et al. 1994, J. Sol. Chem. 23, 431
+	-viscosity 6.8e-3 9.03e-2 3.27e-2 0 0 0 0.18
 	-dw 1.92e-9 -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
 2 CO2 = (CO2)2 # activity correction for CO2 solubility at high P, T
 	-log_k -1.8
 	-analytical_expression 8.68 -0.0103 -2190
 	-Vm 14.58 1.84 4.14 -2.46 -3.2
+	-viscosity 1.36e-2 0.1806 3.27e-2 0 0 0 0.36
 	-dw 1.92e-9 -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	-log_k 41.071
@@ -446,8 +448,8 @@ Mg+2 + F- = MgF+
 	-delta_h 3.2 kcal
 	-gamma 4.5 0
 	-Vm .6494 -6.1958 8.1852 -2.5229 .9706 4.5 # supcrt
-Na+ + OH- = NaOH
-	-log_k -10 # remove this complex
+# Na+ + OH- = NaOH
+	# -log_k -14.7 # remove this complex
 Na+ + HCO3- = NaHCO3
 	-log_k -0.06; -delta_h 21 kJ
 	-gamma 0 0.2
@@ -3128,15 +3130,15 @@ Wollastonite    -6.97   700             56      0.4     0       0               
 # For details, consult ref. 1.
 # =============================================================================================
 # The viscosity is calculated with a (modified) Jones-Dole equation:
-#    viscos / viscos_0 = 1 + A Sum(0.5 z_i m_i) + fan (B_i m_i + D_i m_i n_i)
+#    viscos / viscos_0 = 1 + A * Sum(0.5 z_i m_i) + fan * Sum(B_i m_i + D_i m_i n_i)
 # Parameters are for calculating the B and D terms:
 #    -viscosity 9.35e-2 -8.31e-2 2.487e-2 4.49e-4 2.01e-2 1.570    0
 #    #	   b0	  b1	  b2	 d1	  d2	 d3	tan
 #    z_i is absolute charge number, m_i is molality of i
 #    B_i = b0 + b1 exp(-b2 * tc)
 #    fan = (2 - tan V_i / V_Cl-), corrects for the volume of anions
-#    D_i = d1 + exp(-d2 tc)
-#    n_i = ((1 + fI)^d3 + ((z_i^2 + z_i) / 2 · m_i)d^3 / (2 + fI), fI is an ionic strength term.
+#    D_i = d1 * exp(-d2 tc)
+#    n_i = (I^d3 * (1 + fI) + ((z_i^2 + z_i) / 2 · m_i)^d3) / (2 + fI), fI is an ionic strength term.
 # For details, consult ref. 4.
 #
 # ref. 1: Appelo, Parkhurst and Post, 2014. Geochim. Cosmochim. Acta 125, 49–67.

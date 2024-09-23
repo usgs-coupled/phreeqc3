@@ -1,0 +1,38 @@
+DATABASE ../database/pitzer.dat
+# DATABASE c:\phreeqc\database\pitzer.dat
+# Hefter et al., 1973, JML 103-104, p. 261
+#PRINT; -reset false
+SELECTED_OUTPUT 101
+    -file                 Hefter_KClNaOH_101.sel
+USER_PUNCH 101
+    -headings Mu SC Visc
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+SOLUTION
+K 3.001e3; Cl 3.001e3; pH 7 charge
+REACTION 1
+NaOH 0.02998 KCl -0.02998
+12.6, 24.8, 37.4, 49.9, 62.5, 75.2, 87.8, 100.1
+USER_GRAPH
+-initial_solutions true
+-axis_scale x_axis 0 100
+-axis_scale y_axis 0.8  1.8
+-chart_title "KCl + NaOH, 3 Molal total"
+-axis_titles "mole % NaOH" " viscosity / (mPa s)" v_OH
+10 x1 = (1 - tot("Cl") / 3) * 100 : v = viscos
+20 plot_xy x1, v, symbol = None
+
+30 DATA 0.0, 12.6, 24.8, 37.4, 49.9, 62.5, 75.2, 87.8, 100.1
+40 dim x(10) : restore 30 : for i = 0 to step_no : read x(i) : next i
+50 DATA 0.918, 0.988, 1.060, 1.146, 1.243, 1.342, 1.453, 1.585, 1.734
+60 dim y(10) : restore 50 : for i = 0 to step_no : read y(i) : next i
+70 plot_xy x(step_no), y(step_no), color = Red, line_width = 0
+
+80 dif = 1 - v / y(step_no) : put(abs(dif) + get(1), 1) : put(1 + get(2), 2)
+90 if step_no = 8 then print 'AARD = ' + str_f$(get(1) / get(2) * 100, 0, 2) + ' %.'
+
+300 if step_no > 1 then end
+310 if step_no = 0 then plot_xy x(0), y(0), color = Black , symbol = None else plot_xy 100, 1.734
