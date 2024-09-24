@@ -1,0 +1,244 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: bad_graph
+  Output file: bad_graph.out
+Database file: ../database/llnl.dat
+
+------------------
+Reading data base.
+------------------
+
+	LLNL_AQUEOUS_MODEL_PARAMETERS
+	NAMED_EXPRESSIONS
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/llnl.dat
+	SELECTED_OUTPUT 101
+	    file                 bad_graph_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	PRINT
+	si false # turn back on if you need it
+	PHASES
+	Constant
+	NaCl = Na+ + Cl-
+	log_k 100
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   9.823e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.654e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   3.654e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.86
+                               Iterations  =   0
+                                  Total H  = 1.110507e+02
+                                  Total O  = 5.552533e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   OH-             9.640e-08   9.636e-08    -7.016    -7.016    -0.000     (0)  
+   H2O             5.553e+01   1.000e+00     1.744     0.000     0.000     (0)  
+H(0)          1.587e-25
+   H2              7.935e-26   7.935e-26   -25.100   -25.100     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -41.995   -41.995     0.000     (0)  
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	EQUILIBRIUM_PHASES 1-2
+	    Calcite   0 4316.249
+	    Constant 0 1   pre
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	EQUILIBRIUM_PHASES_MIX 1
+	2 1e0
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	USE solution 1
+	USE equilibrium_phases 1
+	USER_GRAPH 1
+	    -headings               rxn Pyrochroite Fe(OH)2 Brucite Calcite Chalcedony
+	    -axis_titles            "Mass of DLS Brine, kg" "FINAL Assemblage" ""
+	    -axis_scale x_axis      auto auto auto auto log
+	    -axis_scale y_axis      auto auto auto auto log
+	    -axis_scale sy_axis      auto auto auto auto log
+	    -initial_solutions      false
+	    -connect_simulations    true
+	    -plot_concentration_vs  x
+	  -start
+	10 f = 1/EQUI("Constant")
+	20 GRAPH_Y f * EQUI("Mn(OH)2(am)"), f * EQUI("Fe(OH)2"), f * EQUI("Brucite"), f *EQUI("Calcite"), f * EQUI("Chalcedony")
+	  -end
+	    -active                 true
+	USER_GRAPH 2
+	    -headings               rxn Pyrochroite Fe(OH)2 Brucite Calcite Chalcedony
+	    -axis_titles            "Mass of DLS Brine, kg" "FINAL Assemblage" ""
+	    -axis_scale x_axis      auto auto auto auto log
+	    -axis_scale y_axis      auto auto auto auto log
+	    -axis_scale sy_axis      auto auto auto auto log
+	    -initial_solutions      false
+	    -connect_simulations    true
+	    -plot_concentration_vs  x
+	  -start
+	10 f = 1/EQUI("Constant")
+	20 GRAPH_X f
+	  -end
+	USER_GRAPH 3
+	    -headings               rxn Pyrochroite Fe(OH)2 Brucite Calcite Chalcedony
+	    -axis_titles            "Mass of DLS Brine, kg" "FINAL Assemblage" ""
+	    -axis_scale x_axis      auto auto auto auto log
+	    -axis_scale y_axis      auto auto auto auto log
+	    -axis_scale sy_axis      auto auto auto auto log
+	    -initial_solutions      false
+	    -connect_simulations    true
+	    -plot_concentration_vs  x
+	  -start
+	10 f = 1/EQUI("Constant")
+	20 GRAPH_SY f * EQUI("Mn(OH)2(am)"), f * EQUI("Fe(OH)2"), f * EQUI("Brucite"), f *EQUI("Calcite"), f * EQUI("Chalcedony")
+	  -end
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite          -0.00     1.82      1.82    4.316e+03   4.316e+03  -1.193e-04
+Constant             Element not present.    1.000e+00   1.000e+00   0.000e+00
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.193e-04   1.193e-04
+	Ca                1.193e-04   1.193e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.914      Charge balance
+                                       pe  =  -4.112      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   3.683e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.386e-04
+                       Total CO2 (mol/kg)  =   1.193e-04
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   3.654e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  15
+                                  Total H  = 1.110507e+02
+                                  Total O  = 5.552568e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             8.087e-05   7.910e-05    -4.092    -4.102    -0.010     (0)  
+   H+              1.244e-10   1.218e-10    -9.905    -9.914    -0.009      0.00
+   H2O             5.553e+01   1.000e+00     1.744    -0.000     0.000     (0)  
+C(-2)         0.000e+00
+   C2H4            0.000e+00   0.000e+00   -94.090   -94.090     0.000     (0)  
+C(-3)         0.000e+00
+   C2H6            0.000e+00   0.000e+00   -58.361   -58.361     0.000     (0)  
+C(-4)         2.920e-33
+   CH4             2.920e-33   2.920e-33   -32.535   -32.535     0.000     (0)  
+C(2)          5.050e-25
+   CO              5.050e-25   5.050e-25   -24.297   -24.297     0.000     (0)  
+C(4)          1.193e-04
+   HCO3-           8.085e-05   7.909e-05    -4.092    -4.102    -0.010     (0)  
+   CO3-2           3.145e-05   2.881e-05    -4.502    -4.540    -0.038     (0)  
+   CaCO3           6.867e-06   6.867e-06    -5.163    -5.163     0.000     (0)  
+   CaHCO3+         9.854e-08   9.639e-08    -7.006    -7.016    -0.010     (0)  
+   CO2             2.234e-08   2.234e-08    -7.651    -7.651     0.000     (0)  
+Ca            1.193e-04
+   Ca+2            1.122e-04   1.028e-04    -3.950    -3.988    -0.038     (0)  
+   CaCO3           6.867e-06   6.867e-06    -5.163    -5.163     0.000     (0)  
+   CaOH+           1.219e-07   1.193e-07    -6.914    -6.923    -0.010     (0)  
+   CaHCO3+         9.854e-08   9.639e-08    -7.006    -7.016    -0.010     (0)  
+H(0)          3.947e-15
+   H2              1.974e-15   1.974e-15   -14.705   -14.705     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -62.787   -62.787     0.000     (0)  
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+

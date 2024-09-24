@@ -969,38 +969,71 @@ namespace zdg_ui2 {
 						if ((fabs(chart->Get_axis_scale_x()[1] - NA) < 1e-3) && zg1->GraphPane->XAxis->Type == AxisType::Log)
 						{
 							double max = -1e99;
-							for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+							for (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
 							{
-								if (Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1] > max)
-									max = Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1];
+								if (Curves[i]->Get_x().size() > 0)
+								{
+									if (Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1] > max)
+										max = Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1];
+								}
 							}
-							max += pow(10.0, log10(max / 3));
+							if (max > 0)
+							{
+								max += pow(10.0, log10(max / 3));
+							}
+							else
+							{
+								zg1->GraphPane->XAxis->Scale->Min = 0;
+								max = zg1->GraphPane->XAxis->Scale->Min + 1.0;
+							}
 							zg1->GraphPane->XAxis->Scale->Max = max;
 						}
 						if ((fabs(chart->Get_axis_scale_y()[1] - NA) < 1e-3) && zg1->GraphPane->YAxis->Type == AxisType::Log)
 						{
 							double max = -1e99;
-							for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+							for (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
 							{
-								curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
+								curve = (LineItem^)zg1->GraphPane->CurveList[i];
 								if (curve->IsY2Axis) continue;
-								if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
-									max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+								if (Curves[i]->Get_y().size() > 0)
+								{
+									if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
+										max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+								}
 							}
-							max += pow(10.0, log10(max / 3));
+							if (max > 0)
+							{
+								max += pow(10.0, log10(max / 3));
+							}
+							else
+							{
+								zg1->GraphPane->YAxis->Scale->Min = 0;
+								max = zg1->GraphPane->YAxis->Scale->Min + 1.0;
+							}
 							zg1->GraphPane->YAxis->Scale->Max = max;
 						}
 						if ((fabs(chart->Get_axis_scale_y2()[1] - NA) < 1e-3) && zg1->GraphPane->Y2Axis->Type == AxisType::Log)
 						{
 							double max = -1e99;
-							for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+							for (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
 							{
-								curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
+								curve = (LineItem^)zg1->GraphPane->CurveList[i];
 								if (!curve->IsY2Axis) continue;
-								if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
-									max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+								if (Curves[i]->Get_y().size() > 0)
+								{
+									if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
+										max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+								}
 							}
-							max += pow(10.0, log10(max / 3));
+							if (max > 0.0)
+							{
+								max += pow(10.0, log10(max / 3));
+							}
+							else
+							{
+								zg1->GraphPane->Y2Axis->Scale->Min = 0;
+								max = zg1->GraphPane->Y2Axis->Scale->Min + 1.0;
+							}
 							zg1->GraphPane->Y2Axis->Scale->Max = max;
 						}
 						zg1->AxisChange();

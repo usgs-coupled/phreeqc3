@@ -1,0 +1,72 @@
+DATABASE ../database/llnl.dat
+SELECTED_OUTPUT 101
+    -file                 bad_graph_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+PRINT
+-si false # turn back on if you need it
+PHASES
+Constant
+NaCl = Na+ + Cl-
+log_k 100
+END
+SOLUTION 1
+END
+
+EQUILIBRIUM_PHASES 1-2
+    Calcite   0 4316.249
+    Constant 0 1   pre
+END
+EQUILIBRIUM_PHASES_MIX 1
+2 1e0
+END
+USE solution 1
+USE equilibrium_phases 1
+USER_GRAPH 1
+    -headings               rxn Pyrochroite Fe(OH)2 Brucite Calcite Chalcedony
+    -axis_titles            "Mass of DLS Brine, kg" "FINAL Assemblage" ""
+    -axis_scale x_axis      auto auto auto auto log
+    -axis_scale y_axis      auto auto auto auto log
+    -axis_scale sy_axis      auto auto auto auto log
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 f = 1/EQUI("Constant")
+#20 GRAPH_X f
+20 GRAPH_Y f * EQUI("Mn(OH)2(am)"), f * EQUI("Fe(OH)2"), f * EQUI("Brucite"), f *EQUI("Calcite"), f * EQUI("Chalcedony")
+  -end
+    -active                 true
+USER_GRAPH 2
+    -headings               rxn Pyrochroite Fe(OH)2 Brucite Calcite Chalcedony
+    -axis_titles            "Mass of DLS Brine, kg" "FINAL Assemblage" ""
+    -axis_scale x_axis      auto auto auto auto log
+    -axis_scale y_axis      auto auto auto auto log
+    -axis_scale sy_axis      auto auto auto auto log
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 f = 1/EQUI("Constant")
+20 GRAPH_X f
+#20 GRAPH_Y f * EQUI("Mn(OH)2(am)"), f * EQUI("Fe(OH)2"), f * EQUI("Brucite"), f *EQUI("Calcite"), f * EQUI("Chalcedony")
+  -end
+USER_GRAPH 3
+    -headings               rxn Pyrochroite Fe(OH)2 Brucite Calcite Chalcedony
+    -axis_titles            "Mass of DLS Brine, kg" "FINAL Assemblage" ""
+    -axis_scale x_axis      auto auto auto auto log
+    -axis_scale y_axis      auto auto auto auto log
+    -axis_scale sy_axis      auto auto auto auto log
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 f = 1/EQUI("Constant")
+#20 GRAPH_X f
+20 GRAPH_SY f * EQUI("Mn(OH)2(am)"), f * EQUI("Fe(OH)2"), f * EQUI("Brucite"), f *EQUI("Calcite"), f * EQUI("Chalcedony")
+  -end
+END
