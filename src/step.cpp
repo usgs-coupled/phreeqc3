@@ -610,8 +610,6 @@ add_surface(cxxSurface *surface_ptr)
 	}
 	return (OK);
 }
-#define USE_NEW_ACCOUNTING
-#ifdef USE_NEW_ACCOUNTING
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 add_mix(cxxMix *mix_ptr)
@@ -687,7 +685,7 @@ add_mix(cxxMix *mix_ptr)
 	}
 	return (OK);
 }
-#else
+#ifdef SKIP_ERROR
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 add_mix(cxxMix* mix_ptr)

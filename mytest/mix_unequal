@@ -2,10 +2,11 @@ database ../database/phreeqc.dat
 SELECTED_OUTPUT 101
     -file                 mix_unequal_101.sel
 USER_PUNCH 101
-    -headings Mu SC
+    -headings Mu SC TC
     -start
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(TC, 20, 10)
     -end
 SOLUTION 1
 -temp 10
@@ -20,7 +21,7 @@ Br 10
 -water 0.6
 END
 MIX 1
-# T = (0.4*0.4*10 + 0.6*0.6*20)/(0.16+0.34) = 16.92, mass = 0.52
+# T = (0.4*0.4*10 + 0.6*0.6*20)/(0.16+0.36) = 16.92307692, mass = 0.52
 # Cl = (0.4*0.4*1)/0.52 = 0.3077 mmol/kgw
 # K = (0.6*0.6*10)/0.52 = 6.92 mmol/kgw
 1 0.4
