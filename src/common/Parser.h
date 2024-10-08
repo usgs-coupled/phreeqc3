@@ -83,7 +83,7 @@ class CParser: public PHRQ_base
 
                 Arguments:
                         string        Input, character string used in printing error message
-                        allow_empty   Input, True or false, if a blank line is accepable
+                        allow_empty   Input, True or false, if a blank line is acceptable
                                       if false, another line is read
                         allow_eof     Input, True or false, if EOF is acceptable
                         allow_keyword Input, True or false, if a keyword is acceptable

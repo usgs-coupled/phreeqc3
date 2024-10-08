@@ -155,7 +155,7 @@ Utilities::convert_time(double t, std::string in, std::string out)
 	{
 		t = t * 3600. * 24. * 365.25;
 	}
-	// convert to ouput units
+	// convert to output units
 	if (out.substr(0,1) == "m")
 	{
 		t = t / 60.;

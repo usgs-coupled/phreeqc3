@@ -31,7 +31,7 @@ get_tally_table_rows_columns(int *rows, int *columns)
 				       returns number of rows and columns in table
 get_tally_table_row_heading(int row, char *string)
 				       row is C row number
-				       returns row descripter for row
+				       returns row descriptor for row
 get_tally_table_column_heading(int column, int *type, char *string)
 				       column is C column number
 				       returns column heading for column
@@ -803,7 +803,7 @@ build_tally_table(void)
 	char token[MAX_LENGTH];
 	const char* cptr;
 /*
- *  make list of all elements in all entitites
+ *  make list of all elements in all entities
  *  defines the number of rows in the table
  */
 	get_all_components();
@@ -811,7 +811,7 @@ build_tally_table(void)
 	save_print_use = pr.use;
 	pr.use = FALSE;
 /*
- *  find nuber of columns
+ *  find number of columns
  */
 	count_tally_table_columns = 0;
 /*

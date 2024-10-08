@@ -7477,7 +7477,7 @@ read_title(void)
 	}
 
 /*
- *   Read additonal lines
+ *   Read additional lines
  */
 	for (;;)
 	{
@@ -9161,7 +9161,7 @@ read_solid_solutions(void)
 				if (j != 1)
 				{
 					error_string = sformatf(
-						"Expected temperature (Celcius) for parameters, assemblage %d, solid solution %s, using 25 C",
+						"Expected temperature (Celsius) for parameters, assemblage %d, solid solution %s, using 25 C",
 					n_user,
 					ss_ptr->Get_name().c_str());
 					warning_msg(error_string);

@@ -2488,7 +2488,7 @@ unknown_delete(int i)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Delete unknow from list x
+ *   Delete unknown from list x
  */
 	unknown_free(x[i]);
 	x.erase(x.begin() + (size_t)i);
@@ -2636,7 +2636,7 @@ logk_init(class logk *logk_ptr)
  */
 	logk_ptr->name = NULL;
 /*
- *   set varibles = 0
+ *   set variables = 0
  */
 	logk_ptr->lk = 0.0;
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
