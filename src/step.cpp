@@ -620,7 +620,83 @@ add_mix(cxxMix *mix_ptr)
  *   and other variables.
  */
 	LDBLE sum_fractions, intensive, extensive;
+	LDBLE sum_fractions_water=0, sum_positive_water=0, intensive_water=0, extensive_water=0;
 	cxxSolution *solution_ptr;
+	int count_positive;
+	LDBLE sum_positive;
+
+	if (mix_ptr == NULL)
+		return (OK);
+	if (mix_ptr->Get_mixComps().size() == 0)
+		return (OK);
+	sum_fractions = 0.0;
+	sum_positive = 0.0;
+	count_positive = 0;
+	std::map<int, LDBLE>::const_iterator it;
+	for (it = mix_ptr->Get_mixComps().begin(); it != mix_ptr->Get_mixComps().end(); it++)
+	{
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, it->first);
+		if (solution_ptr == NULL)
+		{
+			error_string = sformatf("Mix solution not found, %d.",
+				it->first);
+			error_msg(error_string, CONTINUE);
+			input_error++;
+			continue;
+		}
+		sum_fractions += it->second;
+		sum_fractions_water += it->second * solution_ptr->Get_mass_water();
+		if (it->second > 0)
+		{
+			sum_positive += it->second;
+			sum_positive_water += it->second * solution_ptr->Get_mass_water();
+			count_positive++;
+		}
+	}
+	for (it = mix_ptr->Get_mixComps().begin(); it != mix_ptr->Get_mixComps().end(); it++)
+	{
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, it->first);
+		if (solution_ptr == NULL)
+		{
+			error_string = sformatf( "Mix solution not found, %d.",
+						it->first);
+			error_msg(error_string, CONTINUE);
+			input_error++;
+			continue;
+		}
+		extensive = it->second;
+		extensive_water = it->second * solution_ptr->Get_mass_water();
+		intensive = extensive / sum_fractions;
+		intensive_water = extensive_water / sum_fractions_water;
+		
+		if (count_positive < (int) mix_ptr->Get_mixComps().size())
+		{
+			if (it->second > 0)
+			{
+				intensive = extensive / sum_positive;
+				intensive_water = extensive_water / sum_positive;
+			}
+			else
+			{
+				intensive = 0;
+			}
+		}
+		add_solution(solution_ptr, extensive, intensive_water);
+	}
+	return (OK);
+}
+#ifdef SKIP_ERROR
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+add_mix(cxxMix* mix_ptr)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   calls add_solution to accumulate all data in master->totals
+	 *   and other variables.
+	 */
+	LDBLE sum_fractions, intensive, extensive;
+	cxxSolution* solution_ptr;
 	int count_positive;
 	LDBLE sum_positive;
 
@@ -646,15 +722,15 @@ add_mix(cxxMix *mix_ptr)
 		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, it->first);
 		if (solution_ptr == NULL)
 		{
-			error_string = sformatf( "Mix solution not found, %d.",
-						it->first);
+			error_string = sformatf("Mix solution not found, %d.",
+				it->first);
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			continue;
 		}
 		extensive = it->second;
 		intensive = extensive / sum_fractions;
-		if (count_positive < (int) mix_ptr->Get_mixComps().size())
+		if (count_positive < (int)mix_ptr->Get_mixComps().size())
 		{
 			if (it->second > 0)
 			{
@@ -669,6 +745,7 @@ add_mix(cxxMix *mix_ptr)
 	}
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)

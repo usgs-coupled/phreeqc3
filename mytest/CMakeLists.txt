@@ -257,6 +257,7 @@ set(TESTS
   minteqv4
   missing_surf_related_equi
   missing_surf_related_kin
+  mix_unequal
   mixes
   mmb
   mmb2
