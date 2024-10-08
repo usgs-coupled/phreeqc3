@@ -1653,14 +1653,17 @@ init_heat_mix(int l_nmix)
 	{
 		if (implicit)
 		{
-			LDBLE viscos_f0;
+			LDBLE viscos_f;
 			l_heat_nmix = l_nmix;
 			for (i = 1; i <= count_cells + 1; i++)
 			{
 				heat_mix_array[i - 1] = heat_mix_array[i] / l_heat_nmix;	/* for implicit, m[i] has mixf with higher cell */
-				viscos_f0 = sol_D[i - 1].viscos_f0 * exp(heat_diffc / sol_D[i - 1].tk_x - heat_diffc / 298.15);
-				viscos_f0 += sol_D[i].viscos_f0 * exp(heat_diffc / sol_D[i].tk_x - heat_diffc / 298.15);
-				heat_mix_array[i - 1] *= (viscos_f0 / 2);
+				if (print_viscosity)
+				{
+					viscos_f = sol_D[i - 1].viscos_f * exp(heat_diffc / sol_D[i - 1].tk_x - heat_diffc / 298.15);
+					viscos_f += sol_D[i].viscos_f * exp(heat_diffc / sol_D[i].tk_x - heat_diffc / 298.15);
+					heat_mix_array[i - 1] *= (viscos_f / 2);
+				}
 			}
 		}
 		else
@@ -4352,9 +4355,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					b_j *= sol_D[icell].spec[i].Dwt;
 				else
 				{
-					dum2 = sol_D[icell].spec[i].Dwt / sol_D[icell].viscos_f0;
+					dum2 = sol_D[icell].spec[i].Dwt / sol_D[icell].viscos_f;
 					dum2 *= exp(sol_D[icell].spec[i].dw_t / sol_D[jcell].tk_x - sol_D[icell].spec[i].dw_t / sol_D[icell].tk_x);
-					dum2 *= sol_D[jcell].viscos_f0;
+					dum2 *= sol_D[jcell].viscos_f;
 					b_j *= dum2;
 				}
 				if (sol_D[icell].spec[i].dw_a_v_dif)
@@ -4463,9 +4466,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					b_i *= sol_D[jcell].spec[j].Dwt;
 				else
 				{
-					dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f0;
+					dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f;
 					dum2 *= exp(sol_D[jcell].spec[j].dw_t / sol_D[icell].tk_x - sol_D[jcell].spec[j].dw_t / sol_D[jcell].tk_x);
-					dum2 *= sol_D[icell].viscos_f0;
+					dum2 *= sol_D[icell].viscos_f;
 					b_i *= dum2;
 				}
 				if (sol_D[icell].spec[i].dw_a_v_dif)
