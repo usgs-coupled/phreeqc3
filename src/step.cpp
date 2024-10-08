@@ -674,7 +674,7 @@ add_mix(cxxMix *mix_ptr)
 			if (it->second > 0)
 			{
 				intensive = extensive / sum_positive;
-				intensive_water = extensive_water / sum_positive;
+				intensive_water = extensive_water / sum_positive_water;
 			}
 			else
 			{
