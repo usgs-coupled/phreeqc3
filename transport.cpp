@@ -28,7 +28,7 @@ struct CURRENT_CELLS
 	LDBLE dif, ele, R; // diffusive and electric components, relative cell resistance
 } *current_cells;
 LDBLE sum_R, sum_Rd; // sum of R, sum of (current_cells[0].dif - current_cells[i].dif) * R
-struct V_M   // For calculating Vinograd and McBain's zero-charge, diffusive tranfer of individual solutes
+struct V_M   // For calculating Vinograd and McBain's zero-charge, diffusive transfer of individual solutes
 {
 	LDBLE grad, D, z, c, zc, Dz, Dzc;
 	LDBLE b_ij; // harmonic mean of cell properties, with EDL enrichment
@@ -1653,14 +1653,17 @@ init_heat_mix(int l_nmix)
 	{
 		if (implicit)
 		{
-			LDBLE viscos_f0;
+			LDBLE viscos_f;
 			l_heat_nmix = l_nmix;
 			for (i = 1; i <= count_cells + 1; i++)
 			{
 				heat_mix_array[i - 1] = heat_mix_array[i] / l_heat_nmix;	/* for implicit, m[i] has mixf with higher cell */
-				viscos_f0 = sol_D[i - 1].viscos_f0 * exp(heat_diffc / sol_D[i - 1].tk_x - heat_diffc / 298.15);
-				viscos_f0 += sol_D[i].viscos_f0 * exp(heat_diffc / sol_D[i].tk_x - heat_diffc / 298.15);
-				heat_mix_array[i - 1] *= (viscos_f0 / 2);
+				if (print_viscosity)
+				{
+					viscos_f = sol_D[i - 1].viscos_f * exp(heat_diffc / sol_D[i - 1].tk_x - heat_diffc / 298.15);
+					viscos_f += sol_D[i].viscos_f * exp(heat_diffc / sol_D[i].tk_x - heat_diffc / 298.15);
+					heat_mix_array[i - 1] *= (viscos_f / 2);
+				}
 			}
 		}
 		else
@@ -3871,7 +3874,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	for IL: A * por_il / por.
 
 	por_il should be entered for the cell with the maximal cec.
-	IL water is related to X-, thus the cec (eq/L IL water) is the same for all cells if X is difined.
+	IL water is related to X-, thus the cec (eq/L IL water) is the same for all cells if X is defined.
 	IL-water = (free + DL porewater) * por_il / por.
 	for IL: A * aq_il / t_aq.
 	*/
@@ -4352,9 +4355,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					b_j *= sol_D[icell].spec[i].Dwt;
 				else
 				{
-					dum2 = sol_D[icell].spec[i].Dwt / sol_D[icell].viscos_f0;
+					dum2 = sol_D[icell].spec[i].Dwt / sol_D[icell].viscos_f;
 					dum2 *= exp(sol_D[icell].spec[i].dw_t / sol_D[jcell].tk_x - sol_D[icell].spec[i].dw_t / sol_D[icell].tk_x);
-					dum2 *= sol_D[jcell].viscos_f0;
+					dum2 *= sol_D[jcell].viscos_f;
 					b_j *= dum2;
 				}
 				if (sol_D[icell].spec[i].dw_a_v_dif)
@@ -4463,9 +4466,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					b_i *= sol_D[jcell].spec[j].Dwt;
 				else
 				{
-					dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f0;
+					dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f;
 					dum2 *= exp(sol_D[jcell].spec[j].dw_t / sol_D[icell].tk_x - sol_D[jcell].spec[j].dw_t / sol_D[jcell].tk_x);
-					dum2 *= sol_D[icell].viscos_f0;
+					dum2 *= sol_D[icell].viscos_f;
 					b_i *= dum2;
 				}
 				if (sol_D[icell].spec[i].dw_a_v_dif)
@@ -5602,7 +5605,7 @@ diff_stag_surf(int mobile_cell)
 *  Diffuse stagnant and mobile surfaces, following the steps of disp_surf.
 *  First the mobile/stagnant surfaces are mixed, then the stagnant surfaces
 *  when not already done.
-*  If mixing factors among the cells are defined expicitly, it is assumed that
+*  If mixing factors among the cells are defined explicitly, it is assumed that
 *  mixing with a lower numbered cell was done when that cell was processed:
 *  for any cell in MCD, need only include the mixing factors for higher numbered cells.
 */

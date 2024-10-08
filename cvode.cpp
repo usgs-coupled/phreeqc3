@@ -1672,7 +1672,7 @@ CVEwtSet(CVodeMem cv_mem, N_Vector ycur)
 
 /*********************** CVEwtSetSS *********************************
 
- This routine sets ewt as decribed above in the case tol_type = SS.
+ This routine sets ewt as described above in the case tol_type = SS.
  It tests for non-positive components before inverting. CVEwtSetSS
  returns TRUE if ewt is successfully set to a positive vector
  and FALSE otherwise. In the latter case, ewt is considered
@@ -1698,7 +1698,7 @@ CVEwtSetSS(CVodeMem cv_mem, N_Vector ycur)
 
 /*********************** CVEwtSetSV *********************************
 
- This routine sets ewt as decribed above in the case tol_type = SV.
+ This routine sets ewt as described above in the case tol_type = SV.
  It tests for non-positive components before inverting. CVEwtSetSV
  returns TRUE if ewt is successfully set to a positive vector
  and FALSE otherwise. In the latter case, ewt is considered
@@ -3249,7 +3249,7 @@ static void
 CVSetEta(CVodeMem cv_mem)
 {
 
-	/* If eta below the threshhold THRESH, reject a change of step size */
+	/* If eta below the threshold THRESH, reject a change of step size */
 	if (eta < THRESH)
 	{
 		eta = ONE;
@@ -3320,7 +3320,7 @@ CVComputeEtaqp1(CVodeMem cv_mem)
  corresponding value of q.  If there is a tie, the preference
  order is to (1) keep the same order, then (2) decrease the order,
  and finally (3) increase the order.  If the maximum eta value
- is below the threshhold THRESH, the order is kept unchanged and
+ is below the threshold THRESH, the order is kept unchanged and
  eta is set to 1.
 
 ******************************************************************/

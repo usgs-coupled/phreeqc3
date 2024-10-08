@@ -460,7 +460,7 @@ cl1(int k, int l, int m, int n,
 #endif
 	if (kk < 0)
 	{
-/* no positive value found in L340 or bypass intermediate verticies */
+/* no positive value found in L340 or bypass intermediate vertices */
 		*l_kode = 2;
 		goto L590;
 	}

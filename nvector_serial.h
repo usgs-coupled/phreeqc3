@@ -107,7 +107,7 @@
 
 /****************************************************************
  * PART I:                                                      *
- * Serial implementaion of M_Env and N_Vector                   *
+ * Serial implementation of M_Env and N_Vector                   *
  ****************************************************************/
 
 /* The serial implementation of the machine environment has

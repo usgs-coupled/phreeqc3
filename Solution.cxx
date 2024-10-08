@@ -1409,7 +1409,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->ph = f1 * this->ph + f2 * addee.ph;
 	this->pe = f1 * this->pe + f2 * addee.pe;
 	this->mu = f1 * this->mu + f2 * addee.mu;
-	this->ah2o = f1 * this->mu + f2 * addee.ah2o;
+	this->ah2o = f1 * this->ah2o + f2 * addee.ah2o;
 	this->total_h += addee.total_h * extensive;
 	this->total_o += addee.total_o * extensive;
 	this->cb += addee.cb * extensive;

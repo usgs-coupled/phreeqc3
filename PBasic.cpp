@@ -2441,8 +2441,8 @@ factor(struct LOC_exec * LINK)
 		require(tokcomma, LINK);
 		varrec* area_varrec = LINK->t->UU.vp;
 		if (LINK->t->kind != tokvar || area_varrec->stringvar != 0)
-			snerr(": Missing or wrong type area varaiable.");
-		// varaiable for thickness
+			snerr(": Missing or wrong type area variable.");
+		// variable for thickness
 		LINK->t = LINK->t->next;
 		require(tokcomma, LINK);
 		varrec* thickness_varrec = LINK->t->UU.vp;
@@ -5595,7 +5595,7 @@ cmdput(struct LOC_exec *LINK)
 	/* get parentheses */
 	require(toklp, LINK);
 
-	/* get first argumen */
+	/* get first argument */
 	double value = realexpr(LINK);
 
 	for (;;)
@@ -5628,7 +5628,7 @@ cmdput_(struct LOC_exec* LINK)
 	/* get parentheses */
 	require(toklp, LINK);
 
-	/* get first argumen */
+	/* get first argument */
 	char* str = strexpr(LINK);
 	std::string s_value = str;
 	PhreeqcPtr->PHRQ_free(str);

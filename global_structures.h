@@ -109,7 +109,7 @@
 #define TRANSPORT		 8
 #define PHAST		     9
 
-/* constaints in mass balance */
+/* constants in mass balance */
 #define EITHER 0
 #define DISSOLVE 1
 #define PRECIPITATE -1
@@ -981,7 +981,7 @@ public:
 		alk = 0;
 		// default gfw for species
 		gfw = 1;
-		// formula from which to calcuate gfw
+		// formula from which to calculate gfw
 		gfw_formula = NULL;
 		// pointer to unknown structure
 		unknown = NULL;
