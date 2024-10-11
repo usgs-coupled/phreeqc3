@@ -1581,7 +1581,7 @@ public:
 };
 // Pitzer definitions
 typedef enum
-{ TYPE_B0, TYPE_B1, TYPE_B2, TYPE_C0, TYPE_THETA, TYPE_LAMDA, TYPE_ZETA,
+{ TYPE_B0, TYPE_B1, TYPE_B2, TYPE_C0, TYPE_THETA, TYPE_LAMBDA, TYPE_ZETA,
   TYPE_PSI, TYPE_ETHETA, TYPE_ALPHAS, TYPE_MU, TYPE_ETA, TYPE_Other,
   TYPE_SIT_EPSILON, TYPE_SIT_EPSILON_MU, TYPE_APHI
 } pitz_param_type;
@@ -1613,7 +1613,7 @@ public:
 		LDBLE b2;
 		LDBLE c0;
 		LDBLE theta;
-		LDBLE lamda;
+		LDBLE lambda;
 		LDBLE zeta;
 		LDBLE psi;
 		LDBLE alphas;

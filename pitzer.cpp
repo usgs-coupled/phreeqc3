@@ -199,7 +199,7 @@ pitzer_tidy(void)
 				break;
 			case TYPE_B2:
 			case TYPE_THETA:
-			case TYPE_LAMDA:
+			case TYPE_LAMBDA:
 			case TYPE_ZETA:
 			case TYPE_PSI:
 			case TYPE_ETHETA:
@@ -464,14 +464,14 @@ pitzer_tidy(void)
 	   }
 	 */
 	/*
-	 *  Tidy TYPE_LAMDA
+	 *  Tidy TYPE_LAMBDA
 	 */
 
-	/* Coef for Osmotic coefficient for TYPE_LAMDA */
+	/* Coef for Osmotic coefficient for TYPE_LAMBDA */
 
 	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
-		if (pitz_params[i]->type == TYPE_LAMDA)
+		if (pitz_params[i]->type == TYPE_LAMBDA)
 		{
 			i0 = pitz_params[i]->ispec[0];
 			i1 = pitz_params[i]->ispec[1];
@@ -492,11 +492,11 @@ pitzer_tidy(void)
 			}
 		}
 	}
-	/*  Debug TYPE_LAMDA coefficients */
+	/*  Debug TYPE_LAMBDA coefficients */
 	/*
 	   for (i = 0; i < (int)pitz_params.size(); i++)
 	   {
-	   if (pitz_params[i]->type == TYPE_LAMDA)
+	   if (pitz_params[i]->type == TYPE_LAMBDA)
 	   {
 	   fprintf(stderr, "%s\t%s\n", pitz_params[i]->species[0], pitz_params[i]->species[1]);
 	   fprintf(stderr, "%f\t%f\n", pitz_params[i]->ln_coef[0], pitz_params[i]->ln_coef[1]);
@@ -672,7 +672,7 @@ read_pitzer(void)
 			break;
 		case 5:				/* lamda */
 		case 18:            /* lambda */
-			pzp_type = TYPE_LAMDA;
+			pzp_type = TYPE_LAMBDA;
 			n = 2;
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -820,8 +820,8 @@ calc_pitz_param(class pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 	case TYPE_THETA:
 		pz_ptr->U.theta = param;
 		break;
-	case TYPE_LAMDA:
-		pz_ptr->U.lamda = param;
+	case TYPE_LAMBDA:
+		pz_ptr->U.lambda = param;
 		break;
 	case TYPE_ZETA:
 		pz_ptr->U.zeta = param;
@@ -1062,7 +1062,7 @@ pitzer(void)
 			LGAMMA[i2] += M[i0] * M[i1] * param;
 			OSMOT += M[i0] * M[i1] * M[i2] * param;
 			break;
-		case TYPE_LAMDA:
+		case TYPE_LAMBDA:
 			LGAMMA[i0] += M[i1] * param * pitz_params[i]->ln_coef[0];
 			LGAMMA[i1] += M[i0] * param * pitz_params[i]->ln_coef[1];
 			OSMOT += M[i0] * M[i1] * param * pitz_params[i]->os_coef;
@@ -1380,7 +1380,7 @@ pitzer(void)
 			LGAMMA[i2] += M[i0] * M[i1] * param;
 			OSMOT += M[i0] * M[i1] * M[i2] * param;
 			break;
-		case TYPE_LAMDA:
+		case TYPE_LAMBDA:
 			LGAMMA[i0] += M[i1] * param * pitz_params[i]->ln_coef[0];
 			LGAMMA[i1] += M[i0] * param * pitz_params[i]->ln_coef[1];
 			OSMOT += M[i0] * M[i1] * param * pitz_params[i]->os_coef;
@@ -2688,7 +2688,7 @@ pitzer_make_lists(void)
 	for (int i = 0; i < (int)pitz_params.size(); i++)
 	{
 		/*
-		TYPE_B0, TYPE_B1, TYPE_B2, TYPE_C0, TYPE_THETA, TYPE_LAMDA, TYPE_ZETA,
+		TYPE_B0, TYPE_B1, TYPE_B2, TYPE_C0, TYPE_THETA, TYPE_LAMBDA, TYPE_ZETA,
 		TYPE_PSI, TYPE_ETHETA, TYPE_ALPHAS, TYPE_MU, TYPE_ETA, TYPE_Other,
 		TYPE_SIT_EPSILON, TYPE_SIT_EPSILON_MU
 		*/
