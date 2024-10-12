@@ -1,0 +1,11 @@
+#! /bin/sh
+# Test ex17
+
+NAME=ex17
+DB=pitzer.dat
+
+: ${PHREEQC=phreeqc}
+${PHREEQC} $DATADIR/$NAME $NAME.out $DBDIR/$DB $NAME.log
+result=$?
+
+exit $result

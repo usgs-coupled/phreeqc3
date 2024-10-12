@@ -1,0 +1,11 @@
+#! /bin/sh
+# Test ex9
+
+NAME=ex9
+DB=phreeqc.dat
+
+: ${PHREEQC=phreeqc}
+${PHREEQC} $DATADIR/$NAME $NAME.out $DBDIR/$DB $NAME.log
+result=$?
+
+exit $result
