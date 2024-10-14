@@ -48,6 +48,7 @@ cxxSolution::cxxSolution(PHRQ_io * io)
 	this->cb = 0.0;
 	this->density = 1.0;
 	this->viscosity = 1.0;
+	this->viscos_0 = 1.0;
 	this->mass_water = 1.0;
 	this->soln_vol = 1.0;
 	this->total_alkalinity = 0.0;
@@ -82,6 +83,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->total_o                    = rhs.total_o;
 		this->density                    = rhs.density;
 		this->viscosity                  = rhs.viscosity;
+		this->viscos_0                   = rhs.viscos_0;
 		this->cb                         = rhs.cb;
 		this->mass_water                 = rhs.mass_water;
 		this->soln_vol                   = rhs.soln_vol;
