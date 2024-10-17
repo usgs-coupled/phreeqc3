@@ -52,6 +52,7 @@ struct MOLES_ADDED /* total moles added to balance negative conc's */
 } *moles_added;
 int count_moles_added;
 
+#if !defined(NPP)
 #if defined(_MSC_VER) && (_MSC_VER <= 1400) // VS2005
 #  define nullptr NULL
 #endif
@@ -61,7 +62,7 @@ int count_moles_added;
 #    define nullptr NULL
 #  endif
 #endif
-
+#endif
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1842,7 +1843,7 @@ fill_spec(int l_cell_no, int ref_cell)
 	class master *master_ptr;
 	LDBLE dum, dum2, l_tk_x;
 	LDBLE lm;
-	LDBLE por, por_il, viscos_f0, viscos_f, viscos_il_f0, viscos, viscos_0;
+	LDBLE por, por_il, viscos_f0, viscos_f, viscos_il_f0, viscos, viscos0;
 	bool x_max_done = false;
 	std::set <std::string> loc_spec_names;
 
@@ -1914,13 +1915,15 @@ fill_spec(int l_cell_no, int ref_cell)
 	* correct diffusion coefficient for temperature Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15), SC data from Robinson and Stokes, 1959
 	*   and viscosity, D_T = D_298 * viscos_0_298 / viscos_0_tk
 	*/
-	sol_D[l_cell_no].viscos_0 = viscos_0 = Utilities::Rxn_find(Rxn_solution_map, l_cell_no)->Get_viscos_0();
 	sol_D[l_cell_no].viscos   = viscos   = Utilities::Rxn_find(Rxn_solution_map, l_cell_no)->Get_viscosity();
+	sol_D[l_cell_no].viscos_0 = viscos0 = Utilities::Rxn_find(Rxn_solution_map, l_cell_no)->Get_viscos_0();
+	if (!sol_D[l_cell_no].viscos_0)
+		sol_D[l_cell_no].viscos_0 = viscos0 = viscos;
 	/*
 	* put temperature factor in por_factor which corrects for porous medium...
 	*/
-	dum = viscos_0_25 / viscos_0;
-	dum2 = viscos_0 / viscos;
+	dum = viscos_0_25 / viscos0;
+	dum2 = viscos0 / viscos;
 	viscos_f0 *= dum;
 	viscos_il_f0 *= dum;
 	viscos_f *= dum2;
@@ -2129,7 +2132,7 @@ fill_spec(int l_cell_no, int ref_cell)
 			if (s_ptr->dw_a_v_dif)
 			{
 				sol_D[l_cell_no].spec[count_spec].dw_a_v_dif = s_ptr->dw_a_v_dif;
-				sol_D[l_cell_no].spec[count_spec].Dwt *= pow(viscos_0 / viscos, s_ptr->dw_a_v_dif);
+				sol_D[l_cell_no].spec[count_spec].Dwt *= pow(viscos0 / viscos, s_ptr->dw_a_v_dif);
 			}
 			else
 				sol_D[l_cell_no].spec[count_spec].dw_a_v_dif = 0.0;
