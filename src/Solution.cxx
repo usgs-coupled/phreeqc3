@@ -48,6 +48,7 @@ cxxSolution::cxxSolution(PHRQ_io * io)
 	this->cb = 0.0;
 	this->density = 1.0;
 	this->viscosity = 1.0;
+	this->viscos_0 = 1.0;
 	this->mass_water = 1.0;
 	this->soln_vol = 1.0;
 	this->total_alkalinity = 0.0;
@@ -82,6 +83,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->total_o                    = rhs.total_o;
 		this->density                    = rhs.density;
 		this->viscosity                  = rhs.viscosity;
+		this->viscos_0                   = rhs.viscos_0;
 		this->cb                         = rhs.cb;
 		this->mass_water                 = rhs.mass_water;
 		this->soln_vol                   = rhs.soln_vol;
@@ -274,6 +276,8 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// new identifier
 	s_oss << indent1;
 	s_oss << "-viscosity                 " << this->viscosity << "\n";
+	s_oss << indent1;
+	s_oss << "-viscos_0                  " << this->viscos_0 << "\n";
 
 	// soln_total conc structures
 	s_oss << indent1;
@@ -1086,6 +1090,16 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			break;
+		case 29:				// viscos_0
+			if (!(parser.get_iss() >> this->viscos_0))
+			{
+				this->viscos_0 = 1.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for viscos_0.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -1415,6 +1429,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->cb += addee.cb * extensive;
 	this->density = f1 * this->density + f2 * addee.density;
 	this->viscosity = f1 * this->viscosity + f2 * addee.viscosity;
+	this->viscos_0 = f1 * this->viscos_0 + f2 * addee.viscos_0;
 	this->patm = f1 * this->patm + f2 * addee.patm;
 	// this->potV = f1 * this->potV + f2 * addee.potV; // appt
 	this->mass_water += addee.mass_water * extensive;
@@ -1773,6 +1788,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("log_gamma_map"), 	                    // 25
 	std::vector< std::string >::value_type("potential"), 	                        // 26
 	std::vector< std::string >::value_type("log_molalities_map"),                   // 27
-	std::vector< std::string >::value_type("viscosity")                             // 28
+	std::vector< std::string >::value_type("viscosity"),                            // 28
+	std::vector< std::string >::value_type("viscos_0")                              // 29
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
