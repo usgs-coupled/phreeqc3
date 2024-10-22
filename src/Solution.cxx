@@ -1396,6 +1396,7 @@ cxxSolution::zero()
 	this->cb = 0.0;
 	this->density = 1.0;
 	this->viscosity = 1.0;
+	this->viscos_0 = 1.0;
 	this->mass_water = 0.0;
 	this->soln_vol = 0.0;
 	this->total_alkalinity = 0.0;
