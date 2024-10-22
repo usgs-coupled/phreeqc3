@@ -1,4 +1,4 @@
-#DATABASE ../database/phreeqc.dat
+DATABASE ../database/phreeqc.dat
 #PRINT
 #   -reset   false
 
@@ -15,14 +15,16 @@ EXCHANGE 1-31
     KX    0.048
 END
 TRANSPORT
-   -cells 30
+   -cells 10
    -lengths 0.3333333
    -shifts 1
    -flow_direction         diffusion
    -boundary_conditions    constant  closed
    -thermal_diffusion      3.0    # heat is retarded equal to Na
    -diffusion_coefficient  0.3e-9  # m^2/s
-   -time_step              1.0e+10  1 # max_mixf = 2/9 = Dt_max * De / Dx^2. Dt_max = 8.2140e+07 seconds, Number of mixes = 1e10 / 8.214e7 = 122
+# -multi_d true 0.3e-9 1 0.05 1.0 false
+# -implicit true 
+   -time_step              1.0e+9  1 # max_mixf = 2/9 = Dt_max * De / Dx^2. Dt_max = 8.2140e+07 seconds, Number of mixes = 1e10 / 8.214e7 = 122
 USER_GRAPH 1 Example 12b
    -headings Tradit:Na Cl TC Analyt
    # -headings TC Analyt
@@ -57,18 +59,35 @@ USER_GRAPH 1 Example 12b
    -end
 END
 
-Reinitialize the column...
+# Reinitialize the column...
 copy cell 31 1-30
 END
 TRANSPORT
-   -multi_d true 0.3e-9 1 0.05 0 false # will give the traditional results when tc = 25 throughout
-   -thermal_diffusion  3.0 1.33e-9  # efine the diffusion coefficient for heat to be equal to Na
+-shifts 1
+   -multi_d true 2.33e-9 1 0.05 0 false # will give the traditional results when tc = 25 throughout
+   -thermal_diffusion  3.0 2.33e-9  # define the diffusion coefficient for heat equal to Na
+USER_GRAPH 1 Example 12b
+   -headings MultiD&Visc:Na Cl TC
+   -start
+  10 x = DIST
+  20 PLOT_XY x, TOT("Na")*1000, symbol = Circle, line_width = 0, symbol_size = 5, color = Red
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = Circle, line_width = 0, symbol_size = 5, color = Green
+  40 PLOT_XY x, TC,             symbol = Circle, line_width = 0, symbol_size = 5, y-axis 2, color = Blue
+END
+# Reinitialize the column...
+copy cell 31 1-30
+USER_GRAPH 1; -connect_simulations false
+END
+TRANSPORT
+-shifts 1
+   -multi_d true 2.33e-9 1 0.05 0 false # will give the traditional results when tc = 25 throughout
+   -thermal_diffusion  3.0 2.33e-9  # define the diffusion coefficient for heat equal to Na
    -implicit true 3 -12             # max_mixf = 3, min_dif_LM = -12
 USER_GRAPH 1 Example 12b
    -headings MultiD&Visc&Implicit:Na Cl TC
    -start
   10 x = DIST
-  20 PLOT_XY x, TOT("Na")*1000, symbol = Circle, line_width = 0, symbol_size = 5, color = Red
-  30 PLOT_XY x, TOT("Cl")*1000, symbol = Circle, line_width = 0, symbol_size = 5, color = Green
-  40 PLOT_XY x, TC,             symbol = Circle, line_width = 0, symbol_size = 8, y-axis 2, color = Blue
+  20 PLOT_XY x, TOT("Na")*1000, symbol = XCross, line_width = 0, symbol_size = 9, color = Red
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = XCross, line_width = 0, symbol_size = 9, color = Green
+  40 PLOT_XY x, TC,             symbol = XCross, line_width = 0, symbol_size = 9, y-axis 2, color = Blue
 END
