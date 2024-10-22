@@ -438,6 +438,7 @@ initial_solutions(int print)
 			sum_species();
 			viscos = viscosity(NULL);
 			use.Get_solution_ptr()->Set_viscosity(viscos);
+			use.Get_solution_ptr()->Set_viscos_0(viscos_0);
 			if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL)
 				use.Get_surface_ptr()->Set_DDL_viscosity(viscosity(use.Get_surface_ptr()));
 			add_isotopes(solution_ref);
@@ -1267,6 +1268,7 @@ xsolution_save(int n_user)
 	// the subroutine is called at the start of a new simulation, and the following 2 go wrong since s_x is not updated 
 	temp_solution.Set_density(density_x);
 	temp_solution.Set_viscosity(viscos);
+	temp_solution.Set_viscos_0(viscos_0);
 	temp_solution.Set_total_h(total_h_x);
 	temp_solution.Set_total_o(total_o_x);
 	temp_solution.Set_cb(cb_x);	/* cb_x does not include surface charge after sum_species */

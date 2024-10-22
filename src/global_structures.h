@@ -109,7 +109,7 @@
 #define TRANSPORT		 8
 #define PHAST		     9
 
-/* constants in mass balance */
+/* constraints in mass balance */
 #define EITHER 0
 #define DISSOLVE 1
 #define PRECIPITATE -1
@@ -1486,7 +1486,9 @@ public:
 		c = 0;
 		// charge number
 		z = 0;
-		// temperature corrected free water diffusion coefficient, m2/s
+		// free water diffusion coefficient, m2/s
+		Dw = 0;
+		// temperature and viscosity corrected free water diffusion coefficient, m2/s
 		Dwt = 0;
 		// temperature factor for Dw
 		dw_t = 0;
@@ -1503,6 +1505,7 @@ public:
 	LDBLE lg;
 	LDBLE c;
 	LDBLE z;
+	LDBLE Dw;
 	LDBLE Dwt;
 	LDBLE dw_t;
 	LDBLE dw_a_v_dif;
@@ -1521,17 +1524,17 @@ public:
 		count_exch_spec = 0;
 		// total moles of X-, max X- in transport step in sol_D[1], tk
 		exch_total = 0, x_max = 0, tk_x = 0;
-		// (tk_x * viscos_0_25) / (298 * viscos_0) 
-		viscos_f0 = 0;
-		// (viscos_0) / (298 * viscos) 
-		viscos_f = 0;
+		// viscos_0 at I = 0
+		viscos_0 = 0;
+		// viscosity of solution
+		viscos = 0;
 		spec = NULL;
 		spec_size = 0;
 	}
 	int count_spec;
 	int count_exch_spec;
 	LDBLE exch_total, x_max, tk_x;
-	LDBLE viscos_f0, viscos_f;
+	LDBLE viscos_0, viscos;
 	class spec* spec;
 	int spec_size;
 };

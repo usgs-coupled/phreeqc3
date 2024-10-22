@@ -3,21 +3,24 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
 	October 8, 2024
   	-----------------
-	PHREEQC: Improved algorithem for transport of heat in TRANSPORT, and included
-	additional viscosity effects in transport calculations.
+	PHREEQC: Revised the multicomponent diffusion calculation of heat and solutes, 
+	accounting now for the heat also for the T-dependent viscosity of the solutions.
 	
 	-----------------
 	October 8, 2024
   	-----------------
-	PHREEQC: Corrected spelling errors thoughout PHREEQC as supplied by Mike Toews.
+	PHREEQC: Corrected spelling errors throughout PHREEQC as supplied by Mike Toews.
 	Modified "lamda" to "lambda" internally as suggested by Toews, but "lamda" and 
-	"lambda" are both acceptable in Ptzer database files for backward compatibility.
+	"lambda" are both acceptable in Pitzer database files for backward compatibility.
 
   	-----------------
 	October 8, 2024
   	-----------------
 	PHREEQC: Fixed  bug in MIX that produced erroneous temperature and pressure
-	if the solutions being mixed did not have 1 kg of water.
+	if the solutions being mixed did not have 1 kg of water. (Note that PHREEQC does 
+	not consider the heat content of the solutions when the temperature of the mixture 
+	is calculated.)
+	
 
 Version 3.8.2: August 29, 2024
   	-----------------
