@@ -1,4 +1,4 @@
-# PHREEQC
+# PHREEQC ![workflow](https://github.com/usgs-coupled/phreeqc3/actions/workflows/cmake.yml/badge.svg)
 
 ## Description
 
