@@ -114,6 +114,18 @@ configure_file (
   "co2.tsv"
   )
 
+# co2.dat
+configure_file (
+  "co2.dat"
+  "co2.dat"
+  )
+
+# co2_VP.dat
+configure_file (
+  "co2_VP.dat"
+  "co2_VP.dat"
+  )
+  
 #
 # run examples for testing
 #
