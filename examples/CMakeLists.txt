@@ -1,7 +1,9 @@
 cmake_minimum_required (VERSION 3.9)
 
 SET(phreeqc_EXAMPLES
+co2.dat
 co2.tsv
+co2_VP.dat
 ex1
 ex2
 ex2b
