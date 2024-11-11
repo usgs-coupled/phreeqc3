@@ -1914,10 +1914,11 @@ END
 # PHREEQC adds the pressure term to log_k: -= delta_v * (P - 1) / (2.3RT).
 #   Vm(A) is volume of A, cm3/mol, P is pressure, atm, R is the gas constant, T is Kelvin.
 # Gas-pressures and fugacity coefficients are calculated with Peng-Robinson's EOS.
-#   Binary interaction coefficients from Soreide and Whitson, 1992, FPE 77, 217 are
+#   These binary interaction coefficients from Soreide and Whitson, 1992, FPE 77, 217 are
 #    hard-coded in calc_PR():
 #    kij    CH4    CO2    H2S    N2
 #    H2O    0.49   0.19   0.19   0.49
+#    but are overwritten by the data block GAS_BINARY_PARAMETERS of this file.
 # =============================================================================================
 # The molar volumes of solids are entered with
 #			 -Vm vm cm3/mol
