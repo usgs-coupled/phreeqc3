@@ -473,6 +473,7 @@ public:
 #endif
 	int calc_gas_pressures(void);
 	int calc_fixed_volume_gas_pressures(void);
+	double calc_gas_binary_parameter(std::string name1, std::string name2) const;
 	int calc_ss_fractions(void);
 	int gammas(LDBLE mu);
 	int gammas_a_f(int i);

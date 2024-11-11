@@ -3738,8 +3738,6 @@ setup_master_rxn(const std::vector<class master *> &master_ptr_list, const std::
 	}
 	return (OK);
 }
-//#define ORIGINAL
-#ifdef ORIGINAL
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
@@ -3845,36 +3843,37 @@ calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 				continue;
 			a_aa = sqrt(phase_ptr->pr_a * phase_ptr->pr_alpha *
 				        phase_ptr1->pr_a * phase_ptr1->pr_alpha);
-			if (!strcmp(phase_ptr->name, "H2O(g)"))
-			{
-				if (!strcmp(phase_ptr1->name, "CO2(g)"))
-					a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
-				else if (!strcmp(phase_ptr1->name, "H2S(g)") || !strcmp(phase_ptr1->name, "H2Sg(g)"))
-					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr1->name, "CH4(g)") || !strcmp(phase_ptr1->name, "Mtg(g)") || !strcmp(phase_ptr1->name, "Methane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "N2(g)") || !strcmp(phase_ptr1->name, "Ntg(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Propane(g)"))
-					a_aa *= 0.45;
-			}
-			if (!strcmp(phase_ptr1->name, "H2O(g)"))
-			{
-				if (!strcmp(phase_ptr->name, "CO2(g)"))
-					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "H2S(g)") || !strcmp(phase_ptr->name, "H2Sg(g)"))
-					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "CH4(g)") || !strcmp(phase_ptr->name, "Mtg(g)") || !strcmp(phase_ptr->name, "Methane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "N2(g)") || !strcmp(phase_ptr->name, "Ntg(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Ethane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Propane(g)"))
-					a_aa *= 0.45;
-			}
+			a_aa *= calc_gas_binary_parameter(phase_ptr->name, phase_ptr1->name);
+			//if (!strcmp(phase_ptr->name, "H2O(g)"))
+			//{
+			//	if (!strcmp(phase_ptr1->name, "CO2(g)"))
+			//		a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
+			//	else if (!strcmp(phase_ptr1->name, "H2S(g)") || !strcmp(phase_ptr1->name, "H2Sg(g)"))
+			//		a_aa *= 0.81;
+			//	else if (!strcmp(phase_ptr1->name, "CH4(g)") || !strcmp(phase_ptr1->name, "Mtg(g)") || !strcmp(phase_ptr1->name, "Methane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr1->name, "N2(g)") || !strcmp(phase_ptr1->name, "Ntg(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr1->name, "Propane(g)"))
+			//		a_aa *= 0.45;
+			//}
+			//if (!strcmp(phase_ptr1->name, "H2O(g)"))
+			//{
+			//	if (!strcmp(phase_ptr->name, "CO2(g)"))
+			//		a_aa *= 0.81;
+			//	else if (!strcmp(phase_ptr->name, "H2S(g)") || !strcmp(phase_ptr->name, "H2Sg(g)"))
+			//		a_aa *= 0.81;
+			//	else if (!strcmp(phase_ptr->name, "CH4(g)") || !strcmp(phase_ptr->name, "Mtg(g)") || !strcmp(phase_ptr->name, "Methane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr->name, "N2(g)") || !strcmp(phase_ptr->name, "Ntg(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr->name, "Ethane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr->name, "Propane(g)"))
+			//		a_aa *= 0.45;
+			//}
 			a_aa_sum += phase_ptr->fraction_x * phase_ptr1->fraction_x * a_aa;
 			a_aa_sum2 += phase_ptr1->fraction_x * a_aa;
 		}
@@ -3948,7 +3947,8 @@ calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		}
 		if (P <= 0) // iterations = -1
 			P = 1;
-	} else
+	}
+	else
 	{
 		if (P < 1e-10)
 			P = 1e-10;
@@ -4035,317 +4035,7 @@ calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 	}
 	return (V_m);
 }
-#else
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_PR(std::vector<class phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
-/* ---------------------------------------------------------------------- */
-/*  Calculate fugacity and fugacity coefficient for gas pressures if critical T and P
-	are defined.
-  1) Solve molar volume V_m or total pressure P from Peng-Robinson's EOS:
-  P = R * T / (V_m - b) - a * aa / (V_m^2 + 2 * b * V_m - b^2)
-	 a = 0.457235 * (R * T_c)^2 / P_c
-	 b = 0.077796 * R * T_c / P_c
-	 aa = (1 + kk * (1 - T_r^0.5))^2
-	 kk = 0.37464 + 1.54226 * omega - 0.26992 * omega^2
-	 T_r = T / T_c
-  multicomponent gas phase:
-	 use: b_sum = Sum(x_i * b), x_i is mole-fraction
-		  a_aa_sum = Sum_i( Sum_j(x_i * x_j * (a_i * aa_i * a_j * aa_j)^0.5) )
-  2) Find the fugacity coefficient phi for gas i:
-  log(phi_i) = B_ratio * (z - 1) - log(z - B) + A / (2.8284 * B) * (B_ratio - 2 / a_aa_sum * a_aa_sum2) *\
-		   log((z + 2.4142 * B) / (z - 0.4142 * B))
-	 B_ratio = b_i / b_sum
-	 A = a_aa_sum * P / R_TK^2
-	 B = b_sum * P / R_TK
-	 a_aa_sum2 = Sum_j(x_j * (a_aa_i * a_aa_j)^0.5
-  3) correct the solubility of gas i with:
-  pr_si_f = log10(phi_i) -  Delta_V_i * (P - 1) / (2.303 * R * TK);
-*/
-{
-	int i, i1, n_g = (int)phase_ptrs.size();
-	LDBLE T_c, P_c;
-	LDBLE A, B, B_r, /*b2,*/ kk, oo, a_aa, T_r;
-	LDBLE m_sum, /*b_sum, a_aa_sum,*/ a_aa_sum2;
-	LDBLE phi;
-	LDBLE /*R_TK,*/ R = R_LITER_ATM; /* L atm / (K mol) */
-	LDBLE r3[4], r3_12, rp, rp3, rq, rz, ri, ri1, one_3 = 0.33333333333333333;
-	LDBLE disct, vinit, v1, ddp, dp_dv, dp_dv2;
-	int it;
-	class phase* phase_ptr, * phase_ptr1;
-	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
-	bool halved;
-	R_TK = R * TK;
-	m_sum = b_sum = a_aa_sum = 0.0;
-	for (i = 0; i < n_g; i++)
-	{
-		phase_ptr = phase_ptrs[i];
-		if (n_g > 1)
-		{
-			if (phase_ptr->moles_x == 0)
-				continue;
-			m_sum += phase_ptr->moles_x;
-		}
-		if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-			error_msg("Cannot calculate a mixture of ideal and Peng_Robinson gases,\n       please define Tc and Pc for the active gases in PHASES.", STOP);
-		//continue;
-		if (!phase_ptr->pr_a)
-		{
-			T_c = phase_ptr->t_c;
-			P_c = phase_ptr->p_c;
-			phase_ptr->pr_a = 0.457235 * R * R * T_c * T_c / P_c;
-			phase_ptr->pr_b = 0.077796 * R * T_c / P_c;
-			T_r = TK / T_c;
-			oo = phase_ptr->omega;
-			kk = 0.37464 + oo * (1.54226 - 0.26992 * oo);
-			phase_ptr->pr_alpha = pow(1 + kk * (1 - sqrt(T_r)), 2);
-			phase_ptr->pr_tk = TK;
-			//			phase_ptr->pr_in = true;
-		}
-		if (phase_ptr->pr_tk != TK)
-		{
-			T_r = TK / phase_ptr->t_c;
-			oo = phase_ptr->omega;
-			kk = 0.37464 + oo * (1.54226 - 0.26992 * oo);
-			phase_ptr->pr_alpha = pow(1 + kk * (1 - sqrt(T_r)), 2);
-			phase_ptr->pr_tk = TK;
-			//			phase_ptr->pr_in = true;
-		}
-	}
-	for (i = 0; i < n_g; i++)
-	{
-		phase_ptr = phase_ptrs[i];
-		if (n_g == 1)
-		{
-			phase_ptr->fraction_x = 1.0;
-			break;
-		}
-		if (m_sum == 0)
-			return (OK);
-		phase_ptr->fraction_x = phase_ptr->moles_x / m_sum;
-	}
 
-	for (i = 0; i < n_g; i++)
-	{
-		a_aa_sum2 = 0.0;
-		phase_ptr = phase_ptrs[i];
-		//if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-		//	continue;
-		b_sum += phase_ptr->fraction_x * phase_ptr->pr_b;
-		for (i1 = 0; i1 < n_g; i1++)
-		{
-			phase_ptr1 = phase_ptrs[i1];
-			//if (phase_ptr1->t_c == 0.0 || phase_ptr1->p_c == 0.0)
-			//	continue;
-			if (phase_ptr1->fraction_x == 0)
-				continue;
-			a_aa = sqrt(phase_ptr->pr_a * phase_ptr->pr_alpha *
-				phase_ptr1->pr_a * phase_ptr1->pr_alpha);
-			std::pair < std::string, std::string > p;
-			p = { phase_ptr->name, phase_ptr1->name };
-			std::map<std::pair<std::string, std::string>, double>::const_iterator gas_pair_it;
-			gas_pair_it = gas_binary_parameters.find(p);
-			if (gas_pair_it == gas_binary_parameters.end())
-			{
-				p = { phase_ptr1->name, phase_ptr->name };
-				gas_pair_it = gas_binary_parameters.find(p);
-			}
-			if (gas_pair_it != gas_binary_parameters.end())
-			{
-				a_aa *= (1.0 - gas_pair_it->second);
-			}
-			//if (!strcmp(phase_ptr->name, "H2O(g)"))
-			//{
-			//	if (!strcmp(phase_ptr1->name, "CO2(g)"))
-			//		a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
-			//	else if (!strcmp(phase_ptr1->name, "H2S(g)") || !strcmp(phase_ptr1->name, "H2Sg(g)"))
-			//		a_aa *= 0.81;
-			//	else if (!strcmp(phase_ptr1->name, "CH4(g)") || !strcmp(phase_ptr1->name, "Mtg(g)") || !strcmp(phase_ptr1->name, "Methane(g)"))
-			//		a_aa *= 0.51;
-			//	else if (!strcmp(phase_ptr1->name, "N2(g)") || !strcmp(phase_ptr1->name, "Ntg(g)"))
-			//		a_aa *= 0.51;
-			//	else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
-			//		a_aa *= 0.51;
-			//	else if (!strcmp(phase_ptr1->name, "Propane(g)"))
-			//		a_aa *= 0.45;
-			//}
-			//if (!strcmp(phase_ptr1->name, "H2O(g)"))
-			//{
-			//	if (!strcmp(phase_ptr->name, "CO2(g)"))
-			//		a_aa *= 0.81;
-			//	else if (!strcmp(phase_ptr->name, "H2S(g)") || !strcmp(phase_ptr->name, "H2Sg(g)"))
-			//		a_aa *= 0.81;
-			//	else if (!strcmp(phase_ptr->name, "CH4(g)") || !strcmp(phase_ptr->name, "Mtg(g)") || !strcmp(phase_ptr->name, "Methane(g)"))
-			//		a_aa *= 0.51;
-			//	else if (!strcmp(phase_ptr->name, "N2(g)") || !strcmp(phase_ptr->name, "Ntg(g)"))
-			//		a_aa *= 0.51;
-			//	else if (!strcmp(phase_ptr->name, "Ethane(g)"))
-			//		a_aa *= 0.51;
-			//	else if (!strcmp(phase_ptr->name, "Propane(g)"))
-			//		a_aa *= 0.45;
-			//}
-			a_aa_sum += phase_ptr->fraction_x * phase_ptr1->fraction_x * a_aa;
-			a_aa_sum2 += phase_ptr1->fraction_x * a_aa;
-		}
-		phase_ptr->pr_aa_sum2 = a_aa_sum2;
-	}
-	b2 = b_sum * b_sum;
-
-	if (V_m)
-	{
-		P = R_TK / (V_m - b_sum) - a_aa_sum / (V_m * (V_m + 2 * b_sum) - b2);
-		if (iterations > 0 && P < 150 && V_m < 1.01)
-		{
-			// check for 3-roots...
-			r3[1] = b_sum - R_TK / P;
-			r3[2] = -3.0 * b2 + (a_aa_sum - R_TK * 2.0 * b_sum) / P;
-			r3[3] = b2 * b_sum + (R_TK * b2 - b_sum * a_aa_sum) / P;
-			// the discriminant of the cubic eqn...
-			disct = 18. * r3[1] * r3[2] * r3[3] -
-				4. * pow(r3[1], 3) * r3[3] +
-				r3[1] * r3[1] * r3[2] * r3[2] -
-				4. * pow(r3[2], 3) -
-				27. * r3[3] * r3[3];
-			//if (iterations > 50)
-			//	it = 0;	// debug
-			if (disct > 0)
-			{
-				// 3-roots, find the largest P...
-				it = 0;
-				halved = false;
-				ddp = 1e-9;
-				v1 = vinit = 0.729;
-				dp_dv = f_Vm(v1, this);
-				while (fabs(dp_dv) > 1e-11 && it < 40)
-				{
-					it += 1;
-					dp_dv2 = f_Vm(v1 - ddp, this);
-					v1 -= (dp_dv * ddp / (dp_dv - dp_dv2));
-					if (!halved && (v1 > vinit || v1 < 0.03))
-					{
-						if (vinit > 0.329)
-							vinit -= 0.1;
-						else
-							vinit -= 0.05;
-						if (vinit < 0.03)
-						{
-							vinit = halve(f_Vm, 0.03, 1.0, 1e-3);
-							if (f_Vm(vinit - 2e-3, this) < 0)
-								vinit = halve(f_Vm, vinit + 2e-3, 1.0, 1e-3);
-							halved = true;
-						}
-						v1 = vinit;
-					}
-					dp_dv = f_Vm(v1, this);
-					if (fabs(dp_dv) < 1e-11)
-					{
-						if (f_Vm(v1 - 1e-4, this) < 0)
-						{
-							v1 = halve(f_Vm, v1 + 1e-4, 1.0, 1e-3);
-							dp_dv = f_Vm(v1, this);
-						}
-					}
-				}
-				if (it == 40)
-				{
-					// accept a (possible) whobble in the curve...
-					//					error_msg("No convergence when calculating P in Peng-Robinson.", STOP);
-				}
-				if (V_m < v1 && it < 40)
-					P = R_TK / (v1 - b_sum) - a_aa_sum / (v1 * (v1 + 2 * b_sum) - b2);
-			}
-		}
-		if (P <= 0) // iterations = -1
-			P = 1;
-	}
-	else
-	{
-		if (P < 1e-10)
-			P = 1e-10;
-		r3[1] = b_sum - R_TK / P;
-		r3_12 = r3[1] * r3[1];
-		r3[2] = -3.0 * b2 + (a_aa_sum - R_TK * 2.0 * b_sum) / P;
-		r3[3] = b2 * b_sum + (R_TK * b2 - b_sum * a_aa_sum) / P;
-		// solve t^3 + rp*t + rq = 0.
-		// molar volume V_m = t - r3[1] / 3... 
-		rp = r3[2] - r3_12 / 3;
-		rp3 = rp * rp * rp;
-		rq = (2.0 * r3_12 * r3[1] - 9.0 * r3[1] * r3[2]) / 27 + r3[3];
-		rz = rq * rq / 4 + rp3 / 27;
-		if (rz >= 0) // Cardono's method...
-		{
-			ri = sqrt(rz);
-			if (ri + rq / 2 <= 0)
-			{
-				V_m = pow(ri - rq / 2, one_3) + pow(-ri - rq / 2, one_3) - r3[1] / 3;
-			}
-			else
-			{
-				ri = -pow(ri + rq / 2, one_3);
-				V_m = ri - rp / (3.0 * ri) - r3[1] / 3;
-			}
-		}
-		else // use complex plane...
-		{
-			ri = sqrt(-rp3 / 27); // rp < 0
-			ri1 = acos(-rq / 2 / ri);
-			V_m = 2.0 * pow(ri, one_3) * cos(ri1 / 3) - r3[1] / 3;
-		}
-	}
-	// calculate the fugacity coefficients...
-	for (i = 0; i < n_g; i++)
-	{
-		phase_ptr = phase_ptrs[i];
-		if (phase_ptr->fraction_x == 0.0)
-		{
-			phase_ptr->pr_p = 0;
-			phase_ptr->pr_phi = 1;
-			phase_ptr->pr_si_f = 0.0;
-			continue;
-		}
-		phase_ptr->pr_p = phase_ptr->fraction_x * P;
-		rz = P * V_m / R_TK;
-		A = a_aa_sum * P / (R_TK * R_TK);
-		B = b_sum * P / R_TK;
-		B_r = phase_ptr->pr_b / b_sum;
-		if (rz > B)
-		{
-			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
-				log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
-			phi = (phi > 4.44 ? 4.44 : (phi < -4.6 ? -4.6 : phi));
-			//if (phi > 4.44)
-			//	phi = 4.44;
-		}
-		else
-			phi = -4.6; // fugacity coefficient = 0.01
-		//if (!strcmp(phase_ptr->name, "H2O(g)") && phi < -4.6)
-		//{
-		////	 avoid such phi...
-		//	phi = -4.6;
-		//}
-		phase_ptr->pr_phi = exp(phi);
-		phase_ptr->pr_si_f = phi / LOG_10;
-		// for initial equilibrations, adapt log_k of the gas phase...
-		if (state < REACTION)
-		{
-			rho_0 = calc_rho_0(TK - 273.15, P);
-			calc_dielectrics(TK - 273.15, P);
-			phase_ptr->lk = calc_lk_phase(phase_ptr, TK, P);
-		}
-		phase_ptr->pr_in = true;
-	}
-	if (gas_phase_ptr && iterations > 2)
-	{
-		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
-		{
-			gas_phase_ptr->Set_total_p(P);
-		}
-		gas_phase_ptr->Set_v_m(V_m);
-		return (OK);
-	}
-	return (V_m);
-}
-#endif
 LDBLE Phreeqc::
 f_Vm(LDBLE v1, void *cookie)
 /* ---------------------------------------------------------------------- */

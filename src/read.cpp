@@ -2629,6 +2629,8 @@ read_gas_binary_parameters(void)
 				std::pair<std::string, std::string> p;
 				p = { gas1, gas2 };
 				gas_binary_parameters[p] = d;
+				p = { gas2, gas1 };
+				gas_binary_parameters[p] = d;
 			}
 			else
 			{
