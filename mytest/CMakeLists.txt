@@ -159,6 +159,7 @@ set(TESTS
   fixed_volume_gas_pz
   fluorite
   gas
+  gas_binary_parameters
   gas_fix_P
   gas_fix_V
   Gas_FixVolume
