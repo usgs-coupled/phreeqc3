@@ -151,6 +151,7 @@ set(TESTS
   febmp
   feedwater
   ferri_surface
+  fig1
   fiona
   fix_P
   fix_V
@@ -158,6 +159,7 @@ set(TESTS
   fixed_volume_gas_pz
   fluorite
   gas
+  gas_binary_parameters
   gas_fix_P
   gas_fix_V
   Gas_FixVolume
@@ -175,6 +177,7 @@ set(TESTS
   gypsum_P
   gypsum_P2
   gypsum_P5
+  H_HCl_HBr
   H_K
   H2S_71C
   H2S_Amm

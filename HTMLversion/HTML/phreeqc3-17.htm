@@ -1,535 +1,3388 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><HTML>
-<HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
-<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
-<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
-<LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> GAS_PHASE</TITLE><HR><P> | <A HREF="phreeqc3-18.htm">Next</A> || <A HREF="phreeqc3-16.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
-<BODY BGCOLOR="#ffffff">
-<H2 CLASS="FM3d-order-node">
-<A NAME="50593793_pgfId-254690"></A><STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
-<A NAME="50593793_83409"></A></H2>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-254691"></A>This keyword data block is used to define the composition of a fixed-total-pressure or a fixed-volume multicomponent gas phase. The thermodynamic properties of the gas components are defined with <A HREF="phreeqc3-36.htm#50593793_84418" CLASS="XRef">PHASES</A> input. If the critical pressure and temperature are defined for a gas component with <A HREF="phreeqc3-36.htm#50593793_84418" CLASS="XRef">PHASES</A>, the Peng-Robinson equation of state (EOS) will be used for calculating the relation between pressure and molar volume, and fugacity coefficients will be calculated for the gases. If the critical temperature and pressure are not defined, the ideal gas law will be used. Ideal gases and Peng-Robinson gases cannot be mixed in a <A HREF="phreeqc3-17.htm#50593793_83409" CLASS="XRef">GAS_PHASE</A>. A <A HREF="phreeqc3-17.htm#50593793_83409" CLASS="XRef">GAS_PHASE</A> data block is not needed if fixed partial pressures of gas components are desired; use <A HREF="phreeqc3-13.htm#50593793_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> instead. The gas phase defined with this keyword data block subsequently may be equilibrated with an aqueous phase in combination with pure-phase, surface, exchange, and solid-solution assemblages in batch-reaction calculations. Either Henry&#8217;s law (ideal gases) or the Peng-Robinson EOS (nonideal gases) is used for calculating the solubility of the gases. As a consequence of batch reactions, a fixed-pressure gas phase may exist or not, depending on the sum of the partial pressures of the dissolved gases in solution. A fixed-volume gas phase always contains some amount of each gas component that is present in solution. The initial composition of a fixed-pressure gas phase is defined by the partial pressures of each gas component. The initial composition of a fixed-volume gas may be defined by the partial pressures of each gas component or may be defined to be that which is in equilibrium with a fixed-composition aqueous phase. When the Peng-Robinson EOS is used and the <STRONG CLASS="Bold">
-GAS_PHASE </STRONG>
-has a pressure higher than about 10 atmospheres, the initial gas-phase composition calculated for a fixed-composition aqueous phase is only an approximation of the true gas composition.</P>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254692"></A><A NAME="50593793_73955"></A>Example data block 1</H6>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254693"></A>Line 0:  GAS_PHASE 1-5  Air</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254694"></A>Line 1:       -fixed_pressure</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254695"></A>Line 2:       -pressure       1.001</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254696"></A>Line 3:       -volume         1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254697"></A>Line 4:       -temperature    25.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254698"></A>Line 5a:      CH4(g)          0.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254699"></A>Line 5b:      CO2(g)          0.000316</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254700"></A>Line 5c:      O2(g)           0.2</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254701"></A>Line 5d:      N2(g)           0.78</pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254702"></A><A NAME="50593793_46600"></A>Explanation 1</H6>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254703"></A>Line 0: <STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- [<EM CLASS="Emphasis">
-number</EM>
-] [<EM CLASS="Emphasis">
-description</EM>
-]</P>
-<P CLASS="Body1">
-<A NAME="50593793_pgfId-254704"></A><STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- is the keyword for the data block. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254705"></A><EM CLASS="Emphasis">
-number</EM>
---A positive number designates the gas phase and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
-m</EM>
--<EM CLASS="Emphasis">
-n</EM>
-, where <EM CLASS="Emphasis">
-m</EM>
- and <EM CLASS="Emphasis">
-n</EM>
- are positive integers, <EM CLASS="Emphasis">
-m</EM>
- is less than <EM CLASS="Emphasis">
-n</EM>
-, and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254706"></A><EM CLASS="Emphasis">
-description</EM>
---Optional comment that describes the gas phase.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254707"></A>Line 1: <STRONG CLASS="Bold">
--fixed_pressure</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254708"></A><STRONG CLASS="Bold">
--fixed_pressure</STRONG>
---Identifier defining the gas phase to have a fixed total pressure; that is, a gas bubble. A fixed-pressure gas phase is the default if neither the <STRONG CLASS="Bold">
--fixed_pressure</STRONG>
- nor the <STRONG CLASS="Bold">
--fixed_volume</STRONG>
- identifier is used. Optionally <STRONG CLASS="Bold">
-fixed_pressure</STRONG>
- or <STRONG CLASS="Bold">
--fixed_p</STRONG>
-[<STRONG CLASS="Bold">
-ressure</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254709"></A>Line 2: <STRONG CLASS="Bold">
--pressure</STRONG>
-<EM CLASS="Emphasis">
- pressure</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254710"></A><STRONG CLASS="Bold">
--pressure</STRONG>
---Identifier defining the fixed pressure of the gas phase that applies during all batch-reaction and transport calculations. Optionally <STRONG CLASS="Bold">
-pressure</STRONG>
- or <STRONG CLASS="Bold">
--p</STRONG>
-[<STRONG CLASS="Bold">
-ressure</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254711"></A><EM CLASS="Emphasis">
-pressure</EM>
---The pressure of the gas phase, in atm (atmosphere). Default is 1.0 atm.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254712"></A>Line 3: <STRONG CLASS="Bold">
--volume </STRONG>
-<EM CLASS="Emphasis">
-volume</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254713"></A><STRONG CLASS="Bold">
--volume</STRONG>
---Identifier defining the initial volume of the fixed-pressure gas phase. Optionally, <STRONG CLASS="Bold">
-volume</STRONG>
- or <STRONG CLASS="Bold">
--v</STRONG>
-[<STRONG CLASS="Bold">
-olume</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254714"></A><EM CLASS="Emphasis">
-volume</EM>
---The initial volume of the fixed-pressure gas phase, in liters. The ideal gas law or the Peng-Robinson EOS is used to calculate the initial moles, n, of each gas component in the fixed-pressure gas phase. Default is 1.0 L (liter). </P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254715"></A>Line 4: <STRONG CLASS="Bold">
--temperature </STRONG>
-<EM CLASS="Emphasis">
-temp</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254716"></A><STRONG CLASS="Bold">
--temperature</STRONG>
---Identifier defining the initial temperature of the gas phase. Optionally, <STRONG CLASS="Bold">
-temperature</STRONG>
- or <STRONG CLASS="Bold">
--t</STRONG>
-[<STRONG CLASS="Bold">
-emperature</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254717"></A><EM CLASS="Emphasis">
-temp</EM>
---The initial temperature of the gas phase, in &#176;C (degree Celsius). The <EM CLASS="Emphasis">
-temp</EM>
- along with <EM CLASS="Emphasis">
-volume</EM>
- and <EM CLASS="Emphasis">
-partial pressure</EM>
- are used to calculate the initial moles of each gas component in the fixed-pressure gas phase. Default is 25.0 &#176;C. </P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254718"></A>Line 5: <EM CLASS="Emphasis">
-phase name, partial pressure</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254719"></A><EM CLASS="Emphasis">
-phase name</EM>
---Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-36.htm#50593793_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254720"></A><EM CLASS="Emphasis">
-partial pressure</EM>
---Initial partial pressure of this component in the gas phase (atm). The <EM CLASS="Emphasis">
-partial pressure</EM>
- along with <EM CLASS="Emphasis">
-volume</EM>
- and <EM CLASS="Emphasis">
-temp</EM>
- are used to calculate the initial moles of this gas component in the fixed-pressure gas phase.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254721"></A><A NAME="50593793_41352"></A>Notes 1</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-746321"></A>Line 5 must be repeated as necessary to define all of the components initially present in the fixed-pressure gas phase as well as any components which may subsequently enter the gas phase. The initial moles of a gas component that is defined to have a positive partial pressure in <STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- input will be computed using either the ideal gas law, <EM CLASS="Emphasis">
-n = PV/RT</EM>
-, where <EM CLASS="Emphasis">
-n</EM>
- is the moles of the gas, <EM CLASS="Emphasis">
-P</EM>
- is the defined partial pressure (Line 5), <EM CLASS="Emphasis">
-V</EM>
- is the initial volume, given by <STRONG CLASS="Bold">
--volume</STRONG>
-, R is the gas constant (0.08207 L K<Sup CLASS="Superscript">
--1</Sup>
-mol<Sup CLASS="Superscript">
--1</Sup>
-, liter per degree kelvin per mole), and <EM CLASS="Emphasis">
-T</EM>
- is given by <STRONG CLASS="Bold">
--temperature </STRONG>
-(converted to kelvin), or the Peng-Robinson EOS (see keyword <A HREF="phreeqc3-36.htm#50593793_84418" CLASS="XRef">PHASES</A> for the equations). Thus, in Example data block 1 and with the wateq4f.dat database, which does not define critical temperatures and pressures, the moles of all gases are calculated by n = (0.000316 + 0.2 + 0.78) <EM CLASS="Emphasis">
-&#215;</EM>
- 1.0 / (298 <EM CLASS="Emphasis">
-&#215;</EM>
- 0.02807) = 0.04 mol. <EM CLASS="Emphasis">
-If this gas phase reacts with a solution with a very small amount of water so that n does not change (that is, the dissolution of gas is negligible), the volume becomes V = </EM>
-0.04 <EM CLASS="Emphasis">
-&#215;</EM>
- (298 <EM CLASS="Emphasis">
-&#215;</EM>
- 0.02807) / 1.001 = 0.979 L. It is likely that the sum of the partial pressures of the defined gases will not be equal to the pressure given by <STRONG CLASS="Bold">
--pressure</STRONG>
-. However, when the <STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- reacts with a solution during a batch-reaction simulation, the moles of gases and volume of the gas phase will be adjusted so that each component is in equilibrium with the solution while the total pressure (sum of the partial pressures) is that specified by <STRONG CLASS="Bold">
--pressure</STRONG>
-. It is possible that the gas phase disappears if the sum of the partial pressures of dissolved gases is less than the pressure given by <STRONG CLASS="Bold">
--pressure</STRONG>
-.</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-746448"></A>A gas component may be defined to have initial partial pressure of zero. In this case, no moles of that component will be present initially, but the component may enter the gas phase when in contact with a solution that contains that component. If no gas phase exists initially, the initial partial pressures of all components should be set to 0.0; a gas phase may subsequently form if batch reactions cause the sum of the partial pressures of the gas components to exceed <EM CLASS="Emphasis">
-pressure</EM>
-.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254724"></A><A NAME="50593793_51878"></A>Example data block 2</H6>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254725"></A>Line 0:  GAS_PHASE 1-5  Find composition from solution 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254726"></A>Line 1:	-fixed_volume</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254727"></A>Line 2:	-volume		1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254728"></A>Line 3:	-temperature		25.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254729"></A>Line 4a:	CH4(g)		0.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254730"></A>Line 4b:	CO2(g)		0.000316</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254731"></A>Line 4c:	O2(g)		0.2</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254732"></A>Line 4d:	N2(g)		0.78</pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254733"></A><A NAME="50593793_97637"></A>Explanation 2</H6>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254734"></A>Line 0: <STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- [<EM CLASS="Emphasis">
-number</EM>
-] [<EM CLASS="Emphasis">
-description</EM>
-]</P>
-<P CLASS="Body1">
-<A NAME="50593793_pgfId-254735"></A><STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- is the keyword for the data block. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254736"></A><EM CLASS="Emphasis">
-number</EM>
---a positive number designates the gas phase and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
-m</EM>
--<EM CLASS="Emphasis">
-n</EM>
-, where <EM CLASS="Emphasis">
-m</EM>
- and <EM CLASS="Emphasis">
-n</EM>
- are positive integers, <EM CLASS="Emphasis">
-m</EM>
- is less than <EM CLASS="Emphasis">
-n</EM>
-, and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254737"></A><EM CLASS="Emphasis">
-description</EM>
---Optional comment that describes the gas phase.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254738"></A>Line 1: <STRONG CLASS="Bold">
--fixed_volume</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254739"></A><STRONG CLASS="Bold">
--fixed_volume</STRONG>
---Identifier defining the gas phase to be one that has a fixed volume (not a gas bubble). A fixed-pressure gas phase is the default if neither the <STRONG CLASS="Bold">
--fixed_pressure</STRONG>
- nor the <STRONG CLASS="Bold">
--fixed_volume</STRONG>
- identifier is used. Optionally <STRONG CLASS="Bold">
-fixed_volume</STRONG>
- or <STRONG CLASS="Bold">
--fixed_v</STRONG>
-[<STRONG CLASS="Bold">
-olume</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254740"></A>Line 2: <STRONG CLASS="Bold">
--volume </STRONG>
-<EM CLASS="Emphasis">
-volume</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254741"></A><STRONG CLASS="Bold">
--volume</STRONG>
---Identifier defining the volume of the fixed-volume gas phase, which applies for all batch-reaction or transport calculations. Optionally, <STRONG CLASS="Bold">
-volume</STRONG>
- or <STRONG CLASS="Bold">
--v</STRONG>
-[<STRONG CLASS="Bold">
-olume</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254742"></A><EM CLASS="Emphasis">
-volume</EM>
---The volume of the fixed-volume gas phase, in liters. Default is 1.0 L. </P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254743"></A>Line 3: <STRONG CLASS="Bold">
--temperature </STRONG>
-<EM CLASS="Emphasis">
-temp</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254744"></A><STRONG CLASS="Bold">
--temperature</STRONG>
---Identifier defining the initial temperature of the gas phase. Optionally, <STRONG CLASS="Bold">
-temperature</STRONG>
- or <STRONG CLASS="Bold">
--t</STRONG>
-[<STRONG CLASS="Bold">
-emperature</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254745"></A><EM CLASS="Emphasis">
-temp</EM>
---The initial temperature of the gas phase, in &#176;C. Default is 25.0 &#176;C. </P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254746"></A>Line 4: <EM CLASS="Emphasis">
-phase name, partial pressure</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254747"></A><EM CLASS="Emphasis">
-phase name</EM>
---Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-36.htm#50593793_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254748"></A><EM CLASS="Emphasis">
-partial pressure</EM>
---Initial partial pressure of this component in the gas phase, in atm. The <EM CLASS="Emphasis">
-partial pressure</EM>
- along with <EM CLASS="Emphasis">
-volume</EM>
- and <EM CLASS="Emphasis">
-temp</EM>
- are used to calculate the initial moles of this gas component in the fixed-volume gas phase. </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254749"></A><A NAME="50593793_20939"></A>Notes 2</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-254750"></A>Line 4 may be repeated as necessary to define all the components initially present in the fixed-volume gas phase, as well as any components which may subsequently enter the gas phase. The initial moles of a gas component with a positive partial pressure will be computed using either the ideal gas law, <EM CLASS="Emphasis">
-n = PV/(RT)</EM>
-, where <EM CLASS="Emphasis">
-n</EM>
- is the moles of the gas, <EM CLASS="Emphasis">
-P</EM>
- is the defined partial pressure (Line 4), <EM CLASS="Emphasis">
-V</EM>
- is given by <STRONG CLASS="Bold">
--volume</STRONG>
-, R is the gas constant, and <EM CLASS="Emphasis">
-T</EM>
- is given by <STRONG CLASS="Bold">
--temperature </STRONG>
-(converted to kelvin), or the Peng-Robinson EOS. When the gas phase reacts with a solution during a batch-reaction simulation, the total pressure, the partial pressures of the gas components in the gas phase, and the partial pressures of the gas components in the aqueous phase will be adjusted so that equilibrium is established for each component. A constant-volume gas phase always exists unless all of the gas components are absent from the system. The identifier <STRONG CLASS="Bold">
--pressure </STRONG>
-is not used for a fixed-volume gas phase.</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-254751"></A>A gas component may be defined to have an initial partial pressure of zero. In this case, no moles of that component will be present initially, but the component will enter the gas phase when in contact with a solution containing the component.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254752"></A><A NAME="50593793_53658"></A>Example data block 3</H6>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254753"></A>Line 0:  GAS_PHASE 1-5  Air</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254754"></A>Line 1:       -fixed_volume</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254755"></A>Line 2:       -equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254756"></A>Line 3:       -volume         1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254757"></A>Line 4a:      CH4(g)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254758"></A>Line 4b:      CO2(g)</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254759"></A>Line 4c:      O2(g) </pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-254760"></A>Line 4d:      N2(g) </pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254761"></A><A NAME="50593793_54503"></A>Explanation 3</H6>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254762"></A>Line 0: <STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- [<EM CLASS="Emphasis">
-number</EM>
-] [<EM CLASS="Emphasis">
-description</EM>
-]</P>
-<P CLASS="Body1">
-<A NAME="50593793_pgfId-254763"></A><STRONG CLASS="Bold">
-GAS_PHASE</STRONG>
- is the keyword for the data block. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254764"></A><EM CLASS="Emphasis">
-number</EM>
---A positive number designates the gas phase and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
-m</EM>
--<EM CLASS="Emphasis">
-n</EM>
-, where <EM CLASS="Emphasis">
-m</EM>
- and <EM CLASS="Emphasis">
-n</EM>
- are positive integers, <EM CLASS="Emphasis">
-m</EM>
- is less than <EM CLASS="Emphasis">
-n</EM>
-, and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254765"></A><EM CLASS="Emphasis">
-description</EM>
---Optional comment that describes the gas phase.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254766"></A>Line 1: <STRONG CLASS="Bold">
--fixed_volume</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254767"></A><STRONG CLASS="Bold">
--fixed_volume</STRONG>
---Identifier defining the gas phase to be one that has a fixed volume (not a gas bubble). A fixed-pressure gas phase is the default if neither the <STRONG CLASS="Bold">
--fixed_pressure</STRONG>
- nor the <STRONG CLASS="Bold">
--fixed_volume</STRONG>
- identifier is used. Optionally <STRONG CLASS="Bold">
-fixed_volume</STRONG>
- or <STRONG CLASS="Bold">
--fixed_v</STRONG>
-[<STRONG CLASS="Bold">
-olume</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254768"></A>Line 2: <STRONG CLASS="Bold">
--equilibrate</STRONG>
-<EM CLASS="Emphasis">
- number</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254769"></A><STRONG CLASS="Bold">
--equilibrate</STRONG>
---Identifier indicates that the fixed-volume gas phase is defined to be in equilibrium with a solution of a fixed composition. This identifier may only be used with the <STRONG CLASS="Bold">
--fixed_volume</STRONG>
- identifier. Optionally, <STRONG CLASS="Bold">
-equil</STRONG>
-,<STRONG CLASS="Bold">
- equilibrium</STRONG>
-, <STRONG CLASS="Bold">
--e</STRONG>
-[<STRONG CLASS="Bold">
-quilibrium</STRONG>
-], <STRONG CLASS="Bold">
-equilibrate</STRONG>
-, <STRONG CLASS="Bold">
--e</STRONG>
-[<STRONG CLASS="Bold">
-quilibrate</STRONG>
-]. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254770"></A><EM CLASS="Emphasis">
-number</EM>
---Solution number with which the fixed-volume gas phase is to be in equilibrium. Any alphabetic characters following the identifier and preceding an integer (&#8220;with solution&#8221; in Line 2) are ignored.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254771"></A>Line 3: <STRONG CLASS="Bold">
--volume </STRONG>
-<EM CLASS="Emphasis">
-volume</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254772"></A><STRONG CLASS="Bold">
--volume</STRONG>
---Identifier defining the volume of the fixed-volume gas phase, which applies for all batch-reaction or transport calculations. Optionally, <STRONG CLASS="Bold">
-volume</STRONG>
- or <STRONG CLASS="Bold">
--v</STRONG>
-[<STRONG CLASS="Bold">
-olume</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254773"></A><EM CLASS="Emphasis">
-volume</EM>
---The volume of the fixed-volume gas phase, L. Default is 1.0 L. </P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-254774"></A>Line 4: <EM CLASS="Emphasis">
-phase name</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-254775"></A><EM CLASS="Emphasis">
-phase name</EM>
---Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-36.htm#50593793_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-254776"></A><A NAME="50593793_23110"></A>Notes 3</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-713353"></A>Line 4 may be repeated as necessary to define all of the components that may be present in the fixed-volume gas phase. The <STRONG CLASS="Bold">
--equilibrate</STRONG>
- identifier specifies that the initial moles of the gas components are to be calculated by equilibrium with solution 10. This calculation is termed an &#8220;initial gas-phase-composition calculation&#8221;. During this calculation, the composition of solution 10 does not change, only the moles of each component in the gas phase are calculated. This calculation is approximate for a Peng-Robinson <A HREF="phreeqc3-17.htm#50593793_83409" CLASS="XRef">GAS_PHASE</A> due to the fugacity coefficient, which is used for calculating the activity of the gas in the solubility equation. Alternatively, for Peng-Robinson gases, keyword <A HREF="phreeqc3-91.htm#50593805_44837" CLASS="XRef">GAS_PHASE_MODIFY</A> may be used, but this is still approximate for a gas-mixture at high pressure. A constant-volume gas phase always exists unless all of the gas components are absent from the system. When the <STRONG CLASS="Bold">
--equilibrate</STRONG>
- identifier is used, the identifiers <STRONG CLASS="Bold">
--pressure</STRONG>
- and <STRONG CLASS="Bold">
--temperature </STRONG>
-are not needed and initial partial pressures for each gas component need not be specified; the partial pressures for the gas components are calculated from the partial pressures in solution and the temperature is equal to the solution temperature. The <STRONG CLASS="Bold">
--equilibrate</STRONG>
- identifier cannot be used with a fixed-pressure gas phase.</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-254778"></A>A gas component may have an initial partial pressure of zero because the solution with which the gas phase is in equilibrium does not contain that gas component. In this case, no moles of that component will be present initially, but the component may enter the gas phase when the gas is in contact with another solution that does contain that component. </P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-581230"></A>After a batch reaction has been simulated, it is possible to save the resulting gas-phase composition with the <A HREF="phreeqc3-44.htm#50593793_81857" CLASS="XRef">SAVE</A> keyword. If the new composition is not saved, the gas-phase composition will remain the same as it was before the batch reaction. After it has been defined or saved, the gas phase can be used in subsequent simulations through the <A HREF="phreeqc3-57.htm#50593793_78143" CLASS="XRef">USE</A> keyword. <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
- calculations automatically update the gas-phase composition and <A HREF="phreeqc3-44.htm#50593793_81857" CLASS="XRef">SAVE</A> has no effect during these calculations.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-515635"></A><A NAME="50593793_18459"></A>Example problems</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-726682"></A>The keyword <STRONG CLASS="Bold">
-GAS_PHASE </STRONG>
-is used in example problems <A HREF="phreeqc3-69.htm#50593807_44022" CLASS="XRef">7</A> and <A HREF="phreeqc3-84.htm#50593807_97000" CLASS="XRef">22</A>. </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-726684"></A><A NAME="50593793_54938"></A>Related keywords</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-597611"></A><A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50593793_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50593793_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50593793_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-13.htm#50593793_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-91.htm#50593805_44837" CLASS="XRef">GAS_PHASE_MODIFY</A>, <STRONG CLASS="Bold">
-<A HREF="phreeqc3-36.htm#50593793_84418" CLASS="XRef"></A>PHASES<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
-, <A HREF="phreeqc3-44.htm#50593793_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
-gas_phase</STRONG>
-, <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-57.htm#50593793_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
-gas_phase</STRONG>
-.</P>
-</DIV>
-<HR><P> | <A HREF="phreeqc3-18.htm">Next</A> || <A HREF="phreeqc3-16.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
-</HTML>
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="phreeqc3-17_files/filelist.xml">
+<link rel=Edit-Time-Data href="phreeqc3-17_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title> GAS_PHASE</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>David Parkhurst</o:Author>
+  <o:LastAuthor>David Parkhurst</o:LastAuthor>
+  <o:Revision>3</o:Revision>
+  <o:TotalTime>1</o:TotalTime>
+  <o:Created>2024-11-11T17:26:00Z</o:Created>
+  <o:LastSaved>2024-11-11T17:29:00Z</o:LastSaved>
+  <o:Pages>6</o:Pages>
+  <o:Words>2330</o:Words>
+  <o:Characters>13281</o:Characters>
+  <o:Lines>110</o:Lines>
+  <o:Paragraphs>31</o:Paragraphs>
+  <o:CharactersWithSpaces>15580</o:CharactersWithSpaces>
+  <o:Version>16.00</o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<link rel=themeData href="phreeqc3-17_files/themedata.thmx">
+<link rel=colorSchemeMapping href="phreeqc3-17_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>152</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SplitPgBreakAndParaMark/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="376">
+  <w:LsdException Locked="false" Priority="0" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 9"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="header"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footer"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index heading"/>
+  <w:LsdException Locked="false" Priority="35" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of figures"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope return"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="line number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="page number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of authorities"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="macro"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="toa heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 5"/>
+  <w:LsdException Locked="false" Priority="10" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Closing"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Signature"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Message Header"/>
+  <w:LsdException Locked="false" Priority="11" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Salutation"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Date"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Note Heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Block Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="FollowedHyperlink"/>
+  <w:LsdException Locked="false" Priority="22" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Document Map"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Plain Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="E-mail Signature"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Top of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Bottom of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal (Web)"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Acronym"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Cite"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Code"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Definition"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Keyboard"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Preformatted"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Sample"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Typewriter"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Variable"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Table"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation subject"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="No List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Contemporary"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Elegant"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Professional"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Balloon Text"/>
+  <w:LsdException Locked="false" Priority="39" Name="Table Grid"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Theme"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+  <w:LsdException Locked="false" Priority="41" Name="Plain Table 1"/>
+  <w:LsdException Locked="false" Priority="42" Name="Plain Table 2"/>
+  <w:LsdException Locked="false" Priority="43" Name="Plain Table 3"/>
+  <w:LsdException Locked="false" Priority="44" Name="Plain Table 4"/>
+  <w:LsdException Locked="false" Priority="45" Name="Plain Table 5"/>
+  <w:LsdException Locked="false" Priority="40" Name="Grid Table Light"/>
+  <w:LsdException Locked="false" Priority="46" Name="Grid Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hashtag"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Unresolved Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Link"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<link rel=Stylesheet type="text/css" media=all href=phreeqc3.css>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536869121 64767 1 0 415 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 1 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:1;
+	font-size:24.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h2
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 2 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:2;
+	font-size:18.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h3
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 3 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h4
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 4 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:4;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h5
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 5 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:5;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h6
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 6 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	font-size:7.5pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+pre
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 1";
+	mso-ansi-font-size:16.0pt;
+	mso-bidi-font-size:16.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 2";
+	mso-ansi-font-size:13.0pt;
+	mso-bidi-font-size:13.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 3";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#1F3763;
+	mso-themecolor:accent1;
+	mso-themeshade:127;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading4Char
+	{mso-style-name:"Heading 4 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 4";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;
+	font-style:italic;}
+span.Heading5Char
+	{mso-style-name:"Heading 5 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 5";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading6Char
+	{mso-style-name:"Heading 6 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 6";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#1F3763;
+	mso-themecolor:accent1;
+	mso-themeshade:127;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"HTML Preformatted";
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Consolas;
+	mso-ascii-font-family:Consolas;
+	mso-hansi-font-family:Consolas;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm1st-order, li.fm1st-order, div.fm1st-order
+	{mso-style-name:fm1st-order;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm1st-order-appendix, li.fm1st-order-appendix, div.fm1st-order-appendix
+	{mso-style-name:fm1st-order-appendix;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm1toc-heading, li.fm1toc-heading, div.fm1toc-heading
+	{mso-style-name:fm1toc-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:31.2pt;
+	text-indent:-31.2pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.fm2d-order, li.fm2d-order, div.fm2d-order
+	{mso-style-name:fm2d-order;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm2d-order-example, li.fm2d-order-example, div.fm2d-order-example
+	{mso-style-name:fm2d-order-example;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm2toc-heading, li.fm2toc-heading, div.fm2toc-heading
+	{mso-style-name:fm2toc-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:42.0pt;
+	text-indent:-20.4pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.fm3d-order, li.fm3d-order, div.fm3d-order
+	{mso-style-name:fm3d-order;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm3toc-heading, li.fm3toc-heading, div.fm3toc-heading
+	{mso-style-name:fm3toc-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:70.8pt;
+	text-indent:-30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.fm4th-order, li.fm4th-order, div.fm4th-order
+	{mso-style-name:fm4th-order;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm4th-order-node, li.fm4th-order-node, div.fm4th-order-node
+	{mso-style-name:fm4th-order-node;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm5th-order, li.fm5th-order, div.fm5th-order
+	{mso-style-name:fm5th-order;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.fm5thorderheading, li.fm5thorderheading, div.fm5thorderheading
+	{mso-style-name:fm5thorderheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.abstract-body, li.abstract-body, div.abstract-body
+	{mso-style-name:abstract-body;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.abstractbody, li.abstractbody, div.abstractbody
+	{mso-style-name:abstractbody;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.abstractheading, li.abstractheading, div.abstractheading
+	{mso-style-name:abstractheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.appendix-body, li.appendix-body, div.appendix-body
+	{mso-style-name:appendix-body;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.appendix-heading, li.appendix-heading, div.appendix-heading
+	{mso-style-name:appendix-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.author, li.author, div.author
+	{mso-style-name:author;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.authorline, li.authorline, div.authorline
+	{mso-style-name:authorline;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:21.0pt;
+	margin-right:0in;
+	margin-bottom:28.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body, li.body, div.body
+	{mso-style-name:body;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body-att, li.body-att, div.body-att
+	{mso-style-name:body-att;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:48.0pt;
+	text-indent:-48.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body-indent, li.body-indent, div.body-indent
+	{mso-style-name:body-indent;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body-left, li.body-left, div.body-left
+	{mso-style-name:body-left;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body-line, li.body-line, div.body-line
+	{mso-style-name:body-line;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body1, li.body1, div.body1
+	{mso-style-name:body1;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body1-indent, li.body1-indent, div.body1-indent
+	{mso-style-name:body1-indent;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body1-indentflush, li.body1-indentflush, div.body1-indentflush
+	{mso-style-name:body1-indentflush;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.body2, li.body2, div.body2
+	{mso-style-name:body2;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:138.0pt;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.bodytext, li.bodytext, div.bodytext
+	{mso-style-name:bodytext;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.bodytextflush, li.bodytextflush, div.bodytextflush
+	{mso-style-name:bodytextflush;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellbody, li.cellbody, div.cellbody
+	{mso-style-name:cellbody;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellbody8ptcenter, li.cellbody8ptcenter, div.cellbody8ptcenter
+	{mso-style-name:cellbody8ptcenter;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellbody8ptleft, li.cellbody8ptleft, div.cellbody8ptleft
+	{mso-style-name:cellbody8ptleft;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellbody8ptright, li.cellbody8ptright, div.cellbody8ptright
+	{mso-style-name:cellbody8ptright;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellbody9ptleft, li.cellbody9ptleft, div.cellbody9ptleft
+	{mso-style-name:cellbody9ptleft;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellbody9ptright, li.cellbody9ptright, div.cellbody9ptright
+	{mso-style-name:cellbody9ptright;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellcenter, li.cellcenter, div.cellcenter
+	{mso-style-name:cellcenter;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellheading, li.cellheading, div.cellheading
+	{mso-style-name:cellheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cellheading7pt, li.cellheading7pt, div.cellheading7pt
+	{mso-style-name:cellheading7pt;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cellheading8pt, li.cellheading8pt, div.cellheading8pt
+	{mso-style-name:cellheading8pt;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cellheading9pt, li.cellheading9pt, div.cellheading9pt
+	{mso-style-name:cellheading9pt;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cellright, li.cellright, div.cellright
+	{mso-style-name:cellright;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cellspanhead6pt, li.cellspanhead6pt, div.cellspanhead6pt
+	{mso-style-name:cellspanhead6pt;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cellspanhead7pt, li.cellspanhead7pt, div.cellspanhead7pt
+	{mso-style-name:cellspanhead7pt;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cellspanhead8pt, li.cellspanhead8pt, div.cellspanhead8pt
+	{mso-style-name:cellspanhead8pt;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cellspanner, li.cellspanner, div.cellspanner
+	{mso-style-name:cellspanner;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.computeroutput, li.computeroutput, div.computeroutput
+	{mso-style-name:computeroutput;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:6.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.5pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.contentsheading, li.contentsheading, div.contentsheading
+	{mso-style-name:contentsheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cutin-fig, li.cutin-fig, div.cutin-fig
+	{mso-style-name:cutin-fig;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.cutin-fulltitle, li.cutin-fulltitle, div.cutin-fulltitle
+	{mso-style-name:cutin-fulltitle;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.cutin-table, li.cutin-table, div.cutin-table
+	{mso-style-name:cutin-table;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.eq-explan-, li.eq-explan-, div.eq-explan-
+	{mso-style-name:eq-explan-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.equation, li.equation, div.equation
+	{mso-style-name:equation;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.equationunnumbered, li.equationunnumbered, div.equationunnumbered
+	{mso-style-name:equationunnumbered;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.equationwhere, li.equationwhere, div.equationwhere
+	{mso-style-name:equationwhere;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.figurecaption, li.figurecaption, div.figurecaption
+	{mso-style-name:figurecaption;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.figurecaptionwhite, li.figurecaptionwhite, div.figurecaptionwhite
+	{mso-style-name:figurecaptionwhite;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:18.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.figurecutinfulltitle, li.figurecutinfulltitle, div.figurecutinfulltitle
+	{mso-style-name:figurecutinfulltitle;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.footer, li.footer, div.footer
+	{mso-style-name:footer;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.5pt;
+	text-align:justify;
+	text-indent:-20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.footerleft, li.footerleft, div.footerleft
+	{mso-style-name:footerleft;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.footerright, li.footerright, div.footerright
+	{mso-style-name:footerright;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-align:right;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.footnote, li.footnote, div.footnote
+	{mso-style-name:footnote;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:22.5pt;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.glossary-body, li.glossary-body, div.glossary-body
+	{mso-style-name:glossary-body;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.glossary-heading, li.glossary-heading, div.glossary-heading
+	{mso-style-name:glossary-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.headingrunin, li.headingrunin, div.headingrunin
+	{mso-style-name:headingrunin;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.headnote, li.headnote, div.headnote
+	{mso-style-name:headnote;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.index-body, li.index-body, div.index-body
+	{mso-style-name:index-body;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.index-heading, li.index-heading, div.index-heading
+	{mso-style-name:index-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.list-alpha, li.list-alpha, div.list-alpha
+	{mso-style-name:list-alpha;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.list-alpha-start, li.list-alpha-start, div.list-alpha-start
+	{mso-style-name:list-alpha-start;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.list-bulleted, li.list-bulleted, div.list-bulleted
+	{mso-style-name:list-bulleted;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.list-num-start, li.list-num-start, div.list-num-start
+	{mso-style-name:list-num-start;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.list-numbered, li.list-numbered, div.list-numbered
+	{mso-style-name:list-numbered;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.mapping-table-cell, li.mapping-table-cell, div.mapping-table-cell
+	{mso-style-name:mapping-table-cell;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.mapping-table-title, li.mapping-table-title, div.mapping-table-title
+	{mso-style-name:mapping-table-title;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.pub-approval, li.pub-approval, div.pub-approval
+	{mso-style-name:pub-approval;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.quote, li.quote, div.quote
+	{mso-style-name:quote;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:20.0pt;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.ref-body, li.ref-body, div.ref-body
+	{mso-style-name:ref-body;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.ref-heading, li.ref-heading, div.ref-heading
+	{mso-style-name:ref-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.referencesbody, li.referencesbody, div.referencesbody
+	{mso-style-name:referencesbody;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.referencesheading, li.referencesheading, div.referencesheading
+	{mso-style-name:referencesheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-weight:bold;}
+p.sideheading, li.sideheading, div.sideheading
+	{mso-style-name:sideheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:27.5pt;
+	text-indent:-27.5pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.sym-def-headings, li.sym-def-headings, div.sym-def-headings
+	{mso-style-name:sym-def-headings;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;
+	font-style:italic;}
+p.symbols-body, li.symbols-body, div.symbols-body
+	{mso-style-name:symbols-body;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.symbols-heading, li.symbols-heading, div.symbols-heading
+	{mso-style-name:symbols-heading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.tablefootnote, li.tablefootnote, div.tablefootnote
+	{mso-style-name:tablefootnote;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.tableheadnote, li.tableheadnote, div.tableheadnote
+	{mso-style-name:tableheadnote;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.tabletitle, li.tabletitle, div.tabletitle
+	{mso-style-name:tabletitle;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:11.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.title, li.title, div.title
+	{mso-style-name:title;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:windowtext;}
+p.appendixbody, li.appendixbody, div.appendixbody
+	{mso-style-name:appendixbody;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.appendixheading, li.appendixheading, div.appendixheading
+	{mso-style-name:appendixheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-2-, li.cellbody8ptdec-2-, div.cellbody8ptdec-2-
+	{mso-style-name:cellbody8ptdec-2-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-25-, li.cellbody8ptdec-25-, div.cellbody8ptdec-25-
+	{mso-style-name:cellbody8ptdec-25-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-3-, li.cellbody8ptdec-3-, div.cellbody8ptdec-3-
+	{mso-style-name:cellbody8ptdec-3-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-35-, li.cellbody8ptdec-35-, div.cellbody8ptdec-35-
+	{mso-style-name:cellbody8ptdec-35-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-4-, li.cellbody8ptdec-4-, div.cellbody8ptdec-4-
+	{mso-style-name:cellbody8ptdec-4-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-45-, li.cellbody8ptdec-45-, div.cellbody8ptdec-45-
+	{mso-style-name:cellbody8ptdec-45-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-5-, li.cellbody8ptdec-5-, div.cellbody8ptdec-5-
+	{mso-style-name:cellbody8ptdec-5-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-55-, li.cellbody8ptdec-55-, div.cellbody8ptdec-55-
+	{mso-style-name:cellbody8ptdec-55-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-6-, li.cellbody8ptdec-6-, div.cellbody8ptdec-6-
+	{mso-style-name:cellbody8ptdec-6-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-2-, li.cellbody9ptdec-2-, div.cellbody9ptdec-2-
+	{mso-style-name:cellbody9ptdec-2-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-3-, li.cellbody9ptdec-3-, div.cellbody9ptdec-3-
+	{mso-style-name:cellbody9ptdec-3-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-4-, li.cellbody9ptdec-4-, div.cellbody9ptdec-4-
+	{mso-style-name:cellbody9ptdec-4-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-55-, li.cellbody9ptdec-55-, div.cellbody9ptdec-55-
+	{mso-style-name:cellbody9ptdec-55-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-6-, li.cellbody9ptdec-6-, div.cellbody9ptdec-6-
+	{mso-style-name:cellbody9ptdec-6-;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.celldecimal, li.celldecimal, div.celldecimal
+	{mso-style-name:celldecimal;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.fig-cap, li.fig-cap, div.fig-cap
+	{mso-style-name:fig-cap;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.figurecutin, li.figurecutin, div.figurecutin
+	{mso-style-name:figurecutin;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.glossarybody, li.glossarybody, div.glossarybody
+	{mso-style-name:glossarybody;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.glossaryheading, li.glossaryheading, div.glossaryheading
+	{mso-style-name:glossaryheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.indexbody, li.indexbody, div.indexbody
+	{mso-style-name:indexbody;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.indexheading, li.indexheading, div.indexheading
+	{mso-style-name:indexheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.listbullet1, li.listbullet1, div.listbullet1
+	{mso-style-name:listbullet1;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listbullet2, li.listbullet2, div.listbullet2
+	{mso-style-name:listbullet2;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:42.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1begin, li.listlevel1begin, div.listlevel1begin
+	{mso-style-name:listlevel1begin;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1continue, li.listlevel1continue, div.listlevel1continue
+	{mso-style-name:listlevel1continue;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelabegin, li.listlevelabegin, div.listlevelabegin
+	{mso-style-name:listlevelabegin;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelacontinue, li.listlevelacontinue, div.listlevelacontinue
+	{mso-style-name:listlevelacontinue;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.referencesrepeat, li.referencesrepeat, div.referencesrepeat
+	{mso-style-name:referencesrepeat;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionbody, li.symboldefinitionbody, div.symboldefinitionbody
+	{mso-style-name:symboldefinitionbody;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionheadings, li.symboldefinitionheadings, div.symboldefinitionheadings
+	{mso-style-name:symboldefinitionheadings;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-style:italic;}
+p.symboldefinitionsheading, li.symboldefinitionsheading, div.symboldefinitionsheading
+	{mso-style-name:symboldefinitionsheading;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.tablecutin, li.tablecutin, div.tablecutin
+	{mso-style-name:tablecutin;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+</style>
+<![endif]-->
+<meta http-equiv=Content-Style-Type content="text/css">
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=white lang=EN-US link=blue vlink=purple style='tab-interval:.5in;
+word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<div class=MsoNormal align=center style='text-align:center;line-height:106%'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+<p>| <a href="phreeqc3-18.htm">Next</a> || <a href="gas_binary_parameters.htm">Previous</a>
+|| <a href="phreeqc3.htm">Top</a> | </p>
+
+<h2 style='margin-top:12.0pt;margin-right:0in;margin-bottom:9.0pt;margin-left:
+0in;vertical-align:baseline'><a name="50593793_pgfId-254690"></a><strong><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+"Times New Roman";color:blue'>GAS_PHASE</span></strong><span style='font-size:
+12.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:"Times New Roman";
+color:blue'> <a name="50593793_83409"></a><o:p></o:p></span></h2>
+
+<p class=bodytext style='vertical-align:baseline'><a
+name="50593793_pgfId-254691"></a><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'>This keyword data block is
+used to define the composition of a fixed-total-pressure or a fixed-volume
+multicomponent gas phase. The thermodynamic properties of the gas components
+are defined with <a href="phreeqc3-36.htm#50593793_84418">PHASES</a> input. If
+the critical pressure and temperature are defined for a gas component with <a
+href="phreeqc3-36.htm#50593793_84418">PHASES</a>, the Peng-Robinson equation of
+state (EOS) will be used for calculating the relation between pressure and
+molar volume, and fugacity coefficients will be calculated for the gases. If
+the critical temperature and pressure are not defined, the ideal gas law will
+be used. Ideal gases and Peng-Robinson gases cannot be mixed in a <a
+href="phreeqc3-17.htm#50593793_83409">GAS_PHASE</a>. A <a
+href="phreeqc3-17.htm#50593793_83409">GAS_PHASE</a> data block is not needed if
+fixed partial pressures of gas components are desired; use <a
+href="phreeqc3-13.htm#50593793_61207">EQUILIBRIUM_PHASES</a> instead. The gas
+phase defined with this keyword data block subsequently may be equilibrated
+with an aqueous phase in combination with pure-phase, surface, exchange, and
+solid-solution assemblages in batch-reaction calculations. Either Henry’s law
+(ideal gases) or the Peng-Robinson EOS (nonideal gases) is used for calculating
+the solubility of the gases. As a consequence of batch reactions, a
+fixed-pressure gas phase may exist or not, depending on the sum of the partial
+pressures of the dissolved gases in solution. A fixed-volume gas phase always
+contains some amount of each gas component that is present in solution. The
+initial composition of a fixed-pressure gas phase is defined by the partial
+pressures of each gas component. The initial composition of a fixed-volume gas
+may be defined by the partial pressures of each gas component or may be defined
+to be that which is in equilibrium with a fixed-composition aqueous phase. When
+the Peng-Robinson EOS is used and the <strong>GAS_PHASE </strong>has a pressure
+higher than about 10 atmospheres, the initial gas-phase composition calculated
+for a fixed-composition aqueous phase is only an approximation of the true gas
+composition.<o:p></o:p></span></p>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-254692"></a><a name="50593793_73955"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+"Times New Roman";color:black'>Example data block 1<o:p></o:p></span></h6>
+
+<pre style='vertical-align:baseline'><a name="50593793_pgfId-254693"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 0:<span style='mso-spacerun:yes'>  </span>GAS_PHASE 1-5<span style='mso-spacerun:yes'>  </span>Air<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254694"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 1:<span style='mso-spacerun:yes'>       </span>-<span
+class=SpellE>fixed_pressure</span><o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254695"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 2:<span style='mso-spacerun:yes'>       </span>-pressure<span style='mso-spacerun:yes'>       </span>1.001<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254696"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 3:<span style='mso-spacerun:yes'>       </span>-volume<span style='mso-spacerun:yes'>         </span>1.0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254697"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4:<span style='mso-spacerun:yes'>       </span>-temperature<span style='mso-spacerun:yes'>    </span>25.0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254698"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 5a:<span style='mso-spacerun:yes'>      </span>CH4(g)<span style='mso-spacerun:yes'>          </span>0.0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254699"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 5b:<span style='mso-spacerun:yes'>      </span>CO2(g)<span style='mso-spacerun:yes'>          </span>0.000316<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254700"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 5c:<span style='mso-spacerun:yes'>      </span>O2(g)<span style='mso-spacerun:yes'>           </span>0.2<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254701"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 5d:<span style='mso-spacerun:yes'>      </span>N2(g)<span style='mso-spacerun:yes'>           </span>0.78<o:p></o:p></span></pre></div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254702"></a><a
+name="50593793_46600"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Explanation 1<o:p></o:p></span></h6>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254703"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 0: <strong>GAS_PHASE</strong> [<em> number</em><em><span
+style='font-style:normal'> ]</span></em> [<em> description</em> ]<o:p></o:p></span></p>
+
+<p class=body1 style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254704"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>GAS_PHASE</span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'> is the
+keyword for the data block. <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254705"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>number</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --A positive number
+designates the gas phase and its composition. A range of numbers may also be
+given in the form <em>m</em> -<em> n</em><em><span style='font-style:normal'> ,</span></em>
+where <em>m</em> and <em>n</em> are positive integers, <em>m</em> is less than <em>n</em>
+, and the two numbers are separated by a hyphen without intervening spaces.
+Default is 1.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254706"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>description</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --Optional comment that
+describes the gas phase.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254707"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 1: <strong>-<span class=SpellE>fixed_pressure</span></strong>
+<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254708"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-<span class=SpellE>fixed_pressure</span></span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'> --Identifier defining the gas phase to have a fixed total
+pressure; that is, a gas bubble. A fixed-pressure gas phase is the default if
+neither the <strong>-<span class=SpellE>fixed_pressure</span></strong> nor the <strong>-<span
+class=SpellE>fixed_volume</span></strong> identifier is used. Optionally <span
+class=SpellE><strong>fixed_pressure</strong></span> or <strong>-<span
+class=SpellE>fixed_p</span></strong> [<strong> <span class=SpellE>ressure</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254709"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 2: <strong>-pressure</strong> <span class=SpellE><em>pressure</em></span>
+<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254710"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-pressure</span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'>
+--Identifier defining the fixed pressure of the gas phase that applies during
+all batch-reaction and transport calculations. Optionally <strong>pressure</strong>
+or <strong>-p</strong> [<strong> <span class=SpellE>ressure</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254711"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>pressure</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --The pressure of the gas
+phase, in atm (atmosphere). Default is 1.0 atm.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254712"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 3: <strong>-volume </strong><span class=SpellE><em>volume</em></span>
+<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254713"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-volume</span></strong><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --Identifier defining the
+initial volume of the fixed-pressure gas phase. Optionally, <strong>volume</strong>
+or <strong>-v</strong> [<strong> <span class=SpellE>olume</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254714"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>volume</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --The initial volume of the
+fixed-pressure gas phase, in liters. The ideal gas law or the Peng-Robinson EOS
+is used to calculate the initial moles, n, of each gas component in the
+fixed-pressure gas phase. Default is 1.0 L (liter). <o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254715"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 4: <strong>-temperature </strong><em>temp</em> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254716"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-temperature</span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'>
+--Identifier defining the initial temperature of the gas phase. Optionally, <strong>temperature</strong>
+or <strong>-t</strong> [<strong> <span class=SpellE>emperature</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254717"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>temp</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --The initial temperature of
+the gas phase, in °C (degree Celsius). The <em>temp</em> along with <em>volume</em>
+and <em>partial pressure</em> are used to calculate the initial moles of each
+gas component in the fixed-pressure gas phase. Default is 25.0 °C. <o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254718"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 5: <em>phase name, partial pressure</em> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254719"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>phase name</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --<span class=SpellE>Name</span>
+of a gas component. A phase with this name must be defined by <a
+href="phreeqc3-36.htm#50593793_84418">PHASES</a> input in the database or input
+file.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254720"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>partial pressure</span></em><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'> --Initial
+partial pressure of this component in the gas phase (atm). The <em>partial
+pressure</em> along with <em>volume</em> and <em>temp</em> are used to
+calculate the initial moles of this gas component in the fixed-pressure gas
+phase.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254721"></a><a
+name="50593793_41352"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Notes 1<o:p></o:p></span></h6>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-746321"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 5 must be repeated as necessary to define all of the
+components initially present in the fixed-pressure gas phase as well as any
+components which may subsequently enter the gas phase. The initial moles of a
+gas component that is defined to have a positive partial pressure in <strong>GAS_PHASE</strong>
+input will be computed using either the ideal gas law, <em>n = PV/RT</em> ,
+where <em>n</em> is the moles of the gas, <em>P</em> is the defined partial
+pressure (Line 5), <em>V</em> is the initial volume, given by <strong>-volume</strong>
+, R is the gas constant (0.08207 L K<sup> -1</sup> mol<sup> -1</sup> , liter
+per degree kelvin per mole), and <em>T</em> is given by <strong>-temperature </strong>(converted
+to kelvin), or the Peng-Robinson EOS (see keyword <a
+href="phreeqc3-36.htm#50593793_84418">PHASES</a> for the equations). Thus, in
+Example data block 1 and with the wateq4f.dat database, which does not define
+critical temperatures and pressures, the moles of all gases are calculated by n
+= (0.000316 + 0.2 + 0.78) <em>×</em> 1.0 / (298 <em>×</em> 0.02807) = 0.04 mol.
+<em>If this gas phase reacts with a solution with a very small amount of water
+so that n does not change (that is, the dissolution of gas is negligible), the
+volume becomes V = </em>0.04 <em>×</em> (298 <em>×</em> 0.02807) / 1.001 =
+0.979 L. It is likely that the sum of the partial pressures of the defined
+gases will not be equal to the pressure given by <strong>-pressure</strong><strong><span
+style='font-weight:normal'> .</span></strong> However, when the <strong>GAS_PHASE</strong>
+reacts with a solution during a batch-reaction simulation, the moles of gases
+and volume of the gas phase will be adjusted so that each component is in
+equilibrium with the solution while the total pressure (sum of the partial
+pressures) is that specified by <strong>-pressure</strong><strong><span
+style='font-weight:normal'> .</span></strong> It is possible that the gas phase
+disappears if the sum of the partial pressures of dissolved gases is less than
+the pressure given by <strong>-pressure</strong><strong><span style='font-weight:
+normal'> .</span></strong><o:p></o:p></span></p>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-746448"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>A gas component may be defined to have initial partial pressure of
+zero. In this case, no moles of that component will be present initially, but
+the component may enter the gas phase when in contact with a solution that
+contains that component. If no gas phase exists initially, the initial partial
+pressures of all components should be set to 0.0; a gas phase may subsequently
+form if batch reactions cause the sum of the partial pressures of the gas
+components to exceed <em>pressure</em> .<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254724"></a><a
+name="50593793_51878"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Example data block 2<o:p></o:p></span></h6>
+
+<pre style='vertical-align:baseline'><a name="50593793_pgfId-254725"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 0:<span style='mso-spacerun:yes'>  </span>GAS_PHASE 1-5<span style='mso-spacerun:yes'>  </span>Find composition from solution 1<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254726"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 1:<span style='mso-tab-count:1'>      </span>-<span
+class=SpellE>fixed_volume</span><o:p></o:p></span></pre><pre style='vertical-align:
+baseline'><a name="50593793_pgfId-254727"></a><span style='font-size:12.0pt;
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 2:<span style='mso-tab-count:1'>      </span>-volume<span
+style='mso-tab-count:2'>            </span>1.0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254728"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 3:<span style='mso-tab-count:1'>      </span>-temperature<span
+style='mso-tab-count:2'>       </span>25.0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254729"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4a:<span style='mso-tab-count:1'>     </span>CH4(g)<span
+style='mso-tab-count:2'>       </span>0.0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254730"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4b:<span style='mso-tab-count:1'>     </span>CO2(g)<span
+style='mso-tab-count:2'>       </span>0.000316<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254731"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4c:<span style='mso-tab-count:1'>     </span>O2(g)<span
+style='mso-tab-count:2'>        </span>0.2<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254732"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4d:<span style='mso-tab-count:1'>     </span>N2(g)<span
+style='mso-tab-count:2'>        </span>0.78<o:p></o:p></span></pre></div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254733"></a><a
+name="50593793_97637"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Explanation 2<o:p></o:p></span></h6>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254734"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 0: <strong>GAS_PHASE</strong> [<em> number</em><em><span
+style='font-style:normal'> ]</span></em> [<em> description</em> ]<o:p></o:p></span></p>
+
+<p class=body1 style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254735"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>GAS_PHASE</span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'> is the
+keyword for the data block. <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254736"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>number</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --a positive number
+designates the gas phase and its composition. A range of numbers may also be
+given in the form <em>m</em> -<em> n</em><em><span style='font-style:normal'> ,</span></em>
+where <em>m</em> and <em>n</em> are positive integers, <em>m</em> is less than <em>n</em>
+, and the two numbers are separated by a hyphen without intervening spaces.
+Default is 1.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254737"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>description</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --Optional comment that
+describes the gas phase.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254738"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 1: <strong>-<span class=SpellE>fixed_volume</span></strong> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254739"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-<span class=SpellE>fixed_volume</span></span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'> --Identifier defining the gas phase to be one that has a fixed
+volume (not a gas bubble). A fixed-pressure gas phase is the default if neither
+the <strong>-<span class=SpellE>fixed_pressure</span></strong> nor the <strong>-<span
+class=SpellE>fixed_volume</span></strong> identifier is used. Optionally <span
+class=SpellE><strong>fixed_volume</strong></span> or <strong>-<span
+class=SpellE>fixed_v</span></strong> [<strong> <span class=SpellE>olume</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254740"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 2: <strong>-volume </strong><span class=SpellE><em>volume</em></span>
+<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254741"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-volume</span></strong><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --Identifier defining the
+volume of the fixed-volume gas phase, which applies for all batch-reaction or
+transport calculations. Optionally, <strong>volume</strong> or <strong>-v</strong>
+[<strong> <span class=SpellE>olume</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254742"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>volume</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --The volume of the
+fixed-volume gas phase, in liters. Default is 1.0 L. <o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254743"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 3: <strong>-temperature </strong><em>temp</em> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254744"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-temperature</span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'>
+--Identifier defining the initial temperature of the gas phase. Optionally, <strong>temperature</strong>
+or <strong>-t</strong> [<strong> <span class=SpellE>emperature</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254745"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>temp</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --The initial temperature of
+the gas phase, in °C. Default is 25.0 °C. <o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254746"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 4: <em>phase name, partial pressure</em> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254747"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>phase name</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --<span class=SpellE>Name</span>
+of a gas component. A phase with this name must be defined by <a
+href="phreeqc3-36.htm#50593793_84418">PHASES</a> input in the database or input
+file.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254748"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>partial pressure</span></em><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'> --Initial
+partial pressure of this component in the gas phase, in atm. The <em>partial
+pressure</em> along with <em>volume</em> and <em>temp</em> are used to
+calculate the initial moles of this gas component in the fixed-volume gas
+phase. <o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254749"></a><a
+name="50593793_20939"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Notes 2<o:p></o:p></span></h6>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254750"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 4 may be repeated as necessary to define all the components
+initially present in the fixed-volume gas phase, as well as any components
+which may subsequently enter the gas phase. The initial moles of a gas
+component with a positive partial pressure will be computed using either the
+ideal gas law, <em>n = PV/(RT)</em><em><span style='font-style:normal'> ,</span></em>
+where <em>n</em> is the moles of the gas, <em>P</em> is the defined partial
+pressure (Line 4), <em>V</em> is given by <strong>-volume</strong> , R is the
+gas constant, and <em>T</em> is given by <strong>-temperature </strong>(converted
+to kelvin), or the Peng-Robinson EOS. When the gas phase reacts with a solution
+during a batch-reaction simulation, the total pressure, the partial pressures
+of the gas components in the gas phase, and the partial pressures of the gas
+components in the aqueous phase will be adjusted so that equilibrium is
+established for each component. A constant-volume gas phase always exists
+unless all of the gas components are absent from the system. The identifier <strong>-pressure
+</strong>is not used for a fixed-volume gas phase.<o:p></o:p></span></p>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254751"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>A gas component may be defined to have an initial partial pressure
+of zero. In this case, no moles of that component will be present initially,
+but the component will enter the gas phase when in contact with a solution
+containing the component.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254752"></a><a
+name="50593793_53658"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Example data block 3<o:p></o:p></span></h6>
+
+<pre style='vertical-align:baseline'><a name="50593793_pgfId-254753"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 0:<span style='mso-spacerun:yes'>  </span>GAS_PHASE 1-5<span style='mso-spacerun:yes'>  </span>Air<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254754"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 1:<span style='mso-spacerun:yes'>       </span>-<span
+class=SpellE>fixed_volume</span><o:p></o:p></span></pre><pre style='vertical-align:
+baseline'><a name="50593793_pgfId-254755"></a><span style='font-size:12.0pt;
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 2:<span style='mso-spacerun:yes'>       </span>-equilibrate with solution 10<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254756"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 3:<span style='mso-spacerun:yes'>       </span>-volume<span style='mso-spacerun:yes'>         </span>1.0<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254757"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4a:<span style='mso-spacerun:yes'>      </span>CH4(g)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254758"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4b:<span style='mso-spacerun:yes'>      </span>CO2(g)<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254759"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4c:<span style='mso-spacerun:yes'>      </span>O2(g) <o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-254760"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 4d:<span style='mso-spacerun:yes'>      </span>N2(g) <o:p></o:p></span></pre></div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254761"></a><a
+name="50593793_54503"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Explanation 3<o:p></o:p></span></h6>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254762"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 0: <strong>GAS_PHASE</strong> [<em> number</em><em><span
+style='font-style:normal'> ]</span></em> [<em> description</em> ]<o:p></o:p></span></p>
+
+<p class=body1 style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254763"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>GAS_PHASE</span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'> is the
+keyword for the data block. <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254764"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>number</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --A positive number
+designates the gas phase and its composition. A range of numbers may also be
+given in the form <em>m</em> -<em> n</em><em><span style='font-style:normal'> ,</span></em>
+where <em>m</em> and <em>n</em> are positive integers, <em>m</em> is less than <em>n</em>
+, and the two numbers are separated by a hyphen without intervening spaces.
+Default is 1.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254765"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>description</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --Optional comment that
+describes the gas phase.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254766"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 1: <strong>-<span class=SpellE>fixed_volume</span></strong> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254767"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-<span class=SpellE>fixed_volume</span></span></strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'> --Identifier defining the gas phase to be one that has a fixed
+volume (not a gas bubble). A fixed-pressure gas phase is the default if neither
+the <strong>-<span class=SpellE>fixed_pressure</span></strong> nor the <strong>-<span
+class=SpellE>fixed_volume</span></strong> identifier is used. Optionally <span
+class=SpellE><strong>fixed_volume</strong></span> or <strong>-<span
+class=SpellE>fixed_v</span></strong> [<strong> <span class=SpellE>olume</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254768"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 2: <strong>-equilibrate</strong> <em>number</em> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254769"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-equilibrate</span></strong><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'>
+--Identifier indicates that the fixed-volume gas phase is defined to be in
+equilibrium with a solution of a fixed composition. This identifier may only be
+used with the <strong>-<span class=SpellE>fixed_volume</span></strong>
+identifier. Optionally, <span class=SpellE><strong>equil</strong></span> ,<strong>
+equilibrium</strong> , <strong>-e</strong> [<strong> <span class=SpellE>quilibrium</span></strong>
+], <strong>equilibrate</strong> , <strong>-e</strong> [<strong> <span
+class=SpellE>quilibrate</span></strong> ]. <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254770"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>number</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --Solution number with which
+the fixed-volume gas phase is to be in equilibrium. Any alphabetic characters
+following the identifier and preceding an integer (“with solution” in Line 2)
+are ignored.<o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254771"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 3: <strong>-volume </strong><span class=SpellE><em>volume</em></span>
+<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254772"></a><strong><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>-volume</span></strong><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --Identifier defining the
+volume of the fixed-volume gas phase, which applies for all batch-reaction or
+transport calculations. Optionally, <strong>volume</strong> or <strong>-v</strong>
+[<strong> <span class=SpellE>olume</span></strong><strong><span
+style='font-weight:normal'> ]</span></strong>.<o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254773"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>volume</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --The volume of the
+fixed-volume gas phase, L. Default is 1.0 L. <o:p></o:p></span></p>
+
+<p class=body-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254774"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 4: <em>phase name</em> <o:p></o:p></span></p>
+
+<p class=body1-indent style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254775"></a><em><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>phase name</span></em><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:black'> --<span class=SpellE>Name</span>
+of a gas component. A phase with this name must be defined by <a
+href="phreeqc3-36.htm#50593793_84418">PHASES</a> input in the database or input
+file.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254776"></a><a
+name="50593793_23110"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Notes 3<o:p></o:p></span></h6>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-713353"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>Line 4 may be repeated as necessary to define all of the
+components that may be present in the fixed-volume gas phase. The <strong>-equilibrate</strong>
+identifier specifies that the initial moles of the gas components are to be
+calculated by equilibrium with solution 10. This calculation is termed an
+“initial gas-phase-composition calculation”. During this calculation, the
+composition of solution 10 does not change, only the moles of each component in
+the gas phase are calculated. This calculation is approximate for a
+Peng-Robinson <a href="phreeqc3-17.htm#50593793_83409">GAS_PHASE</a> due to the
+fugacity coefficient, which is used for calculating the activity of the gas in
+the solubility equation. Alternatively, for Peng-Robinson gases, keyword <a
+href="phreeqc3-91.htm#50593805_44837">GAS_PHASE_MODIFY</a> may be used, but
+this is still approximate for a gas-mixture at high pressure. A constant-volume
+gas phase always exists unless all of the gas components are absent from the
+system. When the <strong>-equilibrate</strong> identifier is used, the
+identifiers <strong>-pressure</strong> and <strong>-temperature </strong>are
+not needed and initial partial pressures for each gas component need not be
+specified; the partial pressures for the gas components are calculated from the
+partial pressures in solution and the temperature is equal to the solution
+temperature. The <strong>-equilibrate</strong> identifier cannot be used with a
+fixed-pressure gas phase.<o:p></o:p></span></p>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-254778"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>A gas component may have an initial partial pressure of zero
+because the solution with which the gas phase is in equilibrium does not
+contain that gas component. In this case, no moles of that component will be
+present initially, but the component may enter the gas phase when the gas is in
+contact with another solution that does contain that component. <o:p></o:p></span></p>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-581230"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>After a batch reaction has been simulated, it is possible to save
+the resulting gas-phase composition with the <a
+href="phreeqc3-44.htm#50593793_81857">SAVE</a> keyword. If the new composition
+is not saved, the gas-phase composition will remain the same as it was before
+the batch reaction. After it has been defined or saved, the gas phase can be
+used in subsequent simulations through the <a
+href="phreeqc3-57.htm#50593793_78143">USE</a> keyword. <a
+href="phreeqc3-56.htm#50593793_87317">TRANSPORT</a> and <strong>ADVECTION </strong>calculations
+automatically update the gas-phase composition and <a
+href="phreeqc3-44.htm#50593793_81857">SAVE</a> has no effect during these
+calculations.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-515635"></a><a
+name="50593793_18459"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Example problems<o:p></o:p></span></h6>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-726682"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'>The keyword <strong>GAS_PHASE </strong>is used in example problems
+<a href="phreeqc3-69.htm#50593807_44022">7</a> and <a
+href="phreeqc3-84.htm#50593807_97000">22</a>. <o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-726684"></a><a
+name="50593793_54938"></a><span style='font-size:12.0pt;font-family:"Arial",sans-serif;
+mso-fareast-font-family:"Times New Roman";color:black'>Related keywords<o:p></o:p></span></h6>
+
+<p class=bodytext style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+vertical-align:baseline'><a name="50593793_pgfId-597611"></a><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+color:black'><a href="phreeqc3-6.htm#50593793_87438">ADVECTION</a>, <a
+href="phreeqc3-8.htm#50593793_76644">COPY</a>, <a
+href="phreeqc3-10.htm#50593793_33574">DELETE</a>, <a
+href="phreeqc3-11.htm#50593793_49635">DUMP</a>, <a
+href="phreeqc3-13.htm#50593793_61207">EQUILIBRIUM_PHASES</a>, <a
+href="phreeqc3-91.htm#50593805_44837">GAS_PHASE_MODIFY</a>, <strong>PHASES </strong>,
+<a href="phreeqc3-44.htm#50593793_81857">SAVE</a> <span class=SpellE><strong>gas_phase</strong></span>
+, <a href="phreeqc3-56.htm#50593793_87317">TRANSPORT</a>, and <a
+href="phreeqc3-57.htm#50593793_55967">USE</a> <span class=SpellE><strong>gas_phase</strong></span>
+.<o:p></o:p></span></p>
+
+</div>
+
+<div class=MsoNormal align=center style='text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+<p style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>|
+<a href="phreeqc3-18.htm">Next</a> || <a href="phreeqc3-16.htm">Previous</a> ||
+<a href="phreeqc3.htm">Top</a> | <o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

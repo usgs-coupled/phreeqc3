@@ -1,0 +1,91 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 H_HCL_HBr_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT; -reset false
+SOLUTION_SPREAD # eqns from Hamer & DeWane for L_HCl in S.cm2/eq, Davies for L_Cl
+-units mol/kgw#L; -density 1 calculate
+Number	Cl	pH	
+1	0.005	3 charge	
+2	0.01	3 charge	
+3	0.02	3 charge	
+4	0.05	3 charge	
+5	0.1	3 charge
+6  	0.2	3 charge
+7  	0.5	3 charge
+8  	1	1 charge
+9  	2	1 charge
+10 	3	1 charge
+11 	4	1 charge
+12 	5	1 charge
+13 	6	1 charge
+14 	7	1 charge
+15 	8	1 charge
+16 	9	1 charge
+17 	10	1 charge
+USER_GRAPH 1
+-axis_titles "mol / L" "equivalent conductance / (mS.cm2/eq)"
+-headings HCl t_sc("H+")
+ -initial_solutions true
+360 plot_xy c, LL(cell_no), line_width = 0, color = Red
+366 plot_xy c, L_H(cell_no), y_axis = 2, line_width = 0, color = Green  
+368 plot_xy c, SC / 1e3 / (c), color = Red, symbol_size = 0
+370 plot_xy c, t_sc("H+"), y_axis = 2, symbol_size = 0, color = Green 
+
+10 DATA 415.72, 411.96, 407.10, 398.91, 391.21, 381.19, 361.08, 333.36, 285.19, 244.87, 210.95, 181.96, 157.42, 136.86, 119.76, 105.56, 93.78
+20 restore 10 : dim LL(50) : for i = 1 to cell_no : READ LL(i) : next i
+41 dim l_H(50) : mcl = tot("Cl")
+42 L_H(cell_no) = 0.821 + 0.0457 * mcl^0.5 - 2.476e-2 * mcl - 1.90e-4 * mcl^2 - 1.45e-5 * mcl^3
+280 kgw_vol = tot("water") / soln_vol : c = tot("Cl") * kgw_vol
+290 dev = 1 - LL(cell_no) / (SC / 1e3 / c) : dev2 = 1 - L_H(cell_no ) / (t_SC("H+"))
+294 a = 1 : if tot("Cl") > 15 then a = 0
+296 dev = dev * a : dev2 = dev2 * a
+# 300 punch str$(dev) + eol$ + str$(dev2 / 2), 'HCl', str_f$(tot("Cl"), 0, 3)
+310 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
+320put(abs(dev ) + get(1), 1) : put(1 + get(2), 2)
+322put(abs(dev2)  + get(3), 3) : put(1 + get(4), 4)
+330 if cell_no = 17 then sd$ = str_f$((get(1) / (get(2) ) ) * 1e2, 0, 2) : print 'AARD for SC of HCl: ' + sd$ + ' % for ' + str$(get(2)) + ' samples' : punch sd$
+332 if cell_no = 17 then sd$ = str_f$((get(3) / (get(4) ) ) * 1e2, 0, 2) : print 'AARD for t_H in HCl: ' + sd$ + ' % for ' + str$(get(4)) + ' samples' : punch sd$
+END
+
+SOLUTION_SPREAD # data from Hamer & DeWane for L_HBr in S.cm2/eq
+-units mol/L; -density 1 calculate
+Number	Br	pH	
+1	0.005	3 charge	
+2	0.01	3 charge	
+3	0.02	3 charge	
+4	0.05	3 charge	
+5	0.1	3 charge
+6  	0.2	3 charge
+7  	0.5	3 charge
+8  	1	1 charge
+9  	2	1 charge
+10 	3	1 charge
+11 	4	1 charge
+12 	5	1 charge
+13 	6	1 charge
+14 	7	1 charge
+15 	8	1 charge
+SELECTED_OUTPUT 1; -active false
+USER_GRAPH 1
+-connect_simulations false
+-headings HBr 
+360 plot_xy c, LL(cell_no), line_width = 0, color = Blue
+364 plot_xy c, SC / 1e3 / (tot("Br") * kgw_vol), color = Blue, symbol_size = 0
+10 DATA 417.6, 413.7, 408.9, 400.4, 391.9, 381.4, 361.9, 334.5, 281.7, 236.8, 199.4, 166.5, 138.2, 114.2, 94.4
+20 restore 10 : dim LL(50) : for i = 1 to cell_no : READ LL(i) : next i
+
+280 kgw_vol = tot("water") / soln_vol : c = tot("Br") * kgw_vol
+290 dev = 1 - LL(cell_no) / (SC / 1e3 / c)
+294 a = 1 : if tot("Br") > 15 then a = 0
+296 dev = dev * a
+# 300 punch str$(dev), 'HBr', str_f$(tot("Br"), 0, 3)
+310 if cell_no = 1 then put(0, 1) : put(0, 2) : put(0, 3) : put(0, 4)
+320 if a > 0 then put(abs(dev ) + get(1), 1) : put(1 + get(2), 2)
+330 if cell_no = 15 then sd$ = str_f$((get(1) / (get(2) ) ) * 1e2, 0, 2) : print 'AARD for SC of HBr: ' + sd$ + ' % for ' + str$(get(2)) + ' samples' : punch sd$
+END

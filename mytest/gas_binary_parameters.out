@@ -1,0 +1,200 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: gas_binary_parameters
+  Output file: gas_binary_parameters.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	GAS_BINARY_PARAMETERS
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	MEAN_GAMMAS
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 gas_binary_parameters_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	GAS_BINARY_PARAMETERS
+	H2O(g)  CO2(g)           0.19
+	H2O(g)  H2S(g)           0.19
+	H2O(g)  H2Sg(g)          0.19
+	H2O(g)  CH4(g)           0.49
+	H2O(g)  Mtg(g)           0.49
+	H2O(g)  Methane(g)       0.49
+	H2O(g)  N2(g)            0.49
+	H2O(g)  Ntg(g)           0.49
+	H2O(g)  Ethane(g)        0.49
+	H2O(g)  Propane(g)       0.55
+	SOLUTION
+	GAS_PHASE
+	H2O(g)  0
+	CO2(g)  1
+	Hdg(g)  1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.007e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50      0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using gas phase 1.	
+
+-----------------------------------Gas phase-----------------------------------
+
+Total pressure:  1.00      atmospheres          (Peng-Robinson calculation)
+    Gas volume:   1.72e+00 liters
+  Molar volume:   2.44e+01 liters/mole
+   P * Vm / RT:  0.99861  (Compressibility Factor Z) 
+
+                                                        Moles in gas
+                                            ----------------------------------
+Component         log P           P    phi     Initial       Final       Delta
+
+CO2(g)            -0.41   3.924e-01  0.996   4.101e-02   2.763e-02  -1.338e-02
+H2O(g)            -1.50   3.165e-02  0.992   0.000e+00   2.229e-03   2.229e-03
+Hdg(g)            -0.24   5.759e-01  1.001   4.101e-02   4.056e-02  -4.568e-04
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.338e-02   1.338e-02
+	Hdg               4.568e-04   4.568e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.114      Charge balance
+                                       pe  =  13.747      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 30
+                          Density (g/cm³)  =   0.99716
+                               Volume (L)  =   1.00340
+                        Viscosity (mPa s)  =   0.89111
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   7.767e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                       Total CO2 (mol/kg)  =   1.338e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                                  Total H  = 1.110080e+02
+                                  Total O  = 5.553075e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              7.767e-05   7.689e-05    -4.110    -4.114    -0.004      0.00
+   OH-             1.330e-10   1.316e-10    -9.876    -9.881    -0.004     -4.13
+   H2O             5.551e+01   9.998e-01     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00  -120.374  -120.374     0.000     35.46
+C(4)          1.338e-02
+   CO2             1.330e-02   1.330e-02    -1.876    -1.876     0.000     34.43
+   HCO3-           7.767e-05   7.689e-05    -4.110    -4.114    -0.004     24.56
+   (CO2)2          3.245e-06   3.245e-06    -5.489    -5.489     0.000     68.87
+   CO3-2           4.884e-11   4.689e-11   -10.311   -10.329    -0.018     -4.02
+H(0)          2.685e-39
+   H2              1.343e-39   1.343e-39   -38.872   -38.872     0.000     28.61
+Hdg           4.568e-04
+   Hdg             4.568e-04   4.568e-04    -3.340    -3.340     0.000     28.61
+O(0)          4.623e-15
+   O2              2.312e-15   2.312e-15   -14.636   -14.636     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)         -117.57   -120.37   -2.80  CH4
+  CO2(g)           -0.41     -1.88   -1.47  CO2	 Pressure   0.4 atm, phi 0.996
+  H2(g)           -35.77    -38.87   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O	 Pressure   0.0 atm, phi 0.992
+  Hdg(g)           -0.24     -3.34   -3.10  Hdg	 Pressure   0.6 atm, phi 1.001
+  O2(g)           -11.74    -14.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+

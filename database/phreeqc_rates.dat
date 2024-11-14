@@ -1,7 +1,3 @@
-# File 1 = C:\GitPrograms\phreeqc3-1\database\phreeqc_rates.dat, 24/05/2024  01:41, 3147 lines, 110328 bytes, md5=7fc916311a573d0ad7ce880f996a9bbf
-# Created 24 May 2024 01:58:45
-# C:\3rdParty\lsp\lsp.exe -f2 -k=asis -ts phreeqc_rates.dat
-
 # PHREEQC.DAT for calculating temperature and pressure dependence of reactions, and the specific conductance and viscosity of the solution. Augmented with kinetic rates for minerals from compilations. Based on:
 #   diffusion coefficients and molal volumina of aqueous species, solubility and volume of minerals, and critical temperatures and pressures of gases in Peng-Robinson's EOS.
 # Details are given at the end of this file.
@@ -67,13 +63,13 @@ SOLUTION_SPECIES
 H+ = H+
 	-gamma 9 0
 	-viscosity 9.35e-2 -8.31e-2 2.487e-2 4.49e-4 2.01e-2 1.57 # for viscosity parameters see ref. 4
-	-dw 9.31e-9  838   16.315  0   2.376  24.01  0
-#	    Dw(25 C) dw_T  a       a2  visc   a3     a_v_dif
+	-dw 9.31e-9 838 6.96 -2.285 0.206 24.01 0
+#	   Dw(25 C) dw_T a    a2    visc  a3    a_v_dif
 # Dw(TK) = 9.31e-9 * exp(838 / TK - 838 / 298.15) * viscos_0_25 / viscos_0_tc
-# a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif
+# a = DH ion size, a2 = exponent, visc = viscosity exponent, a3(H+) = 24.01 = new dw calculation from A.D. 2024, a_v_dif = exponent in (viscos_0_tc / viscos)^a_v_dif for tracer diffusion.
 
-# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^visc (visc = 2.376 for H+)
-# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Debye-Onsager eqn. (a2 = Vm = 0 for H+, the reference for Vm)
+# For SC, Dw(TK) *=  (viscos_0_tc / viscos)^visc (visc = 0.206 for H+)
+# a3 > 5 or a3 = 0 or not defined ? ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5, in Onsager-Falkenhagen eqn. (For H+, the reference ion, vm = v0 = 0, a *= (1 + mu)^a2.)
 # a3 = -10 ? ka = DH_B * a * mu^a2  (Define a3 = -10, not used in this database.) (a3 = 24.01 for H+, a flag.)
 # -3 < a3 < 4 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka)) (Sr+2 in this database)
 
@@ -176,7 +172,7 @@ F- = F-
 Br- = Br-
 	-gamma 3 0
 	-Vm 6.72 2.85 4.21 -3.14 1.38 0 -9.56e-2 7.08 -1.56e-3 1
-	-viscosity -1.15e-2 -5.75e-2 5.72e-2 1.46e-2 0.116 0.9295 0.82
+	-viscosity -6.98e-2 -0.141 1.78e-2 0.159 7.76e-3 6.25e-2 0.859
 	-dw 2.09e-9 208 3.5 0 0.5737
 Zn+2 = Zn+2
 	-gamma 5 0
@@ -1327,7 +1323,17 @@ Pb(OH)2 389
 	Pb(OH)2 + 2 H+ = Pb+2 + 2 H2O
 	-log_k 8.15
 	-delta_h -13.99 kcal
-
+GAS_BINARY_PARAMETERS
+H2O(g)  CO2(g)           0.19
+H2O(g)  H2S(g)           0.19
+H2O(g)  H2Sg(g)          0.19
+H2O(g)  CH4(g)           0.49
+H2O(g)  Mtg(g)           0.49
+H2O(g)  Methane(g)       0.49
+H2O(g)  N2(g)            0.49
+H2O(g)  Ntg(g)           0.49
+H2O(g)  Ethane(g)        0.49
+H2O(g)  Propane(g)       0.55
 EXCHANGE_MASTER_SPECIES
 	X X-
 EXCHANGE_SPECIES
@@ -3098,10 +3104,11 @@ Wollastonite    -6.97   700             56      0.4     0       0               
 # PHREEQC adds the pressure term to log_k: -= delta_v * (P - 1) / (2.3RT).
 #   Vm(A) is volume of A, cm3/mol, P is pressure, atm, R is the gas constant, T is Kelvin.
 # Gas-pressures and fugacity coefficients are calculated with Peng-Robinson's EOS.
-#   Binary interaction coefficients from Soreide and Whitson, 1992, FPE 77, 217 are
+#   These binary interaction coefficients from Soreide and Whitson, 1992, FPE 77, 217 are
 #    hard-coded in calc_PR():
 #    kij    CH4    CO2    H2S    N2
 #    H2O    0.49   0.19   0.19   0.49
+#    but are overwritten by the data block GAS_BINARY_PARAMETERS of this file.
 # =============================================================================================
 # The molar volumes of solids are entered with
 #			 -Vm vm cm3/mol
