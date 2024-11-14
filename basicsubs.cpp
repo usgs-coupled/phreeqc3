@@ -420,7 +420,7 @@ calc_SC(void)
 		q = 1 / ((t1 / z_plus + (1 - t1) / z_min) * (z_min + z_plus));
 		sqrt_q = sqrt(q);
 
-		// B1 = relaxtion, B2 = electrophoresis in ll = (ll0 - B2 * sqrt(mu) / f2(1 + ka)) * (1 - B1 * sqrt(mu) / f1(1 + ka))
+		// B1 = relaxation, B2 = electrophoresis in ll = (ll0 - B2 * sqrt(mu) / f2(1 + ka)) * (1 - B1 * sqrt(mu) / f1(1 + ka))
 		a = 1.60218e-19 * 1.60218e-19 / (6 * pi);
 		B1 = a / (2 * 8.8542e-12 * eps_r * 1.38066e-23 * tk_x) * q / (1 + sqrt_q) * DH_B * 1e10 * z_plus * z_min;  // DH_B is per Angstrom (*1e10)
 		B2 = a * AVOGADRO / viscos_0 * DH_B * 1e17;  // DH_B per Angstrom (*1e10), viscos in mPa.s (*1e3), B2 in cm2 (*1e4)
@@ -486,8 +486,10 @@ calc_SC(void)
 					//av += 0 * t1;
 				}
 				Dw *= Dw_SC * l_z;
-				if (!a2 || !strcmp(s_x[i]->name, "H+"))
+				if (!a2)
 					t1 = 1;
+				else if (!strcmp(s_x[i]->name, "H+"))
+					t1 = pow(1 + mu_x, a2);
 				else
 				{
 					v0 = calc_vm0(s_x[i]->name, tc_x, 1, 0);

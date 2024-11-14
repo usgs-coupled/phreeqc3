@@ -147,6 +147,9 @@ read_input(void)
 		case Keywords::KEY_MEAN_GAMMAS:
 			read_mean_gammas();
 			break;
+		case Keywords::KEY_GAS_BINARY_PARAMETERS:
+			read_gas_binary_parameters();
+			break;
 		case Keywords::KEY_SOLUTION_MIX:
 			//read_solution_mix();
 			read_entity_mix(Rxn_solution_mix_map);
@@ -2541,6 +2544,103 @@ read_mean_gammas(void)
 		case OPTION_ERROR:
 			input_error++;
 			error_msg("Unknown input in MEAN_GAMMAS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_gas_binary_parameters(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads GAS_BINARY_PARAMETERS data
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
+	std::string token;
+	int return_value, opt;
+	const char* next_char;
+	const char* opt_list[] = {
+		"xxxx",					/* 0 */
+	};
+	int count_opt_list = 0;
+	/*
+	 *   Read rate parameters
+	 */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* add to gas_binary_parameters map */
+		{
+			bool error = false;
+			std::string gas1, gas2;
+			int j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				gas1 = token;
+			}
+			else
+			{
+				error = true;
+			}
+			j = copy_token(token, &next_char);
+			if (j != EMPTY)
+			{
+				gas2 = token;
+			}
+			else
+			{
+				error = true;
+			}
+			j = copy_token(token, &next_char);
+			double d;
+			if (j != EMPTY)
+			{
+				j = sscanf(token.c_str(), SCANFORMAT, &d);
+			}
+			else
+			{
+				error = true;
+			}
+			if (!error)
+			{
+				std::pair<std::string, std::string> p;
+				p = { gas1, gas2 };
+				gas_binary_parameters[p] = d;
+				p = { gas2, gas1 };
+				gas_binary_parameters[p] = d;
+			}
+			else
+			{
+				error_msg("Error reading gas binary parameter", CONTINUE);
+			}
+		}
+		break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in GAS_BINARY_PARAMETERS keyword.", CONTINUE);
 			error_msg(line_save, CONTINUE);
 			break;
 		}

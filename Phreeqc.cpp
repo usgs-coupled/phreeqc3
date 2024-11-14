@@ -1756,6 +1756,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	b2 = pSrc->b2;
 	b_sum = pSrc->b_sum;
 	R_TK = pSrc->R_TK;
+	gas_binary_parameters = pSrc->gas_binary_parameters;
 	/* input.cpp ------------------------------- */
 	check_line_return = 0;
 	reading_db = FALSE;

@@ -3843,36 +3843,37 @@ calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 				continue;
 			a_aa = sqrt(phase_ptr->pr_a * phase_ptr->pr_alpha *
 				        phase_ptr1->pr_a * phase_ptr1->pr_alpha);
-			if (!strcmp(phase_ptr->name, "H2O(g)"))
-			{
-				if (!strcmp(phase_ptr1->name, "CO2(g)"))
-					a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
-				else if (!strcmp(phase_ptr1->name, "H2S(g)") || !strcmp(phase_ptr1->name, "H2Sg(g)"))
-					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr1->name, "CH4(g)") || !strcmp(phase_ptr1->name, "Mtg(g)") || !strcmp(phase_ptr1->name, "Methane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "N2(g)") || !strcmp(phase_ptr1->name, "Ntg(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Propane(g)"))
-					a_aa *= 0.45;
-			}
-			if (!strcmp(phase_ptr1->name, "H2O(g)"))
-			{
-				if (!strcmp(phase_ptr->name, "CO2(g)"))
-					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "H2S(g)") || !strcmp(phase_ptr->name, "H2Sg(g)"))
-					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "CH4(g)") || !strcmp(phase_ptr->name, "Mtg(g)") || !strcmp(phase_ptr->name, "Methane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "N2(g)") || !strcmp(phase_ptr->name, "Ntg(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Ethane(g)"))
-					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Propane(g)"))
-					a_aa *= 0.45;
-			}
+			a_aa *= calc_gas_binary_parameter(phase_ptr->name, phase_ptr1->name);
+			//if (!strcmp(phase_ptr->name, "H2O(g)"))
+			//{
+			//	if (!strcmp(phase_ptr1->name, "CO2(g)"))
+			//		a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
+			//	else if (!strcmp(phase_ptr1->name, "H2S(g)") || !strcmp(phase_ptr1->name, "H2Sg(g)"))
+			//		a_aa *= 0.81;
+			//	else if (!strcmp(phase_ptr1->name, "CH4(g)") || !strcmp(phase_ptr1->name, "Mtg(g)") || !strcmp(phase_ptr1->name, "Methane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr1->name, "N2(g)") || !strcmp(phase_ptr1->name, "Ntg(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr1->name, "Propane(g)"))
+			//		a_aa *= 0.45;
+			//}
+			//if (!strcmp(phase_ptr1->name, "H2O(g)"))
+			//{
+			//	if (!strcmp(phase_ptr->name, "CO2(g)"))
+			//		a_aa *= 0.81;
+			//	else if (!strcmp(phase_ptr->name, "H2S(g)") || !strcmp(phase_ptr->name, "H2Sg(g)"))
+			//		a_aa *= 0.81;
+			//	else if (!strcmp(phase_ptr->name, "CH4(g)") || !strcmp(phase_ptr->name, "Mtg(g)") || !strcmp(phase_ptr->name, "Methane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr->name, "N2(g)") || !strcmp(phase_ptr->name, "Ntg(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr->name, "Ethane(g)"))
+			//		a_aa *= 0.51;
+			//	else if (!strcmp(phase_ptr->name, "Propane(g)"))
+			//		a_aa *= 0.45;
+			//}
 			a_aa_sum += phase_ptr->fraction_x * phase_ptr1->fraction_x * a_aa;
 			a_aa_sum2 += phase_ptr1->fraction_x * a_aa;
 		}
@@ -3946,7 +3947,8 @@ calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		}
 		if (P <= 0) // iterations = -1
 			P = 1;
-	} else
+	}
+	else
 	{
 		if (P < 1e-10)
 			P = 1e-10;
