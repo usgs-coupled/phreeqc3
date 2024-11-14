@@ -1,4 +1,36 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+	-----------------
+	November 11, 2024
+	-----------------
+	PHREEQC: Added a new keyword data block GAS_BINARY_PARAMETERS that define 
+	binary interaction coefficients for pairs of gas components. PHREEQC retains
+	some hard-coded interaction parameters, but these can be modified, and new 
+	interaction parameters can be added with the new data block. The following 
+	data block gives the hard-coded values in PHREEQC:
+		GAS_BINARY_PARAMETERS
+		H2O(g)  CO2(g)           0.19
+		H2O(g)  H2S(g)           0.19
+		H2O(g)  H2Sg(g)          0.19
+		H2O(g)  CH4(g)           0.49
+		H2O(g)  Mtg(g)           0.49
+		H2O(g)  Methane(g)       0.49
+		H2O(g)  N2(g)            0.49
+		H2O(g)  Ntg(g)           0.49
+		H2O(g)  Ethane(g)        0.49
+		H2O(g)  Propane(g)       0.55
+
+	-----------------
+	November 7, 2024
+	-----------------
+	PhreeqcRM: Fixed a bug when multiple PhreeqcRM instances were created with 
+	debug compilation. Some debugging code caused a failure if the instances did
+	not have the same number of cells. 
+	
+	-----------------
+	November 1, 2024
+	-----------------
+	Phreeqc: Updated H+ and Br- viscosity in Amm.dat, phreeqc.dat, phreeqc_rates.dat, and pitzer.dat.
+	Small change to basicsubs.cpp. 
 
 	-----------------
 	October 24, 2024
