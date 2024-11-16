@@ -1,5 +1,13 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 	-----------------
+	November 15, 2024
+	-----------------
+	PhreeqcRM: Fixed a bug when the diffuse-layer was lost in a PhreeqcRM calculation
+	with a Runge-Kutta integration and the rate went to zero. The error produced charge 
+	imbalance because the surface transformed to a no-EDL surface; charge accumulated
+	on the surface was balance by a charge imbalance in the solution. 
+	
+	-----------------
 	November 11, 2024
 	-----------------
 	PHREEQC: Added a new keyword data block GAS_BINARY_PARAMETERS that define 
