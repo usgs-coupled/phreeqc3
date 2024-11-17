@@ -102,6 +102,7 @@ set(TESTS
   diff_c
   dissolve_only
   dist_x
+  dl_type_error
   donly
   DonnanBug
   dump_test
