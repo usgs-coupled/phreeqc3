@@ -1,11 +1,18 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+	-----------------
+	November 15, 2024
+	-----------------
+	PhreeqcRM: Fixed a bug when the diffuse-layer disappeared in a PhreeqcRM calculation
+	with a Runge-Kutta integration and the rate went to zero. The error produced charge 
+	imbalance because the surface transformed to a no-EDL surface; charge accumulated
+	on the surface and was balanced by an opposite charge imbalance in the solution. 
 
 	-----------------
 	November 13, 2024
 	-----------------
 	PHREEQCI: Resolved a bug that caused a buffer overflow and led to PHREEQCI
 	freezing when loaded under the Simplified Chinese locale.
-
+	
 	-----------------
 	November 11, 2024
 	-----------------
@@ -29,8 +36,8 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	-----------------
 	November 7, 2024
 	-----------------
-	PhreeqcRM: Fixed a bug when multiple PhreeqcRM instances were created with 
-	debug compilation. Some debugging code caused a failure if the instances did
+	PhreeqcRM: Fixed a bug when multiple PhreeqcRM instances were created in Fortran
+	with debug compilation. Some debugging code caused a failure if the instances did
 	not have the same number of cells. 
 	
 	-----------------
