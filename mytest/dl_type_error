@@ -1,0 +1,49 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+	file                dl_type_error.sel
+USER_PUNCH 101
+	headings Mu SC
+	start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+	end
+RATES
+Decay
+-start
+40 SAVE moles
+-end
+SOLUTION
+-units mol/kgw
+pH 8
+Na 1
+P  1 charge
+Si 1e-10
+END
+SURFACE
+Hfo_w 0.1 1 600
+-donnan
+END
+KINETICS
+Decay
+-m 1
+-formula Si -1
+-steps 10 
+-rk 1
+END
+USER_GRAPH 1
+    -headings               time Si Charge
+    -axis_titles            "Time, seconds" "Molality" "Charge balance, equivalents"
+    -axis_scale y_axis      auto auto auto auto 
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 GRAPH_X TOTAL_TIME
+20 GRAPH_Y log10(TOT("Si"))
+30 GRAPH_SY CHARGE_BALANCE
+  -end
+    -active                 true
+END
+RUN_CELLS
+-cell 1
+END

@@ -1444,7 +1444,8 @@ xsurface_save(int n_user)
 	temp_surface.Set_n_user(n_user);
 	temp_surface.Set_n_user_end(n_user);
 	temp_surface.Set_new_def(false);
-	temp_surface.Set_dl_type(dl_type_x);
+	//temp_surface.Set_dl_type(dl_type_x);
+	temp_surface.Set_dl_type(use.Get_surface_ptr()->Get_dl_type());
 	temp_surface.Set_solution_equilibria(false);
 	temp_surface.Set_n_solution(-999);
 
