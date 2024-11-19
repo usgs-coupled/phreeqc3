@@ -704,8 +704,7 @@ calc_gas_binary_parameter(std::string name1, std::string name2) const
 /* ---------------------------------------------------------------------- */
 {
 	double f = 1.0;
-	std::pair < std::string, std::string > p;
-	p = { name1, name2 };
+	std::pair<std::string, std::string> p(name1, name2);
 	std::map<std::pair<std::string, std::string>, double>::const_iterator gas_pair_it;
 	gas_pair_it = gas_binary_parameters.find(p);
 	if (gas_pair_it != gas_binary_parameters.end())
