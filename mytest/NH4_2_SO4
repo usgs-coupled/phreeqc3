@@ -1,6 +1,5 @@
 # Handbook of Chemistry data
-#PRINT; -reset false
-database ../database/Amm.dat
+DATABASE ../database/Amm.dat
 SELECTED_OUTPUT 101
     -file                 NH4_2_SO4_101.sel
 USER_PUNCH 101
@@ -9,7 +8,7 @@ USER_PUNCH 101
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
     -end
-END
+#PRINT; -reset false
 SOLUTION_SPREAD
 temp 20
 -units mmol/L
@@ -45,7 +44,7 @@ USER_GRAPH 1;# -active false
 10  DATA 1.0012,  1.0042,  1.0101,  1.0160,  1.0220,  1.0279,  1.0338,  1.0397,  1.0456,  1.0515,  1.0574,  1.0691,  1.0808,  1.0924,  1.1039,  1.1154,  1.1269,  1.1383,  1.1496 # rho
 20  dim dens(50) : restore 10 : for i = 1 to cell_no : read dens(i) : next i
 30  DATA  1.006,  1.012,  1.025,  1.039,  1.055,  1.071,  1.088,  1.106,  1.125,  1.145,  1.166,  1.208,  1.253,  1.302,  1.356,  1.418,  1.487,  1.563,  1.647 # visc/visc_0
-40  dim v_v0(50) : restore 30 : for i = 1 to cell_no : read v_v0(i) : next i 
+40  dim v_v0(50) : restore 30 : for i = 1 to cell_no : read v_v0(i) : next i
 50  DATA  7.4,  14.2,  25.7,  36.7,  47.2,  57.4,  67.4,  77,  86.3,  95.5,  105,  122,  139,  156,  171,  185,  198,  210,  220 #  sc*1e3
 60  dim cond(50) : restore 50 : for i = 1 to cell_no : read cond(i) : next i
 62  put((1 - rho / dens(cell_no))^2 + get(1), 1) : put((1 - viscos / viscos_0 / v_v0(cell_no ))^2 + get(2), 2) : put((1 - sc / 1e3 / cond(cell_no ))^2 + get(3), 3)
@@ -56,9 +55,9 @@ USER_GRAPH 1;# -active false
 80  plot_xy x, rho, symbol = None,             color = Red
 90  plot_xy x, viscos / viscos_0 , symbol = None,  color = Green
 100 plot_xy x, sc / 1e3, symbol = None,        color = Blue, y_axis = 2
-130 if cell_no < 19 then end 
+130 if cell_no < 19 then end
 140 print 's.d. in density ',      str_f$((get(1) / 18)^0.5 * 100, 0, 2) + ' %'
-150 print 's.d. in viscosity ',    str_f$((get(2) / 18)^0.5 * 100, 0, 2) + ' %' 
+150 print 's.d. in viscosity ',    str_f$((get(2) / 18)^0.5 * 100, 0, 2) + ' %'
 160 print 's.d. in conductivity ', str_f$((get(3) / 18)^0.5 * 100, 0, 2) + ' %'
 
 USER_GRAPH 2; -active false
