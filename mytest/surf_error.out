@@ -1,0 +1,60 @@
+   Input file: surf_error
+  Output file: surf_error.out
+Database file: ../database/wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/wateq4f.dat
+	SOLUTION_SPECIES
+	CaCO3 +1.0000 H+  =  + 1.0000 Ca++ + 1.0000 HCO3-
+	        log_k           1.8487
+	Hfo_sOH + Ca+2 = Hfo_sOHCa+2
+	        log_k  4.97
+	Hfo_wOH + Ca+2 = Hfo_wOCa+ + H+
+	        log_k -5.85
+	12.0000 H2O + 11.0000 UO2++ + 6.0000 HCO3-  =  (UO2)11(CO3)6(OH)12-2 +18.0000 H+  
+	        log_k           -25.7347
+	3.0000 H2O + 2.0000 UO2++ + 1.0000 HCO3-  =  (UO2)2CO3(OH)3- +4.0000 H+
+	        log_k           -11.2229
+	6.0000 HCO3- + 3.0000 UO2++  =  (UO2)3(CO3)6-6 +6.0000 H+
+	        log_k           -8.0601
+	1.0000 UO2++ + 0.5000 H2O  =  UO2+ +1.0000 H+ +0.2500 O2    
+	        log_k           -20.0169
+	3.0000 UO2++ + 3.0000 H2O + 1.0000 HCO3-  =  (UO2)3O(OH)2(HCO3)+ +4.0000 H+  
+	        log_k           -9.7129
+	SURFACE_MASTER_SPECIES
+	HCO3- 
+ERROR: Reading surface master species name.
+ERROR: HCO3- 
+	SURFACE 1
+	Hfo_sOH 2.7e-4 500 0.05
+	Hfo_wOH 1000
+	HCO3- 100
+	SOLUTION 1
+ERROR: Surface area not defined for H.
+
+	temp 25
+	pH 7
+	units mmol/L
+	U 250 ug/L
+	Ca 1.0
+	C 2
+	water 0.1
+ERROR: Element or valence name in SOLUTION_MASTER_SPECIES should include only one element, HCO3-.
+ERROR: Species pointer is null for, HCO3-. Check your _MASTER_ and _SPECIES definitions.
+Stopping.

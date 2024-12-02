@@ -498,6 +498,7 @@ set(FAILS
   pitzer_fail
   punch_stream
   raw
+  surf_error
   surf_related_warnings
   Syn1_acidbase
   wjAs2
