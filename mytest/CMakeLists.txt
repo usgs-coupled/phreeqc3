@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.9)
+cmake_minimum_required (VERSION 3.10)
 
 set(TESTS
   NH4_2_SO4
@@ -408,6 +408,7 @@ set(TESTS
   str_f
   stuyfz
   surf_check
+  surf_error
   surf_kin_related
   surf_kin_related_pz
   surf_related
