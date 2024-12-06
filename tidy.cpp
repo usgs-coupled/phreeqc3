@@ -2312,6 +2312,15 @@ tidy_species(void)
 		}
 		/* store sequence number in master structure */
 		master[i]->number = i;
+		if (master[i]->s == NULL)
+		{
+			input_error++;
+			error_string = sformatf(
+				"Species pointer is null for, %s. Check your _MASTER_ and _SPECIES definitions.",
+				master[i]->elt->name);
+			error_msg(error_string, STOP);
+		}
+
 		if (strcmp(master[i]->elt->name, "Alkalinity") != 0)
 		{
 			if (master[i]->primary == TRUE)
