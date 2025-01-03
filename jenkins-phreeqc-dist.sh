@@ -162,8 +162,10 @@ fi
 VERSION_LONG="$ver_major.$ver_minor.$ver_patch.$REVISION_SVN"
 
 SED_FILES="$DISTPATH/configure.ac \
+           $DISTPATH/phreeqc_version.h \
            $DISTPATH/doc/README.Phreeqc.TXT \
-           $DISTPATH/doc/RELEASE.TXT"
+           $DISTPATH/doc/RELEASE.TXT \
+           $DISTPATH/src/class_main.cpp"
 
 for vsn_file in $SED_FILES
 do
@@ -191,7 +193,7 @@ done
 mv $DISTPATH/doc/RELEASE.TXT           $DISTPATH/doc/RELEASE
 mv $DISTPATH/doc/README.Phreeqc.TXT    $DISTPATH/doc/README
 mv $DISTPATH/doc/NOTICE.TXT            $DISTPATH/doc/NOTICE
-mv $DISTPATH/HTMLversion/phreeqc3.chm  $DISTPATH/doc/phreeqc3.chm                
+mv $DISTPATH/HTMLversion/phreeqc3.chm  $DISTPATH/doc/phreeqc3.chm
 
 # if [ -n "$WIN" ]; then
 #   echo "Rolling $DISTNAME.zip ..."
