@@ -408,6 +408,7 @@ set(TESTS
   str_f
   stuyfz
   surf_check
+  surf_error
   surf_kin_related
   surf_kin_related_pz
   surf_related
