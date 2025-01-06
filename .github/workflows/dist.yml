@@ -250,7 +250,7 @@ jobs:
   cmake:
     # if: ${{ false }}
     name: ${{ matrix.os }} type=${{ matrix.BUILD_TYPE }}
-    needs: [distcheck]
+    needs: [init, distcheck]
     strategy:
       fail-fast: false
       matrix:
