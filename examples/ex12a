@@ -56,9 +56,9 @@ TRANSPORT   # Diffuse 24C, NaCl solution from column ends
    -shifts  1
    -flow_direction diffusion
    -boundary_conditions  constant  closed
-   -lengths           1.0
+   -lengths           20*1.0
    -thermal_diffusion 3.0        # Heat is retarded equal to Na
-   -dispersivities    0.0        # No dispersion
+   -dispersivities    20*0.0        # No dispersion
    -diffusion_coefficient 0.3e-9 # m^2/s
    -time_step         1.0e+10    # 317 years, 19 substeps will be used
 SELECTED_OUTPUT
@@ -121,7 +121,8 @@ END
 #
 TRANSPORT  # no need to redefine parameters that don't change from 20 cell model
    -cells        60
-   -lengths      0.33333333333333333
+   -lengths      60*0.33333333333333333
+   -disp         60*0.0
    -punch_cells  1-60
 SELECTED_OUTPUT
    -active        true      # See also PRINT; selected_output false

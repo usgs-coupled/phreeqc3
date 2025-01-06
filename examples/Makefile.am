@@ -8,6 +8,8 @@ examplesdir = $(docdir)/examples
 dist_examples_DATA = $(EXAMPLES)
 
 EXAMPLES= \
+	co2.dat \
+	co2_VP.dat \
 	co2.tsv \
 	ex1 \
 	ex2 \

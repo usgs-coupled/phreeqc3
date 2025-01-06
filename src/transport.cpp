@@ -508,13 +508,17 @@ transport(void)
 		/*
 		* Now transport
 		*/
-		if (implicit)
-			snprintf(token, sizeof(token), "\nCalculating implicit transport: %d (mobile) cells, %d shifts, %d mixruns, max. mixf = %g.\n\n",
-				count_cells, count_shifts - transport_start + 1, nmix, max_mixf);
-		else
-			snprintf(token, sizeof(token), "\nCalculating transport: %d (mobile) cells, %d shifts, %d mixruns...\n\n",
-				count_cells, count_shifts - transport_start + 1, nmix);
-		warning_msg(token);
+		{
+			if (implicit)
+				snprintf(token, sizeof(token), "\nCalculating implicit transport: %d (mobile) cells, %d shifts, %d mixruns, max. mixf = %g.\n\n",
+					count_cells, count_shifts - transport_start + 1, nmix, max_mixf);
+			else
+				snprintf(token, sizeof(token), "\nCalculating transport: %d (mobile) cells, %d shifts, %d mixruns...\n\n",
+					count_cells, count_shifts - transport_start + 1, nmix);
+			screen_msg(token);
+			output_msg(token);
+			log_msg(token);
+		}
 		max_iter = 0;
 		for (transport_step = transport_start; transport_step <= count_shifts;
 			transport_step++)
