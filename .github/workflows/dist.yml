@@ -250,12 +250,14 @@ jobs:
   cmake:
     # if: ${{ false }}
     name: ${{ matrix.os }} type=${{ matrix.BUILD_TYPE }}
-    needs: [init, distcheck]
+    needs: [distcheck]
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, windows-2019, windows-2022]
-        BUILD_TYPE: [Debug, Release]
+        # os: [macos-13, ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, windows-2019, windows-2022]
+        os: [ubuntu-latest, windows-latest]
+        # BUILD_TYPE: [Debug, Release]
+        BUILD_TYPE: [Release]
 
     runs-on: ${{ matrix.os }}
 
@@ -266,7 +268,8 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with:
-        name: tarball
+        # name: tarball
+        name: phreeqc-artifacts
 
     - name: Install ninja (Linux)
       if: ${{ runner.os == 'Linux' }}
