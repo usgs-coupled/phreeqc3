@@ -111,12 +111,12 @@ Reading input data for simulation 1.
 	        end
 	TRANSPORT First 20 hours have NTA and cobalt in infilling solution
 	        cells                10
-	        lengths              1
+	        lengths              10*1
 	        shifts               20
 	        time_step            3600
 	        flow_direction       forward
 	        boundary_conditions  flux flux
-	        dispersivities       .05
+	        dispersivities       10*.05
 	        correct_disp         true
 	        diffusion_coefficient 0.0
 	        punch_cells          10
@@ -125,8 +125,6 @@ Reading input data for simulation 1.
 	        print_frequency      5
 	        warnings false
 	USER_GRAPH Example 15B
-WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 10.
-WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
 	        -headings 10_cells: Co+2 CoNTA- Biomass
 	        -chart_title "Example 15, Sorbed Species"
 	        -axis_titles "Time / hours" "nmol / kgw" "Biomass / (mg/L)"
@@ -143,11 +141,17 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
 	        -end
 	COPY solution 101 0
 	END
+
+Calculating transport: 10 (mobile) cells, 20 shifts, 1 mixruns...
+
 	TRANSPORT Last 55 hours with background infilling solution
 	        shifts               55
 	COPY cell 100 0
 	COPY cell 101 1-20
 	END
+
+Calculating transport: 10 (mobile) cells, 55 shifts, 1 mixruns...
+
 	USER_PUNCH
 	        start
 	  10 punch TOTAL_TIME/3600 + 3600/4/3600
@@ -157,13 +161,13 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
 	        end
 	TRANSPORT First 20 hours have NTA and cobalt in infilling solution
 	        cells                20
-	        lengths              0.5
+	        lengths              20*0.5
 	        shifts               40
 	        initial_time         0
 	        time_step            1800
 	        flow_direction       forward
 	        boundary_conditions  flux  flux
-	        dispersivities       .05
+	        dispersivities       20*.05
 	        correct_disp         true
 	        diffusion_coefficient 0.0
 	        punch_cells          20
@@ -171,8 +175,6 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
 	        print_cells          20
 	        print_frequency      10
 	USER_GRAPH
-WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
-WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	        -headings 20_cells: Co+2 CoNTA- Biomass
 	        -start
 	  10 x = TOTAL_TIME/3600 + 3600/4/3600
@@ -183,6 +185,12 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	        -end
 	COPY cell 101 0
 	END
+
+Calculating transport: 20 (mobile) cells, 40 shifts, 1 mixruns...
+
 	TRANSPORT Last 55 hours with background infilling solution
 	        shifts               110
 	END
+
+Calculating transport: 20 (mobile) cells, 110 shifts, 1 mixruns...
+
