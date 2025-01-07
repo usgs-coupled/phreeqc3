@@ -127,12 +127,12 @@ Reading input data for simulation 1.
 	        -end
 	TRANSPORT First 20 hours have NTA and cobalt in infilling solution
 	        cells                10
-	        lengths              1
+	        lengths              10*1
 	        shifts               20
 	        time_step            3600
 	        flow_direction       forward
 	        boundary_conditions  flux flux
-	        dispersivities       .05
+	        dispersivities       10*.05
 	        correct_disp         true
 	        diffusion_coefficient 0.0
 	        punch_cells          10
@@ -140,21 +140,17 @@ Reading input data for simulation 1.
 	        print_cells          10
 	        print_frequency      5
 	COPY solution 101 0 # initial column solution becomes influent
-WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 10.
-WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
 	END
-WARNING: 
-Calculating transport: 10 (mobile) cells, 20 shifts, 1 mixruns...
 
+Calculating transport: 10 (mobile) cells, 20 shifts, 1 mixruns...
 
 	TRANSPORT Last 55 hours with background infilling solution
 	        shifts               55
 	COPY cell 100 0 # for the 20 cell model...
 	COPY cell 101 1-20
 	END
-WARNING: 
-Calculating transport: 10 (mobile) cells, 55 shifts, 1 mixruns...
 
+Calculating transport: 10 (mobile) cells, 55 shifts, 1 mixruns...
 
 	USER_PUNCH
 	        start
@@ -175,13 +171,13 @@ Calculating transport: 10 (mobile) cells, 55 shifts, 1 mixruns...
 	        -end
 	TRANSPORT First 20 hours have NTA and cobalt in infilling solution
 	        cells                20
-	        lengths              0.5
+	        lengths              20*0.5
 	        shifts               40
 	        initial_time         0
 	        time_step            1800
 	        flow_direction       forward
 	        boundary_conditions  flux  flux
-	        dispersivities       .05
+	        dispersivities       20*.05
 	        correct_disp         true
 	        diffusion_coefficient 0.0
 	        punch_cells          20
@@ -189,19 +185,15 @@ Calculating transport: 10 (mobile) cells, 55 shifts, 1 mixruns...
 	        print_cells          20
 	        print_frequency      10
 	COPY cell 101 0
-WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
-WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	END
 WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
-WARNING: 
-Calculating transport: 20 (mobile) cells, 40 shifts, 1 mixruns...
 
+Calculating transport: 20 (mobile) cells, 40 shifts, 1 mixruns...
 
 	TRANSPORT Last 55 hours with background infilling solution
 	        shifts               110
 	END
-WARNING: 
-Calculating transport: 20 (mobile) cells, 110 shifts, 1 mixruns...
 
+Calculating transport: 20 (mobile) cells, 110 shifts, 1 mixruns...
 
