@@ -5,19 +5,25 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       - '.github/workflows/dist.yml'
-      - '.github/workflows/wheels.yml'
       - '.gitignore'
-      - 'build-all-presets.sh'
-      - 'CMakePresets.json'
+      - 'doc/**'
+      - '!doc/CMakeLists.txt'
+      - '!doc/Makefile.am'
+      - 'HTMLversion/**'
+      - 'Version3/**'
+      - 'README.md'
   push:
     # branches:
     #   - master
     paths-ignore:
       - '.github/workflows/dist.yml'
-      - '.github/workflows/wheels.yml'
       - '.gitignore'
-      - 'build-all-presets.sh'
-      - 'CMakePresets.json'
+      - 'doc/**'
+      - '!doc/CMakeLists.txt'
+      - '!doc/Makefile.am'
+      - 'HTMLversion/**'
+      - 'Version3/**'
+      - 'README.md'
   workflow_dispatch:
     inputs:
       date:
@@ -494,3 +500,53 @@ jobs:
   #     run: |
   #       $env:PATH="${{ env.VCPKG_INSTALLATION_ROOT }}\packages\yaml-cpp_x64-windows\bin;C:\Program Files (x86)\PhreeqcRM\bin;$env:PATH"
   #       ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+
+
+  cmake:
+    # if: ${{ false }}
+    name: ${{ matrix.os }} type=${{ matrix.BUILD_TYPE }}
+    needs: [init, distcheck]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, windows-2019, windows-2022]
+        BUILD_TYPE: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      VER_STRING: ${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}
+
+    steps:
+
+    - uses: actions/download-artifact@v4
+      with:
+        # name: tarball
+        name: phreeqc-artifacts
+
+    - name: Install ninja (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      run: |
+        sudo apt-get -y update
+        sudo apt-get install -y ninja-build
+
+    - name: Install ninja(macOS)
+      if: ${{ runner.os == 'macOS' }}
+      run: |
+        brew install ninja
+        ls -alR /usr/local/Cellar/
+
+    - name: Set up Visual Studio shell (Windows)
+      if: runner.os == 'Windows'
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Extract tarball
+      run: tar xvzf phreeqc-${{ env.VER_STRING }}.tar.gz
+
+    - name: Configure with CMake
+      run: cmake -L -G Ninja -B build -S phreeqc-${{ env.VER_STRING }} -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }}
+
+    - name: Build with CMake
+      run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.BUILD_TYPE }}
