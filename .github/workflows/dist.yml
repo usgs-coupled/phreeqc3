@@ -2,9 +2,9 @@ name: dist
 
 on:
   push:
-    branches: 
-      - master
-      - develop
+    # branches: 
+    #   - master
+    #   - develop
     paths-ignore:
       - 'doc/**'
       - 'Version3/**'
@@ -246,3 +246,106 @@ jobs:
         name: |
           chm
           HTML
+
+  cmake:
+    # if: ${{ false }}
+    name: ${{ matrix.os }} type=${{ matrix.BUILD_TYPE }}
+    needs: [init, distcheck]
+    strategy:
+      fail-fast: false
+      matrix:
+        # os: [macos-13, ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, windows-2019, windows-2022]
+        os: [ubuntu-latest, windows-latest]
+        # BUILD_TYPE: [Debug, Release]
+        BUILD_TYPE: [Release]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      VER_STRING: ${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}
+
+    steps:
+
+    - uses: actions/download-artifact@v4
+      with:
+        # name: tarball
+        name: phreeqc-artifacts
+
+    - name: Install ninja (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      run: |
+        sudo apt-get -y update
+        sudo apt-get install -y ninja-build
+
+    - name: Install ninja(macOS)
+      if: ${{ runner.os == 'macOS' }}
+      run: |
+        brew install ninja
+        ls -alR /usr/local/Cellar/
+
+    - name: Set up Visual Studio shell (Windows)
+      if: runner.os == 'Windows'
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Extract tarball
+      run: tar xvzf phreeqc-${{ env.VER_STRING }}.tar.gz
+
+    - name: Configure with CMake
+      run: cmake -L -G Ninja -B build -S phreeqc-${{ env.VER_STRING }} -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }}
+
+    - name: Build with CMake
+      run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.BUILD_TYPE }}
+
+    # - name: Test with CMake
+    #   working-directory: ${{ github.workspace }}/build
+    #   run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+
+    # - name: Install (Non-Windows)
+    #   if: runner.os != 'Windows'
+    #   run: sudo cmake --install build
+
+    # - name: Install (Windows)
+    #   if: runner.os == 'Windows'
+    #   run: cmake --install build
+
+    # - name: Run ldconfig (Linux)
+    #   if: ${{ runner.os == 'Linux' && matrix.build_shared_libs == 'ON' }}
+    #   run: sudo ldconfig
+
+    # - name: Cleanup (Non-Windows)
+    #   if: runner.os != 'Windows'
+    #   run: sudo rm -rf *
+
+    # - name: Cleanup (Windows)
+    #   if: runner.os == 'Windows'
+    #   run: Remove-Item -Recurse -Force *
+
+    # - uses: actions/checkout@v4
+
+    # - name: Test install (configure) (Non-Windows)
+    #   if: ${{ matrix.phreeqcrm_with_yaml_cpp != 'ON' }}
+    #   working-directory: ${{ github.workspace }}/Tests
+    #   run: cmake -L -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -D_PHREEQCRM_TEST_INSTALL:BOOL=ON -DPHREEQCRM_FORTRAN_TESTING:BOOL=ON
+
+    # - name: Test install (configure) (using vcpkg toolchain)
+    #   if: ${{ matrix.phreeqcrm_with_yaml_cpp == 'ON' }}
+    #   working-directory: ${{ github.workspace }}/Tests
+    #   run: cmake -L -G Ninja --toolchain ${{ env.VCPKG_INSTALLATION_ROOT }}/scripts/buildsystems/vcpkg.cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -D_PHREEQCRM_TEST_INSTALL:BOOL=ON -DPHREEQCRM_FORTRAN_TESTING:BOOL=ON
+
+    # - name: Test install (build)
+    #   working-directory: ${{ github.workspace }}/Tests
+    #   run: cmake --build build --config ${{ env.BUILD_TYPE }}
+
+    # - name: Test install (ctest) (Non-Windows)
+    #   if: runner.os != 'Windows'
+    #   working-directory: ${{ github.workspace }}/Tests/build
+    #   run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+
+    # - name: Test install (ctest) (Windows)
+    #   if: runner.os == 'Windows'
+    #   working-directory: ${{ github.workspace }}/Tests/build
+    #   run: |
+    #     $env:PATH="${{ env.VCPKG_INSTALLATION_ROOT }}\packages\yaml-cpp_x64-windows\bin;C:\Program Files (x86)\PhreeqcRM\bin;$env:PATH"
+    #     ctest -C ${{ env.BUILD_TYPE }} --output-on-failure

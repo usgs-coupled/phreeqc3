@@ -1,0 +1,552 @@
+name: ci
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - '.github/workflows/dist.yml'
+      - '.gitignore'
+      - 'doc/**'
+      - '!doc/CMakeLists.txt'
+      - '!doc/Makefile.am'
+      - 'HTMLversion/**'
+      - 'Version3/**'
+      - 'README.md'
+  push:
+    # branches:
+    #   - master
+    paths-ignore:
+      - '.github/workflows/dist.yml'
+      - '.gitignore'
+      - 'doc/**'
+      - '!doc/CMakeLists.txt'
+      - '!doc/Makefile.am'
+      - 'HTMLversion/**'
+      - 'Version3/**'
+      - 'README.md'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'DATE: Leave blank to use todays date'
+        required: false
+        default: ''
+
+      rel:
+        description: 'REL: Leave blank to automatically generate (2021-03-09 = 15700)'
+        required: false
+        default: ''
+
+      ver:
+        description: 'VER: Leave blank to use MAJOR.MINOR.(PATCH+1) (from https://github.com/usgs-coupled/phreeqc-version/blob/main/phreeqc-version.txt)'
+        required: false
+        default: ''  
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # echo "Name: $NAME"
+          echo "Date: $DATE"
+          echo "REL: $REL"
+          echo "VER: $VER"
+        env:
+          # NAME: ${{ inputs.name }}
+          DATE: ${{ inputs.date }}
+          REL: ${{ inputs.rel }}
+          VER: ${{ inputs.ver }}
+
+  init:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    env:
+      # NAME: ${{ inputs.name }}
+      DATE: ${{ inputs.date }}
+      REL: ${{ inputs.rel }}
+      VER: ${{ inputs.ver }}
+    # Map step outputs to job outputs
+    outputs:
+      # NAME: ${{ steps.vars.outputs.NAME }} 
+      # NAME_LOWERCASE: ${{ steps.vars.outputs.NAME_LOWERCASE }} 
+      VER: ${{ steps.vars.outputs.VER }}
+      REL: ${{ steps.vars.outputs.REL }}
+      DATE: ${{ steps.vars.outputs.DATE }}
+      DATE_FULL: ${{ steps.vars.outputs.DATE_FULL }}
+      DATE_RFC_3339: ${{ steps.vars.outputs.DATE_RFC_3339 }}
+    steps:
+      - name: Setup vars
+        id: vars
+        run: |
+          if [ -z "${VER}" ]; then
+            echo VER="$(curl -sS https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/next_ver.sh | sh)" >> "${GITHUB_OUTPUT}"
+          else
+            echo VER="${VER}"                                                                                           >> "${GITHUB_OUTPUT}"
+          fi
+          
+          if [ -z "${REL}" ]; then
+            echo REL="$(curl -sS https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/rel.py | python3)" >> "${GITHUB_OUTPUT}"
+          else
+            echo REL="${REL}"                                                                                           >> "${GITHUB_OUTPUT}"
+          fi
+          
+          if [ -z "${DATE}" ]; then
+            echo DATE="$(TZ='America/Denver' date '+%x')"                                                               >> "${GITHUB_OUTPUT}"
+            echo DATE_RFC_3339="$(TZ='America/Denver' date --rfc-3339=date)"                                            >> "${GITHUB_OUTPUT}"
+            echo DATE_FULL="$(TZ='America/Denver' date)"                                                                >> "${GITHUB_OUTPUT}"
+          else
+            echo DATE="${DATE}"                                                                                         >> "${GITHUB_OUTPUT}"
+            echo DATE_RFC_3339="$(TZ='America/Denver' date --rfc-3339=date --date=${DATE})"                             >> "${GITHUB_OUTPUT}"
+            echo DATE_FULL="$(TZ='America/Denver' date --date=${DATE})"                                                 >> "${GITHUB_OUTPUT}"
+          fi
+
+  results:
+    name: display results
+    needs: init
+    runs-on: ubuntu-latest
+    steps:
+      - name: results
+        run: |
+          echo VER="${{ needs.init.outputs.VER }}"
+          echo REL="${{ needs.init.outputs.REL }}"
+          echo DATE="${{ needs.init.outputs.DATE }}"
+          echo DATE_RFC_3339="${{ needs.init.outputs.DATE_RFC_3339 }}"
+          echo DATE_FULL="${{ needs.init.outputs.DATE_FULL }}"
+          # echo TARBALL="${{ needs.init.outputs.NAME_LOWERCASE }}-${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}.tar.gz"
+          echo TARBALL="phreeqc-${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}.tar.gz"
+
+#   valgrind:
+#     # if: ${{ false }}
+#     name: valgrind
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         os: [ubuntu-24.04, ubuntu-22.04]
+#     runs-on: ${{ matrix.os }}
+#     steps:
+#     - uses: actions/checkout@v4
+
+#     - name: update apt-get
+#       run: sudo apt-get -y update
+
+#     - name: install yaml-cpp
+#       run: sudo apt-get -y install libyaml-cpp-dev
+
+#     - name: install ninja
+#       run: sudo apt-get -y install ninja-build
+
+#     - name: install libc6-dbg
+#       run: sudo apt-get -y install libc6-dbg
+
+#     - name: install valgrind
+#       run: sudo snap install valgrind --classic
+
+#     - name: ctest -S cmemcheck.cmake
+#       run: ctest -S cmemcheck.cmake -VV --output-on-failure -j 2
+
+  build-chm:
+    runs-on: windows-latest
+    steps:
+
+    - name: '🧰 Checkout'
+      uses: actions/checkout@v4
+
+    - name: 'fixup_html'
+      shell: bash
+      working-directory: ${{ github.workspace }}/HTMLversion/HTML
+      run: ./fixup_html.bash
+
+    - name: 'update html'
+      shell: bash
+      working-directory: ${{ github.workspace }}/HTMLversion
+      run: tar czf ../HTML.tar.gz HTML/*.htm HTML/*.png HTML/*.css
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: HTML
+        path: ${{github.workspace}}/HTML.tar.gz
+
+    - name: cache htmlhelp
+      id: cache-htmlhelp
+      uses: actions/cache@v4
+      with:
+        path: "C:/Program Files (x86)/HTML Help Workshop"
+        key: ${{ runner.os }}-htmlhelp
+
+    - name: install htmlhelp
+      if: steps.cache-htmlhelp.outputs.cache-hit != 'true'
+      timeout-minutes: 5
+      run: |
+        curl -L -O --max-time 120 http://web.archive.org/web/20160201063255/http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe
+        cmd /c start /wait .\htmlhelp.exe /q /c /t:$(Get-Location)\tmp
+        $file = "$(Get-Location)\tmp\htmlhelp.inf"
+        (Get-Content $file) | Foreach-Object { $_ `
+          -replace '^BeginPrompt',                                               ';;BeginPrompt' `
+          -replace '^EndPrompt',                                                 ';;EndPrompt' `
+          -replace '^49000=CustomLDID49000, 1',                                  '49000=CustomLDID49000, 5' `
+          -replace '^"hhupd.exe',                                                ';;hhupd.exe' `
+          -replace '^DefaultInstallDir="C:\\Program Files\\HTML Help Workshop"', 'DefaultInstallDir="%ProgramFiles%\\HTML Help Workshop"'
+        } | Set-Content $file
+        cmd /c start /wait .\tmp\setup.exe
+        Remove-Item -Recurse -Force .\tmp
+        Remove-Item -Recurse -Force .\htmlhelp.exe
+
+    - name: add htmlhelp to path
+      run: Write-Output 'C:\Program Files (x86)\HTML Help Workshop' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: compile chm
+      shell: bash
+      working-directory: ${{ github.workspace }}/HTMLversion
+      run: |
+        # hhc returns 1 on success
+        set +e
+        hhc phreeqc3.hhp | tee hhc.out
+        status=${PIPESTATUS[0]}
+        set -e
+        if [ "$status" -eq 1 ]; then
+          echo "[OK]"
+          exit 0
+        else
+          echo "[FAILED]"
+          exit 1
+        fi
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: chm
+        path: ${{github.workspace}}/HTMLversion/phreeqc3.chm
+
+
+  distcheck:
+    # if: ${{ false }}
+    name: make distcheck
+    needs: [init, build-chm]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    #{{
+    - uses: actions/download-artifact@v4
+      with:
+        name: chm
+        path: ${{github.workspace}}/HTMLversion
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: HTML
+
+    - name: install dos2unix
+      run: sudo apt-get -y install dos2unix
+
+    - name: versioning
+      run: ./jenkins-phreeqc-dist.sh -v ${{ needs.init.outputs.VER }} -r ${{ needs.init.outputs.REL }} -d ${{ needs.init.outputs.DATE }}
+
+    - name: bootstrap
+      run: ./bootstrap
+    #}}
+
+    # - name: autoreconf
+    #   run: autoreconf -fvi
+
+    - name: mkdir
+      run: mkdir ${{github.workspace}}/_build
+
+    - name: configure
+      shell: bash
+      working-directory: ${{github.workspace}}/_build
+      run: ../configure --prefix=$(pwd)/INSTALL
+
+    - name: make distcheck
+      shell: bash
+      working-directory: ${{github.workspace}}/_build
+      run: DISTCHECK_CONFIGURE_FLAGS="" make -j2 distcheck
+
+    #{{
+    - name: copy README
+      run: cp doc/README PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
+
+    - name: convert line endings
+      run: unix2dos doc/RELEASE doc/README
+
+    - name: copy RELEASE
+      run: cp doc/RELEASE Phreeqc_ReleaseNotes.txt
+
+    - name: make dist-zip
+      working-directory: ${{github.workspace}}/_build
+      run: make dist-zip
+
+    - name: mv files
+      working-directory: ${{github.workspace}}/_build
+      run: mv *.tar.gz *.zip ../.
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: phreeqc-artifacts
+        path: |
+          phreeqc-*.tar.gz
+          phreeqc-*.zip
+          PHREEQC_ReadMe_Windows_and_Linux_Batch_Versions.txt
+          Phreeqc_ReleaseNotes.txt
+          HTML.tar.gz
+
+    - uses: geekyeggo/delete-artifact@v5
+      with:
+        name: |
+          chm
+          HTML
+    #}}
+
+    # - uses: actions/upload-artifact@v4
+    #   with:
+    #     name: tarball
+    #     path: ${{github.workspace}}/_build/*.tar.gz
+
+    # - name: PhreeqcRM_ReadMe.txt
+    #   shell: bash
+    #   run: cp doc/README.TXT PhreeqcRM_ReadMe.txt
+
+    # - uses: actions/upload-artifact@v4
+    #   with:
+    #     name: readme
+    #     path: ${{github.workspace}}/PhreeqcRM_ReadMe.txt
+
+    # - name: install dos2unix
+    #   run: sudo apt-get -y install dos2unix
+
+    # - name: versioning
+    #   run: ./jenkins-phreeqc-dist.sh -v ${{ needs.init.outputs.VER }} -r ${{ needs.init.outputs.REL }} -d ${{ needs.init.outputs.DATE }}
+
+    # - name: bootstrap
+    #   run: ./bootstrap
+
+    # - name: make dist-zip
+    #   shell: bash
+    #   working-directory: ${{github.workspace}}/_build
+    #   run: make dist-zip
+
+    # - uses: actions/upload-artifact@v4
+    #   with:
+    #     name: zip
+    #     path: ${{github.workspace}}/_build/*.zip
+
+
+  # cmake:
+  #   # if: ${{ false }}
+  #   name: ${{ matrix.os }} shared=${{ matrix.build_shared_libs }} yaml=${{ matrix.phreeqcrm_with_yaml_cpp }} type=${{ matrix.BUILD_TYPE }}
+  #   needs: [init, distcheck]
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [macos-13, ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, windows-2019, windows-2022]
+  #       build_shared_libs: [OFF, ON]
+  #       phreeqcrm_with_yaml_cpp: [OFF, ON]
+  #       BUILD_TYPE: [Debug, Release]
+
+  #   runs-on: ${{ matrix.os }}
+
+  #   env:
+  #     VER_STRING: ${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}
+
+  #   steps:
+
+  #   # Note: This allows ${{ env.VCPKG_INSTALLATION_ROOT }} to be used in the remaining steps
+  #   # Although its already set in the environment it can't be accessed using the env context
+  #   # until it is stored in the $GITHUB_ENV file
+  #   - name: init VCPKG_INSTALLATION_ROOT
+  #     shell: bash
+  #     run: echo "VCPKG_INSTALLATION_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV
+
+  #   - uses: actions/download-artifact@v4
+  #     with:
+  #       name: tarball
+
+  #   - name: Install GNU Fortran (macOS)
+  #     if: ${{ runner.os == 'macOS' }}
+  #     uses: fortran-lang/setup-fortran@v1
+  #     with:
+  #       compiler: gcc
+  #       version: 12
+  
+  #   - name: Install oneAPI Fortran (Windows)
+  #     if: ${{ runner.os == 'Windows' }}
+  #     uses: fortran-lang/setup-fortran@v1
+  #     with:
+  #       compiler: intel-classic
+  #       version: '2021.10'
+
+  #   - name: Unset CC/CXX (Windows)
+  #     if: runner.os == 'Windows'
+  #     shell: bash
+  #     run: |
+  #       echo "CC=" >> $GITHUB_ENV
+  #       echo "CXX=" >> $GITHUB_ENV   
+
+  #   - name: Install ninja valgrind (Linux)
+  #     if: ${{ runner.os == 'Linux' }}
+  #     #run: sudo apt-get install -y ninja-build valgrind libyaml-cpp-dev python3-numpy
+  #     run: |
+  #       sudo apt-get -y update
+  #       sudo apt-get install -y ninja-build valgrind
+
+  #   - name: Install ninja swig (macOS)
+  #     if: ${{ runner.os == 'macOS' }}
+  #     run: |
+  #       brew install ninja swig
+  #       ls -alR /usr/local/Cellar/
+
+  #   - name: Install yaml-cpp (Linux)
+  #     if: ${{ runner.os == 'Linux' && matrix.phreeqcrm_with_yaml_cpp == 'ON' }}
+  #     run: vcpkg install yaml-cpp:x64-linux
+
+  #   - name: Install yaml-cpp (macOS)
+  #     if: ${{ runner.os == 'macOS' && matrix.phreeqcrm_with_yaml_cpp == 'ON' }}
+  #     run: vcpkg install yaml-cpp:x64-osx
+
+  #   - name: Install yaml-cpp (Windows)
+  #     if: ${{ runner.os == 'Windows' && matrix.phreeqcrm_with_yaml_cpp == 'ON' }}
+  #     run: vcpkg install yaml-cpp:x64-windows
+
+  #   # - name: Set up Python ${{ matrix.python-version }}
+  #   - name: Set up Python 3.8
+  #     uses: actions/setup-python@v5
+  #     with:
+  #       # python-version: ${{ matrix.python-version }}
+  #       python-version: 3.8
+
+  #   - name: Install dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       python -m pip install numpy
+  #       python -m pip install PyYAML
+  #       python -m pip install pytest
+  #       # @todo if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+  #   - name: Set up Visual Studio shell (Windows)
+  #     if: runner.os == 'Windows'
+  #     uses: egor-tensin/vs-shell@v2
+  #     with:
+  #       arch: x64
+
+  #   - name: Extract tarball
+  #     run: tar xvzf phreeqcrm-${{ env.VER_STRING }}.tar.gz
+
+  #   - name: Configure with CMake
+  #     if: ${{ matrix.phreeqcrm_with_yaml_cpp != 'ON' }}
+  #     run: cmake -L -G Ninja -B build -S phreeqcrm-${{ env.VER_STRING }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_SHARED_LIBS:BOOL=${{ matrix.build_shared_libs }} -DPHREEQCRM_WITH_YAML_CPP=${{ matrix.phreeqcrm_with_yaml_cpp }} -DPHREEQCRM_FORTRAN_TESTING:BOOL=ON
+
+  #   - name: Configure with CMake (using vcpkg toolchain)
+  #     if: ${{ matrix.phreeqcrm_with_yaml_cpp == 'ON' }}
+  #     run: cmake -L -G Ninja --toolchain ${{ env.VCPKG_INSTALLATION_ROOT }}/scripts/buildsystems/vcpkg.cmake -B build -S phreeqcrm-${{ env.VER_STRING }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_SHARED_LIBS:BOOL=${{ matrix.build_shared_libs }} -DPHREEQCRM_WITH_YAML_CPP=${{ matrix.phreeqcrm_with_yaml_cpp }} -DPHREEQCRM_FORTRAN_TESTING:BOOL=ON -DPHREEQCRM_BUILD_PYTHON:BOOL=ON
+
+  #   - name: Print phreeqcrm.pc
+  #     working-directory: ${{ github.workspace }}/build
+  #     run:  cat phreeqcrm.pc
+
+  #   - name: Build with CMake
+  #     run: cmake --build ${{ github.workspace }}/build --config ${{ env.BUILD_TYPE }}
+
+  #   - name: Test with CMake
+  #     working-directory: ${{ github.workspace }}/build
+  #     run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+
+  #   - name: Install (Non-Windows)
+  #     if: runner.os != 'Windows'
+  #     run: sudo cmake --install build
+
+  #   - name: Install (Windows)
+  #     if: runner.os == 'Windows'
+  #     run: cmake --install build
+
+  #   - name: Run ldconfig (Linux)
+  #     if: ${{ runner.os == 'Linux' && matrix.build_shared_libs == 'ON' }}
+  #     run: sudo ldconfig
+
+  #   - name: Cleanup (Non-Windows)
+  #     if: runner.os != 'Windows'
+  #     run: sudo rm -rf *
+
+  #   - name: Cleanup (Windows)
+  #     if: runner.os == 'Windows'
+  #     run: Remove-Item -Recurse -Force *
+
+  #   - uses: actions/checkout@v4
+
+  #   - name: Test install (configure) (Non-Windows)
+  #     if: ${{ matrix.phreeqcrm_with_yaml_cpp != 'ON' }}
+  #     working-directory: ${{ github.workspace }}/Tests
+  #     run: cmake -L -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -D_PHREEQCRM_TEST_INSTALL:BOOL=ON -DPHREEQCRM_FORTRAN_TESTING:BOOL=ON
+
+  #   - name: Test install (configure) (using vcpkg toolchain)
+  #     if: ${{ matrix.phreeqcrm_with_yaml_cpp == 'ON' }}
+  #     working-directory: ${{ github.workspace }}/Tests
+  #     run: cmake -L -G Ninja --toolchain ${{ env.VCPKG_INSTALLATION_ROOT }}/scripts/buildsystems/vcpkg.cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -D_PHREEQCRM_TEST_INSTALL:BOOL=ON -DPHREEQCRM_FORTRAN_TESTING:BOOL=ON
+
+  #   - name: Test install (build)
+  #     working-directory: ${{ github.workspace }}/Tests
+  #     run: cmake --build build --config ${{ env.BUILD_TYPE }}
+
+  #   - name: Test install (ctest) (Non-Windows)
+  #     if: runner.os != 'Windows'
+  #     working-directory: ${{ github.workspace }}/Tests/build
+  #     run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+
+  #   - name: Test install (ctest) (Windows)
+  #     if: runner.os == 'Windows'
+  #     working-directory: ${{ github.workspace }}/Tests/build
+  #     run: |
+  #       $env:PATH="${{ env.VCPKG_INSTALLATION_ROOT }}\packages\yaml-cpp_x64-windows\bin;C:\Program Files (x86)\PhreeqcRM\bin;$env:PATH"
+  #       ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+
+
+  cmake:
+    # if: ${{ false }}
+    name: ${{ matrix.os }} type=${{ matrix.BUILD_TYPE }}
+    needs: [init, distcheck]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, windows-2019, windows-2022]
+        BUILD_TYPE: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      VER_STRING: ${{ needs.init.outputs.VER }}-${{ needs.init.outputs.REL }}
+
+    steps:
+
+    - uses: actions/download-artifact@v4
+      with:
+        # name: tarball
+        name: phreeqc-artifacts
+
+    - name: Install ninja (Linux)
+      if: ${{ runner.os == 'Linux' }}
+      run: |
+        sudo apt-get -y update
+        sudo apt-get install -y ninja-build
+
+    - name: Install ninja(macOS)
+      if: ${{ runner.os == 'macOS' }}
+      run: |
+        brew install ninja
+        ls -alR /usr/local/Cellar/
+
+    - name: Set up Visual Studio shell (Windows)
+      if: runner.os == 'Windows'
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Extract tarball
+      run: tar xvzf phreeqc-${{ env.VER_STRING }}.tar.gz
+
+    - name: Configure with CMake
+      run: cmake -L -G Ninja -B build -S phreeqc-${{ env.VER_STRING }} -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }}
+
+    - name: Build with CMake
+      run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.BUILD_TYPE }}
