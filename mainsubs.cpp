@@ -681,9 +681,15 @@ initial_gas_phases(int print)
 			if (pr.user_print)
 				print_user_print();
 			if (PR /*&& use.Get_gas_phase_ptr()->total_p > 1.0*/)
- 				warning_msg("While initializing gas phase composition by equilibrating:\n"
-				"         Found definitions of gas` critical temperature and pressure.\n"
-				"         Going to use Peng-Robinson in subsequent calculations.\n");
+			{
+				std::ostringstream msg;
+				msg << "\nWhile initializing gas phase composition by equilibrating:\n";
+				msg << "     Found definitions of gas critical temperature and pressure.\n";
+				msg << "     Going to use Peng-Robinson in subsequent calculations.\n";
+				screen_msg(msg.str().c_str());
+				output_msg(msg.str().c_str());
+				log_msg(msg.str().c_str());
+			}
 			xgas_save(n_user);
 			punch_all();
 			/* free_model_allocs(); */
