@@ -99,7 +99,7 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 			// Allow return to Exchange for more processing
 			break;
 
-		case 0:				// phase_name
+		case 7:				// phase_name
 			output_msg("-phase_name is obsolete. Define with -component\n");
 			break;
 
@@ -138,7 +138,7 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 			}
 			break;
 
-		case 5:				// p
+		case 0:				// p
 			if (!(parser.get_iss() >> this->p))
 			{
 				this->p = 0;
@@ -148,7 +148,7 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 			}
 			break;
 
-		case 6:				// phi
+		case 5:				// phi
 			if (!(parser.get_iss() >> this->phi))
 			{
 				this->phi = 0;
@@ -158,7 +158,7 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 			}
 			break;
 
-		case 7:				// f
+		case 6:				// f
 			if (!(parser.get_iss() >> this->f))
 			{
 				this->f = 0;
@@ -253,13 +253,13 @@ cxxGasComp::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 }
 
 const std::vector< std::string >::value_type temp_vopts[] = {
-	std::vector< std::string >::value_type("phase_name"),	 // 0 
+	std::vector< std::string >::value_type("p"),             // 0 
 	std::vector< std::string >::value_type("name"),	         // 1
 	std::vector< std::string >::value_type("p_read"),	     // 2 
 	std::vector< std::string >::value_type("moles"),	     // 3 
 	std::vector< std::string >::value_type("initial_moles"), // 4 
-	std::vector< std::string >::value_type("p"),             // 5 
-	std::vector< std::string >::value_type("phi"),           // 6 
-	std::vector< std::string >::value_type("f")              // 7 
+	std::vector< std::string >::value_type("phi"),           // 5 
+	std::vector< std::string >::value_type("f"),             // 6 
+	std::vector< std::string >::value_type("phase_name")	 // 7 
 };									   
 const std::vector< std::string > cxxGasComp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
