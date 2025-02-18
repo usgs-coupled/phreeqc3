@@ -1,5 +1,37 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+	-----------------
+	February 12, 2025
+	-----------------
+	PHREEQC: Added database stimela.dat, a database for use in
+	drinking-water and waste-water treatment from Peter de Moel and Omnisys.
+	Here is an excerpt of the initial lines of the database.
+	
+#  stimela.dat (version 3.8.6)						(stimela version of phreeqc.dat)						
+#  under development by Peter de Moel (Omnisys) for Stimela platform at Delft University of Technology												
+#  based on: phreeqc.dat (file date 2025-01-07, in IPhreeqcCOM-3.8.6-17100-x64.msi)												
+#  Stimela is focussed on modelling for water and waste water treatment												
+#  Further info on using PHREEQC for water treatment, and PHREEQC in Excel can be found on https://ac4e.omnisys.nl/
+												
+#  list of modifications: 												
+#  - added Amm (with master species AmmH+) as used in amm.dat for redox-uncoupled NH3 (for using Tony Appelo's input files)												
+#  - added [N-3] (with master species [N-3]H4+) as alternative for redox-uncoupled Amm (for readable chemical formula)												
+#  - added [Fe+2], [Mn+2] and [N+3] (with master species [Fe+2]+2 , [Mn+2]+2 and [N+3]O2-) for redox-uncoupled Fe+2, Mn+2 and NO2-												
+#  - added [C-4] and [S-2] (with master species [C-4]H4 and H2[S-2]) as alternatives for redox-uncoupled Mtg and Sg)												
+#  - added solid Vaterite (CaCO3) (included in Standard Methods 2330 (2010))												
+#  - unchanged analytic for solid Calcite (phreeqc 3.7.0. introduced modified version, deviated from Standard Methods 2330 - 2016)												
+#  - modified values for element_gfw according to Abridged Standard Atomic Weights from TSAW 2013 (CIAAW/IUPAC) (https://www.ciaaw.org/abridged-atomic-weights.htm)												
+#  end of list of modifications 												
 
+	
+	-----------------
+	February 12, 2025
+	-----------------
+	PHREEQC: Fixed bug in GasComp.cxx. The order of the options
+	was incorrect, which caused -p (pressure) to be misinterpreted
+	when reading GAS_PHASE_RAW.
+	
+	
+Version 3.8.6: January  7, 2025
 	-----------------
 	January 7, 2025
 	-----------------
