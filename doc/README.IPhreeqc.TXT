@@ -228,6 +228,7 @@ E. Linux compiling, testing, and installing the IPhreeqc library
 			  phreeqc.dat
 			  pitzer.dat
 			  sit.dat
+			  stimela.dat
 			  Tipping_Hurley.dat
 			  wateq4f.dat
 		
@@ -361,6 +362,7 @@ F. Windows compiling, testing, and installing the IPhreeqc library
 			phreeqc.dat
 			pitzer.dat
 			sit.dat
+			stimela.dat
 			wateq4f.dat
 				
 		Install\doc files:
