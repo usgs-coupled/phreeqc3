@@ -24,5 +24,6 @@ DATABASE=\
 	phreeqc.dat\
 	pitzer.dat\
 	sit.dat\
+	stimela.dat\
 	Tipping_Hurley.dat\
 	wateq4f.dat
