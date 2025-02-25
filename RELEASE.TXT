@@ -1,5 +1,10 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 	-----------------
+	February 20, 2025
+	-----------------
+	PhreeqcRM: Downgraded compiler standard from C++14 to C++11 for compatibility.
+
+	-----------------
 	February 12, 2025
 	-----------------
 	PHREEQC: Added database stimela.dat, a database for use in
@@ -22,15 +27,33 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 #  - modified values for element_gfw according to Abridged Standard Atomic Weights from TSAW 2013 (CIAAW/IUPAC) (https://www.ciaaw.org/abridged-atomic-weights.htm)												
 #  end of list of modifications 												
 
-	
 	-----------------
 	February 12, 2025
 	-----------------
 	PHREEQC: Fixed bug in GasComp.cxx. The order of the options
 	was incorrect, which caused -p (pressure) to be misinterpreted
 	when reading GAS_PHASE_RAW.
-	
-	
+
+	-----------------
+	February 11, 2025
+	-----------------
+	PhreeqcRM: Increased minimum CMake version to 3.22
+    ENVIRONMENT_MODIFICATION requires 3.22
+
+	-----------------
+	February 10, 2025
+	-----------------
+	PhreeqcRM: Fixed CMake builds that set PHREEQCRM_STATIC_RUNTIME=ON.
+    When PHREEQCRM_STATIC_RUNTIME=ON, the Runtime Library is configured as /MD for Release builds and /MDd for Debug builds
+
+	-----------------
+	February 05, 2025
+	-----------------
+	PhreeqcRM: Fixed a Python crash that occurred when BMIPhreeqcRM::LoadDatabase was called before BMIPhreeqcRM::initialize().
+    Updated to C++14 for autotools and CMake builds
+    BMIPhreeqcRM::LoadDatabase now throws if initialize() hasn't been called
+
+
 Version 3.8.6: January  7, 2025
 	-----------------
 	January 7, 2025
