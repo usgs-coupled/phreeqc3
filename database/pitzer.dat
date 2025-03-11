@@ -69,13 +69,13 @@ Mg+2 = Mg+2
 	-viscosity 0.426 0 0 1.66e-3 4.32e-3 2.461
 	-dw 0.705e-9 -4 5.569 0 1.047
 Ca+2 = Ca+2
-	-Vm -0.3456 -7.252 6.149 -2.479 1.239 5 1.6 -57.1 -6.12e-3 1 # The apparent volume parameters are defined in ref. 1 & 2
+	-Vm -0.3456 -7.252 6.149 -2.479 1.239 5 1.6 -57.1 -6.12e-3 1
 	-viscosity 0.359 -0.158 4.2e-2 1.5e-3 8.04e-3 2.3 # ref. 4, CaCl2 < 6 M
 	-dw 0.792e-9 34 5.411 0 1.046
 Sr+2 = Sr+2
-	-Vm -1.57e-2 -10.15 10.18 -2.36 0.86 5.26 0.859 -27 -4.1e-3 1.97
-	-viscosity 0.472 -0.252 5.51e-3 3.67e-3 0 1.876
-	-dw 0.794e-9 149 0.805 1.961 1e-9 0.7876
+	-Vm -5.6e-2 -10.15 9.90 -2.36 0.807 5.26 2.72 -82.7 -1.37e-2 0.956
+	-viscosity 0.493 -0.255 2.3e-3 4.2e-3 -3.8e-3 1.762
+	-dw 0.794e-9 18 0.681 2.069 0.965 0.271
 Ba+2 = Ba+2
 	-Vm 2.063 -10.06 1.9534 -2.36 0.4218 5 1.58 -12.03 -8.35e-3 1
 	-viscosity 0.338 -0.227 1.39e-2 3.07e-2 0 0.768
@@ -213,11 +213,11 @@ Anthophyllite
 	log_k 66.8
 	-delta_H -483 kJ/mol
 	Vm 269
-Antigorite
-	Mg48Si34O85(OH)62 + 96 H+ = 34 H4SiO4 + 48 Mg+2 + 11 H2O # llnl.dat
-	log_k 477.19
-	-delta_H -3364 kJ/mol
-	Vm 1745
+# Antigorite
+	# Mg48Si34O85(OH)62 + 96 H+ = 34 H4SiO4 + 48 Mg+2 + 11 H2O # llnl.dat
+	# log_k 477.19 # seawater is impossibly supersaturated
+	# -delta_H -3364 kJ/mol
+	# Vm 1745
 Aragonite
 	CaCO3 = CO3-2 + Ca+2
 	log_k -8.336
@@ -1026,7 +1026,7 @@ END
 #    #	   b0	  b1	  b2	 d1	  d2	 d3	tan
 #    z_i is absolute charge number, m_i is molality of i
 #    B_i = b0 + b1 exp(-b2 * tc)
-#    fan = (2 - tan V_i / V_Cl-), corrects for the volume of anions
+#    fan = (2 - tan V_i / V_Cl-), corrects for the volume of anions and neutral species
 #    D_i = d1 * exp(-d2 tc)
 #    n_i = (I^d3 * (1 + fI) + ((z_i^2 + z_i) / 2 · m_i)^d3) / (2 + fI), fI is an ionic strength term.
 # For details, consult ref. 5.
