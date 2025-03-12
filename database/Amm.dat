@@ -199,7 +199,7 @@ Mtg = Mtg # CH4
 	-Vm 9.01 -1.11 0 -1.85 -1.5 # Hnedkovsky et al., 1996, JCT 28, 125
 	-dw 1.85e-9
 Ntg = Ntg # N2
-	-Vm 7 # Pray et al., 1952, IEC 44 1146
+	-Vm 7 # Pray et al., 1952, IEC 44, 1146
 	-dw 1.96e-9 -90 # Cadogan et al. 2014, JCED 59, 519
 H2Sg = H2Sg # H2S
 	-Vm 1.39 28.3 0 -7.22 -0.59 # Hnedkovsky et al., 1996, JCT 28, 125
@@ -304,7 +304,7 @@ NO3- + 2 H+ + 2 e- = NO2- + H2O
 #	  -delta_h -187.055	  kcal
 #	-gamma 2.5 0
 #	-Vm 5.35 2.345 3.72 -2.88 1.55 2.5 -4.54 217 2.344e-2 0.569
-#	-viscosity 9.9e-2 -0.159 1.36e-2 6.51e-3 3.21e-2 0.972
+#	-viscosity 6.94e-2 -0.141 2.04e-2 9.4e-3 3.73e-2 0.898
 #	-dw 1.98e-9 203 1.47 2.644 6.81e-2
 AmmH+ = Amm + H+
 #NH4+ = NH3 + H+
@@ -1953,7 +1953,7 @@ END
 #    #	   b0	  b1	  b2	 d1	  d2	 d3	tan
 #    z_i is absolute charge number, m_i is molality of i
 #    B_i = b0 + b1 exp(-b2 * tc)
-#    fan = (2 - tan V_i / V_Cl-), corrects for the volume of anions
+#    fan = (2 - tan V_i / V_Cl-), corrects for the volume of anions and neutral species
 #    D_i = d1 * exp(-d2 tc)
 #    n_i = (I^d3 * (1 + fI) + ((z_i^2 + z_i) / 2 · m_i)^d3) / (2 + fI), fI is an ionic strength term.
 # For details, consult ref. 4.
