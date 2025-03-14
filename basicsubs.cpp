@@ -262,8 +262,9 @@ calc_SC(void)
 {
 	class species *s_ptr;
 	int i;
-	LDBLE ka, l_z, Dw, ff, sqrt_mu, a, a2, a3, av, v_Cl = 1;
+	LDBLE ka, l_z, Dw, ff, sqrt_mu, a, a2, a3, av, v_Cl = 1, Dw_SC;
 	SC = 0;
+	Dw_SC = 1e4 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298.15e3); // for recalculating Dw to ll0
 	sqrt_mu = sqrt(mu_x);
 	bool Falk = false;
 	s_ptr = s_search("H+");
@@ -347,9 +348,9 @@ calc_SC(void)
 			if (correct_Dw)
 				s_x[i]->dw_corr = Dw;
 			s_x[i]->dw_t_SC = s_x[i]->moles / mass_water_aq_x * l_z * l_z * Dw;
+			s_x[i]->dw_t_SC *= 1e3 * Dw_SC;
 			SC += s_x[i]->dw_t_SC;
 		}
-		SC *= 1e7 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298150.0);
 		return (SC);
 	}
 	else
@@ -364,7 +365,7 @@ calc_SC(void)
 			      Dw      dw_t    a     a2      visc  a3 = (0) or >5
 			 -dw 1.03e-9  -14    4.03  0.8341  1.679    # Li+, ka = DH_B * a * (1 + (vm - v0))^a2 * mu^0.5
 		 */
-		LDBLE q, sqrt_q, B1, B2, m_plus, m_min, eq_plus, eq_min, eq_dw_plus, eq_dw_min, z_plus, z_min, t1, Dw_SC;
+		LDBLE q, sqrt_q, B1, B2, m_plus, m_min, eq_plus, eq_min, eq_dw_plus, eq_dw_min, z_plus, z_min, t1;
 
 		m_plus = m_min = eq_plus = eq_min = eq_dw_plus = eq_dw_min = z_plus = z_min = 0;
 		SC = 0;
@@ -432,7 +433,7 @@ calc_SC(void)
 		mu_min  = 3 * m_min  * (z_min - 1) + m_min;
 		mu_plus = 3 * m_plus * (z_plus - 1) + m_plus;
 
-		Dw_SC = 1e4 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298.15e3); // for recalculating Dw to ll0
+		//Dw_SC = 1e4 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298.15e3); // for recalculating Dw to ll0
 		t1 = calc_solution_volume();
 		ll_SC = 0.5e3 * (eq_plus + eq_min) / t1 * mass_water_aq_x / t1; // recalculates ll to SC in uS/cm, with mu in mol/kgw
 
@@ -466,7 +467,8 @@ calc_SC(void)
 				if (correct_Dw)
 					s_x[i]->dw_corr = Dw;
 				s_x[i]->dw_t_SC = s_x[i]->moles / mass_water_aq_x * l_z * l_z * Dw;
-				SC += s_x[i]->dw_t_SC * 1e3 * Dw_SC;
+				s_x[i]->dw_t_SC *= 1e3 * Dw_SC;
+				SC += s_x[i]->dw_t_SC;
 			}
 			else
 			{
@@ -520,11 +522,11 @@ calc_SC(void)
 				a = (lz > 0 ? mu_plus / (eq_plus * a2) : mu_min / (eq_min * a2));
 				t1 *= s_x[i]->moles * l_z * l_z / a;
 				t1 *= ll_SC;
-				s_x[i]->dw_t_SC = t1 / (1e3 * Dw_SC);
+				s_x[i]->dw_t_SC = t1;
 				SC += t1;
 			}
 		}
-		return SC;
+ 		return SC;
 	}
 }
 
@@ -1270,8 +1272,7 @@ calc_t_sc(const char* name)
 		calc_SC();
 		if (!SC)
 			return (0);
-		LDBLE t = s_ptr->dw_t_SC * 1e7 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298150.0);
-		return (t / SC);
+		return s_ptr->dw_t_SC / SC;
 	}
 	return (0);
 }

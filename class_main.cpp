@@ -224,6 +224,7 @@ main_method(int argc, char *argv[])
 		}
 #ifdef NPP
 #ifdef DOS
+		SetConsoleOutputCP(CP_UTF8);
 		write_banner();
 #endif
 #else
@@ -295,64 +296,6 @@ main_method(int argc, char *argv[])
 	return 0;
 }
 #endif //TEST_COPY
-#ifdef NPP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-write_banner(void)
-/* ---------------------------------------------------------------------- */
-{
-#ifdef TESTING
-	return OK;
-#endif
-#ifndef NO_UTF8_ENCODING
-	char buffer[80];
-	int len, indent;
-	screen_msg(
-			   "              ÛßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßÛ\n");
-	screen_msg(
-			   "              º                                                 º\n");
-
-	/* version */
-#ifdef NPP
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.8.0");
-#else
-	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
-#endif
-	indent = (49 - len) / 2;
-	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
-			   49 - indent - len, ' '));
-
-	screen_msg(
-			   "              º                                                 º\n");
-	screen_msg(
-			   "              º        A hydrogeochemical transport model       º\n");
-	screen_msg(
-			   "              º                                                 º\n");
-	screen_msg(
-			   "              º                       by                        º\n");
-	screen_msg(
-			   "              º         D.L. Parkhurst and C.A.J. Appelo        º\n");
-	screen_msg(
-			   "              º                                                 º\n");
-
-
-	/* date */
-#ifdef NPP
-	len = sprintf(buffer, "%s", "August 27, 2024, with bug-fixes and new items");
-#else
-	len = sprintf(buffer, "%s", "@VER_DATE@");
-#endif
-	indent = (49 - len) / 2;
-	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
-			   49 - indent - len, ' '));
-
-	screen_msg(
-			   "              ÛÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÛ\n\n");
-
-#endif
-	return 0;
-}
-#else
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 write_banner(void)
@@ -370,7 +313,11 @@ write_banner(void)
 			   "              ║                                            ║\n");
 
 	/* version */
+#ifdef NPP
+	len = snprintf(buffer, sizeof(buffer), "* PHREEQC-%s *", "3.8.7");
+#else
 	len = snprintf(buffer, sizeof(buffer), "* PHREEQC-%s *", "@VERSION@");
+#endif
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14c║%*c%s%*c║\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
@@ -390,7 +337,11 @@ write_banner(void)
 
 
 	/* date */
+#ifdef NPP
+	len = snprintf(buffer, sizeof(buffer), "%s", "February 25, 2025");
+#else
 	len = snprintf(buffer, sizeof(buffer), "%s", "@VER_DATE@");
+#endif
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14c║%*c%s%*c║\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
@@ -400,7 +351,6 @@ write_banner(void)
 #endif
 	return 0;
 }
-#endif
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
