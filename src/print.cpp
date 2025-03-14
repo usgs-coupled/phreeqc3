@@ -1469,35 +1469,70 @@ print_species(void)
 	if (pr.species == FALSE || pr.all == FALSE)
 		return (OK);
 	min = -1000;
-	print_centered("Distribution of species");
-/*
- *   Heading for species
- */
+#ifdef NPP
+	print_centered("Distribution and properties of species");
 	if (pitzer_model == TRUE)
 	{
 		if (ICON == TRUE)
 		{
-			output_msg(sformatf("%60s%10s\n", "MacInnes", "MacInnes"));
-			output_msg(sformatf("%40s%10s%10s%10s%10s\n",
-					   "MacInnes", "Log", "Log", "Log", "mole V"));
+			output_msg(sformatf("%40s%10s\n", "MacInnes", "MacInnes"));
+			output_msg(sformatf("   %-13s%11s%13s%9s%10s%10s%8s\n",
+				"Species", "Molality", "Activity", "Gamma", "mole V", "f_VISC¹", "t_SC²"));
 		}
 		else
 		{
-			output_msg(sformatf("%60s%10s\n", "Unscaled", "Unscaled"));
-			output_msg(sformatf("%40s%10s%10s%10s%10s\n",
-					   "Unscaled", "Log", "Log", "Log", "mole V"));
+			output_msg(sformatf("%40s%10s\n", "Unscaled", "Unscaled"));
+			output_msg(sformatf("   %-13s%11s%13s%9s%10s%10s%8s\n",
+				"Species", "Molality", "Activity", "Gamma", "mole V", "f_VISC¹", "t_SC²"));
 		}
 	}
 	else
 	{
-		output_msg(sformatf("%50s%10s%10s%10s\n", "Log", "Log", "Log", "mole V"));
+		if (SC)
+		{
+			output_msg(sformatf("   %-13s%11s%13s%9s%10s%10s%8s\n",
+				"Species", "Molality", "Activity", "Gamma", "mole V", "f_VISC¹", "t_SC²"));
+			output_msg(sformatf("%27s%-14s%-9s%11s%-9s%-9s\n\n",
+				"mol/kgw", "        -", "     -", "cm³/mol", "    %", "     %"));
+		}
+		else
+		{
+			output_msg(sformatf("%50s%10s%10s%10s\n", "Log", "Log", "Log", "mole V"));
+			output_msg(sformatf("   %-13s%12s%12s%10s%10s%10s%10s\n\n",
+				"Species", "Molality", "Activity", "Molality", "Activity", "Gamma", "cm³/mol"));
+		}
 	}
-#ifdef NO_UTF8_ENCODING
-	output_msg(sformatf("   %-13s%12s%12s%10s%10s%10s%10s\n\n", "Species",
-			   "Molality", "Activity", "Molality", "Activity", "Gamma", "cm3/mol"));
 #else
-	output_msg(sformatf("   %-13s%12s%12s%10s%10s%10s%11s\n\n", "Species",
-			   "Molality", "Activity", "Molality", "Activity", "Gamma", "cm³/mol"));
+		print_centered("Distribution of species");
+/*
+ *   Heading for species
+ */
+		if (pitzer_model == TRUE)
+		{
+			if (ICON == TRUE)
+			{
+				output_msg(sformatf("%60s%10s\n", "MacInnes", "MacInnes"));
+				output_msg(sformatf("%40s%10s%10s%10s%10s\n",
+					"MacInnes", "Log", "Log", "Log", "mole V"));
+			}
+			else
+			{
+				output_msg(sformatf("%60s%10s\n", "Unscaled", "Unscaled"));
+				output_msg(sformatf("%40s%10s%10s%10s%10s\n",
+					"Unscaled", "Log", "Log", "Log", "mole V"));
+			}
+		}
+		else
+		{
+			output_msg(sformatf("%50s%10s%10s%10s\n", "Log", "Log", "Log", "mole V"));
+		}
+#ifdef NO_UTF8_ENCODING
+		output_msg(sformatf("   %-13s%12s%12s%10s%10s%10s%10s\n\n", "Species",
+			"Molality", "Activity", "Molality", "Activity", "Gamma", "cm3/mol"));
+#else
+		output_msg(sformatf("   %-13s%12s%12s%10s%10s%10s%11s\n\n", "Species",
+			"Molality", "Activity", "Molality", "Activity", "Gamma", "cm³/mol"));
+#endif
 #endif
 /*
  *   Print list of species
@@ -1506,9 +1541,9 @@ print_species(void)
 	name = s_hplus->secondary->elt->name;
 	for (i = 0; i < (int)species_list.size(); i++)
 	{
-/*
- *   Get name of master species
- */
+		/*
+		 *   Get name of master species
+		 */
 		if (species_list[i].s->type == EX)
 			continue;
 		if (species_list[i].s->type == SURF)
@@ -1523,14 +1558,14 @@ print_species(void)
 			master_ptr = species_list[i].master_s->primary;
 			name1 = species_list[i].master_s->primary->elt->name;
 		}
-/*
- *   Check if new master species, print total molality
- */
+		/*
+		 *   Check if new master species, print total molality
+		 */
 		if (name1 != name)
 		{
 			name = name1;
 			output_msg(sformatf("%-11s%12.3e\n", name,
-					   (double) (master_ptr->total / mass_water_aq_x)));
+				(double)(master_ptr->total / mass_water_aq_x)));
 			min = censor * master_ptr->total / mass_water_aq_x;
 			if (min > 0)
 			{
@@ -1541,9 +1576,9 @@ print_species(void)
 				min = -1000.;
 			}
 		}
-/*
- *   Print species data
- */
+		/*
+		 *   Print species data
+		 */
 		if (species_list[i].s->lm > min)
 		{
 			if (species_list[i].s == s_h2o)
@@ -1554,25 +1589,67 @@ print_species(void)
 			{
 				lm = species_list[i].s->lm;
 			}
+#ifdef NPP
+			if (SC)
+			{
+				output_msg(sformatf(
+					"   %-13s%12.3e%13.3e%9.3f",
+					species_list[i].s->name,
+					(double)((species_list[i].s->moles) / mass_water_aq_x),
+					(double)under(species_list[i].s->lm + species_list[i].s->lg),
+					(double)pow(10, species_list[i].s->lg)));
+				if (species_list[i].s->logk[vm_tc] || species_list[i].s == s_hplus)
+					output_msg(sformatf("%10.2f", (double)species_list[i].s->logk[vm_tc]));
+				else
+					output_msg(sformatf("      (0) "));
+				if (species_list[i].s->dw_t_visc || !strcmp(species_list[i].s->name, "Cl-"))
+					output_msg(sformatf("%9.2f", (double)100 * species_list[i].s->dw_t_visc));
+				else
+					output_msg(sformatf("     (0)  "));
+				if (species_list[i].s->dw_t_SC)
+					output_msg(sformatf("%9.2f\n", (double)100 * species_list[i].s->dw_t_SC / SC));
+				else
+					output_msg(sformatf("     (0)\n"));
+			}
+			else
+			{
+				output_msg(sformatf(
+					"   %-13s%12.3e%12.3e%10.3f%10.3f%10.3f",
+					species_list[i].s->name,
+					(double)((species_list[i].s->moles) / mass_water_aq_x),
+					(double)under(species_list[i].s->lm + species_list[i].s->lg), (double)lm,
+					(double)(species_list[i].s->lm + species_list[i].s->lg),
+					(double)species_list[i].s->lg));
+				if (species_list[i].s->logk[vm_tc] || species_list[i].s == s_hplus)
+					output_msg(sformatf("%10.2f", (double)species_list[i].s->logk[vm_tc]));
+				else
+					output_msg(sformatf("      (0)  "));
+				output_msg(sformatf("\n"));
+			}
+#else
 			output_msg(sformatf(
-					   "   %-13s%12.3e%12.3e%10.3f%10.3f%10.3f",
-					   species_list[i].s->name,
-					   (double) ((species_list[i].s->moles) /
-								 mass_water_aq_x),
-					   (double) under(species_list[i].s->lm +
-									  species_list[i].s->lg), (double) lm,
-					   (double) (species_list[i].s->lm +
-								 species_list[i].s->lg),
-					   (double) species_list[i].s->lg));
+				"   %-13s%12.3e%12.3e%10.3f%10.3f%10.3f",
+				species_list[i].s->name,
+				(double)((species_list[i].s->moles) / mass_water_aq_x),
+				(double)under(species_list[i].s->lm + species_list[i].s->lg), (double)lm,
+				(double)(species_list[i].s->lm + species_list[i].s->lg),
+				(double)species_list[i].s->lg));
 			//if (species_list[i].s->logk[vm_tc] || !strcmp(species_list[i].s->name, "H+"))
 			if (species_list[i].s->logk[vm_tc] || species_list[i].s == s_hplus)
-				output_msg(sformatf("%10.2f\n",
-					   (double) species_list[i].s->logk[vm_tc]));
+				output_msg(sformatf("%10.2f\n", (double)species_list[i].s->logk[vm_tc]));
 			else
 				output_msg(sformatf("     (0)  \n"));
+#endif
 		}
 	}
 	output_msg(sformatf("\n"));
+#ifdef NPP
+	if (SC)
+	{
+		output_msg(sformatf(" ¹: Contribution to the relative viscosity change ((viscos / viscos_0 - 1) x 100).\n"));
+		output_msg(sformatf(" ²: Contribution to the specific conductance (Transport Number x 100).\n\n"));
+	}
+#endif
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
