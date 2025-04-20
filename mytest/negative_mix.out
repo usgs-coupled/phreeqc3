@@ -30,8 +30,10 @@ Reading input data for simulation 1.
 	10 PUNCH STR_F$(MU, 20, 12)
 	20 PUNCH STR_F$(SC, 20, 10)
 	    end
-	SOLUTION 1 
+	SOLUTION 2 
 	units mmol/kgw
+	pressure 20
+	temp     20
 	pH 7 charge 
 	density 1 calculate
 	Na  100
@@ -42,7 +44,7 @@ Reading input data for simulation 1.
 Beginning of initial solution calculations.
 -------------------------------------------
 
-Initial solution 1.	
+Initial solution 2.	
 
 -----------------------------Solution composition------------------------------
 
@@ -53,18 +55,19 @@ Initial solution 1.
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.985      Charge balance
+                                       pH  =   7.066      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 10609
-                          Density (g/cm³)  =   1.00115 (Iterated) 
-                               Volume (L)  =   1.00469
-                        Viscosity (mPa s)  =   0.89854
+      Specific Conductance (µS/cm,  20°C)  = 9577
+                          Density (g/cm³)  =   1.00322 (Iterated) 
+                               Volume (L)  =   1.00261
+                        Viscosity (mPa s)  =   1.01011
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -1.004e-17
-                         Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -4.710e-14
+                 Total alkalinity (eq/kg)  =   4.366e-18
+                         Temperature (°C)  =  20.00
+                           Pressure (atm)  = 20.00
+                  Electrical balance (eq)  =  -4.132e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   4 (8 overall)
                                   Total H  = 1.110124e+02
@@ -75,27 +78,27 @@ Initial solution 1.
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.279e-07   9.743e-08    -6.893    -7.011    -0.118     -3.73
-   H+              1.254e-07   1.035e-07    -6.902    -6.985    -0.083      0.00
-   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+   OH-             1.060e-07   8.089e-08    -6.975    -7.092    -0.117     -3.87
+   H+              1.038e-07   8.581e-08    -6.984    -7.066    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.03
 Cl            1.000e-01
-   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
-   HCl             2.479e-09   2.734e-09    -8.606    -8.563     0.043     (0)  
-H(0)          1.483e-25
-   H2              7.416e-26   7.589e-26   -25.130   -25.120     0.010     28.61
+   Cl-             1.000e-01   7.684e-02    -1.000    -1.114    -0.114     18.17
+   HCl             2.155e-09   2.377e-09    -8.667    -8.624     0.043     (0)  
+H(0)          1.048e-25
+   H2              5.239e-26   5.361e-26   -25.281   -25.271     0.010     28.60
 Na            1.000e-01
-   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   Na+             1.000e-01   7.869e-02    -1.000    -1.104    -0.104     -1.30
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.153   -42.143     0.010     30.40
+   O2              0.000e+00   0.000e+00   -43.510   -43.500     0.010     29.96
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(298 K,   1 atm)
+  Phase               SI** log IAP   log K(293 K,  20 atm)
 
-  H2(g)           -22.02    -25.12   -3.10  H2
-  H2O(g)           -1.50     -0.00    1.50  H2O
+  H2(g)           -22.17    -25.27   -3.10  H2
+  H2O(g)           -1.63     -0.00    1.63  H2O
   Halite           -3.79     -2.22    1.57  NaCl
-  O2(g)           -39.25    -42.14   -2.89  O2
+  O2(g)           -40.64    -43.50   -2.86  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -108,7 +111,9 @@ End of simulation.
 Reading input data for simulation 2.
 ------------------------------------
 
-	SOLUTION 2 Pure water
+	SOLUTION 1 Pure water
+	pressure 10
+	temp     10
 	pH 7 charge
 	density 1 calculate
 	END
@@ -116,7 +121,7 @@ Reading input data for simulation 2.
 Beginning of initial solution calculations.
 -------------------------------------------
 
-Initial solution 2.	Pure water
+Initial solution 1.	Pure water
 
 -----------------------------Solution composition------------------------------
 
@@ -126,20 +131,21 @@ Initial solution 2.	Pure water
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.997      Charge balance
+                                       pH  =   7.264      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  25°C)  = 0
-                          Density (g/cm³)  =   0.99704 (Iterated) 
-                               Volume (L)  =   1.00297
-                        Viscosity (mPa s)  =   0.89002
+      Specific Conductance (µS/cm,  10°C)  = 0
+                          Density (g/cm³)  =   1.00013 (Iterated) 
+                               Volume (L)  =   0.99987
+                        Viscosity (mPa s)  =   1.30509
                         Activity of water  =   1.000
-                 Ionic strength (mol/kgw)  =   1.006e-07
+                 Ionic strength (mol/kgw)  =   5.449e-08
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.040e-17
-                         Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -3.040e-17
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   2 (4 overall)
+                 Total alkalinity (eq/kg)  =  -3.309e-22
+                         Temperature (°C)  =  10.00
+                           Pressure (atm)  = 10.00
+                  Electrical balance (eq)  =   3.309e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   4 (8 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -148,21 +154,21 @@ Initial solution 2.	Pure water
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.006e-07   1.006e-07    -6.997    -6.997    -0.000     -4.14
-   H+              1.006e-07   1.006e-07    -6.997    -6.997    -0.000      0.00
-   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-H(0)          1.433e-25
-   H2              7.166e-26   7.166e-26   -25.145   -25.145     0.000     28.61
+   H+              5.449e-08   5.448e-08    -7.264    -7.264    -0.000      0.00
+   OH-             5.449e-08   5.448e-08    -7.264    -7.264    -0.000     -4.96
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.01
+H(0)          4.864e-26
+   H2              2.432e-26   2.432e-26   -25.614   -25.614     0.000     28.62
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.090   -42.090     0.000     30.40
+   O2              0.000e+00   0.000e+00   -46.258   -46.258     0.000     28.94
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(298 K,   1 atm)
+  Phase               SI** log IAP   log K(283 K,  10 atm)
 
-  H2(g)           -22.04    -25.14   -3.10  H2
-  H2O(g)           -1.50     -0.00    1.50  H2O
-  O2(g)           -39.20    -42.09   -2.89  O2
+  H2(g)           -22.55    -25.61   -3.06  H2
+  H2O(g)           -1.91     -0.00    1.91  H2O
+  O2(g)           -43.49    -46.26   -2.77  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -175,9 +181,9 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
-	MIX 1           
-	1   1.0
-	2  -0.9    
+	MIX 1   
+	1  -0.9          
+	2   1.0
 	END
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -189,8 +195,8 @@ Using mix 1.
 
 Mixture 1.	
 
-	  1.000e+00 Solution 1	                                                       
-	 -9.000e-01 Solution 2	Pure water                                             
+	 -9.000e-01 Solution 1	Pure water                                             
+	  1.000e+00 Solution 2	                                                       
 
 -----------------------------Solution composition------------------------------
 
@@ -201,20 +207,21 @@ Mixture 1.
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.963      Charge balance
-                                       pe  =  10.589      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 84318
-                          Density (g/cm³)  =   1.03606
-                               Volume (L)  =   0.10216
-                        Viscosity (mPa s)  =   0.97321
+                                       pH  =   7.046      Charge balance
+                                       pe  =  11.565      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 76428
+                          Density (g/cm³)  =   1.03848
+                               Volume (L)  =   0.10192
+                        Viscosity (mPa s)  =   1.09068
                         Activity of water  =   0.966
                  Ionic strength (mol/kgw)  =   1.000e+00
                        Mass of water (kg)  =   1.000e-01
-                 Total alkalinity (eq/kg)  =  -3.968e-16
-                         Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -4.714e-14
+                 Total alkalinity (eq/kg)  =   1.214e-16
+                         Temperature (°C)  =  20.00
+                           Pressure (atm)  = 20.00
+                  Electrical balance (eq)  =  -4.135e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  13
+                               Iterations  =  14
                                   Total H  = 1.110124e+01
                                   Total O  = 5.550622e+00
 
@@ -223,27 +230,27 @@ Mixture 1.
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.551e-07   8.980e-08    -6.809    -7.047    -0.237     -2.10
-   H+              1.465e-07   1.089e-07    -6.834    -6.963    -0.129      0.00
-   H2O             5.551e+01   9.660e-01     1.744    -0.015     0.000     18.07
+   OH-             1.283e-07   7.464e-08    -6.892    -7.127    -0.235     -2.27
+   H+              1.209e-07   9.003e-08    -6.918    -7.046    -0.128      0.00
+   H2O             5.551e+01   9.660e-01     1.744    -0.015     0.000     18.03
 Cl            1.000e+00
-   Cl-             1.000e+00   6.087e-01    -0.000    -0.216    -0.216     18.94
-   HCl             8.568e-09   2.283e-08    -8.067    -7.642     0.426     (0)  
-H(0)          8.854e-39
-   H2              4.427e-39   5.573e-39   -38.354   -38.254     0.100     28.61
+   Cl-             1.000e+00   6.113e-01    -0.000    -0.214    -0.214     18.77
+   HCl             7.449e-09   1.985e-08    -8.128    -7.702     0.426     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.459   -40.359     0.100     28.60
 Na            1.000e+00
-   Na+             1.000e+00   7.312e-01    -0.000    -0.136    -0.136     -0.31
-O(0)          1.990e-16
-   O2              9.949e-17   1.253e-16   -16.002   -15.902     0.100     30.40
+   Na+             1.000e+00   7.341e-01    -0.000    -0.134    -0.134     -0.47
+O(0)          7.099e-14
+   O2              3.550e-14   4.469e-14   -13.450   -13.350     0.100     29.96
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(298 K,   1 atm)
+  Phase               SI** log IAP   log K(293 K,  20 atm)
 
-  H2(g)           -35.15    -38.25   -3.10  H2
-  H2O(g)           -1.52     -0.02    1.50  H2O
+  H2(g)           -37.26    -40.36   -3.10  H2
+  H2O(g)           -1.64     -0.02    1.63  H2O
   Halite           -1.92     -0.35    1.57  NaCl
-  O2(g)           -13.01    -15.90   -2.89  O2
+  O2(g)           -10.49    -13.35   -2.86  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.

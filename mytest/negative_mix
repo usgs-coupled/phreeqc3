@@ -7,8 +7,10 @@ USER_PUNCH 101
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
     -end
-SOLUTION 1 
+SOLUTION 2 
 -units mmol/kgw
+-pressure 20
+-temp     20
 pH 7 charge 
 density 1 calculate
 Na  100
@@ -16,13 +18,15 @@ Cl  100
 water 1 kg       
 END
 
-SOLUTION 2 Pure water
+SOLUTION 1 Pure water
+-pressure 10
+-temp     10
 pH 7 charge
 density 1 calculate
 END
 
-MIX 1           
-1   1.0
-2  -0.9    
+MIX 1   
+1  -0.9          
+2   1.0
   
 END
