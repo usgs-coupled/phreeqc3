@@ -132,17 +132,18 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 	//
 	// Sort to enable positive mixes first
 	const std::map < int, LDBLE >& mixcomps = mix.Get_mixComps();
-	std::map <LDBLE, int> m;
+	std::set<std::pair<LDBLE, int> >s;
 	for (std::map < int, LDBLE >::const_iterator it = mixcomps.begin();
 		it != mixcomps.end(); it++)
 	{
-		m[it->second] = it->first;
+		std::pair<LDBLE, int> p(it->second, it->first);
+		s.insert(p); 
 	}
 //
 //   Mix solutions
 //
-	std::map < LDBLE, int >::const_reverse_iterator rit = m.rbegin();
-	for (rit = m.rbegin(); rit != m.rend(); rit++)
+	std::set < std::pair< LDBLE, int > >::const_reverse_iterator rit = s.rbegin();
+	for (rit = s.rbegin(); rit != s.rend(); rit++)
 	{
 		sol = solutions.find(rit->second);
 		if (sol == solutions.end())

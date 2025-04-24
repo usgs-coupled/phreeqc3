@@ -294,6 +294,7 @@ set(TESTS
   NaNH4K_ClBrSO4
   NaOH_density
   Nardi
+  negative_mix
   negative_user_number
   negexp_totmol
   netpathxl
