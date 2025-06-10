@@ -224,7 +224,7 @@ jobs:
 
 
   distcheck:
-    # if: ${{ false }}
+    if: ${{ false }} # while working on subtree syncs
     name: make distcheck
     needs: [init, build-chm]
     runs-on: ubuntu-latest
