@@ -46,6 +46,12 @@ env:
 
 jobs:
 
+  lint-subtrees:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: usgs-coupled/iphreeqc/.github/workflows/lint-subtrees.yml@master
+      - run: exit 9
+
   log-the-inputs:
     runs-on: ubuntu-latest
     steps:
