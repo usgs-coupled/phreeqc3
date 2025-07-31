@@ -2690,7 +2690,7 @@ pitzer_make_lists(void)
 		/*
 		TYPE_B0, TYPE_B1, TYPE_B2, TYPE_C0, TYPE_THETA, TYPE_LAMBDA, TYPE_ZETA,
 		TYPE_PSI, TYPE_ETHETA, TYPE_ALPHAS, TYPE_MU, TYPE_ETA, TYPE_Other,
-		TYPE_SIT_EPSILON, TYPE_SIT_EPSILON_MU
+		TYPE_SIT_EPSILON, TYPE_SIT_EPSILON_MU, TYPE_APHI, TYPE_SIT_EPSILON2
 		*/
 		int i0 = pitz_params[i]->ispec[0];
 		int i1 = pitz_params[i]->ispec[1];
