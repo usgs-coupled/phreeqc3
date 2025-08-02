@@ -1,151 +1,2462 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><HTML>
-<HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
-<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
-<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
-<LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> SIT</TITLE><HR><P> | <A HREF="phreeqc3-47.htm">Next</A> || <A HREF="phreeqc3-45.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
-<BODY BGCOLOR="#ffffff">
-<H2 CLASS="FM3d-order-node">
-<A NAME="50593793_pgfId-640137"></A><STRONG CLASS="Bold">
-SIT</STRONG>
-<A NAME="50593793_88782"></A></H2>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-640145"></A>This keyword data block is used to specify parameters for the SIT (Specific ion Interaction Theory) aqueous model. The <STRONG CLASS="Bold">
-SIT</STRONG>
- data block is used in the database file <EM CLASS="Emphasis">
-sit.dat</EM>
-, which is the primary context for its use. </P>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-504079"></A><A NAME="50593793_94010"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-503741"></A>Line 0: SIT</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-503742"></A>Line 1: -epsilon</pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-504021"></A>Line 2:	Mg+2	Cl-	0.19 </pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-504022"></A>Line 2a:	Mn+2	Cl-	0.13 </pre>
-<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-503743"></A>Line 2b:	Na+	Cl-	0.03 </pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-504034"></A><A NAME="50593793_82357"></A>Explanation </H6>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-503766"></A>Line 0: <STRONG CLASS="Bold">
-SIT</STRONG>
-</P>
-<P CLASS="Body1">
-<A NAME="50593793_pgfId-503767"></A><STRONG CLASS="Bold">
-SIT</STRONG>
- is the keyword for the data block. No other data are input on the keyword line.</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-640129"></A>Line 1: <STRONG CLASS="Bold">
--epsilon </STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-640133"></A><STRONG CLASS="Bold">
--epsilon</STRONG>
---Identifier begins a block of data that define <IMG SRC="phreeqc3-92.png" ALIGN="MIDDLE">
- ion-ion interaction parameters for the SIT aqueous model (see Grenthe and others, 1997).</P>
-<P CLASS="Body-indent">
-<A NAME="50593793_pgfId-640114"></A>Line 2: <EM CLASS="Emphasis">
-cation anion  A</EM>
-<Sub CLASS="Subscript">
-0</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-1</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-2</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-3</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-4</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-5</Sub>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-640115"></A><EM CLASS="Emphasis">
-cation anion</EM>
---A cation-anion pair of aqueous species, defined in either order. </P>
-<P CLASS="Body1-indent">
-<A NAME="50593793_pgfId-640116"></A><EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-0</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-1</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-2</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-3</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-4</Sub>
-, <EM CLASS="Emphasis">
-A</EM>
-<Sub CLASS="Subscript">
-5</Sub>
---Coefficients for the temperature dependence of the <STRONG CLASS="Bold">
--epsilon</STRONG>
- parameter. The expression for a SIT parameter is the same as for a Pitzer parameter: <IMG SRC="phreeqc3-93.png" ALIGN="MIDDLE">
-, where <EM CLASS="Emphasis">
-P</EM>
- is the parameter, <EM CLASS="Emphasis">
-T</EM>
- is the temperature in kelvin, <EM CLASS="Emphasis">
-T</EM>
-<Sub CLASS="Subscript">
-r</Sub>
- is the reference temperature (298.15 K), and ln is the natural log. If fewer than six coefficients are entered, the undefined coefficients are assumed to be zero. </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-503948"></A><A NAME="50593793_25592"></A>Notes</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-503949"></A>The implementation of the SIT aqueous model has been taken from Grenthe and others (1997). The <EM CLASS="Emphasis">
-sit</EM>
-.<EM CLASS="Emphasis">
-dat</EM>
- database (Dr. Lara Duro, Amphos 21, written commun., 2012) has been developed by Amphos 21, BRGM (French Bureau of Research for Geology and Mining), and HydrAsa for ANDRA (French Agency for the Management of Nuclear Waste). More details on the source of data for <EM CLASS="Emphasis">
-sit.dat</EM>
- can be found in the comments at the beginning of the file.</P>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-503951"></A>If a <STRONG CLASS="Bold">
-SIT</STRONG>
- data block is read in the database file or the input file, then the SIT aqueous model is used for the simulations. Only one aqueous model can be used in a PHREEQC run; it is an error to read both a <A HREF="phreeqc3-37.htm#50593793_13650" CLASS="XRef">PITZER</A> data block and a <STRONG CLASS="Bold">
-SIT</STRONG>
- data block. </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-503955"></A><A NAME="50593793_87591"></A>Example problems</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-503956"></A>The <STRONG CLASS="Bold">
-SIT</STRONG>
- keyword is used in the <EM CLASS="Emphasis">
-sit.dat database.</EM>
-</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50593793_pgfId-503957"></A><A NAME="50593793_21301"></A>Related keywords</H6>
-<P CLASS="BodyText">
-<A NAME="50593793_pgfId-503961"></A><A HREF="phreeqc3-37.htm#50593793_13650" CLASS="XRef">PITZER</A>.</P>
-</DIV>
-<HR><P> | <A HREF="phreeqc3-47.htm">Next</A> || <A HREF="phreeqc3-45.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
-</HTML>
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="phreeqc3-46_files/filelist.xml">
+<link rel=Edit-Time-Data href="phreeqc3-46_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title> SIT</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>David Parkhurst</o:Author>
+  <o:LastAuthor>David Parkhurst</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>28</o:TotalTime>
+  <o:Created>2025-08-02T03:39:00Z</o:Created>
+  <o:LastSaved>2025-08-02T04:07:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>516</o:Words>
+  <o:Characters>2947</o:Characters>
+  <o:Lines>24</o:Lines>
+  <o:Paragraphs>6</o:Paragraphs>
+  <o:CharactersWithSpaces>3457</o:CharactersWithSpaces>
+  <o:Version>16.00</o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<link rel=themeData href="phreeqc3-46_files/themedata.thmx">
+<link rel=colorSchemeMapping href="phreeqc3-46_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>135</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SplitPgBreakAndParaMark/>
+  </w:Compatibility>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="376">
+  <w:LsdException Locked="false" Priority="0" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 9"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="header"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footer"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index heading"/>
+  <w:LsdException Locked="false" Priority="35" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of figures"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope return"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="line number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="page number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of authorities"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="macro"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="toa heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 5"/>
+  <w:LsdException Locked="false" Priority="10" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Closing"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Signature"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Message Header"/>
+  <w:LsdException Locked="false" Priority="11" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Salutation"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Date"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Note Heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Block Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="FollowedHyperlink"/>
+  <w:LsdException Locked="false" Priority="22" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Document Map"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Plain Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="E-mail Signature"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Top of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Bottom of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal (Web)"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Acronym"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Cite"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Code"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Definition"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Keyboard"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Preformatted"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Sample"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Typewriter"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Variable"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Table"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation subject"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="No List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Contemporary"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Elegant"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Professional"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Balloon Text"/>
+  <w:LsdException Locked="false" Priority="39" Name="Table Grid"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Theme"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+  <w:LsdException Locked="false" Priority="41" Name="Plain Table 1"/>
+  <w:LsdException Locked="false" Priority="42" Name="Plain Table 2"/>
+  <w:LsdException Locked="false" Priority="43" Name="Plain Table 3"/>
+  <w:LsdException Locked="false" Priority="44" Name="Plain Table 4"/>
+  <w:LsdException Locked="false" Priority="45" Name="Plain Table 5"/>
+  <w:LsdException Locked="false" Priority="40" Name="Grid Table Light"/>
+  <w:LsdException Locked="false" Priority="46" Name="Grid Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hashtag"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Unresolved Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Link"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<link rel=Stylesheet type="text/css" media=all href=phreeqc3.css>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-536869121 1107305727 33554432 0 415 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:auto;
+	mso-font-signature:0 0 0 0 0 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 1 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:1;
+	font-size:24.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h2
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 2 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:2;
+	font-size:18.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h3
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 3 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.5pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h4
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 4 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:4;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h5
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 5 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:5;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+h6
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 6 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	font-size:7.5pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+pre
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 1";
+	mso-ansi-font-size:20.0pt;
+	mso-bidi-font-size:20.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 2";
+	mso-ansi-font-size:16.0pt;
+	mso-bidi-font-size:16.0pt;
+	font-family:"Calibri Light",sans-serif;
+	mso-ascii-font-family:"Calibri Light";
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:"Calibri Light";
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 3";
+	mso-ansi-font-size:14.0pt;
+	mso-bidi-font-size:14.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading4Char
+	{mso-style-name:"Heading 4 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 4";
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;
+	font-style:italic;}
+span.Heading5Char
+	{mso-style-name:"Heading 5 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 5";
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#2F5496;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+span.Heading6Char
+	{mso-style-name:"Heading 6 Char";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 6";
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#595959;
+	mso-themecolor:text1;
+	mso-themetint:166;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;
+	font-style:italic;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"HTML Preformatted";
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Consolas",serif;
+	mso-ascii-font-family:Consolas;
+	mso-hansi-font-family:Consolas;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm1st-order, li.fm1st-order, div.fm1st-order
+	{mso-style-name:fm1st-order;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm1st-order-appendix, li.fm1st-order-appendix, div.fm1st-order-appendix
+	{mso-style-name:fm1st-order-appendix;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm1toc-heading, li.fm1toc-heading, div.fm1toc-heading
+	{mso-style-name:fm1toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:31.2pt;
+	text-indent:-31.2pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm2d-order, li.fm2d-order, div.fm2d-order
+	{mso-style-name:fm2d-order;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm2d-order-example, li.fm2d-order-example, div.fm2d-order-example
+	{mso-style-name:fm2d-order-example;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm2toc-heading, li.fm2toc-heading, div.fm2toc-heading
+	{mso-style-name:fm2toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:42.0pt;
+	text-indent:-20.4pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm3d-order, li.fm3d-order, div.fm3d-order
+	{mso-style-name:fm3d-order;
+	mso-style-unhide:no;
+	margin-top:17.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm3toc-heading, li.fm3toc-heading, div.fm3toc-heading
+	{mso-style-name:fm3toc-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:70.8pt;
+	text-indent:-30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.fm4th-order, li.fm4th-order, div.fm4th-order
+	{mso-style-name:fm4th-order;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm4th-order-node, li.fm4th-order-node, div.fm4th-order-node
+	{mso-style-name:fm4th-order-node;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm5th-order, li.fm5th-order, div.fm5th-order
+	{mso-style-name:fm5th-order;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.fm5thorderheading, li.fm5thorderheading, div.fm5thorderheading
+	{mso-style-name:fm5thorderheading;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	text-align:center;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.abstract-body, li.abstract-body, div.abstract-body
+	{mso-style-name:abstract-body;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.abstractbody, li.abstractbody, div.abstractbody
+	{mso-style-name:abstractbody;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:30.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.abstractheading, li.abstractheading, div.abstractheading
+	{mso-style-name:abstractheading;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.appendix-body, li.appendix-body, div.appendix-body
+	{mso-style-name:appendix-body;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.appendix-heading, li.appendix-heading, div.appendix-heading
+	{mso-style-name:appendix-heading;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.author, li.author, div.author
+	{mso-style-name:author;
+	mso-style-unhide:no;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.authorline, li.authorline, div.authorline
+	{mso-style-name:authorline;
+	mso-style-unhide:no;
+	margin-top:21.0pt;
+	margin-right:0in;
+	margin-bottom:28.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body, li.body, div.body
+	{mso-style-name:body;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-att, li.body-att, div.body-att
+	{mso-style-name:body-att;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:48.0pt;
+	text-indent:-48.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-indent, li.body-indent, div.body-indent
+	{mso-style-name:body-indent;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-left, li.body-left, div.body-left
+	{mso-style-name:body-left;
+	mso-style-unhide:no;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body-line, li.body-line, div.body-line
+	{mso-style-name:body-line;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1, li.body1, div.body1
+	{mso-style-name:body1;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1-indent, li.body1-indent, div.body1-indent
+	{mso-style-name:body1-indent;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body1-indentflush, li.body1-indentflush, div.body1-indentflush
+	{mso-style-name:body1-indentflush;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:81.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.body2, li.body2, div.body2
+	{mso-style-name:body2;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:138.0pt;
+	text-align:justify;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.bodytext, li.bodytext, div.bodytext
+	{mso-style-name:bodytext;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.bodytextflush, li.bodytextflush, div.bodytextflush
+	{mso-style-name:bodytextflush;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody, li.cellbody, div.cellbody
+	{mso-style-name:cellbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptcenter, li.cellbody8ptcenter, div.cellbody8ptcenter
+	{mso-style-name:cellbody8ptcenter;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptleft, li.cellbody8ptleft, div.cellbody8ptleft
+	{mso-style-name:cellbody8ptleft;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody8ptright, li.cellbody8ptright, div.cellbody8ptright
+	{mso-style-name:cellbody8ptright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody9ptleft, li.cellbody9ptleft, div.cellbody9ptleft
+	{mso-style-name:cellbody9ptleft;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellbody9ptright, li.cellbody9ptright, div.cellbody9ptright
+	{mso-style-name:cellbody9ptright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellcenter, li.cellcenter, div.cellcenter
+	{mso-style-name:cellcenter;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellheading, li.cellheading, div.cellheading
+	{mso-style-name:cellheading;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading7pt, li.cellheading7pt, div.cellheading7pt
+	{mso-style-name:cellheading7pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading8pt, li.cellheading8pt, div.cellheading8pt
+	{mso-style-name:cellheading8pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellheading9pt, li.cellheading9pt, div.cellheading9pt
+	{mso-style-name:cellheading9pt;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellright, li.cellright, div.cellright
+	{mso-style-name:cellright;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:right;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cellspanhead6pt, li.cellspanhead6pt, div.cellspanhead6pt
+	{mso-style-name:cellspanhead6pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanhead7pt, li.cellspanhead7pt, div.cellspanhead7pt
+	{mso-style-name:cellspanhead7pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:7.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanhead8pt, li.cellspanhead8pt, div.cellspanhead8pt
+	{mso-style-name:cellspanhead8pt;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	text-align:center;
+	text-indent:-9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cellspanner, li.cellspanner, div.cellspanner
+	{mso-style-name:cellspanner;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.computeroutput, li.computeroutput, div.computeroutput
+	{mso-style-name:computeroutput;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:6.0pt;
+	mso-pagination:widow-orphan;
+	font-size:6.5pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.contentsheading, li.contentsheading, div.contentsheading
+	{mso-style-name:contentsheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cutin-fig, li.cutin-fig, div.cutin-fig
+	{mso-style-name:cutin-fig;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.cutin-fulltitle, li.cutin-fulltitle, div.cutin-fulltitle
+	{mso-style-name:cutin-fulltitle;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.cutin-table, li.cutin-table, div.cutin-table
+	{mso-style-name:cutin-table;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.eq-explan-, li.eq-explan-, div.eq-explan-
+	{mso-style-name:eq-explan-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equation, li.equation, div.equation
+	{mso-style-name:equation;
+	mso-style-unhide:no;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equationunnumbered, li.equationunnumbered, div.equationunnumbered
+	{mso-style-name:equationunnumbered;
+	mso-style-unhide:no;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.equationwhere, li.equationwhere, div.equationwhere
+	{mso-style-name:equationwhere;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.figurecaption, li.figurecaption, div.figurecaption
+	{mso-style-name:figurecaption;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.figurecaptionwhite, li.figurecaptionwhite, div.figurecaptionwhite
+	{mso-style-name:figurecaptionwhite;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	text-indent:27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:18.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.figurecutinfulltitle, li.figurecutinfulltitle, div.figurecutinfulltitle
+	{mso-style-name:figurecutinfulltitle;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.footer, li.footer, div.footer
+	{mso-style-name:footer;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.5pt;
+	text-align:justify;
+	text-indent:-20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footerleft, li.footerleft, div.footerleft
+	{mso-style-name:footerleft;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footerright, li.footerright, div.footerright
+	{mso-style-name:footerright;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.25in;
+	text-align:right;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.footnote, li.footnote, div.footnote
+	{mso-style-name:footnote;
+	mso-style-unhide:no;
+	margin:0in;
+	text-indent:22.5pt;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.glossary-body, li.glossary-body, div.glossary-body
+	{mso-style-name:glossary-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.glossary-heading, li.glossary-heading, div.glossary-heading
+	{mso-style-name:glossary-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.headingrunin, li.headingrunin, div.headingrunin
+	{mso-style-name:headingrunin;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.headnote, li.headnote, div.headnote
+	{mso-style-name:headnote;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.index-body, li.index-body, div.index-body
+	{mso-style-name:index-body;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.index-heading, li.index-heading, div.index-heading
+	{mso-style-name:index-heading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.list-alpha, li.list-alpha, div.list-alpha
+	{mso-style-name:list-alpha;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-alpha-start, li.list-alpha-start, div.list-alpha-start
+	{mso-style-name:list-alpha-start;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-bulleted, li.list-bulleted, div.list-bulleted
+	{mso-style-name:list-bulleted;
+	mso-style-unhide:no;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-num-start, li.list-num-start, div.list-num-start
+	{mso-style-name:list-num-start;
+	mso-style-unhide:no;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.list-numbered, li.list-numbered, div.list-numbered
+	{mso-style-name:list-numbered;
+	mso-style-unhide:no;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.mapping-table-cell, li.mapping-table-cell, div.mapping-table-cell
+	{mso-style-name:mapping-table-cell;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.mapping-table-title, li.mapping-table-title, div.mapping-table-title
+	{mso-style-name:mapping-table-title;
+	mso-style-unhide:no;
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:14.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.pub-approval, li.pub-approval, div.pub-approval
+	{mso-style-name:pub-approval;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.quote, li.quote, div.quote
+	{mso-style-name:quote;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:20.0pt;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:22.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.ref-body, li.ref-body, div.ref-body
+	{mso-style-name:ref-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.ref-heading, li.ref-heading, div.ref-heading
+	{mso-style-name:ref-heading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.referencesbody, li.referencesbody, div.referencesbody
+	{mso-style-name:referencesbody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.referencesheading, li.referencesheading, div.referencesheading
+	{mso-style-name:referencesheading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+p.sideheading, li.sideheading, div.sideheading
+	{mso-style-name:sideheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:27.5pt;
+	text-indent:-27.5pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.sym-def-headings, li.sym-def-headings, div.sym-def-headings
+	{mso-style-name:sym-def-headings;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";
+	font-style:italic;}
+p.symbols-body, li.symbols-body, div.symbols-body
+	{mso-style-name:symbols-body;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.symbols-heading, li.symbols-heading, div.symbols-heading
+	{mso-style-name:symbols-heading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tablefootnote, li.tablefootnote, div.tablefootnote
+	{mso-style-name:tablefootnote;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	text-indent:20.5pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tableheadnote, li.tableheadnote, div.tableheadnote
+	{mso-style-name:tableheadnote;
+	mso-style-unhide:no;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.tabletitle, li.tabletitle, div.tabletitle
+	{mso-style-name:tabletitle;
+	mso-style-unhide:no;
+	margin-top:11.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.title, li.title, div.title
+	{mso-style-name:title;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-fareast-font-family:"Times New Roman";}
+p.appendixbody, li.appendixbody, div.appendixbody
+	{mso-style-name:appendixbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.appendixheading, li.appendixheading, div.appendixheading
+	{mso-style-name:appendixheading;
+	mso-style-unhide:no;
+	margin-top:1.0in;
+	margin-right:0in;
+	margin-bottom:1.0in;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-2-, li.cellbody8ptdec-2-, div.cellbody8ptdec-2-
+	{mso-style-name:cellbody8ptdec-2-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-25-, li.cellbody8ptdec-25-, div.cellbody8ptdec-25-
+	{mso-style-name:cellbody8ptdec-25-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-3-, li.cellbody8ptdec-3-, div.cellbody8ptdec-3-
+	{mso-style-name:cellbody8ptdec-3-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-35-, li.cellbody8ptdec-35-, div.cellbody8ptdec-35-
+	{mso-style-name:cellbody8ptdec-35-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-4-, li.cellbody8ptdec-4-, div.cellbody8ptdec-4-
+	{mso-style-name:cellbody8ptdec-4-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-45-, li.cellbody8ptdec-45-, div.cellbody8ptdec-45-
+	{mso-style-name:cellbody8ptdec-45-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-5-, li.cellbody8ptdec-5-, div.cellbody8ptdec-5-
+	{mso-style-name:cellbody8ptdec-5-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-55-, li.cellbody8ptdec-55-, div.cellbody8ptdec-55-
+	{mso-style-name:cellbody8ptdec-55-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody8ptdec-6-, li.cellbody8ptdec-6-, div.cellbody8ptdec-6-
+	{mso-style-name:cellbody8ptdec-6-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-2-, li.cellbody9ptdec-2-, div.cellbody9ptdec-2-
+	{mso-style-name:cellbody9ptdec-2-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-3-, li.cellbody9ptdec-3-, div.cellbody9ptdec-3-
+	{mso-style-name:cellbody9ptdec-3-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-4-, li.cellbody9ptdec-4-, div.cellbody9ptdec-4-
+	{mso-style-name:cellbody9ptdec-4-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-55-, li.cellbody9ptdec-55-, div.cellbody9ptdec-55-
+	{mso-style-name:cellbody9ptdec-55-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.cellbody9ptdec-6-, li.cellbody9ptdec-6-, div.cellbody9ptdec-6-
+	{mso-style-name:cellbody9ptdec-6-;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.celldecimal, li.celldecimal, div.celldecimal
+	{mso-style-name:celldecimal;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.fig-cap, li.fig-cap, div.fig-cap
+	{mso-style-name:fig-cap;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.figurecutin, li.figurecutin, div.figurecutin
+	{mso-style-name:figurecutin;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.glossarybody, li.glossarybody, div.glossarybody
+	{mso-style-name:glossarybody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.glossaryheading, li.glossaryheading, div.glossaryheading
+	{mso-style-name:glossaryheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.indexbody, li.indexbody, div.indexbody
+	{mso-style-name:indexbody;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.indexheading, li.indexheading, div.indexheading
+	{mso-style-name:indexheading;
+	mso-style-unhide:no;
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:122.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+p.listbullet1, li.listbullet1, div.listbullet1
+	{mso-style-name:listbullet1;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listbullet2, li.listbullet2, div.listbullet2
+	{mso-style-name:listbullet2;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:42.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1begin, li.listlevel1begin, div.listlevel1begin
+	{mso-style-name:listlevel1begin;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevel1continue, li.listlevel1continue, div.listlevel1continue
+	{mso-style-name:listlevel1continue;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:35.0pt;
+	text-indent:-35.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelabegin, li.listlevelabegin, div.listlevelabegin
+	{mso-style-name:listlevelabegin;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.listlevelacontinue, li.listlevelacontinue, div.listlevelacontinue
+	{mso-style-name:listlevelacontinue;
+	mso-style-unhide:no;
+	margin-top:5.0pt;
+	margin-right:0in;
+	margin-bottom:5.0pt;
+	margin-left:27.0pt;
+	text-indent:-27.0pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.referencesrepeat, li.referencesrepeat, div.referencesrepeat
+	{mso-style-name:referencesrepeat;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	text-indent:-20.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionbody, li.symboldefinitionbody, div.symboldefinitionbody
+	{mso-style-name:symboldefinitionbody;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:63.0pt;
+	text-indent:-63.0pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.symboldefinitionheadings, li.symboldefinitionheadings, div.symboldefinitionheadings
+	{mso-style-name:symboldefinitionheadings;
+	mso-style-unhide:no;
+	margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-style:italic;}
+p.symboldefinitionsheading, li.symboldefinitionsheading, div.symboldefinitionsheading
+	{mso-style-name:symboldefinitionsheading;
+	mso-style-unhide:no;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.tablecutin, li.tablecutin, div.tablecutin
+	{mso-style-name:tablecutin;
+	mso-style-unhide:no;
+	margin:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"Times New Roman";
+	color:black;
+	font-weight:bold;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-font-kerning:0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+</style>
+<![endif]-->
+<meta http-equiv=Content-Style-Type content="text/css">
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=white lang=EN-US link=blue vlink=purple style='tab-interval:.5in;
+word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<div class=MsoNormal align=center style='text-align:center;line-height:115%'>
+
+<hr size=2 width="100%" align=center>
+
+</div>
+
+<p>| <a href="phreeqc3-47.htm">Next</a> || <a href="phreeqc3-45.htm">Previous</a>
+|| <a href="phreeqc3.htm">Top</a> | </p>
+
+<h2 style='margin-top:12.0pt;margin-right:0in;margin-bottom:9.0pt;margin-left:
+0in;vertical-align:baseline'><a name="50593793_pgfId-640137"></a><strong><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:blue'>SIT</span></strong><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:blue'> <a
+name="50593793_88782"></a><o:p></o:p></span></h2>
+
+<p class=bodytext><a name="50593793_pgfId-640145"></a><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>This
+keyword data block is used to specify parameters for the SIT (Specific ion
+Interaction Theory) aqueous model. The <strong>SIT</strong> data block is used
+in the database file <em>sit.dat</em> , which is the primary context for its
+use. <o:p></o:p></span></p>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-504079"></a><a name="50593793_94010"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Example
+data block<o:p></o:p></span></h6>
+
+<pre style='vertical-align:baseline'><a name="50593793_pgfId-503741"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 0: SIT<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-503742"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 1: -epsilon<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-504021"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 2:<span style='mso-tab-count:1'>      </span>Mg+2<span
+style='mso-tab-count:1'>  </span>Cl-<span style='mso-tab-count:1'>   </span>0.19 <o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-504022"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 2a:<span style='mso-tab-count:1'>     </span>Mn+2<span
+style='mso-tab-count:1'>  </span>Cl-<span style='mso-tab-count:1'>   </span>0.13 <o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><a name="50593793_pgfId-503743"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:black'>Line 2b:<span style='mso-tab-count:1'>     </span>Na+<span
+style='mso-tab-count:1'>   </span>NO3-<span style='mso-tab-count:1'>  </span>-0.049<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>Line 3: -epsilon1<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>Line 2c:<span
+style='mso-tab-count:1'>     </span>Na+<span style='mso-tab-count:1'>   </span>NO3-<span
+style='mso-tab-count:1'>  </span>0.0 <o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>Line 4: -epsilon2<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>Line 2d:<span
+style='mso-tab-count:1'>     </span>Na+<span style='mso-tab-count:1'>   </span>NO3-<span
+style='mso-tab-count:1'>  </span>0.044<o:p></o:p></span></pre><pre
+style='vertical-align:baseline'><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:black'><o:p>&nbsp;</o:p></span></pre></div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-504034"></a><a name="50593793_82357"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Explanation
+<o:p></o:p></span></h6>
+
+<p class=body-indent><a name="50593793_pgfId-503766"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>Line 0: <strong>SIT</strong> <o:p></o:p></span></p>
+
+<p class=body1><a name="50593793_pgfId-503767"></a><strong><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>SIT</span></strong><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'> is the keyword for the
+data block. No other data are input on the keyword line.<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-640129"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>Line 1: <strong>-epsilon </strong><o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-640133"></a><strong><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>-epsilon</span></strong><span style='font-size:12.0pt;
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--Identifier begins a block of data that define </span><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+mso-no-proof:yes'><img border=0 width=43 height=19 id="_x0000_i1032"
+src=phreeqc3-92.png></span><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>ion-ion interaction
+parameters for the SIT aqueous model (see <span class=SpellE>Grenthe</span> and
+others, 1997).<o:p></o:p></span></p>
+
+<p class=body-indent><a name="50593793_pgfId-640114"></a><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>Line 2: <em>cation anion A</em> <sub>0</sub> , <em>A</em> <sub>1</sub>
+, <em>A</em> <sub>2</sub> , <em>A</em> <sub>3</sub> , <em>A</em> <sub>4</sub> ,
+<em>A</em> <sub>5</sub> </span><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:#70AD47;
+mso-themecolor:accent6'><o:p></o:p></span></p>
+
+<p class=body1-indent><a name="50593793_pgfId-640115"></a><em><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'>cation anion</span></em><span style='font-size:12.0pt;
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>
+--A cation-anion pair of aqueous species, defined in either order. <o:p></o:p></span></p>
+
+<p class=body1><a name="50593793_pgfId-640116"></a><em><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>A</span></em><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast'> <sub>0</sub> , <em>A</em> <sub>1</sub> , <em>A</em> <sub>2</sub>
+, <em>A</em> <sub>3</sub> , <em>A</em> <sub>4</sub> , <em>A</em> <sub>5</sub>
+--Coefficients for the temperature dependence of the <strong>-epsilon</strong></span><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:green'>, <strong>-epsilon1</strong>, or <strong>-epsilon2</strong>,
+</span><span style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast'>parameter. The expression for a SIT
+parameter is the same as for a Pitzer parameter: </span><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+mso-no-proof:yes'><img border=0 width=485 height=57 id="_x0000_i1031"
+src=phreeqc3-93.png></span><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>, where <em>P</em> is
+the parameter, <em>T</em> is the temperature in kelvin, <em>T</em> <sub>r</sub>
+is the reference temperature (298.15 K), and ln is the natural log. If fewer
+than six coefficients are entered, the undefined coefficients are assumed to be
+zero. <o:p></o:p></span></p>
+
+<p class=body-indent><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>Line 3: <strong>-epsilon1
+</strong><o:p></o:p></span></p>
+
+<p class=body1><strong><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>-epsilon1</span></strong><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:green'>--Identifier begins a block of data that defines
+additive term for </span><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green;mso-no-proof:
+yes'><img border=0 width=43 height=19 id="_x0000_i1030" src=phreeqc3-92.png></span><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:green'>ion-ion interaction parameters for the SIT aqueous
+model. The total epsilon is the sum of <i>epsilon + epsilon1*mu +
+epsilon2*log10(mu)</i>, where <i>mu</i> is ionic strength.<o:p></o:p></span></p>
+
+<p class=body-indent><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>Line 4: <strong>-epsilon2
+</strong><o:p></o:p></span></p>
+
+<p class=body1-indent><strong><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>-epsilon2</span></strong><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:green'>--Identifier begins a block of data that defines
+additive term </span><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green;mso-no-proof:
+yes'><img border=0 width=43 height=19 id="_x0000_i1029" src=phreeqc3-92.png></span><span
+style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:
+minor-fareast;color:green'>ion-ion interaction parameters for the SIT aqueous
+model.<o:p></o:p></span></p>
+
+<p class=body1-indent><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast;color:green'>The total
+epsilon is the sum of <i>epsilon + epsilon1*mu + epsilon2*log10(mu)</i>, where <i>mu</i>
+is ionic strength.<o:p></o:p></span></p>
+
+<p class=body1-indent><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'><o:p>&nbsp;</o:p></span></p>
+
+<p class=body1-indent><span style='font-size:12.0pt;mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-503948"></a><a name="50593793_25592"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Notes<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-503949"></a><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>The
+implementation of the SIT aqueous model has been taken from <span class=SpellE>Grenthe</span>
+and others (1997). The <em>sit</em>.<em>dat</em> database (Dr. Lara Duro, <span
+class=SpellE>Amphos</span> 21, written <span class=SpellE>commun</span>., 2012)
+has been developed by <span class=SpellE>Amphos</span> 21, BRGM (French Bureau
+of Research for Geology and Mining), and <span class=SpellE>HydrAsa</span> for
+ANDRA (French Agency for the Management of Nuclear Waste). More details on the
+source of data for <em>sit.dat</em> can be found in the comments at the
+beginning of the file.<o:p></o:p></span></p>
+
+<p class=bodytext><a name="50593793_pgfId-503951"></a><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>If
+a <strong>SIT</strong> data block is read in the database file or the input
+file, then the SIT aqueous model is used for the simulations. Only one aqueous
+model can be used in a PHREEQC run; it is an error to read both a <a
+href="phreeqc3-37.htm#50593793_13650">PITZER</a> data block and a <strong>SIT</strong>
+data block. <o:p></o:p></span></p>
+
+<p class=bodytext><span style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast;color:green'>Terms for the calculation of
+epsilon (epsilon1 and epsilon2) were added to allow better fits to experimental
+data at higher ionic strengths.<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-503955"></a><a name="50593793_87591"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Example
+problems<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-503956"></a><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>The
+<strong>SIT</strong> keyword is used in the <em>sit.dat database.</em> <o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<h6 align=center style='margin-top:10.0pt;margin-right:0in;margin-bottom:10.0pt;
+margin-left:0in;text-align:center;vertical-align:baseline'><a
+name="50593793_pgfId-503957"></a><a name="50593793_21301"></a><span
+style='font-size:12.0pt;font-family:"Arial",sans-serif;color:black'>Related
+keywords<o:p></o:p></span></h6>
+
+<p class=bodytext><a name="50593793_pgfId-503961"></a><span style='font-size:
+12.0pt;mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'><a
+href="phreeqc3-37.htm#50593793_13650">PITZER</a>.<o:p></o:p></span></p>
+
+</div>
+
+<div class=MsoNormal align=center style='text-align:center'><span
+style='font-size:12.0pt'>
+
+<hr size=2 width="100%" align=center>
+
+</span></div>
+
+<p><span style='font-size:12.0pt;mso-fareast-font-family:"Times New Roman";
+mso-fareast-theme-font:minor-fareast'>| <a href="phreeqc3-47.htm">Next</a> || <a
+href="phreeqc3-45.htm">Previous</a> || <a href="phreeqc3.htm">Top</a> | <o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
