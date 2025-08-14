@@ -1,0 +1,22 @@
+# This workflow lints the subtrees.json file to ensure it is valid and up-to-date.
+# It is triggered on pull requests that modify the subtrees.json file or can be run manually
+# via the GitHub Actions UI.
+name: Lint subtrees.json
+
+on:
+  pull_request:
+    paths:
+      - '.github/subtrees.json'
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  lint-subtrees:
+    runs-on: ubuntu-latest
+    env:
+      CI_SERVER_HOST: github.com
+      GROUP: usgs-coupled
+    steps:
+      - uses: usgs-coupled-subtrees/sync-subtrees-action/lint-subtrees/@main
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}

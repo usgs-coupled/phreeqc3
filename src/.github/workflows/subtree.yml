@@ -1,0 +1,37 @@
+name: Sync Subtrees
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: 'If true, don’t push any changes (for testing only).'
+        required: true
+        default: false
+        type: boolean
+      testMerge:
+        description: 'Run in test mode, pushing to a test branch.'
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  sync-subtrees:
+    if: startsWith(github.repository, 'usgs-coupled-subtrees/')
+    runs-on: ubuntu-latest
+    env:
+      CI_SERVER_HOST: github.com
+      GROUP: usgs-coupled
+      GH_TOKEN: ${{ secrets.WORKFLOW_PAT }}
+    steps:
+      - name: Run sync-subtrees-action
+        uses: usgs-coupled-subtrees/sync-subtrees-action@main
+        with:
+          dryRun: ${{ inputs.dryRun }}
+          testMerge: ${{ inputs.testMerge }}
+          repository_name: ${{ github.event.repository.name }}
+          default_branch: ${{ github.event.repository.default_branch }}
+          run_number: ${{ github.run_number }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}

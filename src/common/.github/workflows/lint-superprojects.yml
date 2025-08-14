@@ -1,0 +1,16 @@
+name: Lint superprojects.json
+
+on:
+  pull_request:
+    paths:
+      - '.github/superprojects.json'
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  lint-superprojects:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: usgs-coupled-subtrees/sync-subtrees-action/lint-superprojects/@main
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
