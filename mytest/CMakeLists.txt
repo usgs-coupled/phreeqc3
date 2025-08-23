@@ -16,6 +16,7 @@ set(TESTS
   anhy_K2SO4
   anhy_Na2SO4
   anhy_NaCl
+  anhy_NaCl_T&P
   antarcticite
   Apelbl_Na2CO3
   aquia
