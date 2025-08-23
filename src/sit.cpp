@@ -188,9 +188,10 @@ read_sit(void)
   const char* next_char;
   const char *opt_list[] = {
     "epsilon",					/* 0 */
-    "epsilon1"					/* 1 */
+    "epsilon1",					/* 1 */
+	"epsilon2"					/* 2 */
   };
-  int count_opt_list = 2;
+  int count_opt_list = 3;
   /*
    *   Read lines
    */
@@ -237,6 +238,11 @@ read_sit(void)
       n = 2;
       opt_save = OPTION_DEFAULT;
       break;
+	case 2:				/* epsilon2 */
+		pzp_type = TYPE_SIT_EPSILON2;
+		n = 2;
+		opt_save = OPTION_DEFAULT;
+		break;
     }
     if (return_value == EOF || return_value == KEYWORD)
       break;
@@ -274,6 +280,9 @@ calc_sit_param(class pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 		break;
 	case TYPE_SIT_EPSILON_MU:
 		pz_ptr->U.eps1 = param;
+		break;
+	case TYPE_SIT_EPSILON2:
+		pz_ptr->U.eps2 = param;
 		break;
 	case TYPE_Other:
 	default:
@@ -399,6 +408,7 @@ sit(void)
 	 *  Sums for sit_LGAMMA, and OSMOT
 	 *  epsilons are tabulated for log10 gamma (not ln gamma)
 	 */
+	LDBLE logmu = log10(I);
 	for (size_t j = 0; j < param_list.size(); j++)
 	{
 		int i = param_list[j];
@@ -425,7 +435,7 @@ sit(void)
 		case TYPE_SIT_EPSILON_MU:
 			sit_LGAMMA[i0] += sit_M[i1] * I * param;
 			sit_LGAMMA[i1] += sit_M[i0] * I * param;
-			OSMOT += sit_M[i0] * sit_M[i1] * param;
+			//OSMOT += sit_M[i0] * sit_M[i1] * param;
 			if (z0 == 0.0 && z1 == 0.0)
 			{
 				OSMOT += sit_M[i0] * sit_M[i1] * param * I / 2.0;
@@ -433,6 +443,19 @@ sit(void)
 			else
 			{
 				OSMOT += sit_M[i0] * sit_M[i1] * param * I;
+			}
+			break;
+		case TYPE_SIT_EPSILON2:
+			sit_LGAMMA[i0] += sit_M[i1] * logmu * param;
+			sit_LGAMMA[i1] += sit_M[i0] * logmu * param;
+			//OSMOT += sit_M[i0] * sit_M[i1] * param;
+			if (z0 == 0.0 && z1 == 0.0)
+			{
+				OSMOT += sit_M[i0] * sit_M[i1] * param * logmu / 2.0;
+			}
+			else
+			{
+				OSMOT += sit_M[i0] * sit_M[i1] * param * logmu;
 			}
 			break;
 		default:

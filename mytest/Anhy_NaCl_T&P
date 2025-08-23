@@ -1,0 +1,111 @@
+# Anhydrite solubility in NaCl, 100 - 200 C, 1 - 1000 bar
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 Anhy_NaCl_T&P_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+pH 7 charge
+-temp 100
+EQUILIBRIUM_PHASES 1
+Anhydrite
+# Halite 0 0
+REACTION 1; NaCl 1; 0 1e-5 5*0.02 0.1 12*0.2 6*1
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+-chart_title "Anhydrite solubility"
+-axis_titles "NaCl / (mol/kgw)" "CaSO4 / (mol/kgw)"
+-axis_scale x_axis 0 8.5
+-axis_scale y_axis 0 0.05
+# -plot_tsv_file anhy_nacl_TP.csv
+-connect_simulations false
+10 plot_xy tot("Na"), tot("Ca"), symbol = None
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE
+150
+USER_GRAPH
+10 plot_xy tot("Na"), tot("Ca"), symbol = None
+END 
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE
+200
+USER_GRAPH
+10 plot_xy tot("Na"), tot("Ca"), symbol = None
+END 
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE
+100.01
+REACTION_PRESSURE
+1e3
+USER_GRAPH
+10 plot_xy tot("Na"), tot("Ca"), symbol = None
+END 
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE
+150
+REACTION_PRESSURE
+1e3
+USER_GRAPH
+10 plot_xy tot("Na"), tot("Ca"), symbol = None
+END 
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE
+200.01
+REACTION_PRESSURE
+1000
+USER_GRAPH
+10 plot_xy tot("Na"), tot("Ca"), symbol = None
+END 
+
+USE SOLUTION 1
+REACTION_TEMPERATURE 1; 25 25 in 29
+
+USER_GRAPH 
+-headings 100ºC 150ºC 200ºC 100ºC/1e3atm 150ºC/1e3atm 200ºC/1e3atm
+#  Data from Block and Waters, Freyer & Voigt, Blount & Dickson
+10 dim t(50) : dim c(50)
+20 data  0.5, 0.0215, 1.03, 0.0256, 2.03, 0.0284, 4.08, 0.0296, 0, 0.00535, 0.501, 0.01585, 1.003, 0.02080, 1.732, 0.02473, 1.778, 0.02498, 1.994, 0.02600, 2.974, 0.02809, 2.997, 0.02803, 2.940, 0.02923, 3.977, 0.02847, 4.023, 0.02822, 5.003, 0.02790, 5.060, 0.02701, 5.060, 0.02631, 6.017, 0.02460, 6.017, 0.02549, 6.074, 0.02530, 6.712, 0.02384, 6.746, 0.02346, 6.712, 0.02308
+22 restore 20
+30 if step_no > 24 then i = 2 : read t(1) : read c(1) else \
+     for i = 1 to step_no : read t(i) : read c(i) : next i
+34 plot_xy t(i - 1), c(i - 1), line_width = 0, color = Red
+
+40 data 0, 0.0017, 0.501, 0.00723, 1.003, 0.01084, 1.778, 0.01452, 1.903, 0.01471, 1.983, 0.01579, 2.997, 0.01896, 3.259, 0.01978, 3.282, 0.02035, 3.989, 0.02099, 4.171, 0.02029, 4.194, 0.02111, 4.775, 0.02067, 5.003, 0.02168, 5.994, 0.02149, 5.994, 0.02162, 6.268, 0.02124, 6.405, 0.02143, 6.564, 0.02149, 7.100, 0.02175, 7.111, 0.02175, 7.282, 0.02226, 7.396, 0.02162, 7.476, 0.02149
+42 restore 40
+50 if step_no > 24 then i = 2 : read t(1) : read c(1) else \
+     for i = 1 to step_no : read t(i) : read c(i) : next i
+54 plot_xy t(i - 1), c(i - 1), line_width = 0, color = Green
+
+60 data 0, 0.000542, 0.501, 0.00349, 0.991, 0.00596, 1.880, 0.00945, 1.994, 0.01014, 3.020, 0.01332, 3.100, 0.01313, 3.168, 0.01338, 4.000, 0.01566, 4.103, 0.01617, 4.205, 0.01566, 5.003, 0.01782, 5.128, 0.01763, 5.254, 0.01782, 5.573, 0.01845, 5.630, 0.01864, 5.983, 0.01883, 6.028, 0.01940, 5.994, 0.01947, 6.222, 0.01934, 6.678, 0.02010, 6.667, 0.02067, 7.328, 0.02092, 7.385, 0.02054, 7.510, 0.02118, 7.977, 0.02200, 8.023, 0.02207, 8.160, 0.02200, 8.194, 0.02219
+62 restore 60
+70 if step_no > 29 then i = 2 : read t(1) : read c(1) else \
+     for i = 1 to step_no : read t(i) : read c(i) : next i
+74 plot_xy t(i - 1), c(i - 1), line_width = 0, color = Blue
+
+80 data 1.214, 0.0411, 1.218, 0.0409, 6.082, 0.0361, 6.085, 0.0360, 0.153, 0.0226, 0.000, 0.0146, 0.154, 0.0227, 0.000, 0.0147, 4.205, 0.0415, 0.153, 0.0230, 4.213, 0.0405, 4.213, 0.0400, 0, 0.015, 0.5, 0.029, 1, 0.038, 2, 0.046, 3, 0.0461, 4, 0.0429, 5, 0.0393, 6, 0.0353
+82 restore 80
+90 if step_no > 20 then i = 2 : read t(1) : read c(1) else \
+     for i = 1 to step_no : read t(i) : read c(i) : next i
+94 plot_xy t(i - 1), c(i - 1), line_width = 0, color = Orange
+
+100 data 0, 0.00508, 0.5, 0.0137, 1, 0.02, 2, 0.0272, 3, 0.0301, 4, 0.0316, 5, 0.0313, 6, 0.0298
+102 restore 100
+110 if step_no > 8 then i = 2 : read t(1) : read c(1) else \
+      for i = 1 to step_no : read t(i) : read c(i) : next i
+114 plot_xy t(i - 1), c(i - 1), line_width = 0, color = Magenta
+
+120 data 0, 0.00178, 0.5, 0.0073, 1, 0.0115, 2, 0.0173, 3, 0.0212, 4, 0.0243, 5, 0.0264, 6, 0.0276
+122 restore 120
+130 if step_no > 8 then i = 2 : read t(1) : read c(1) else \
+      for i = 1 to step_no : read t(i) : read c(i) : next i
+134 plot_xy t(i - 1), c(i - 1), line_width = 0, color = Black 
