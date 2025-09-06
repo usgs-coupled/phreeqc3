@@ -16,6 +16,7 @@ set(TESTS
   anhy_K2SO4
   anhy_Na2SO4
   anhy_NaCl
+  Anhy_NaCl_T&P
   antarcticite
   Apelbl_Na2CO3
   aquia
@@ -294,6 +295,7 @@ set(TESTS
   NaNH4K_ClBrSO4
   NaOH_density
   Nardi
+  negative_mix
   negative_user_number
   negexp_totmol
   netpathxl
