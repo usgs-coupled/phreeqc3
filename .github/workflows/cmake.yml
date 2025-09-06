@@ -93,7 +93,7 @@ jobs:
       run: |
         mkdir _build
         cd _build
-        ../configure --disable-nls --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
+        ../configure CFLAGS="-std=gnu17" --disable-nls --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
         make -j2
         make install
         # cp $(which libgmp-10.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
