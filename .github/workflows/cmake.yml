@@ -170,7 +170,7 @@ jobs:
         arch: x64
 
     - name: CTest
-      run: ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
+      run: ctest -S ctest.regression.cmake -DCTEST_TEST_TIMEOUT=1200
 
     - name: CMemCheck (Linux)
       if: runner.os == 'Linux' && (github.event_name == 'schedule' || inputs.CMemCheck)
