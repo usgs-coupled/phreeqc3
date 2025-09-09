@@ -175,6 +175,7 @@ jobs:
         arch: x64
 
     - name: CTest
+      shell: bash
       run: |
         if [ "${{ inputs.Regression }}" = "true" ]; then
           echo "Running CMemCheck tests..."
