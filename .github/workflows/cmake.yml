@@ -27,8 +27,13 @@ on:
     - cron: '1 2 * * 2'
   workflow_dispatch:
     inputs:
+      Regression:
+        description: 'Run all regression tests. Enable this option to execute the full test suite.'
+        required: false
+        default: false
+        type: boolean
       CMemCheck:
-        description: 'CMemCheck: Choose this option to include the CMake Valgrind tests.'
+        description: 'Run CMake Valgrind memory checks. Enable this option to include memory analysis tests.'
         required: false
         default: false
         type: boolean
@@ -170,7 +175,26 @@ jobs:
         arch: x64
 
     - name: CTest
-      run: ctest -S ctest.regression.cmake -DCTEST_TEST_TIMEOUT=1200
+      run: |
+        if [ "${{ inputs.Regression }}" = "true" ]; then
+          echo "Running CMemCheck tests..."
+          ctest -S ctest.regression.cmake -DCTEST_TEST_TIMEOUT=1200
+        else
+          echo "Running CMemCheck Regression tests..."
+          ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
+        fi
+
+
+    - name: Run Regression and Optional CMemCheck (Linux)
+      if: runner.os == 'Linux' && (github.event_name == 'schedule' || inputs.CMemCheck == true)
+      run: |
+        if [ "${{ inputs.Regression }}" = "true" ]; then
+          echo "Running CMemCheck Regression tests..."
+          ctest -S cmemcheck.regression.cmake -DCTEST_TEST_TIMEOUT=1200
+        else
+          echo "Running CMemCheck tests..."
+          ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
+        fi
 
     - name: CMemCheck (Linux)
       if: runner.os == 'Linux' && (github.event_name == 'schedule' || inputs.CMemCheck)
