@@ -25,9 +25,20 @@ ctest_update()
 ctest_configure(OPTIONS "-DPHRQC_TESTING:BOOL=ON;-DPHRQC_ENABLE_REGRESSION_TESTING:BOOL=ON")
 ctest_build()
 if(${CMAKE_VERSION} VERSION_LESS "3.29")
-  ctest_memcheck(EXCLUDE "numdiff" PARALLEL_LEVEL 2)
+  ctest_memcheck(
+    EXCLUDE "numdiff"
+    RETURN_VALUE test_result
+    PARALLEL_LEVEL 2
+  )
 else()
-  ctest_memcheck(EXCLUDE "numdiff" PARALLEL_LEVEL)
+  ctest_memcheck(
+    EXCLUDE "numdiff"
+    RETURN_VALUE test_result
+    PARALLEL_LEVEL
+  )
+endif()
+if(test_result)
+    message("Some tests failed with code ${test_result}")
 endif()
 ##ctest_coverage()
 ctest_submit()

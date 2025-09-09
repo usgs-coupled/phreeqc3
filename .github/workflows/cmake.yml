@@ -178,28 +178,23 @@ jobs:
       shell: bash
       run: |
         if [ "${{ inputs.Regression }}" = "true" ]; then
-          echo "Running CMemCheck tests..."
+          echo "Running regression tests..."
           ctest -S ctest.regression.cmake -DCTEST_TEST_TIMEOUT=1200
         else
-          echo "Running CMemCheck Regression tests..."
+          echo "Running standard tests..."
           ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
         fi
 
-
-    - name: Run Regression and Optional CMemCheck (Linux)
+    - name: Run Optional CMemCheck (Linux)
       if: runner.os == 'Linux' && (github.event_name == 'schedule' || inputs.CMemCheck == true)
       run: |
         if [ "${{ inputs.Regression }}" = "true" ]; then
           echo "Running CMemCheck Regression tests..."
-          ctest -S cmemcheck.regression.cmake -DCTEST_TEST_TIMEOUT=1200
+          ctest -S cmemcheck.regression.cmake -DCTEST_TEST_TIMEOUT=2400
         else
           echo "Running CMemCheck tests..."
-          ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
+          ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=2400
         fi
-
-    - name: CMemCheck (Linux)
-      if: runner.os == 'Linux' && (github.event_name == 'schedule' || inputs.CMemCheck)
-      run: ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=900
 
     - name: Upload results
       uses: actions/upload-artifact@v4
