@@ -27,12 +27,16 @@ ctest_build()
 if(${CMAKE_VERSION} VERSION_LESS "3.29")
   ctest_memcheck(
     EXCLUDE "numdiff"
+    # long_memcheck tests take a long time to run under valgrind
+    EXCLUDE_LABEL "long_memcheck"
     RETURN_VALUE test_result
     PARALLEL_LEVEL 2
   )
 else()
   ctest_memcheck(
     EXCLUDE "numdiff"
+    # long_memcheck tests take a long time to run under valgrind
+    EXCLUDE_LABEL "long_memcheck"
     RETURN_VALUE test_result
     PARALLEL_LEVEL
   )
