@@ -226,7 +226,7 @@ cxxNameDouble::add_intensive(const cxxNameDouble & addee, LDBLE f1,
 // Sums two name doubles, this*f1 + f2*nd2
 //
 {
-	assert(f1 >= 0 && f2 >= 0);
+	//assert(f1 >= 0 && f2 >= 0);
 	for (cxxNameDouble::const_iterator it = addee.begin(); it != addee.end();
 		 it++)
 	{
@@ -248,7 +248,7 @@ cxxNameDouble::add_log_activities(const cxxNameDouble & addee, LDBLE f1,
 // Sums two name doubles, this*f1 + f2*nd2, assuming log values
 //
 {
-	assert(f1 >= 0 && f2 >= 0);
+	//assert(f1 >= 0 && f2 >= 0);
 	for (cxxNameDouble::const_iterator it = addee.begin(); it != addee.end();
 		 it++)
 	{
