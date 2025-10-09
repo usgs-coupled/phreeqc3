@@ -1,0 +1,19 @@
+name: Lint subtrees.json
+
+on:
+  pull_request:
+    paths:
+      - '.github/subtrees.json'
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  lint-subtrees:
+    runs-on: ubuntu-latest
+    env:
+      CI_SERVER_HOST: github.com
+      GROUP: usgs-coupled
+    steps:
+      - uses: usgs-coupled-subtrees/sync-subtrees-action/lint-subtrees/@main
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}

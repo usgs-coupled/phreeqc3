@@ -85,7 +85,7 @@ Initial solution 1.
 H(0)          1.416e-25
    H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+   O2              0.000e+00   0.000e+00   -42.063   -42.063     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -93,7 +93,7 @@ O(0)          0.000e+00
 
   H2(g)           -22.05    -25.15   -3.10  H2
   H2O(g)           -1.50      0.00    1.50  H2O
-  O2(g)           -39.19    -42.08   -2.89  O2
+  O2(g)           -39.17    -42.06   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -113,6 +113,7 @@ WARNING: Trying smaller step size, pe step size 10, 5 ...
 
 WARNING: Maximum iterations exceeded, 200
 
+WARNING: viscosity < 0, reset to viscosity of pure water
 WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Trying reduced tolerance 1e-16 ...
@@ -179,9 +180,9 @@ N2(g)              2.28   1.926e+02  1.272   7.476e+00   7.063e+00  -4.133e-01
                        Total CO2 (mol/kg)  =   1.246e+00
                          Temperature (°C)  =  25.00
                            Pressure (atm)  = 524.84
-                  Electrical balance (eq)  =  -1.201e-09
+                  Electrical balance (eq)  =  -2.140e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  79 (582 overall)
+                               Iterations  =  59 (562 overall)
                                   Total H  = 1.123337e+02
                                   Total O  = 5.742478e+01
 
@@ -212,7 +213,7 @@ N(3)          0.000e+00
 N(5)          0.000e+00
    NO3-            0.000e+00   0.000e+00   -81.949   -82.177    -0.228     29.66
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -73.691   -73.621     0.070     29.74
+   O2              0.000e+00   0.000e+00   -73.673   -73.604     0.070     29.74
 
 ------------------------------Saturation indices-------------------------------
 
@@ -224,7 +225,7 @@ O(0)          0.000e+00
   H2O(g)           -1.35     -0.02    1.34  H2O	 Pressure   0.2 atm, phi 0.200
   N2(g)             2.39     -1.06   -3.45  N2	 Pressure 192.6 atm, phi 1.272
   NH3(g)           -5.23     -3.66    1.56  NH3
-  O2(g)           -70.45    -73.62   -3.17  O2
+  O2(g)           -70.43    -73.60   -3.17  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -237,18 +238,6 @@ WARNING: Maximum iterations exceeded, 100
 WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-16 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-14 ...
 
 Using solution 1.	
 Using gas phase 6.	
@@ -306,9 +295,9 @@ N2(g)              2.35   2.238e+02  1.572   7.063e+00   6.962e+00  -1.014e-01
                        Total CO2 (mol/kg)  =   1.638e+00
                          Temperature (°C)  =  25.00
                            Pressure (atm)  = 732.75
-                  Electrical balance (eq)  =  -1.427e-09
+                  Electrical balance (eq)  =  -1.986e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  54 (557 overall)
+                               Iterations  =  51 (152 overall)
                                   Total H  = 1.125810e+02
                                   Total O  = 5.802134e+01
 
@@ -339,7 +328,7 @@ N(3)          0.000e+00
 N(5)          0.000e+00
    NO3-            0.000e+00   0.000e+00   -81.871   -82.113    -0.242     29.57
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -73.682   -73.592     0.090     29.53
+   O2              0.000e+00   0.000e+00   -73.665   -73.575     0.090     29.53
 
 ------------------------------Saturation indices-------------------------------
 
@@ -351,7 +340,7 @@ O(0)          0.000e+00
   H2O(g)           -1.30     -0.02    1.28  H2O	 Pressure   0.4 atm, phi 0.122
   N2(g)             2.55     -1.01   -3.56  N2	 Pressure 223.8 atm, phi 1.572
   NH3(g)           -5.16     -3.69    1.47  NH3
-  O2(g)           -70.32    -73.59   -3.28  O2
+  O2(g)           -70.30    -73.57   -3.28  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -421,9 +410,9 @@ N2(g)              2.40   2.527e+02  1.836   6.962e+00   6.890e+00  -7.131e-02
                        Total CO2 (mol/kg)  =   1.849e+00
                          Temperature (°C)  =  25.00
                            Pressure (atm)  = 899.65
-                  Electrical balance (eq)  =  -1.431e-09
+                  Electrical balance (eq)  =  -1.653e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  38 (139 overall)
+                               Iterations  =  70 (171 overall)
                                   Total H  = 1.127657e+02
                                   Total O  = 5.831094e+01
 
@@ -454,7 +443,7 @@ N(3)          0.000e+00
 N(5)          0.000e+00
    NO3-            0.000e+00   0.000e+00   -81.819   -82.068    -0.249     29.50
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -73.713   -73.608     0.105     29.37
+   O2              0.000e+00   0.000e+00   -73.695   -73.591     0.105     29.37
 
 ------------------------------Saturation indices-------------------------------
 
@@ -466,7 +455,7 @@ O(0)          0.000e+00
   H2O(g)           -1.25     -0.02    1.23  H2O	 Pressure   0.6 atm, phi 0.099
   N2(g)             2.67     -0.98   -3.64  N2	 Pressure 252.7 atm, phi 1.836
   NH3(g)           -5.08     -3.69    1.39  NH3
-  O2(g)           -70.25    -73.61   -3.36  O2
+  O2(g)           -70.23    -73.59   -3.36  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.

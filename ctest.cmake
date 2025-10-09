@@ -21,8 +21,17 @@ ctest_update()
 ctest_configure(OPTIONS -DPHRQC_TESTING:BOOL=ON)
 ctest_build()
 if(${CMAKE_VERSION} VERSION_LESS "3.29")
-  ctest_test(PARALLEL_LEVEL 2)
+  ctest_test(
+    RETURN_VALUE test_result
+    PARALLEL_LEVEL 2
+  )
 else()
-  ctest_test(PARALLEL_LEVEL)
+  ctest_test(
+    RETURN_VALUE test_result
+    PARALLEL_LEVEL
+  )
+endif()
+if(test_result)
+    message("Some tests failed with code ${test_result}")
 endif()
 ctest_submit()
