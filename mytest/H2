@@ -1,0 +1,146 @@
+#DATABASE c:\phreeqc\database\pitzer.dat
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+SELECTED_OUTPUT 101
+    -file                 H2_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1; pH 7 charge
+SOLUTION 2; pH 7 charge; Na 1e3; Cl 1e3
+SOLUTION 3; pH 7 charge; Na 3e3; Cl 3e3
+SOLUTION 5; pH 7 charge; Na 5e3; Cl 5e3
+GAS_PHASE
+-fixed_volume; -volume 1e-4 
+Hdg(g) 0
+H2O(g) 0
+END
+INCREMENTAL_REACTIONS true
+
+REACTION 1
+Hdg; 0 10*0.12
+REACTION 2
+Hdg; 0 10*0.09
+END
+
+USE solution 1; USE reaction 1; USE gas_phase 1
+REACTION_TEMPERATURE 1; 0
+USER_GRAPH 1 Zhu 2022, Table 4
+-axis_titles "P / atm" "H2 / (mol/kgw)"
+-connect_simulations false
+-axis_scale x_axis 0 1100
+-axis_scale y_axis 0 1
+-plot_tsv_file H2.dat
+40 graph_x pressure
+50 graph_y tot("Hdg")
+END
+
+USE solution 1; USE reaction 2; USE gas_phase 1
+REACTION_TEMPERATURE 1; 30
+END
+
+USE solution 1; USE reaction 2; USE gas_phase 1
+REACTION_TEMPERATURE 1; 60
+END
+
+USE solution 1; USE reaction 2; USE gas_phase 1
+REACTION_TEMPERATURE 1; 90
+END
+
+USE solution 1; USE reaction 2; USE gas_phase 1
+REACTION_TEMPERATURE 1; 120
+END
+
+USE solution 1; USE reaction 1; USE gas_phase 1
+REACTION_TEMPERATURE 1; 150
+END
+
+USER_GRAPH 1; -active false
+
+REACTION 1
+Hdg 0.1; 0 10*0.15
+
+USE solution 1; USE gas_phase 1
+REACTION_TEMPERATURE 1; 50
+USER_GRAPH 2 Chabab 2020, 50ºC
+-axis_titles "P / atm" "H2 / (mol/kgw)"
+-connect_simulations false
+-axis_scale x_axis 0 250
+-axis_scale y_axis 0 0.15
+-plot_tsv_file H2_NaCl.dat
+40 graph_x pressure
+50 graph_y tot("Hdg")
+END
+
+USE solution 2; USE REACTION 1; USE reaction_temperature 1
+USE gas_phase 1
+END
+
+USE solution 3; USE REACTION 1; USE reaction_temperature 1
+USE gas_phase 1
+END
+
+USE solution 5; USE REACTION 1; USE reaction_temperature 1
+USE gas_phase 1
+END
+
+USER_GRAPH 2; -active false
+
+USE solution 1; USE gas_phase 1; USE reaction 1
+REACTION_TEMPERATURE 1; 100
+USER_GRAPH 3 Chabab 2020, 100ºC
+-axis_titles "P / atm" "H2 / (mol/kgw)"
+-connect_simulations false
+-axis_scale x_axis 0 250
+-axis_scale y_axis 0 0.15
+-plot_tsv_file H2_NaCl_100C.dat
+40 graph_x pressure
+50 graph_y tot("Hdg")
+END
+
+USE solution 2; USE REACTION 1; USE reaction_temperature 1
+USE gas_phase 1
+END
+
+USE solution 5; USE REACTION 1; USE reaction_temperature 1
+USE gas_phase 1
+END
+
+PRINT; -user_print true
+USER_GRAPH 3; -active false
+SOLUTION 999  SEAWATER FROM NORDSTROM AND OTHERS (1979) * 0.96, diluted to Crozier: S = 33.68
+        units   ppm
+        pH      8.22
+        density 1.023 calculate
+        temp    25.0
+        Ca          395.808
+        Mg          1240.128
+        Na          10337.28
+        K           383.136
+        Fe          0.00192
+        Mn          0.000192
+        Si          4.1088
+        Cl          18578.88
+        Alkalinity  136.01472 as HCO3
+        S           2603.52
+
+EQUILIBRIUM_PHASES 999; Hdg(g) 0.00000	
+GAS_PHASE 999; -fixed_volume; volume 1e-4 ; Hdg(g) 1; H2O(g) 0.032	       
+REACTION_TEMPERATURE 1
+1 30 in 10
+USER_GRAPH 4:           1 atm H2 in seawater, Crozier and Yamamoto, 1977.
+-axis_titles "temperature / ºC" "H2 / (mmol/kgw)"
+-axis_scale x_axis 0 30
+10 T = tk : A1 = -39.9611 : A2 = 53.9381 : A3 = 16.3135 : B1 = -0.036249 : B2 =  0.017565 : B3 = -0.0023010
+20 S = 33.68 # salinity / (0/00): select the column of ppm's, TextFX -> Tools -> Add up numbers
+30 x = A1 + A2 * (100/T) + A3 * log(T/100) + S * (B1 + b2 * (T/100) + B3 * (T/100)^2)
+40 Bc = exp(x) / 1.0012 : Hdg = tot("Hdg")
+50 ff = tot("water") / soln_vol / PR_P("Hdg(g)")
+60 R = 8.31446 : v = R / 1.013 * 273.15 / 100
+70 plot_xy  tc, 1e3 * Bc / v/ ff, line_width = 0
+80 plot_xy  tc, 1e3 * Hdg,        symbol = None, color = Red 
+END
+ 

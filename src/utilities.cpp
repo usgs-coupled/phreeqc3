@@ -190,11 +190,12 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	LDBLE p1 = -6.0251348E-06 + tc * ( 3.6696407E-07 + tc * (-9.2056269E-09 + tc * ( 6.7024182E-11 + tc * -1.5947241E-13)));
 	LDBLE p2 = -2.2983596E-09 + tc * (-4.0133819E-10 + tc * ( 1.2619821E-11 + tc * (-9.8952363E-14 + tc *  2.3363281E-16)));
 	LDBLE p3 =  7.0517647E-11 + tc * ( 6.8566831E-12 + tc * (-2.2829750E-13 + tc * ( 1.8113313E-15 + tc * -4.2475324E-18)));
-	/* The minimal pressure equals the saturation pressure... */
-	if (ah2o_x <= 1.0)
-		p_sat = exp(11.6702 - 3816.44 / (T - 46.13)) * ah2o_x;
-	else
-		p_sat = exp(11.6702 - 3816.44 / (T - 46.13));
+	// /* The minimal pressure equals the saturation pressure... */
+	   /* 5/12/2025: remove ah2o_x, rho_0 is independent of concentrations*/
+	//if (ah2o_x <= 1.0)
+	//	p_sat = exp(11.6702 - 3816.44 / (T - 46.13)) * ah2o_x;
+	//else
+	p_sat = exp(11.6702 - 3816.44 / (T - 46.13));
 	//ah2o_x0 = ah2o_x; // for updating rho in model(): compare with new ah2o_x
 	if (pa < p_sat || (use.Get_solution_ptr() && use.Get_solution_ptr()->Get_patm() < p_sat))
 	{

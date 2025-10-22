@@ -1,4 +1,58 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+
+	-----------------
+	October 13, 2025
+	-----------------
+	PHREEQC:  Updated phreeqc.dat, Amm.dat, and phreeqc_rates.dat.
+	--Adapted H2 and Hdg properties in SOLUTE_SPECIES and PHASES for improved solubility 
+		calculations at high T, P, and I.
+	--Revised the data for carbonate species in for better T, P, and I dependent calcite equilibrium 
+		and viscosity calculations.
+
+	PHREEQC:  Updated PITZER.DAT:
+		SOLUTION_SPECIES: Mg+2, Ba+2, CO3-2, Hdg, HCO3-, CO2.
+		PHASES: Barite, Calcite, CO2(g), Hdg(g) [= H2(g)].
+		PITZER:
+			 in -B0, -B1 and -B2: HCO3- Na+
+			 in -THETA: Cl- HCO3-
+			 in -LAMDA: Cl- Hdg, Hdg Mg+2 and Hdg Na+
+			 in -ZETA: Hdg Cl- Na+
+			 in -PSI: Cl- HCO3- Na+
+		GAS_BINARY_PARAMETERS: H2O(g) Hdg(g)
+		
+	PHREEQC:  Updated phreeqc.dat, Amm.dat, and phreeqc_rate.dat:
+		SOLUTION_SPECIES: Mg+2, Ba+2, CO3-2, SO4-2, H2, Hdg, HCO3-, CO2, (CO2)2, CaHCO3+, MgSO4, Mg(SO4)2-2, NaHCO3, KHCO3, 
+			removed BaSO4.
+		PHASES: Calcite, Barite, CO2(g), H2(g), Hdg(g).
+		GAS_BINARY_PARAMETERS: H2O(g) H2(g), H2O(g) Hdg(g)
+		
+	PHREEQC: 
+		--Revised the viscosity calculation [viscosity(cxxSurface *surf_ptr) in transport.cpp] to avoid a negative viscosity.
+		--Viscosity calculations at temperatures higher than 200ºC now return the viscosity of pure water. In previous 
+			versions, the Falkenhagen A factor and the volume factors of the anions were calculated at T, P, I of the 
+			solution and used to calculate the viscosity.
+
+	PHREEQC:  Updated phreeqc.dat, Amm.dat, and phreeqc_rates.dat:
+		--Defined the Na2SO4 complex in PHREEQC.DAT for an improved calculation of the solubilities of anhydrite, gypsum, 
+			celestite, barite and other sulfates in concentrated NaCl solutions. The activity parameters (‑gamma and 
+			‑analytical_expression) and the physical parameters (‑Vm, ‑viscosity and ‑dw) were redefined for all the 
+			SO4-2 solution species. 
+
+	PHREEQC:  
+		--Removed the activity of water in the calculation of the density of pure water (rho_0) at T, P in 
+			calc_rho_0(LDBLE tc, LDBLE pa) in utilities.cpp (rho_0 is independent of salinity).
+
+	PHREEQC:  
+		--In various databases: the Alkalinity of E is set to 1 to give the correct equation for non-master 
+		species with e- in the reaction:
+		
+		SOLUTION_MASTER_SPECIES
+			E     e-     1     0      0
+
+Version 3.8.8: September 12, 2025
+
+	Bug_fix for calc_t_sc("") in basicsubs.cpp.
+	
 	-----------------
 	August 23, 2025
 	-----------------

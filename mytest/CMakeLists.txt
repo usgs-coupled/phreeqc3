@@ -181,6 +181,7 @@ set(TESTS
   gypsum_P5
   H_HCl_HBr
   H_K
+  H2
   H2S_71C
   H2S_Amm
   H2S_NaCl_Na2SO4
@@ -557,6 +558,9 @@ set(mytest_MISC
   gas_no_redox.dat
   gyps_Na2SO4.csv
   gyps_NaCl.csv
+  H2.dat
+  H2_NaCl.dat
+  H2_NaCl_100C.dat
   H_K.tsv
   H2S.dat
   H2S_Na2SO4.dat
