@@ -87,7 +87,7 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 				  and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
 	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
 	*/
-	if (llnl_temp.size() > 0) return OK;
+	if (llnl_temp.size() > 0 && !use_phreeqc_dha_dhb) return OK;
 	if (tc > 350.)
 	{
 		tc = 350.;
@@ -131,6 +131,8 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 
 	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
 
+	a_llnl = DH_A;
+	b_llnl = DH_B;
 	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
 	ZBrn = (-1 / eps_r + 1.0) * 41.84004;
 	QBrn = c / (b + pb) / eps_r / eps_r * 41.84004;
@@ -163,7 +165,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
     */
-	if (llnl_temp.size() > 0) return OK;
+	if (llnl_temp.size() > 0 && !use_phreeqc_dha_dhb) return OK;
 	if (tc > 350.)
 	{
 		if (need_temp_msg < 1)

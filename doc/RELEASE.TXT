@@ -1,4 +1,18 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+	-----------------
+	October 28, 2025
+	-----------------
+	PHREEQC: A new option was added to the keyword data block LLNL_AQUEOUS_MODEL_PARAMETERS.
+	
+		-use_phreeqc_dha_dhb [True or False]
+		
+	True uses alternate pressure- and temperature-dependent formulations for Debye-Hückel A and B 
+	and the density of pure water, which are the same formulations used in phreeqc.dat and pitzer.dat. 
+	In addition, pressure dependence of log Ks through the molar volume parameters (-Vm) of 
+	SOLUTION_SPECIES and PHASES is allowed. False uses the definitions in the LLNL_AQUEOUS_MODEL_PARAMETERS
+	options -dh_a and -dh_b for Debye-Hückel A and B, and -Vm values are not used. If the option is 
+	absent False is assumed, which is consistent with all previous uses of the llnl.dat database. 
+	If the option is defined without True or False, True is assumed.
 
 	-----------------
 	October 13, 2025
