@@ -447,6 +447,7 @@ set(TESTS
   unequal
   uphill_NP
   uphill_NPa
+  llnl_phreeqc_dha_dhb
   user_print
   using
   v_TP_K2SO4
