@@ -243,6 +243,8 @@ set(TESTS
   lk_phase
   lkspecies
   llnl
+  llnl_extended
+  llnl_phreeqc_dha_dhb
   local_min_pz
   low_p
   low_t
@@ -447,7 +449,6 @@ set(TESTS
   unequal
   uphill_NP
   uphill_NPa
-  llnl_phreeqc_dha_dhb
   user_print
   using
   v_TP_K2SO4
