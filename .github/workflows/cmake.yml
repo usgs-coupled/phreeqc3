@@ -114,6 +114,8 @@ jobs:
       run: |
         mkdir _build
         cd _build
+        ../configure --help | grep -i doc
+        ../configure --help
         ../configure CFLAGS="-std=gnu17" --disable-nls --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
         make -j2
         make install
