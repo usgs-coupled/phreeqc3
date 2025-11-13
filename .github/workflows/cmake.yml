@@ -53,8 +53,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { icon: '⚫', sys: mingw32 }
-          # - { icon: '🟦', sys: mingw64 }
+          # - { icon: '⚫', sys: mingw32 }
+          - { icon: '🟦', sys: mingw64 }
           # - { icon: '🟨', sys: ucrt64  }
           # - { icon: '🟧', sys: clang64 }
     name: 🚧${{ matrix.icon }} ${{ matrix.sys }}
@@ -86,6 +86,7 @@ jobs:
           make
           texinfo
           texinfo-tex
+          mingw-w64-x86_64-texlive-core
         # pacboy: >-
         #   texlive-bin:p
         #   texlive-core:p
@@ -166,7 +167,7 @@ jobs:
       if: runner.os == 'Windows'
       uses: actions/download-artifact@v4
       with:
-        name: mingw32-artifact
+        name: mingw64-artifact
 
     - name: Set up Visual Studio shell (Windows)
       if: runner.os == 'Windows'
