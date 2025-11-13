@@ -84,9 +84,9 @@ jobs:
         install: >-
           gcc
           make
-          texinfo
-          texinfo-tex
-          mingw-w64-x86_64-texlive-core
+          # texinfo
+          # texinfo-tex
+          # mingw-w64-x86_64-texlive-core
         # pacboy: >-
         #   texlive-bin:p
         #   texlive-core:p
@@ -94,29 +94,27 @@ jobs:
         #   texlive-fonts-recommended:p
         #   toolchain:p
 
-    - name: 'Test Setup'
-      if: steps.cache-numdiff.outputs.cache-hit != 'true'
-      run: |
-        which gcc
-        which make
-        which makeinfo
-        which texi2pdf
-        pacman -Fy
-        pacman -F makeinfo
-        pacman -F texi2pdf
-        gcc --version
-        make --version
-        makeinfo --version
-        texi2pdf --version
+    # - name: 'Test Setup'
+    #   if: steps.cache-numdiff.outputs.cache-hit != 'true'
+    #   run: |
+    #     which gcc
+    #     which make
+    #     which makeinfo
+    #     which texi2pdf
+    #     pacman -Fy
+    #     pacman -F makeinfo
+    #     pacman -F texi2pdf
+    #     gcc --version
+    #     make --version
+    #     makeinfo --version
+    #     texi2pdf --version
 
     - name: '🚧 Build numdiff'
       if: steps.cache-numdiff.outputs.cache-hit != 'true'
       run: |
         mkdir _build
         cd _build
-        ../configure --help | grep -i doc
-        ../configure --help
-        ../configure CFLAGS="-std=gnu17" --disable-nls --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
+        ../configure CFLAGS="-std=gnu17" --disable-doc --disable-nls --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
         make -j2
         make install
         # cp $(which libgmp-10.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
