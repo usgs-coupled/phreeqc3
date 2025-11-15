@@ -833,7 +833,7 @@ endforeach()
 
 # numdiff tests
 set(REL_ERROR 1e-3)
-find_program(NUMDIFF_COMMAND NAMES numdiff PATHS ${CMAKE_SOURCE_DIR}/mingw32/bin)
+find_program(NUMDIFF_COMMAND NAMES numdiff PATHS ${CMAKE_SOURCE_DIR}/mingw64/bin)
 if (NUMDIFF_COMMAND)
   file(GLOB NUMDIFFS
     RELATIVE ${CMAKE_CURRENT_LIST_DIR}
