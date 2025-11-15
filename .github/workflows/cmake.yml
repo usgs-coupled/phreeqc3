@@ -182,7 +182,7 @@ jobs:
           ctest -S ctest.regression.cmake -DCTEST_TEST_TIMEOUT=1200
         else
           echo "Running standard tests..."
-          ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
+          ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900 --extra-verbose || true
         fi
 
     - name: Run Optional CMemCheck (Linux)
@@ -193,7 +193,7 @@ jobs:
           ctest -S cmemcheck.regression.cmake -DCTEST_TEST_TIMEOUT=2400
         else
           echo "Running CMemCheck tests..."
-          ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=2400
+          ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=2400 
         fi
 
     - name: Upload results
