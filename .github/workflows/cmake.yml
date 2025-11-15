@@ -197,6 +197,7 @@ jobs:
         fi
 
     - name: Upload results
+      if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}-results
