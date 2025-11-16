@@ -1574,6 +1574,7 @@ protected:
 	inline bool Get_output_newline() { return this->output_newline; }
 	double a_llnl, b_llnl, bdot_llnl;
 	std::vector<double> llnl_temp, llnl_adh, llnl_bdh, llnl_bdot, llnl_co2_coefs;
+	bool use_phreeqc_dha_dhb;
 
 	//char *selected_output_file_name;
 	std::map<int, SelectedOutput> SelectedOutput_map;

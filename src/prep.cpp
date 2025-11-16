@@ -5338,7 +5338,7 @@ calc_vm(LDBLE tc, LDBLE pa)
  *    b4 = logk[vmi4], or
  *	  coef(tc) = millero[3] + millero[4] * tc + millero[5] * tc^2
  */
-	if (llnl_temp.size() > 0) return OK;
+	if (llnl_temp.size() > 0 && !use_phreeqc_dha_dhb) return OK;
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
 	for (int i = 0; i < (int)this->s_x.size(); i++)
 	{
@@ -5414,7 +5414,7 @@ LDBLE Phreeqc::calc_vm0(const char * species_name, LDBLE tc, LDBLE pa, LDBLE mu)
 	/*
 	 *  Calculate molar volume of an aqueous species at tc, pa and mu
 	 */
-	if (llnl_temp.size() > 0) return OK;
+	if (llnl_temp.size() > 0 && !use_phreeqc_dha_dhb) return OK;
 	class species *s_ptr;
 	LDBLE g = 0;
 	s_ptr = s_search(species_name);

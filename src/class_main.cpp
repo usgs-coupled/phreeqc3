@@ -224,7 +224,7 @@ main_method(int argc, char *argv[])
 		}
 #ifdef NPP
 #ifdef DOS
-		SetConsoleOutputCP(CP_UTF8);
+		//SetConsoleOutputCP(CP_UTF8);
 		write_banner();
 #endif
 #else
@@ -307,47 +307,25 @@ write_banner(void)
 #ifndef NO_UTF8_ENCODING
 	char buffer[80];
 	int len, indent;
-	screen_msg(
-		 "              █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█\n");
-	screen_msg(
-			   "              ║                                            ║\n");
-
+	screen_msg("               ____________________________________________\n");
+	screen_msg("              |                                            |\n");
 	/* version */
-#ifdef NPP
-	len = snprintf(buffer, sizeof(buffer), "* PHREEQC-%s *", "3.8.7");
-#else
-	len = snprintf(buffer, sizeof(buffer), "* PHREEQC-%s *", "@VERSION@");
-#endif
+	len = snprintf(buffer, sizeof(buffer), "* PHREEQC_%s *", "3.8.9");
 	indent = (44 - len) / 2;
-	screen_msg(sformatf("%14c║%*c%s%*c║\n", ' ', indent, ' ', buffer,
+	screen_msg(sformatf("%14c|%*c%s%*c|\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
-
-	screen_msg(
-			   "              ║                                            ║\n");
-	screen_msg(
-			   "              ║      A hydrogeochemical transport model    ║\n");
-	screen_msg(
-			   "              ║                                            ║\n");
-	screen_msg(
-			   "              ║                    by                      ║\n");
-	screen_msg(
-			   "              ║       D.L. Parkhurst and C.A.J. Appelo     ║\n");
-	screen_msg(
-			   "              ║                                            ║\n");
-
-
+	screen_msg("              |                                            |\n");
+	screen_msg("              |      A hydrogeochemical transport model    |\n");
+	screen_msg("              |                                            |\n");
+	screen_msg("              |                    by                      |\n");
+	screen_msg("              |       D.L. Parkhurst and C.A.J. Appelo     |\n");
+	screen_msg("              |                                            |\n");
 	/* date */
-#ifdef NPP
-	len = snprintf(buffer, sizeof(buffer), "%s", "February 25, 2025");
-#else
-	len = snprintf(buffer, sizeof(buffer), "%s", "@VER_DATE@");
-#endif
+	len = snprintf(buffer, sizeof(buffer), "%s", "October 13, 2025");
 	indent = (44 - len) / 2;
-	screen_msg(sformatf("%14c║%*c%s%*c║\n", ' ', indent, ' ', buffer,
+	screen_msg(sformatf("%14c|%*c%s%*c|\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
-
-	screen_msg(
-		"              █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n\n");
+	screen_msg("              |____________________________________________|\n\n");
 #endif
 	return 0;
 }
@@ -522,7 +500,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		output_msg(sformatf("   Input file: %s\n", in_file.c_str()));
 		output_msg(sformatf("  Output file: %s\n", out_file.c_str()));
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.8.2, compiled August 27, 2024, with bug-fixes and new items\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.8.9, compiled October 13, 2025\n"));
 #endif
 		output_msg(sformatf("Database file: %s\n\n", token.c_str()));
 #ifdef NPP
