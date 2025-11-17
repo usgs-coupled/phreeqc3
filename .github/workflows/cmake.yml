@@ -154,13 +154,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Install ninja numdiff valgrind (Linux)
-    #   if: runner.os == 'Linux'
-    #   run: sudo apt-get update && sudo apt-get install -y ninja-build numdiff valgrind
-
     - name: Install ninja numdiff valgrind (Linux)
       if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install -y ninja-build
+      run: sudo apt-get update && sudo apt-get install -y ninja-build numdiff valgrind
 
     - name: Install ninja numdiff (macOS)
       if: runner.os == 'macOS'
@@ -224,7 +220,7 @@ jobs:
           ctest -S ctest.regression.cmake -DCTEST_TEST_TIMEOUT=1200
         else
           echo "Running standard tests..."
-          ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900 --extra-verbose || true
+          ctest -S ctest.cmake -DCTEST_TEST_TIMEOUT=900
         fi
 
     - name: Run Optional CMemCheck (Linux)
@@ -235,11 +231,11 @@ jobs:
           ctest -S cmemcheck.regression.cmake -DCTEST_TEST_TIMEOUT=2400
         else
           echo "Running CMemCheck tests..."
-          ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=2400 
+          ctest -S cmemcheck.cmake -DCTEST_TEST_TIMEOUT=2400
         fi
 
     - name: Upload results
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}-results

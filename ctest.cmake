@@ -23,14 +23,12 @@ ctest_build()
 if(${CMAKE_VERSION} VERSION_LESS "3.29")
   ctest_test(
     RETURN_VALUE test_result
-    # PARALLEL_LEVEL 2
-    EXCLUDE mytest.llnl_phreeqc_dha_dhb
+    PARALLEL_LEVEL 2
   )
 else()
   ctest_test(
     RETURN_VALUE test_result
-    # PARALLEL_LEVEL
-    EXCLUDE mytest.llnl_phreeqc_dha_dhb
+    PARALLEL_LEVEL
   )
 endif()
 if(test_result)
