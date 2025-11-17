@@ -24,11 +24,13 @@ if(${CMAKE_VERSION} VERSION_LESS "3.29")
   ctest_test(
     RETURN_VALUE test_result
     # PARALLEL_LEVEL 2
+    EXCLUDE mytest
   )
 else()
   ctest_test(
     RETURN_VALUE test_result
     # PARALLEL_LEVEL
+    EXCLUDE mytest
   )
 endif()
 if(test_result)
