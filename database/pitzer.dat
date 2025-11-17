@@ -66,8 +66,8 @@ K+ = K+
 	-dw 1.96e-9 254 3.484 0 0.1964
 Mg+2 = Mg+2
 	-Vm -1.41 -8.6 11.13 -2.39 1.332 5.5 1.29 -32.9 -5.86e-3 1
-	-viscosity 0.426 0 0 1.66e-3 4.32e-3 2.461
-	-dw 0.705e-9 -4 5.569 0 1.047
+	-viscosity 0.438 -0.2 0.2086 1.024e-3 8.12e-3 2.667
+	-dw 0.705e-9 -28 5.543 0 1.047
 Ca+2 = Ca+2
 	-Vm -0.3456 -7.252 6.149 -2.479 1.239 5 1.6 -57.1 -6.12e-3 1
 	-viscosity 0.359 -0.158 4.2e-2 1.5e-3 8.04e-3 2.3 # ref. 4, CaCl2 < 6 M
@@ -77,7 +77,7 @@ Sr+2 = Sr+2
 	-viscosity 0.493 -0.255 2.3e-3 4.2e-3 -3.8e-3 1.762
 	-dw 0.794e-9 18 0.681 2.069 0.965 0.271
 Ba+2 = Ba+2
-	-Vm 2.063 -10.06 1.9534 -2.36 0.4218 5 1.58 -12.03 -8.35e-3 1
+	-Vm 2.012 -10 0.772 -2.4 0.4076 5.18 2 38.5 -1.13e-2 0.585
 	-viscosity 0.338 -0.227 1.39e-2 3.07e-2 0 0.768
 	-dw 0.848e-9 174 10.53 0 3
 Mn+2 = Mn+2
@@ -91,9 +91,9 @@ Cl- = Cl-
 	-viscosity 0 0 0 0 0 0 1 # the reference solute
 	-dw 2.033e-9 216 3.16 0.2071 0.7432
 CO3-2 = CO3-2
-	-Vm 8.569 -10.4 -19.38 3e-4 4.61 0 2.99 0 -3.23e-2 0.872
-	-viscosity 0 0.296 3.63e-2 2e-4 -1.9e-2 1.881 -1.754
-	-dw 0.955e-9 -60 2.257 0.1022 0.4136
+	-Vm 6.706 -9.119 -9 -1.888 3.461 2.221 3.977 11.4 -1.519e-2 0.666
+	-viscosity -6.6E-4 0.275 3.26E-2 7E-5 -1E-3 2.24 -1.81
+	-dw 0.955e-9 -81.4 1.975 0.158 0.438
 SO4-2 = SO4-2
 	-Vm -7.77 43.17 176 -51.45 3.794 0 4.97 20.5 -5.77e-2 0.45
 	-viscosity -4.1e-2 0.1735 1.308e-2 2.16e-4 2.83e-2 3.375 0.21
@@ -110,7 +110,7 @@ H4SiO4 = H4SiO4
 	-dw 1.1e-9
 # redox-uncoupled gases
 Hdg = Hdg # H2
-	-Vm 6.52 0.78 0.12 # supcrt
+	-Vm 2.998 3.803 6.547 -3.744 -0.4
 	-dw 5.13e-9
 Oxg = Oxg # O2
 	-Vm 5.7889 6.3536 3.2528 -3.0417 -0.3943 # supcrt
@@ -122,7 +122,7 @@ Ntg = Ntg # N2
 	-Vm 7 # Pray et al., 1952, IEC 44 1146
 	-dw 1.96e-9 -90 # Cadogan et al. 2014, JCED 59, 519
 H2Sg = H2Sg # H2S
-        -Vm 1.39 28.3 0 -7.22 -0.59 # Hnedkovsky et al., 1996, JCT 28, 125
+	-Vm 1.39 28.3 0 -7.22 -0.59 # Hnedkovsky et al., 1996, JCT 28, 125
 	-dw 2.1e-9
 # aqueous species
 H2O = OH- + H+
@@ -131,16 +131,16 @@ H2O = OH- + H+
 	-viscosity -2.26e-2 0.106 2.184e-2  -3.2e-3 0 0.4082 -1.634 # < 5 M Li,Na,KOH
  	-dw 5.27e-9 491 1.851 0 0.3256
 CO3-2 + H+ = HCO3-
-	log_k 10.3393;  delta_h -3.561 kcal
+	log_k 10.329;  delta_h -3.561 kcal
 	-analytic 107.8975 0.03252849 -5151.79 -38.92561 563713.9
-	-Vm 9.463 -2.49 -11.92 0 1.63 0 0 130 0 0.691
-	-viscosity 0 0.633 7.2e-3 0 0 0 1.087
-	-dw 1.18e-9 -108 9.955 0 1.4928
+	-Vm 9.962 -4.891 -19.198 1.101 1.356 0 5 100 -2.608e-2 0.118
+	-viscosity -1.5 1.42 -7E-4 0.259 2.09E-2 0.412 -2.58E-2
+	-dw 1.18e-9 -214 2.164 0 0.173
 CO3-2 + 2 H+ = CO2 + H2O
 	log_k 16.6767
 	delta_h -5.738 kcal
 	-analytic 464.1965 0.09344813 -26986.16 -165.75951 2248628.9
-	-Vm 7.29 0.92 2.07 -1.23 -1.6 # McBride et al. 2015, JCED 60, 171
+	-Vm 7.235 1.245 0.433 -0.747 -1.575 # McBride 2015, Hnedkovsky 1996
 	-viscosity 1.15e-2 9.82e-2 3.59e-2 0 0 0 0.266
 	-dw 1.92e-9 -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
 SO4-2 + H+ = HSO4-
@@ -238,7 +238,7 @@ Artinite
 Barite
 	BaSO4 = Ba+2 + SO4-2
 	log_k -9.97; delta_h 6.35 kcal
-	-analytical_expression -282.43 -8.972e-2 5822 113.08 # ref. 3
+	-analytical_expression -49.618 -3.86e-2 -1530 22.773 # ref. 3
 	-Vm 52.9
 Bischofite
 	MgCl2:6H2O = Mg+2 + 2 Cl- + 6 H2O
@@ -261,9 +261,8 @@ Burkeite
 	Vm 152
 Calcite
 	CaCO3 = CO3-2 + Ca+2
-	log_k -8.406
-	delta_h -2.297 kcal
-	-analytic 8.481 -0.032644 -2133 # ref. 3 with data from Ellis, 1959, Plummer and Busenberg, 1982
+	log_k -8.44; -delta_h -2.94 kcal
+	-analytic -67.278 -5.0767e-2 0 29.8956 # ref. 3 with data from Ellis, 1959, Plummer and Busenberg, 1982
 	-Vm 36.9
 Carnallite
 	KMgCl3:6H2O = K+ + Mg+2 + 3 Cl- + 6 H2O
@@ -476,18 +475,15 @@ Teepleite
 	log_k 10.84
 CO2(g)
 	CO2 = CO2
-	log_k -1.468
-	delta_h -4.776 kcal
-	-analytic 10.5624 -2.3547e-2 -3972.8 0 5.8746e5 1.9194e-5
+	log_k -1.465;  delta_h -20.19 kJ
+	-analytic	11.74 -2.7311e-2 -4091.3 0 5.875e5 2.307e-5
 	-T_c 304.2 # critical T, K
 	-P_c 72.8 # critical P, atm
 	-Omega 0.225 # acentric factor
 H2O(g)
 	H2O = H2O
 	log_k 1.506; delta_h -44.03 kJ
-	-T_c 647.3 # critical T, K
-	-P_c 217.6 # critical P, atm
-	-Omega 0.344 # acentric factor
+	-T_c 647.3; -P_c 217.6;  -Omega 0.344
 	-analytic -16.5066 -2.0013E-3 2710.7 3.7646 0 2.24E-6
 # redox-uncoupled gases
 Oxg(g)
@@ -496,7 +492,8 @@ Oxg(g)
 	T_c 154.6; -P_c 49.8; -Omega 0.021
 Hdg(g)
 	Hdg = Hdg
-	-analytic -9.3114e+0 4.6473e-3 -4.9335e+1 1.4341e+0 1.2815e+5
+	-log_k -3.1; -delta_h -3.3 # 5.7 at 100ºC
+	-analytic -8.841 8.6515e-3 942.8 # Zhu, 2022; Chabab 2020; Gordon 1977; Crozier, 1974
 	-T_c 33.2; -P_c 12.8; -Omega -0.225
 Ntg(g)
 	Ntg = Ntg
@@ -552,7 +549,7 @@ PITZER
   H+        SO4-2     0.0298
   HCO3-     K+        0.0296        0           0           0.996E-3
   HCO3-     Mg+2      0.329
-  HCO3-     Na+      -0.018  # ref. 3 + new -analytic for calcite
+  HCO3-     Na+      -1.8e-2        0           0          -2.3e-4  # ref. 3 + new -analytic for calcite
   HCO3-     Sr+2      0.12
   HSO4-     K+       -0.0003
   HSO4-     Mg+2      0.4746
@@ -602,7 +599,7 @@ PITZER
   H+        HSO4-     0.5556
   HCO3-     K+        0.25          0           0           1.104E-3              # ref. 3
   HCO3-     Mg+2      0.6072
-  HCO3-     Na+       0     # ref. 3 + new -analytic for calcite
+  HCO3-     Na+      -1.01e-2       0           0           1.72e-3     # ref. 3 + new -analytic for calcite
   HSO4-     K+        0.1735
   HSO4-     Mg+2      1.729
   HSO4-     Na+       0.398
@@ -620,7 +617,7 @@ PITZER
   Ca+2      OH-      -5.72                                                        
   Ca+2      SO4-2   -59.3           0           0        -0.443       -3.96e-6    # ref. 3
   Fe+2      SO4-2   -42                                                         
-  HCO3-     Na+       8.22          0           0        -0.049                   # ref. 3 + new -analytic for calcite           
+  HCO3-     Na+       6.84          0           0        -7.11e-3                 # ref. 3 + new -analytic for calcite           
   Mg+2      SO4-2   -32.45          0          -3.236e3  21.812       -1.8859e-2  # ref. 3
   Mn+2      SO4-2   -40.0
   SO4-2     Sr+2    -54.24          0           0          -0.42
@@ -673,7 +670,7 @@ PITZER
   Ca+2      Mg+2      0.007
   Ca+2      Na+       9.22e-2       0           0        -4.29e-4      1.21e-6  # ref. 3
   Cl-       CO3-2    -0.02
-  Cl-       HCO3-     0.03
+  Cl-       HCO3-     5.12e-2       0           0        -4.81e-4               # ref. 3
   Cl-       HSO4-    -0.006
   Cl-       OH-      -0.05
   Cl-       SO4-2     0.03   # ref. 3
@@ -699,6 +696,7 @@ PITZER
   Cl-       CO2      -0.005
   Cl-       H2Sg     -0.005
   Cl-       (H2Sg)2  -0.005
+  Cl-       Hdg       0.005
   CO2       CO2      -1.34e-2   348   0.803 # new VM("CO2"), CO2 solubilities at high P, 0 - 150°C
   CO2       HSO4-    -0.003
   CO2       K+        0.051
@@ -710,9 +708,11 @@ PITZER
   (H2Sg)2   Na+       0.0123  0  0.256
   H4SiO4    K+        0.0298   # ref. 3
   H4SiO4    Li+       0.143    # ref. 3
-  H4SiO4    Mg+2      0.238  -1788   -9.023  0.0103    # ref. 3
-  H4SiO4    Na+       0.0566    75.3  0.115            # ref. 3
-  H4SiO4    SO4-2    -0.085      0    0.28  -8.25e-4   # ref. 3
+  H4SiO4    Mg+2      0.238  -1788       -9.023  0.0103    # ref. 3
+  H4SiO4    Na+       0.0566    75.3      0.115            # ref. 3
+  H4SiO4    SO4-2    -0.085      0        0.28  -8.25e-4   # ref. 3
+  Hdg       Mg+2      0          0        0      1.67e-2   # Crozier 1977
+  Hdg       Na+       0.1679     0.4505  -1.242  9.457e-4 3.484e-6 # Chabab 2020
 -ZETA
   B(OH)3    Cl-       H+        -0.0102
   B(OH)3    Na+       SO4-2      0.046
@@ -723,6 +723,7 @@ PITZER
   H2Sg      Na+       SO4-2      0.157
   (H2Sg)2   Cl-       Na+        0.0119
   (H2Sg)2   Na+       SO4-2     -0.167
+  Hdg       Cl-       Na+       -1.422e-2 0 0 -1.63877e-4 # Chabab 2020; Crozier 1977
 -PSI
   B(OH)4-     Cl-     Na+       -0.0073
   B3O3(OH)4-  Cl-     Na+       -0.024
@@ -747,7 +748,7 @@ PITZER
   Cl-       H+        Mg+2      -0.011
   Cl-       H+        Na+       -0.004
   Cl-       HCO3-     Mg+2      -0.096
-  Cl-       HCO3-     Na+        0                              # ref. 3 + new -analytic for calcite
+  Cl-       HCO3-     Na+       -4.73e-3  0    0    1.92e-4     # ref. 3 + new -analytic for calcite
   Cl-       HSO4-     H+         0.013
   Cl-       HSO4-     Na+       -0.006
   Cl-       K+        Mg+2      -0.022  -14.27                  # ref. 3
@@ -785,6 +786,7 @@ PITZER
   Na+       OH-       SO4-2     -0.009
 GAS_BINARY_PARAMETERS
 H2O(g)  CO2(g)           0.19
+H2O(g)  Hdg(g)          -0.5
 H2O(g)  H2S(g)           0.19
 H2O(g)  H2Sg(g)          0.19
 H2O(g)  CH4(g)           0.49

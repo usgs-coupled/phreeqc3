@@ -607,8 +607,15 @@ gammas(LDBLE mu)
 			f = (tc_x - llnl_temp[ifirst]) / (llnl_temp[ilast] -
 											  llnl_temp[ifirst]);
 		}
-		a_llnl = (1 - f) * llnl_adh[ifirst] + f * llnl_adh[ilast];
-		b_llnl = (1 - f) * llnl_bdh[ifirst] + f * llnl_bdh[ilast];
+		if (use_phreeqc_dha_dhb)
+		{
+			calc_dielectrics(tc_x, patm_x);
+		}
+		else
+		{
+			a_llnl = (1 - f) * llnl_adh[ifirst] + f * llnl_adh[ilast];
+			b_llnl = (1 - f) * llnl_bdh[ifirst] + f * llnl_bdh[ilast];
+		}
 		bdot_llnl = (1 - f) * llnl_bdot[ifirst] + f * llnl_bdot[ilast];
 		/*
 		 * CO2 activity coefficient
@@ -621,12 +628,8 @@ gammas(LDBLE mu)
 		log_g_co2 /= LOG_10;
 		dln_g_co2 =
 			(llnl_co2_coefs[0] + llnl_co2_coefs[1] * tk_x +
-			 llnl_co2_coefs[2] / tk_x) - (llnl_co2_coefs[3] +
-										  llnl_co2_coefs[4] * tk_x) * (1 /
-																	   ((mu +
-																		 1) *
-																		(mu +
-																		 1)));
+			llnl_co2_coefs[2] / tk_x) - (llnl_co2_coefs[3] +
+			llnl_co2_coefs[4] * tk_x) * (1 / ((mu + 1) * (mu + 1)));
 	}
 
 /*

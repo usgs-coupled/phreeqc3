@@ -1,0 +1,131 @@
+DATABASE ../database/PHREEQC_ThermoddemV1.10_15Dec2020.dat
+#DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 llnl_phreeqc_dha_dhb_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+
+#
+# with use_phreeqc_dha_dhb FALSE
+#
+LLNL_AQUEOUS_MODEL_PARAMETERS
+-use_phreeqc_dha_dhb false
+USER_PRINT
+10 PRINT "DH_A: ", DH_A
+20 PRINT "DH_B: ", DH_B
+TITLE Example 1.--Add uranium and speciate seawater.
+SOLUTION 1  SEAWATER FROM NORDSTROM ET AL. (1979)
+        units   ppm
+#        pH      8.22	
+        pH      7.22
+        pe      8.451
+        density 1.023
+#       temp    25.0
+        temp    300
+		pressure 300
+        redox   O(0)/O(-2)
+        Ca              412.3
+        Mg              1291.8
+        Na              10768.0
+        K               399.1
+        Fe              0.002
+        Mn              0.0002  pe
+        Si              4.28
+        Cl              19353.0
+#        Alkalinity      141.682 as HCO3
+#        Alkalinity      200 as HCO3
+        C(4)            200 as HCO3
+        S(6)            2712.0
+        N(5)            0.29    as NO3
+        N(-3)           0.03    as NH4
+        O(0)            1.0     O2(g)   -0.7
+END
+USER_GRAPH 1
+-connect false
+-headings temp llnl_dha llnl_dhb 
+-axis_scale y_axis	0.4 1.4 auto auto
+-axis_scale sy_axis 0.3 0.5 auto auto
+10 GRAPH_X TC
+20 GRAPH_Y DH_A
+30 GRAPH_SY DH_B
+USE solution 1
+REACTION_PRESSURE 1
+300 
+REACTION_TEMPERATURE 1
+0 300 in 7 steps
+END
+
+#
+# with use_phreeqc_dha_dhb TRUE
+#
+LLNL_AQUEOUS_MODEL_PARAMETERS
+-use_phreeqc_dha_dhb true
+USER_GRAPH 1
+-headings temp phreeqc_dha phreeqc_dhb 
+USE solution 1
+USE reaction_temperature 1
+USE reaction_pressure 1
+END
+
+#
+# with -Vm
+#
+SOLUTION_MASTER_SPECIES
+Alkalinity  CO3-2   1   Ca0.5(CO3)0.5   50.05
+C           CO3-2   2   HCO3            12.0111
+C(+4)       CO3-2   2   HCO3
+C(-4)       CH4     0   CH4
+SOLUTION_SPECIES
+CO3-2 = CO3-2
+	-gamma 5.4 0
+	-Vm 6.09 -2.78 -0.405 -5.3 5.02 0 0.169 101 -1.38e-2 0.9316
+	-viscosity -0.5 0.6521 5.44e-3 1.06e-3 -2.18e-2 1.208 -2.147
+	-dw 0.955e-9 -103 2.246 7.13e-2 0.3686
+CO3-2 + H+ = HCO3-
+	-log_k 10.329;  -delta_h -3.561 kcal
+	-analytic 107.8871 0.03252849 -5151.79 -38.92561 563713.9
+	-gamma 5.4 0
+	-Vm 10.26 -2.92 -12.58 -0.241 2.23 0 -5.49 320 2.83e-2 1.144
+	-viscosity -0.6 1.366 -1.216e-2 0e-2 3.139e-2 -1.135 1.253
+	-dw 1.18e-9 -190 11.386
+CO3-2 + 2 H+ = CO2 + H2O
+	-log_k 16.681
+	-delta_h -5.738 kcal
+	-analytic 464.1965 0.09344813 -26986.16 -165.75951 2248628.9
+	-Vm 7.29 0.92 2.07 -1.23 -1.6 # McBride et al. 2015, JCED 60, 171
+	-gamma 0 0.066 # Rumpf et al. 1994, J. Sol. Chem. 23, 431
+	-viscosity 6.8e-3 9.03e-2 3.27e-2 0 0 0 0.18
+	-dw 1.92e-9 -120 # TK dependence from Cadogan et al. 2014, , JCED 59, 519
+USER_PRINT
+10 PRINT Lk_SPECIES("HCO3-")
+SOLUTION 1  SEAWATER FROM NORDSTROM ET AL. (1979)
+        units   ppm
+#        pH      8.22	
+        pH      7.22
+        pe      8.451
+        density 1.023
+#       temp    25.0
+        temp    300
+		pressure 300
+        redox   O(0)/O(-2)
+        Ca              412.3
+        Mg              1291.8
+        Na              10768.0
+        K               399.1
+        Fe              0.002
+        Mn              0.0002  pe
+        Si              4.28
+        Cl              19353.0
+#        Alkalinity      141.682 as HCO3
+#        Alkalinity      200 as HCO3
+        C(4)            200 as HCO3
+        S(6)            2712.0
+        N(5)            0.29    as NO3
+        N(-3)           0.03    as NH4
+        O(0)            1.0     O2(g)   -0.7
+END

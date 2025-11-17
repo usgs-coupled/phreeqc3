@@ -181,6 +181,7 @@ set(TESTS
   gypsum_P5
   H_HCl_HBr
   H_K
+  H2
   H2S_71C
   H2S_Amm
   H2S_NaCl_Na2SO4
@@ -242,6 +243,8 @@ set(TESTS
   lk_phase
   lkspecies
   llnl
+  llnl_extended
+  llnl_phreeqc_dha_dhb
   local_min_pz
   low_p
   low_t
@@ -557,6 +560,9 @@ set(mytest_MISC
   gas_no_redox.dat
   gyps_Na2SO4.csv
   gyps_NaCl.csv
+  H2.dat
+  H2_NaCl.dat
+  H2_NaCl_100C.dat
   H_K.tsv
   H2S.dat
   H2S_Na2SO4.dat
@@ -827,7 +833,7 @@ endforeach()
 
 # numdiff tests
 set(REL_ERROR 1e-3)
-find_program(NUMDIFF_COMMAND NAMES numdiff PATHS ${CMAKE_SOURCE_DIR}/mingw32/bin)
+find_program(NUMDIFF_COMMAND NAMES numdiff PATHS ${CMAKE_SOURCE_DIR}/mingw64/bin)
 if (NUMDIFF_COMMAND)
   file(GLOB NUMDIFFS
     RELATIVE ${CMAKE_CURRENT_LIST_DIR}

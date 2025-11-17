@@ -872,6 +872,7 @@ void Phreeqc::init(void)
 	numerical_deriv			= FALSE;
 	count_total_steps       = 0;
 	phast                   = FALSE;
+	use_phreeqc_dha_dhb = false;
 	output_newline          = true;
 	//selected_output_file_name = NULL;
 	dump_file_name			= NULL;
@@ -1619,6 +1620,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	llnl_temp = pSrc->llnl_temp;
 	llnl_adh = pSrc->llnl_adh;
 	llnl_bdh = pSrc->llnl_bdh;
+	use_phreeqc_dha_dhb = pSrc->use_phreeqc_dha_dhb;
 	llnl_bdot = pSrc->llnl_bdot;
 	llnl_co2_coefs = pSrc->llnl_co2_coefs;
 

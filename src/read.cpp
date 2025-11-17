@@ -9490,9 +9490,10 @@ read_llnl_aqueous_model_parameters(void)
 		"bdot",					/* 9 */
 		"b_dot",				/* 10 */
 		"c_co2",				/* 11 */
-		"co2_coefs"				/* 12 */
+		"co2_coefs",			/* 12 */
+		"use_phreeqc_dha_dhb"	/* 13 */
 	};
-	int count_opt_list = 13;
+	int count_opt_list = 14;
 	/*
 	 *   Initialize
 	 */
@@ -9563,7 +9564,7 @@ read_llnl_aqueous_model_parameters(void)
 		}
 		break;
 		case 9:				/* bdot */
-		case 10:				/* b_dot */
+		case 10:			/* b_dot */
 		{
 			std::istringstream iss(next_char);
 			while (iss >> dummy)
@@ -9583,7 +9584,13 @@ read_llnl_aqueous_model_parameters(void)
 			}
 			opt_save = 12;
 		}
-		break;
+		break;		
+		case 13:				/* use_phreeqc_dha_dhb */
+		{
+			std::istringstream iss(next_char);
+			use_phreeqc_dha_dhb =(get_true_false(next_char, TRUE) == TRUE);
+			opt_save = OPTION_DEFAULT;
+		}
 		}
 		return_value = check_line_return;
 		if (return_value == EOF || return_value == KEYWORD)

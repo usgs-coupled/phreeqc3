@@ -152,7 +152,7 @@ jobs:
     - name: Configure
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -L -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       # Build your program with the given configuration
@@ -190,6 +190,44 @@ jobs:
       with:
         arch: x64
 
+    - name: 'Show tool versions (Linux/macOS)'
+      if: runner.os != 'Windows'
+      shell: bash
+      run: |
+        echo "Runner: $(uname -s) $(uname -r)"
+        echo '--- cmake ---'
+        cmake --version || true
+        echo '--- ctest ---'
+        ctest --version || true
+        echo '--- compilers ---'
+        gcc --version || true
+        clang --version || true
+        echo '--- build tools ---'
+        make --version || true
+        ninja --version || true
+        echo '--- python ---'
+        python3 --version || true
+        python --version || true
+
+    - name: 'Show tool versions (Windows)'
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        Write-Host "Runner OS: $env:RUNNER_OS"
+        Write-Host '--- cmake ---'
+        cmake --version
+        Write-Host '--- ctest ---'
+        try { ctest --version } catch { Write-Host 'ctest not found' }
+        Write-Host '--- compilers ---'
+        try { gcc --version } catch { Write-Host 'gcc not found' }
+        try { clang --version } catch { Write-Host 'clang not found' }
+        try { cl.exe } catch { Write-Host 'cl (MSVC) not available in PATH' }
+        Write-Host '--- build tools ---'
+        try { make --version } catch { Write-Host 'make not found' }
+        try { ninja --version } catch { Write-Host 'ninja not found' }
+        Write-Host '--- python ---'
+        try { python --version } catch { Write-Host 'python not found' }
+
     - name: CTest
       shell: bash
       run: |
@@ -213,6 +251,7 @@ jobs:
         fi
 
     - name: Upload results
+      if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}-results
