@@ -53,8 +53,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { icon: '⚫', sys: mingw32 }
-          # - { icon: '🟦', sys: mingw64 }
+          # - { icon: '⚫', sys: mingw32 }
+          - { icon: '🟦', sys: mingw64 }
           # - { icon: '🟨', sys: ucrt64  }
           # - { icon: '🟧', sys: clang64 }
     name: 🚧${{ matrix.icon }} ${{ matrix.sys }}
@@ -86,12 +86,28 @@ jobs:
           make
           texinfo
           texinfo-tex
+          mingw-w64-x86_64-texlive-core          
         # pacboy: >-
         #   texlive-bin:p
         #   texlive-core:p
         #   texlive-plain-generic:p
         #   texlive-fonts-recommended:p
         #   toolchain:p
+
+    - name: 'Test Setup'
+      if: steps.cache-numdiff.outputs.cache-hit != 'true'
+      run: |
+        which gcc
+        which make
+        which makeinfo
+        which texi2pdf
+        pacman -Fy
+        pacman -F makeinfo
+        pacman -F texi2pdf
+        gcc --version
+        make --version
+        makeinfo --version
+        texi2pdf --version
 
     - name: '🚧 Build numdiff'
       if: steps.cache-numdiff.outputs.cache-hit != 'true'
@@ -100,7 +116,7 @@ jobs:
         cd _build
         ../configure CFLAGS="-std=gnu17" --disable-nls --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
         make -j2
-        make install
+        make install TEXI2PDF=true
         # cp $(which libgmp-10.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
         # cp $(which libiconv-2.dll) $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
         # cp $(which libintl-8.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
@@ -166,7 +182,7 @@ jobs:
       if: runner.os == 'Windows'
       uses: actions/download-artifact@v4
       with:
-        name: mingw32-artifact
+        name: mingw64-artifact
 
     - name: Set up Visual Studio shell (Windows)
       if: runner.os == 'Windows'
